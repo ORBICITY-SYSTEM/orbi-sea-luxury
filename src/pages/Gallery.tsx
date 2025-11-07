@@ -37,8 +37,9 @@ const galleryImages = {
 };
 
 const Gallery = () => {
-  // Replace with your YouTube Channel ID
-  const YOUTUBE_CHANNEL_ID = 'UCxxxxxxxxxxxxxxxxxxx'; // TODO: Add your channel ID
+  // Replace with your real YouTube Channel ID (e.g., 'UCuAXFkgsw1L7xaCfnd5JJOw')
+  // Leave empty string to disable YouTube integration until configured
+  const YOUTUBE_CHANNEL_ID = ''; 
   
   const { data: youtubeVideos, isLoading: videosLoading, error: videosError } = useYouTubeVideos(YOUTUBE_CHANNEL_ID);
 
@@ -164,11 +165,20 @@ const Gallery = () => {
                 {/* YouTube Videos Grid */}
                 <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Our YouTube Channel</h3>
                 
-                {videosError && (
+                {videosError && YOUTUBE_CHANNEL_ID && (
                   <Alert variant="destructive" className="max-w-2xl mx-auto mb-8">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      Unable to load videos. Please make sure your YouTube Channel ID is configured correctly.
+                      Unable to load videos. Please verify your YouTube Channel ID is correct.
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {!YOUTUBE_CHANNEL_ID && (
+                  <Alert className="max-w-2xl mx-auto mb-8">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      To display your YouTube videos, add your Channel ID in <code className="text-sm bg-muted px-1 py-0.5 rounded">src/pages/Gallery.tsx</code>
                     </AlertDescription>
                   </Alert>
                 )}
@@ -182,7 +192,7 @@ const Gallery = () => {
                       </div>
                     ))}
                   </div>
-                ) : youtubeVideos && youtubeVideos.length > 0 ? (
+                ) : YOUTUBE_CHANNEL_ID && youtubeVideos && youtubeVideos.length > 0 ? (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {youtubeVideos.map((video) => (
                       <div key={video.id} className="group">
@@ -204,14 +214,14 @@ const Gallery = () => {
                       </div>
                     ))}
                   </div>
-                ) : (
+                ) : YOUTUBE_CHANNEL_ID ? (
                   <Alert className="max-w-2xl mx-auto">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      No videos found. Please configure your YouTube Channel ID in the Gallery component.
+                      No videos found for this channel. Please verify your YouTube Channel ID.
                     </AlertDescription>
                   </Alert>
-                )}
+                ) : null}
               </div>
             </TabsContent>
           </Tabs>
