@@ -37,8 +37,8 @@ const galleryImages = {
 };
 
 const Gallery = () => {
-  // Replace with your YouTube Channel ID
-  const YOUTUBE_CHANNEL_ID = 'UCxxxxxxxxxxxxxxxxxxx'; // TODO: Add your channel ID
+  // Replace with your YouTube Channel ID (leave empty to disable YouTube integration)
+  const YOUTUBE_CHANNEL_ID = ''; // TODO: Add your real YouTube Channel ID here
   
   const { data: youtubeVideos, isLoading: videosLoading, error: videosError } = useYouTubeVideos(YOUTUBE_CHANNEL_ID);
 
@@ -162,18 +162,34 @@ const Gallery = () => {
                 </div>
 
                 {/* YouTube Videos Grid */}
-                <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Our YouTube Channel</h3>
-                
-                {videosError && (
-                  <Alert variant="destructive" className="max-w-2xl mx-auto mb-8">
+                {!YOUTUBE_CHANNEL_ID ? (
+                  <Alert className="max-w-2xl mx-auto">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      Unable to load videos. Please make sure your YouTube Channel ID is configured correctly.
+                      YouTube integration is not configured. To display your channel videos, add your YouTube Channel ID in the Gallery component (src/pages/Gallery.tsx).
+                      <br /><br />
+                      <strong>How to find your Channel ID:</strong>
+                      <ol className="list-decimal ml-6 mt-2">
+                        <li>Go to YouTube Studio</li>
+                        <li>Click on Settings → Channel → Advanced settings</li>
+                        <li>Copy your Channel ID</li>
+                      </ol>
                     </AlertDescription>
                   </Alert>
-                )}
+                ) : (
+                  <>
+                    <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Our YouTube Channel</h3>
+                    
+                    {videosError && (
+                      <Alert variant="destructive" className="max-w-2xl mx-auto mb-8">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                          Unable to load videos. Please make sure your YouTube Channel ID is configured correctly.
+                        </AlertDescription>
+                      </Alert>
+                    )}
 
-                {videosLoading ? (
+                    {videosLoading ? (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {[...Array(6)].map((_, i) => (
                       <div key={i} className="space-y-3">
@@ -204,13 +220,15 @@ const Gallery = () => {
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <Alert className="max-w-2xl mx-auto">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      No videos found. Please configure your YouTube Channel ID in the Gallery component.
-                    </AlertDescription>
-                  </Alert>
+                    ) : (
+                      <Alert className="max-w-2xl mx-auto">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                          No videos found on this channel.
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </>
                 )}
               </div>
             </TabsContent>
