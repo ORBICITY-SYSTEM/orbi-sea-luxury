@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { DiscountPopup } from "@/components/DiscountPopup";
+import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import Index from "./pages/Index";
 import Apartments from "./pages/Apartments";
 import Amenities from "./pages/Amenities";
@@ -26,6 +28,8 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <DiscountPopup />
+        <GoogleReviewPopup />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
