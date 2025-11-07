@@ -1,5 +1,6 @@
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const galleryImages = {
   interiors: [
@@ -48,129 +49,217 @@ const Gallery = () => {
 
       <Breadcrumbs items={[{ label: 'Gallery' }]} />
 
-      {/* Gallery Sections */}
+      {/* Gallery Tabs */}
       <section className="py-20 bg-background">
-        <div className="container mx-auto px-4 space-y-20">
-          {/* Apartment Interiors */}
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">Apartment Interiors</h2>
-            <p className="text-muted-foreground mb-8">
-              Step inside our luxurious and comfortable apartments, designed for your ultimate relaxation.
-            </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {galleryImages.interiors.map((image, index) => (
-                <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                  <img 
-                    src={image.url} 
-                    alt={image.caption}
-                    className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <p className="text-white font-medium">{image.caption}</p>
-                  </div>
+        <div className="container mx-auto px-4">
+          <Tabs defaultValue="photos" className="w-full">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
+              <TabsTrigger value="photos" className="text-lg">Photos</TabsTrigger>
+              <TabsTrigger value="videos" className="text-lg">Videos</TabsTrigger>
+            </TabsList>
+
+            {/* Photos Tab */}
+            <TabsContent value="photos" className="space-y-20">
+              {/* Apartment Interiors */}
+              <div>
+                <h2 className="text-3xl font-bold text-foreground mb-4">Apartment Interiors</h2>
+                <p className="text-muted-foreground mb-8">
+                  Step inside our luxurious and comfortable apartments, designed for your ultimate relaxation.
+                </p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {galleryImages.interiors.map((image, index) => (
+                    <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+                      <img 
+                        src={image.url} 
+                        alt={image.caption}
+                        className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <p className="text-white font-medium">{image.caption}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Building & Views */}
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">Building & Views</h2>
-            <p className="text-muted-foreground mb-8">
-              Discover the stunning architecture of Orbi City and the breathtaking views of the Black Sea.
-            </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {galleryImages.buildingViews.map((image, index) => (
-                <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                  <img 
-                    src={image.url} 
-                    alt={image.caption}
-                    className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <p className="text-white font-medium">{image.caption}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Amenities & Common Areas */}
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">Amenities & Common Areas</h2>
-            <p className="text-muted-foreground mb-8">
-              Explore the world-class amenities and elegant common spaces available to all our guests.
-            </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {galleryImages.amenities.map((image, index) => (
-                <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                  <img 
-                    src={image.url} 
-                    alt={image.caption}
-                    className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <p className="text-white font-medium">{image.caption}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Video Section */}
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">Video Tour</h2>
-            <p className="text-muted-foreground mb-8">
-              Take a virtual tour of our property and experience the luxury firsthand.
-            </p>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-2xl">
-              <video
-                controls
-                className="w-full h-full object-cover"
-                poster="https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/636d61089bf9b6dbdef774c6f108123e.jpg"
-              >
-                <source src="/videos/hero-video.mov" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-
-          {/* YouTube Videos */}
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">Virtual Tours & Reviews</h2>
-            <p className="text-muted-foreground mb-8">
-              Watch our property tours and guest experiences.
-            </p>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                  title="Orbi City Batumi Tour" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                  className="w-full h-full"
-                />
               </div>
-              <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                  title="Guest Experience" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                  className="w-full h-full"
-                />
+
+              {/* Building & Views */}
+              <div>
+                <h2 className="text-3xl font-bold text-foreground mb-4">Building & Views</h2>
+                <p className="text-muted-foreground mb-8">
+                  Discover the stunning architecture of Orbi City and the breathtaking views of the Black Sea.
+                </p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {galleryImages.buildingViews.map((image, index) => (
+                    <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+                      <img 
+                        src={image.url} 
+                        alt={image.caption}
+                        className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <p className="text-white font-medium">{image.caption}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
+
+              {/* Amenities & Common Areas */}
+              <div>
+                <h2 className="text-3xl font-bold text-foreground mb-4">Amenities & Common Areas</h2>
+                <p className="text-muted-foreground mb-8">
+                  Explore the world-class amenities and elegant common spaces available to all our guests.
+                </p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {galleryImages.amenities.map((image, index) => (
+                    <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+                      <img 
+                        src={image.url} 
+                        alt={image.caption}
+                        className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <p className="text-white font-medium">{image.caption}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+
+            {/* Videos Tab */}
+            <TabsContent value="videos" className="space-y-12">
+              <div>
+                <h2 className="text-3xl font-bold text-foreground mb-4 text-center">Property Video Tour</h2>
+                <p className="text-muted-foreground mb-8 text-center max-w-2xl mx-auto">
+                  Experience the luxury of Orbi City Batumi through our exclusive video tours
+                </p>
+                
+                {/* Local Video */}
+                <div className="max-w-5xl mx-auto mb-16">
+                  <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
+                    <video
+                      controls
+                      className="w-full h-full object-cover"
+                      poster="https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/636d61089bf9b6dbdef774c6f108123e.jpg"
+                    >
+                      <source src="/videos/hero-video.mov" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+
+                {/* YouTube Videos Grid */}
+                <h3 className="text-2xl font-bold text-foreground mb-6 text-center">YouTube Channel Videos</h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {/* Video 1 */}
+                  <div className="group">
+                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Orbi City Batumi - Room Tour" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Room Tour</h4>
+                  </div>
+
+                  {/* Video 2 */}
+                  <div className="group">
+                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Orbi City Batumi - Amenities Tour" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Amenities Tour</h4>
+                  </div>
+
+                  {/* Video 3 */}
+                  <div className="group">
+                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Orbi City Batumi - Location & Views" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Location & Views</h4>
+                  </div>
+
+                  {/* Video 4 */}
+                  <div className="group">
+                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Guest Experience Review" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Guest Reviews</h4>
+                  </div>
+
+                  {/* Video 5 */}
+                  <div className="group">
+                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Batumi Beach & Surroundings" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Beach & Surroundings</h4>
+                  </div>
+
+                  {/* Video 6 */}
+                  <div className="group">
+                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Sunset Views from Orbi City" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Sunset Views</h4>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
     </Layout>
