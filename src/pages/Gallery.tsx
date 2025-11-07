@@ -2,7 +2,6 @@ import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
-import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
@@ -38,10 +37,10 @@ const galleryImages = {
 };
 
 const Gallery = () => {
-  const { getSetting } = useSiteSettings();
-  const youtubeChannelId = getSetting('youtube_channel_id');
+  // Replace with your YouTube Channel ID
+  const YOUTUBE_CHANNEL_ID = 'UCxxxxxxxxxxxxxxxxxxx'; // TODO: Add your channel ID
   
-  const { data: youtubeVideos, isLoading: videosLoading, error: videosError } = useYouTubeVideos(youtubeChannelId);
+  const { data: youtubeVideos, isLoading: videosLoading, error: videosError } = useYouTubeVideos(YOUTUBE_CHANNEL_ID);
 
   return (
     <Layout>
@@ -165,20 +164,11 @@ const Gallery = () => {
                 {/* YouTube Videos Grid */}
                 <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Our YouTube Channel</h3>
                 
-                {videosError && youtubeChannelId && (
+                {videosError && (
                   <Alert variant="destructive" className="max-w-2xl mx-auto mb-8">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      Unable to load videos. Please verify your YouTube Channel ID is correct in Admin Settings.
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {!youtubeChannelId && (
-                  <Alert className="max-w-2xl mx-auto mb-8">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      To display your YouTube videos, add your Channel ID in Admin Panel → Settings.
+                      Unable to load videos. Please make sure your YouTube Channel ID is configured correctly.
                     </AlertDescription>
                   </Alert>
                 )}
@@ -192,7 +182,7 @@ const Gallery = () => {
                       </div>
                     ))}
                   </div>
-                ) : youtubeChannelId && youtubeVideos && youtubeVideos.length > 0 ? (
+                ) : youtubeVideos && youtubeVideos.length > 0 ? (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {youtubeVideos.map((video) => (
                       <div key={video.id} className="group">
@@ -214,14 +204,14 @@ const Gallery = () => {
                       </div>
                     ))}
                   </div>
-                ) : youtubeChannelId ? (
+                ) : (
                   <Alert className="max-w-2xl mx-auto">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      No videos found for this channel. Please verify your YouTube Channel ID in Admin Settings.
+                      No videos found. Please configure your YouTube Channel ID in the Gallery component.
                     </AlertDescription>
                   </Alert>
-                ) : null}
+                )}
               </div>
             </TabsContent>
           </Tabs>
