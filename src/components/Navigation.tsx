@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, X, Globe, LogIn, LogOut, User } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAdmin } from '@/hooks/useAdmin';
 import logo from '@/assets/logo.jpg';
 import {
   DropdownMenu,
@@ -34,6 +35,7 @@ export const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useAdmin();
   const location = useLocation();
 
   useEffect(() => {
@@ -70,6 +72,7 @@ export const Navigation = () => {
     { key: 'nav.contact', path: '/contact' },
     { key: 'Loyalty Program', path: '/loyalty-program' },
     { key: 'Blog', path: '/blog' },
+    ...(isAdmin ? [{ key: 'Admin', path: '/admin' }] : []),
   ];
 
   return (
