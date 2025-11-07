@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, LogIn } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import logo from '@/assets/logo.jpg';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +31,7 @@ export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,46 +59,44 @@ export const Navigation = () => {
   };
 
   const navLinks = [
-    { key: 'nav.home', section: 'hero' },
-    { key: 'nav.rooms', section: 'rooms' },
-    { key: 'nav.amenities', section: 'amenities' },
-    { key: 'nav.location', section: 'location' },
-    { key: 'nav.reviews', section: 'reviews' },
-    { key: 'nav.contact', section: 'footer' },
+    { key: 'nav.home', path: '/' },
+    { key: 'nav.rooms', path: '/apartments' },
+    { key: 'nav.amenities', path: '/amenities' },
+    { key: 'Gallery', path: '/gallery' },
+    { key: 'nav.location', path: '/location' },
+    { key: 'nav.contact', path: '/contact' },
+    { key: 'Loyalty Program', path: '/loyalty-program' },
+    { key: 'Blog', path: '/blog' },
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
-      }`}
-    >
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#2C3E50] shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <button 
-            onClick={() => scrollToSection('hero')}
+          <Link 
+            to="/"
             className="flex items-center space-x-2 group"
           >
-            <div className="w-12 h-12 bg-gradient-gold rounded-lg flex items-center justify-center shadow-gold group-hover:scale-105 transition-transform">
-              <span className="text-2xl font-bold text-foreground">OC</span>
-            </div>
-            <div className="hidden md:flex flex-col">
-              <span className="font-bold text-lg text-foreground">ORBI CITY</span>
-              <span className="text-xs text-muted-foreground">BATUMI</span>
-            </div>
-          </button>
+            <img 
+              src={logo} 
+              alt="Orbi City Batumi" 
+              className="h-14 w-auto group-hover:scale-105 transition-transform"
+            />
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.key}
-                onClick={() => scrollToSection(link.section)}
-                className="text-foreground hover:text-primary transition-colors font-medium"
+                to={link.path}
+                className={`text-white hover:text-secondary transition-colors font-medium ${
+                  location.pathname === link.path ? 'text-secondary' : ''
+                }`}
               >
-                {t(link.key)}
-              </button>
+                {t(link.key) || link.key}
+              </Link>
             ))}
           </div>
 
@@ -104,9 +105,9 @@ export const Navigation = () => {
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
+                <Button variant="ghost" size="sm" className="gap-2 text-white hover:bg-white/10">
                   <Globe className="w-4 h-4" />
-                  <span>{languageFlags[language]} {languageNames[language]}</span>
+                  <span>{languageNames[language]}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -123,19 +124,20 @@ export const Navigation = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Book Now Button */}
+            {/* Login Button */}
             <Button 
-              onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
-              className="hidden md:flex bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
+              variant="ghost"
+              size="sm"
+              className="hidden md:flex text-white hover:bg-white/10 gap-2"
             >
-              {t('nav.bookNow')}
+              <LogIn className="w-4 h-4" />
             </Button>
 
             {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden text-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -145,25 +147,17 @@ export const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 space-y-4 border-t border-border">
+          <div className="lg:hidden py-4 space-y-2 border-t border-white/10 bg-[#2C3E50]">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.key}
-                onClick={() => scrollToSection(link.section)}
-                className="block w-full text-left py-2 text-foreground hover:text-primary transition-colors font-medium"
+                to={link.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
               >
-                {t(link.key)}
-              </button>
+                {t(link.key) || link.key}
+              </Link>
             ))}
-            <Button 
-              onClick={() => {
-                window.open('https://wa.me/+995555199090', '_blank');
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold"
-            >
-              {t('nav.bookNow')}
-            </Button>
           </div>
         )}
       </div>
