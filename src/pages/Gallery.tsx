@@ -1,6 +1,10 @@
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 const galleryImages = {
   interiors: [
@@ -33,6 +37,11 @@ const galleryImages = {
 };
 
 const Gallery = () => {
+  // Replace with your YouTube Channel ID
+  const YOUTUBE_CHANNEL_ID = 'UCxxxxxxxxxxxxxxxxxxx'; // TODO: Add your channel ID
+  
+  const { data: youtubeVideos, isLoading: videosLoading, error: videosError } = useYouTubeVideos(YOUTUBE_CHANNEL_ID);
+
   return (
     <Layout>
       {/* Hero */}
@@ -153,110 +162,56 @@ const Gallery = () => {
                 </div>
 
                 {/* YouTube Videos Grid */}
-                <h3 className="text-2xl font-bold text-foreground mb-6 text-center">YouTube Channel Videos</h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {/* Video 1 */}
-                  <div className="group">
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                        title="Orbi City Batumi - Room Tour" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Room Tour</h4>
-                  </div>
+                <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Our YouTube Channel</h3>
+                
+                {videosError && (
+                  <Alert variant="destructive" className="max-w-2xl mx-auto mb-8">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      Unable to load videos. Please make sure your YouTube Channel ID is configured correctly.
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-                  {/* Video 2 */}
-                  <div className="group">
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                        title="Orbi City Batumi - Amenities Tour" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Amenities Tour</h4>
+                {videosLoading ? (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} className="space-y-3">
+                        <Skeleton className="aspect-video rounded-xl" />
+                        <Skeleton className="h-6 w-3/4" />
+                      </div>
+                    ))}
                   </div>
-
-                  {/* Video 3 */}
-                  <div className="group">
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                        title="Orbi City Batumi - Location & Views" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Location & Views</h4>
+                ) : youtubeVideos && youtubeVideos.length > 0 ? (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {youtubeVideos.map((video) => (
+                      <div key={video.id} className="group">
+                        <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                          <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src={`https://www.youtube.com/embed/${video.id}`}
+                            title={video.title}
+                            frameBorder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowFullScreen
+                            className="w-full h-full"
+                          />
+                        </div>
+                        <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                          {video.title}
+                        </h4>
+                      </div>
+                    ))}
                   </div>
-
-                  {/* Video 4 */}
-                  <div className="group">
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                        title="Guest Experience Review" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Guest Reviews</h4>
-                  </div>
-
-                  {/* Video 5 */}
-                  <div className="group">
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                        title="Batumi Beach & Surroundings" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Beach & Surroundings</h4>
-                  </div>
-
-                  {/* Video 6 */}
-                  <div className="group">
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                        title="Sunset Views from Orbi City" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <h4 className="mt-3 font-semibold text-foreground group-hover:text-primary transition-colors">Sunset Views</h4>
-                  </div>
-                </div>
+                ) : (
+                  <Alert className="max-w-2xl mx-auto">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      No videos found. Please configure your YouTube Channel ID in the Gallery component.
+                    </AlertDescription>
+                  </Alert>
+                )}
               </div>
             </TabsContent>
           </Tabs>
