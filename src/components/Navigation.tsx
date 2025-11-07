@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Globe, LogIn } from 'lucide-react';
+import { Menu, X, Globe, LogIn, LogOut, User } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import logo from '@/assets/logo.jpg';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
 const languageFlags = {
@@ -31,6 +33,7 @@ export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { user, signOut } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -124,14 +127,45 @@ export const Navigation = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Login Button */}
-            <Button 
-              variant="ghost"
-              size="sm"
-              className="hidden md:flex text-white hover:bg-white/10 gap-2"
-            >
-              <LogIn className="w-4 h-4" />
-            </Button>
+            {/* Login/Profile Button */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost"
+                    size="sm"
+                    className="hidden md:flex text-white hover:bg-white/10 gap-2"
+                  >
+                    <User className="w-4 h-4" />
+                    <span className="max-w-[100px] truncate">
+                      {user.email?.split('@')[0]}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => window.location.href = '/loyalty-program'}>
+                    <User className="w-4 h-4 mr-2" />
+                    პროფილი
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => signOut()}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    გასვლა
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button 
+                  variant="ghost"
+                  size="sm"
+                  className="hidden md:flex text-white hover:bg-white/10 gap-2"
+                >
+                  <LogIn className="w-4 h-4" />
+                  შესვლა
+                </Button>
+              </Link>
+            )}
 
             {/* Mobile Menu Toggle */}
             <Button
@@ -158,6 +192,39 @@ export const Navigation = () => {
                 {t(link.key) || link.key}
               </Link>
             ))}
+            
+            {/* Mobile Auth Button */}
+            {user ? (
+              <>
+                <Link
+                  to="/loyalty-program"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
+                >
+                  <User className="w-4 h-4 inline mr-2" />
+                  პროფილი
+                </Link>
+                <button
+                  onClick={() => {
+                    signOut();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
+                >
+                  <LogOut className="w-4 h-4 inline mr-2" />
+                  გასვლა
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
+              >
+                <LogIn className="w-4 h-4 inline mr-2" />
+                შესვლა
+              </Link>
+            )}
           </div>
         )}
       </div>

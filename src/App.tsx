@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { DiscountPopup } from "@/components/DiscountPopup";
 import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import Index from "./pages/Index";
@@ -18,6 +19,7 @@ import AboutUs from "./pages/AboutUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PurchaseConditions from "./pages/PurchaseConditions";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,21 +33,24 @@ const App = () => (
         <DiscountPopup />
         <GoogleReviewPopup />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/apartments" element={<Apartments />} />
-            <Route path="/amenities" element={<Amenities />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/location" element={<Location />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/loyalty-program" element={<LoyaltyProgram />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-            <Route path="/purchase-conditions" element={<PurchaseConditions />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/apartments" element={<Apartments />} />
+              <Route path="/amenities" element={<Amenities />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/location" element={<Location />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/loyalty-program" element={<LoyaltyProgram />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/purchase-conditions" element={<PurchaseConditions />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
