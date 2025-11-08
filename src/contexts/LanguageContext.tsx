@@ -292,6 +292,8 @@ const translations: Record<Language, Record<string, string>> = {
     'youtubeVideos.breadcrumb': 'Videos',
     'youtubeVideos.error': 'Unable to load videos at this moment. Please try again later.',
     'youtubeVideos.noVideos': 'No videos available',
+    'youtubeVideos.noDescription': 'Watch this video to learn more',
+    'youtubeVideos.watchNow': 'Watch Now',
     
     // Apartments page additions
     'nav.apartments': 'Apartments',
@@ -577,6 +579,8 @@ const translations: Record<Language, Record<string, string>> = {
     'youtubeVideos.breadcrumb': 'ვიდეოები',
     'youtubeVideos.error': 'ვიდეოების ჩატვირთვა ამჟამად შეუძლებელია. გთხოვთ სცადოთ მოგვიანებით.',
     'youtubeVideos.noVideos': 'ვიდეოები მიუწვდომელია',
+    'youtubeVideos.noDescription': 'უყურეთ ამ ვიდეოს მეტის გასაგებად',
+    'youtubeVideos.watchNow': 'ყურება',
     
     // Apartments page additions
     'nav.apartments': 'აპარტამენტები',

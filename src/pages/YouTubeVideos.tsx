@@ -11,7 +11,7 @@ import { trackPageView } from '@/lib/tracking';
 
 const YouTubeVideos = () => {
   const { t } = useLanguage();
-  const channelId = 'UCJ_vPGfKqj1S3rwGkr5K9xw'; // Replace with actual channel ID
+  const channelId = 'UC3YPMVgwMBJWPvY1IjD8UFQ';
   const { data: videos, isLoading, error } = useYouTubeVideos(channelId);
 
   useEffect(() => {
@@ -62,35 +62,46 @@ const YouTubeVideos = () => {
             )}
 
             {videos && videos.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {videos.map((video) => (
                   <Card 
                     key={video.id} 
-                    className="group cursor-pointer hover:shadow-lg transition-shadow overflow-hidden"
+                    className="group cursor-pointer hover:shadow-elegant transition-all duration-300 overflow-hidden border-border/50 bg-card hover:border-primary/30"
                     onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
                   >
-                    <div className="relative aspect-video overflow-hidden">
+                    <div className="relative aspect-video overflow-hidden bg-gradient-subtle">
                       <img
                         src={video.thumbnail}
                         alt={video.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-white/90 group-hover:bg-white flex items-center justify-center transition-colors">
-                          <Play className="w-8 h-8 text-red-600 fill-red-600 ml-1" />
+                      <div className="absolute inset-0 bg-gradient-overlay opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-20 h-20 rounded-full bg-gradient-gold group-hover:scale-110 flex items-center justify-center transition-all duration-300 shadow-gold">
+                          <Play className="w-10 h-10 text-secondary-foreground fill-secondary-foreground ml-1" />
                         </div>
                       </div>
                     </div>
-                    <CardContent className="p-4">
-                      <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                    <CardContent className="p-6 bg-card">
+                      <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-300 leading-tight">
                         {video.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {video.description}
+                      <p className="text-sm text-muted-foreground line-clamp-3 mb-3 leading-relaxed">
+                        {video.description || t('youtubeVideos.noDescription')}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        {new Date(video.publishedAt).toLocaleDateString()}
-                      </p>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-border/50">
+                        <span className="font-medium">
+                          {new Date(video.publishedAt).toLocaleDateString('ka-GE', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </span>
+                        <span className="text-primary font-semibold group-hover:underline">
+                          {t('youtubeVideos.watchNow')}
+                        </span>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
