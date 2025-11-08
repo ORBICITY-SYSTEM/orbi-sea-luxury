@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { DiscountPopup } from "@/components/DiscountPopup";
 import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
+import { StructuredData } from "@/components/StructuredData";
 import Index from "./pages/Index";
 import Apartments from "./pages/Apartments";
 import Amenities from "./pages/Amenities";
@@ -33,6 +34,7 @@ const App = () => (
         <Sonner />
         <DiscountPopup />
         <GoogleReviewPopup />
+        <StructuredData />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <AuthProvider>
             <Routes>

@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/hooks/useAdmin';
-import { Loader2, Users, Calendar, Award, Settings, MessageSquare } from 'lucide-react';
+import { Loader2, Users, Calendar, Award, Settings, MessageSquare, Search } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AdminBookings } from '@/components/admin/AdminBookings';
 import { AdminUsers } from '@/components/admin/AdminUsers';
 import { AdminLoyaltyPoints } from '@/components/admin/AdminLoyaltyPoints';
 import { AdminSettings } from '@/components/admin/AdminSettings';
 import { AdminContactSubmissions } from '@/components/admin/AdminContactSubmissions';
+import { AdminSEO } from '@/components/admin/AdminSEO';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -36,7 +37,7 @@ const Admin = () => {
       <h1 className="text-4xl font-bold mb-8">Admin Panel</h1>
       
       <Tabs defaultValue="bookings" className="w-full">
-        <TabsList className="grid w-full grid-cols-5 mb-8">
+        <TabsList className="grid w-full grid-cols-6 mb-8">
           <TabsTrigger value="bookings" className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
             <span>ბრონირებები</span>
@@ -51,7 +52,11 @@ const Admin = () => {
           </TabsTrigger>
           <TabsTrigger value="loyalty" className="flex items-center gap-2">
             <Award className="h-4 w-4" />
-            <span>ლოიალობის ქულები</span>
+            <span>ლოიალობა</span>
+          </TabsTrigger>
+          <TabsTrigger value="seo" className="flex items-center gap-2">
+            <Search className="h-4 w-4" />
+            <span>SEO</span>
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings className="h-4 w-4" />
@@ -65,6 +70,10 @@ const Admin = () => {
 
         <TabsContent value="contacts">
           <AdminContactSubmissions />
+        </TabsContent>
+
+        <TabsContent value="seo">
+          <AdminSEO />
         </TabsContent>
 
         <TabsContent value="users">

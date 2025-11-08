@@ -316,6 +316,48 @@ export type Database = {
         }
         Relationships: []
       }
+      seo_pages: {
+        Row: {
+          canonical_url: string | null
+          created_at: string
+          description: string
+          id: string
+          is_active: boolean
+          keywords: string | null
+          og_image: string | null
+          page_name: string
+          page_path: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          canonical_url?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          is_active?: boolean
+          keywords?: string | null
+          og_image?: string | null
+          page_name: string
+          page_path: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          canonical_url?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean
+          keywords?: string | null
+          og_image?: string | null
+          page_name?: string
+          page_path?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           created_at: string

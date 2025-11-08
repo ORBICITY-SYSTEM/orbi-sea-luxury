@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
+import { SEO } from './SEO';
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,6 +10,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO />
       <Navigation />
       <main className="flex-1">
         {children}
