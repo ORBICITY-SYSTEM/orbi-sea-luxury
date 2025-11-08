@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Routes, Route } from 'react-router-dom';
 import { useAdmin } from '@/hooks/useAdmin';
-import { Loader2, Users, Calendar, Award, Settings, MessageSquare, Search, Tag, FlaskConical } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2 } from 'lucide-react';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AdminSidebar } from '@/components/admin/AdminSidebar';
+import { AdminDashboard } from '@/components/admin/AdminDashboard';
 import { AdminBookings } from '@/components/admin/AdminBookings';
 import { AdminUsers } from '@/components/admin/AdminUsers';
 import { AdminLoyaltyPoints } from '@/components/admin/AdminLoyaltyPoints';
@@ -35,78 +37,26 @@ const Admin = () => {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-4xl font-bold mb-8">Admin Panel</h1>
-      
-      <Tabs defaultValue="bookings" className="w-full">
-        <TabsList className="grid w-full grid-cols-8 mb-8">
-          <TabsTrigger value="bookings" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            <span>ბრონირებები</span>
-          </TabsTrigger>
-          <TabsTrigger value="contacts" className="flex items-center gap-2">
-            <MessageSquare className="h-4 w-4" />
-            <span>შეტყობინებები</span>
-          </TabsTrigger>
-          <TabsTrigger value="users" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            <span>მომხმარებლები</span>
-          </TabsTrigger>
-          <TabsTrigger value="loyalty" className="flex items-center gap-2">
-            <Award className="h-4 w-4" />
-            <span>ლოიალობა</span>
-          </TabsTrigger>
-          <TabsTrigger value="promo-codes" className="flex items-center gap-2">
-            <Tag className="h-4 w-4" />
-            <span>პრომო კოდები</span>
-          </TabsTrigger>
-          <TabsTrigger value="experiments" className="flex items-center gap-2">
-            <FlaskConical className="h-4 w-4" />
-            <span>A/B Testing</span>
-          </TabsTrigger>
-          <TabsTrigger value="seo" className="flex items-center gap-2">
-            <Search className="h-4 w-4" />
-            <span>SEO</span>
-          </TabsTrigger>
-          <TabsTrigger value="settings" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span>პარამეტრები</span>
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="bookings">
-          <AdminBookings />
-        </TabsContent>
-
-        <TabsContent value="contacts">
-          <AdminContactSubmissions />
-        </TabsContent>
-
-        <TabsContent value="seo">
-          <AdminSEO />
-        </TabsContent>
-
-        <TabsContent value="users">
-          <AdminUsers />
-        </TabsContent>
-
-        <TabsContent value="loyalty">
-          <AdminLoyaltyPoints />
-        </TabsContent>
-
-        <TabsContent value="promo-codes">
-          <AdminPromoCodes />
-        </TabsContent>
-
-        <TabsContent value="experiments">
-          <AdminExperiments />
-        </TabsContent>
-
-        <TabsContent value="settings">
-          <AdminSettings />
-        </TabsContent>
-      </Tabs>
-    </div>
+    <SidebarProvider defaultOpen>
+      <div className="min-h-screen flex w-full bg-background">
+        <AdminSidebar />
+        <main className="flex-1 overflow-auto">
+          <div className="h-full">
+            <Routes>
+              <Route index element={<AdminDashboard />} />
+              <Route path="bookings" element={<div className="p-6"><AdminBookings /></div>} />
+              <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />
+              <Route path="users" element={<div className="p-6"><AdminUsers /></div>} />
+              <Route path="loyalty" element={<div className="p-6"><AdminLoyaltyPoints /></div>} />
+              <Route path="promo-codes" element={<div className="p-6"><AdminPromoCodes /></div>} />
+              <Route path="experiments" element={<div className="p-6"><AdminExperiments /></div>} />
+              <Route path="seo" element={<div className="p-6"><AdminSEO /></div>} />
+              <Route path="settings" element={<div className="p-6"><AdminSettings /></div>} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 };
 
