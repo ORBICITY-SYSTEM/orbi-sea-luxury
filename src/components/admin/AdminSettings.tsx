@@ -144,6 +144,41 @@ export const AdminSettings = () => {
           </CardContent>
         </Card>
 
+        {/* Meta Pixel Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Meta Pixel (Facebook)</CardTitle>
+            <CardDescription>Meta Pixel ID კონვერსიების თვალყურის დევნებისთვის</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="meta_pixel_id">Meta Pixel ID</Label>
+              <Input
+                id="meta_pixel_id"
+                value={formData.meta_pixel_id || ''}
+                onChange={(e) => handleChange('meta_pixel_id', e.target.value)}
+                placeholder="1234567890123456"
+              />
+              <p className="text-sm text-muted-foreground">
+                იხილეთ Meta Events Manager → Data Sources → Your Pixel
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="meta_access_token">Meta Access Token (Conversions API)</Label>
+              <Input
+                id="meta_access_token"
+                type="password"
+                value={formData.meta_access_token || ''}
+                onChange={(e) => handleChange('meta_access_token', e.target.value)}
+                placeholder="Access Token..."
+              />
+              <p className="text-sm text-muted-foreground">
+                Conversions API-სთვის (სერვერული tracking)
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         <Button type="submit" size="lg" className="w-full sm:w-auto">
           <Save className="h-4 w-4 mr-2" />
           ცვლილებების შენახვა
