@@ -5,6 +5,8 @@ import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 const galleryImages = {
   interiors: [
@@ -37,8 +39,23 @@ const galleryImages = {
 };
 
 const Gallery = () => {
-  // Replace with your YouTube Channel ID (leave empty to disable YouTube integration)
-  const YOUTUBE_CHANNEL_ID = ''; // TODO: Add your real YouTube Channel ID here
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*');
+      
+      if (error) throw error;
+      
+      return data.reduce((acc, setting) => {
+        acc[setting.key] = setting.value || '';
+        return acc;
+      }, {} as Record<string, string>);
+    },
+  });
+
+  const YOUTUBE_CHANNEL_ID = settings?.youtube_channel_id || '';
   
   const { data: youtubeVideos, isLoading: videosLoading, error: videosError } = useYouTubeVideos(YOUTUBE_CHANNEL_ID);
 
@@ -166,14 +183,7 @@ const Gallery = () => {
                   <Alert className="max-w-2xl mx-auto">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      YouTube integration is not configured. To display your channel videos, add your YouTube Channel ID in the Gallery component (src/pages/Gallery.tsx).
-                      <br /><br />
-                      <strong>How to find your Channel ID:</strong>
-                      <ol className="list-decimal ml-6 mt-2">
-                        <li>Go to YouTube Studio</li>
-                        <li>Click on Settings → Channel → Advanced settings</li>
-                        <li>Copy your Channel ID</li>
-                      </ol>
+                      YouTube ინტეგრაცია არ არის კონფიგურირებული. თქვენი არხის ვიდეოების საჩვენებლად, დაამატეთ YouTube Channel ID Admin Panel-ში (პარამეტრები → YouTube ინტეგრაცია).
                     </AlertDescription>
                   </Alert>
                 ) : (
