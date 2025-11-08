@@ -13,6 +13,8 @@ import { AdminContactSubmissions } from '@/components/admin/AdminContactSubmissi
 import { AdminSEO } from '@/components/admin/AdminSEO';
 import { AdminPromoCodes } from '@/components/admin/AdminPromoCodes';
 import { AdminExperiments } from '@/components/admin/AdminExperiments';
+import { AdminContent } from '@/components/admin/AdminContent';
+import { AdminMedia } from '@/components/admin/AdminMedia';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -46,6 +48,8 @@ const Admin = () => {
               <Route index element={<AdminDashboard />} />
               <Route path="bookings" element={<div className="p-6"><AdminBookings /></div>} />
               <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />
+              <Route path="content" element={<div className="p-6"><AdminContent /></div>} />
+              <Route path="media" element={<div className="p-6"><AdminMedia /></div>} />
               <Route path="users" element={<div className="p-6"><AdminUsers /></div>} />
               <Route path="loyalty" element={<div className="p-6"><AdminLoyaltyPoints /></div>} />
               <Route path="promo-codes" element={<div className="p-6"><AdminPromoCodes /></div>} />

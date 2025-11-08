@@ -9,7 +9,9 @@ import {
   Settings, 
   MessageSquare,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  FileText,
+  Image
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -45,6 +47,16 @@ const menuItems = [
     title: 'შეტყობინებები', 
     url: '/admin/contacts', 
     icon: MessageSquare 
+  },
+  { 
+    title: 'კონტენტი', 
+    url: '/admin/content', 
+    icon: FileText 
+  },
+  { 
+    title: 'მედია', 
+    url: '/admin/media', 
+    icon: Image 
   },
   { 
     title: 'მომხმარებლები', 

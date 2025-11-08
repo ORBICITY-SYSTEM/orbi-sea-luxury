@@ -104,6 +104,42 @@ export type Database = {
         }
         Relationships: []
       }
+      content_sections: {
+        Row: {
+          content_en: string | null
+          content_ka: string | null
+          created_at: string
+          id: string
+          page: string
+          section_key: string
+          section_name: string
+          section_type: string
+          updated_at: string
+        }
+        Insert: {
+          content_en?: string | null
+          content_ka?: string | null
+          created_at?: string
+          id?: string
+          page: string
+          section_key: string
+          section_name: string
+          section_type?: string
+          updated_at?: string
+        }
+        Update: {
+          content_en?: string | null
+          content_ka?: string | null
+          created_at?: string
+          id?: string
+          page?: string
+          section_key?: string
+          section_name?: string
+          section_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       experiment_assignments: {
         Row: {
           assigned_at: string | null
@@ -241,6 +277,48 @@ export type Database = {
           total_redeemed?: number
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      media_library: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          is_featured: boolean | null
+          media_type: string
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_featured?: boolean | null
+          media_type: string
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_featured?: boolean | null
+          media_type?: string
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
