@@ -5,102 +5,110 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, Bed, Bath, Maximize2 } from 'lucide-react';
 import { trackViewItem, trackPageView } from '@/lib/tracking';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const apartments = [
   {
     id: 'suite',
-    title: 'Suite with Sea View',
+    titleKey: 'apartments.suite.title',
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/e4578176040cf98304ee3ae0477a108f.jpg',
     guests: 3,
     beds: 1,
     baths: 1,
-    description: 'An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.',
-    features: [
-      'Sea View Balcony',
-      'Fully equipped kitchen',
-      'Free WiFi',
-      'Air Conditioning',
-      'Smart TV',
-      'King Size Bed with Ceiling Mirrors',
-      'SOFA BED'
+    size: '45',
+    descKey: 'apartments.suite.desc',
+    featuresKeys: [
+      'apartments.suite.feature1',
+      'apartments.suite.feature2',
+      'apartments.suite.feature3',
+      'apartments.suite.feature4',
+      'apartments.suite.feature5',
+      'apartments.suite.feature6',
+      'apartments.suite.feature7',
     ]
   },
   {
     id: 'deluxe',
-    title: 'Delux Suite with Sea View',
+    titleKey: 'apartments.deluxe.title',
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg',
     guests: 3,
     beds: 1,
     baths: 1,
-    description: 'A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.',
-    features: [
-      'Large Sea View Balcony',
-      'Separate Living Area',
-      'Fully equipped kitchen',
-      'Free WiFi',
-      'Air Conditioning',
-      'Smart TV'
+    size: '55',
+    descKey: 'apartments.deluxe.desc',
+    featuresKeys: [
+      'apartments.deluxe.feature1',
+      'apartments.deluxe.feature2',
+      'apartments.deluxe.feature3',
+      'apartments.deluxe.feature4',
+      'apartments.deluxe.feature5',
+      'apartments.deluxe.feature6',
     ]
   },
   {
     id: 'superior',
-    title: 'Superior Suite with Sea View',
+    titleKey: 'apartments.superior.title',
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/78f6531862f26bbcdf6bca5ec8d7305c.jpg',
     guests: 3,
     beds: 2,
     baths: 1,
-    description: 'Our premium suite featuring a separate living area, top-tier amenities, and the best panoramic views of the sea.',
-    features: [
-      'Corner Sea Views',
-      'One Bedroom',
-      'Dining Area',
-      'One Bathroom',
-      'Fully equipped kitchen',
-      'Premium Toiletries',
-      'King Size Bed with Ceiling Mirrors',
-      'SOFA BED'
+    size: '65',
+    descKey: 'apartments.superior.desc',
+    featuresKeys: [
+      'apartments.superior.feature1',
+      'apartments.superior.feature2',
+      'apartments.superior.feature3',
+      'apartments.superior.feature4',
+      'apartments.superior.feature5',
+      'apartments.superior.feature6',
+      'apartments.superior.feature7',
+      'apartments.superior.feature8',
     ]
   },
   {
     id: 'family',
-    title: 'Superior Family Suite with Sea View',
+    titleKey: 'apartments.family.title',
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/0922f2b1b13af96b0d24272d32439996.jpg',
     guests: 6,
     beds: 2,
     baths: 2,
-    description: 'A generously sized suite with multiple rooms, perfect for families or groups, ensuring comfort and privacy for everyone.',
-    features: [
-      'Expansive Balcony',
-      'Two Bedrooms',
-      'Fully equipped kitchen',
-      'Kids\' Entertainment',
-      'Washing Machine',
-      'Priority Services',
-      'King Size Bed with Ceiling Mirrors',
-      'SOFA BED'
+    size: '85',
+    descKey: 'apartments.family.desc',
+    featuresKeys: [
+      'apartments.family.feature1',
+      'apartments.family.feature2',
+      'apartments.family.feature3',
+      'apartments.family.feature4',
+      'apartments.family.feature5',
+      'apartments.family.feature6',
+      'apartments.family.feature7',
+      'apartments.family.feature8',
     ]
   },
   {
     id: 'twobed',
-    title: 'Two Bedroom Panoramic Suite',
+    titleKey: 'apartments.twobed.title',
     image: 'https://horizons-cdn.hostinger.com/b7134a16-4d20-4990-bbc6-0f01fe63442b/1.jpg',
     guests: 6,
     beds: 3,
     baths: 3,
-    description: 'The pinnacle of luxury. This expansive suite features two bedrooms and a stunning panoramic terrace for an unforgettable experience.',
-    features: [
-      '270° Panoramic Terrace',
-      '2 Bedrooms',
-      '2 SOFA BED',
-      '2 King Size Bed with Ceiling Mirrors',
-      'Premium Kitchen',
-      'Luxury Furnishings',
-      'Ultimate Sea Views'
+    size: '120',
+    descKey: 'apartments.twobed.desc',
+    featuresKeys: [
+      'apartments.twobed.feature1',
+      'apartments.twobed.feature2',
+      'apartments.twobed.feature3',
+      'apartments.twobed.feature4',
+      'apartments.twobed.feature5',
+      'apartments.twobed.feature6',
+      'apartments.twobed.feature7',
     ]
   }
 ];
 
 const Apartments = () => {
+  const { t } = useLanguage();
+  
   useEffect(() => {
     trackPageView();
   }, []);
@@ -108,7 +116,7 @@ const Apartments = () => {
   const handleApartmentView = (apartment: typeof apartments[0]) => {
     trackViewItem({
       item_id: apartment.id,
-      item_name: apartment.title,
+      item_name: t(apartment.titleKey),
       item_category: 'apartment',
     });
   };
@@ -122,10 +130,9 @@ const Apartments = () => {
       >
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-5xl font-bold text-white mb-4">Our Apartments</h1>
+          <h1 className="text-5xl font-bold text-white mb-4">{t('apartments.hero.title')}</h1>
           <p className="text-xl text-white/90 max-w-3xl mb-6">
-            Indulge in our beautifully designed apartments, each offering a unique blend of comfort and style. 
-            From intimate suites to spacious family rooms, find your perfect sanctuary by the sea.
+            {t('apartments.hero.subtitle')}
           </p>
           <Button 
             size="lg"
@@ -143,10 +150,9 @@ const Apartments = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Find Your Perfect Space</h2>
+            <h2 className="text-4xl font-bold text-foreground mb-4">{t('apartments.section.title')}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Each of our apartments is thoughtfully designed to provide an unparalleled experience. 
-              Explore our offerings and find the one that speaks to you.
+              {t('apartments.section.subtitle')}
             </p>
           </div>
 
@@ -161,35 +167,39 @@ const Apartments = () => {
                   <div className={index % 2 === 1 ? 'md:col-start-2' : ''}>
                     <img 
                       src={apt.image} 
-                      alt={apt.title}
+                      alt={t(apt.titleKey)}
                       className="w-full h-full object-cover min-h-[300px]"
                     />
                   </div>
                   <CardContent className="p-8 flex flex-col justify-center">
-                    <h3 className="text-3xl font-bold text-foreground mb-4">{apt.title}</h3>
+                    <h3 className="text-3xl font-bold text-foreground mb-4">{t(apt.titleKey)}</h3>
                     
-                    <div className="flex gap-6 mb-4 text-muted-foreground">
+                    <div className="flex flex-wrap gap-4 mb-4 text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <Maximize2 className="w-5 h-5" />
+                        <span>{apt.size} {t('apartments.sqm')}</span>
+                      </div>
                       <div className="flex items-center gap-2">
                         <Users className="w-5 h-5" />
-                        <span>{apt.guests} Guests</span>
+                        <span>{apt.guests} {t('apartments.guests')}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Bed className="w-5 h-5" />
-                        <span>{apt.beds} Bed</span>
+                        <span>{apt.beds} {t('apartments.beds')}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Bath className="w-5 h-5" />
-                        <span>{apt.baths} Bath</span>
+                        <span>{apt.baths} {t('apartments.baths')}</span>
                       </div>
                     </div>
 
-                    <p className="text-muted-foreground mb-6">{apt.description}</p>
+                    <p className="text-muted-foreground mb-6 text-lg leading-relaxed">{t(apt.descKey)}</p>
 
                     <div className="mb-6">
-                      <h4 className="font-semibold text-foreground mb-3">Key Features</h4>
+                      <h4 className="font-semibold text-foreground mb-3">{t('apartments.keyFeatures')}</h4>
                       <ul className="grid grid-cols-2 gap-2">
-                        {apt.features.map((feature, i) => (
-                          <li key={i} className="text-sm text-muted-foreground">• {feature}</li>
+                        {apt.featuresKeys.map((featureKey, i) => (
+                          <li key={i} className="text-sm text-muted-foreground">• {t(featureKey)}</li>
                         ))}
                       </ul>
                     </div>
@@ -199,13 +209,13 @@ const Apartments = () => {
                         onClick={() => window.open('https://orbicitybatumi.com/booking', '_blank')}
                         className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold"
                       >
-                        Book Now / Pay Later
+                        {t('apartments.bookNow')}
                       </Button>
                       <Button 
                         variant="outline"
                         onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
                       >
-                        Check Availability
+                        {t('apartments.checkAvailability')}
                       </Button>
                     </div>
                   </CardContent>
