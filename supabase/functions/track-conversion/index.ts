@@ -28,13 +28,88 @@ interface ConversionEvent {
   };
 }
 
+// Rate limiting: Simple in-memory store (resets on function restart)
+const requestCounts = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 10; // requests per minute per IP
+const RATE_WINDOW = 60000; // 1 minute
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = requestCounts.get(ip);
+
+  if (!record || now > record.resetTime) {
+    requestCounts.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
+    return true;
+  }
+
+  if (record.count >= RATE_LIMIT) {
+    return false;
+  }
+
+  record.count++;
+  return true;
+}
+
+function validateInput(data: any): { valid: boolean; error?: string } {
+  if (!data.event_name || typeof data.event_name !== 'string') {
+    return { valid: false, error: 'event_name is required and must be a string' };
+  }
+
+  if (data.event_name.length > 100) {
+    return { valid: false, error: 'event_name must be less than 100 characters' };
+  }
+
+  const validEventNames = ['PageView', 'ViewContent', 'AddToCart', 'InitiateCheckout', 'Purchase', 'Lead', 'CompleteRegistration'];
+  if (!validEventNames.includes(data.event_name)) {
+    return { valid: false, error: `event_name must be one of: ${validEventNames.join(', ')}` };
+  }
+
+  if (data.user_data?.email && typeof data.user_data.email !== 'string') {
+    return { valid: false, error: 'user_data.email must be a string' };
+  }
+
+  if (data.event_data?.custom_data?.value && typeof data.event_data.custom_data.value !== 'number') {
+    return { valid: false, error: 'custom_data.value must be a number' };
+  }
+
+  return { valid: true };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    const { event_name, event_data, user_data } = await req.json();
+    // Rate limiting check
+    const clientIp = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    if (!checkRateLimit(clientIp)) {
+      console.warn(`Rate limit exceeded for IP: ${clientIp}`);
+      return new Response(
+        JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429 
+        }
+      );
+    }
+
+    const requestData = await req.json();
+    
+    // Input validation
+    const validation = validateInput(requestData);
+    if (!validation.valid) {
+      console.error('Invalid input:', validation.error);
+      return new Response(
+        JSON.stringify({ error: validation.error }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400 
+        }
+      );
+    }
+
+    const { event_name, event_data, user_data } = requestData;
 
     const pixelId = Deno.env.get('META_PIXEL_ID');
     const accessToken = Deno.env.get('META_ACCESS_TOKEN');

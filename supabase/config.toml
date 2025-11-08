@@ -2,3 +2,6 @@ project_id = "tqfbrgoaucjcttfsimdh"
 
 [functions.generate-sitemap]
 verify_jwt = false
+
+[functions.track-conversion]
+verify_jwt = false

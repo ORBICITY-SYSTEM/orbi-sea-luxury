@@ -16,6 +16,17 @@ export const BookingWidget = () => {
   const [guests, setGuests] = useState('2');
 
   const handleCheckAvailability = () => {
+    // Validate dates before proceeding
+    if (checkIn && !(checkIn instanceof Date) || (checkIn && isNaN(checkIn.getTime()))) {
+      console.error('Invalid check-in date');
+      return;
+    }
+    
+    if (checkOut && !(checkOut instanceof Date) || (checkOut && isNaN(checkOut.getTime()))) {
+      console.error('Invalid check-out date');
+      return;
+    }
+
     // Track booking initiation
     trackInitiateCheckout(undefined, 'USD', [{
       item_id: 'apartment_inquiry',
@@ -24,7 +35,14 @@ export const BookingWidget = () => {
       quantity: 1,
     }]);
 
-    const message = `Hello! I'm interested in booking an apartment at Orbi City.\n\nCheck-in: ${checkIn ? format(checkIn, 'PPP') : 'Not selected'}\nCheck-out: ${checkOut ? format(checkOut, 'PPP') : 'Not selected'}\nGuests: ${guests}`;
+    const checkInFormatted = checkIn && checkIn instanceof Date && !isNaN(checkIn.getTime()) 
+      ? format(checkIn, 'PPP') 
+      : 'Not selected';
+    const checkOutFormatted = checkOut && checkOut instanceof Date && !isNaN(checkOut.getTime()) 
+      ? format(checkOut, 'PPP') 
+      : 'Not selected';
+
+    const message = `Hello! I'm interested in booking an apartment at Orbi City.\n\nCheck-in: ${checkInFormatted}\nCheck-out: ${checkOutFormatted}\nGuests: ${guests}`;
     window.open(`https://wa.me/+995555199090?text=${encodeURIComponent(message)}`, '_blank');
   };
 
