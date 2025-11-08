@@ -95,12 +95,12 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="twitter_url">Twitter/X</Label>
+              <Label htmlFor="youtube_url">YouTube</Label>
               <Input
-                id="twitter_url"
-                value={formData.twitter_url || ''}
-                onChange={(e) => handleChange('twitter_url', e.target.value)}
-                placeholder="https://x.com/yourprofile"
+                id="youtube_url"
+                value={formData.youtube_url || ''}
+                onChange={(e) => handleChange('youtube_url', e.target.value)}
+                placeholder="https://youtube.com/@yourprofile"
               />
             </div>
           </CardContent>

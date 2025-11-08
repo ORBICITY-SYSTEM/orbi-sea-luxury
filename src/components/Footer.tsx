@@ -2,9 +2,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
 import logo from '@/assets/logo.jpg';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 export const Footer = () => {
   const { t } = useLanguage();
+  const { settings } = useSiteSettings();
 
   return (
     <footer id="footer" className="bg-[#2C3E50] text-white py-16">
@@ -68,15 +70,39 @@ export const Footer = () => {
               </li>
             </ul>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-gold flex items-center justify-center transition-all">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-gold flex items-center justify-center transition-all">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-gold flex items-center justify-center transition-all">
-                <Youtube className="w-5 h-5" />
-              </a>
+              {settings?.facebook_url && (
+                <a 
+                  href={settings.facebook_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-gold flex items-center justify-center transition-all"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.instagram_url && (
+                <a 
+                  href={settings.instagram_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-gold flex items-center justify-center transition-all"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.youtube_url && (
+                <a 
+                  href={settings.youtube_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-gold flex items-center justify-center transition-all"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-5 h-5" />
+                </a>
+              )}
             </div>
           </div>
         </div>
