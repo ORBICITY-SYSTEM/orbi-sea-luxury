@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useDropzone } from 'react-dropzone';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,7 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Upload, Star, Trash2, Image as ImageIcon, Video, FileUp } from 'lucide-react';
+import { Loader2, Upload, Star, Trash2, Image as ImageIcon, Video, Edit, FileUp } from 'lucide-react';
+import { ImageEditor } from './ImageEditor';
+import { BulkUploadZone } from './BulkUploadZone';
 
 interface MediaItem {
   id: string;
@@ -32,6 +35,8 @@ export const AdminMedia = () => {
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [editingImage, setEditingImage] = useState<File | null>(null);
+  const [showEditor, setShowEditor] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [newMedia, setNewMedia] = useState({
     title: '',
@@ -96,6 +101,35 @@ export const AdminMedia = () => {
         setNewMedia({ ...newMedia, title: file.name.split('.')[0] });
       }
     }
+  };
+
+  const handleEditImage = () => {
+    if (!selectedFile) {
+      toast({
+        title: 'Error',
+        description: 'Please select a file first',
+        variant: 'destructive',
+      });
+      return;
+    }
+    setEditingImage(selectedFile);
+    setShowEditor(true);
+  };
+
+  const handleSaveEditedImage = async (editedBlob: Blob) => {
+    setShowEditor(false);
+    
+    // Create a new file from the edited blob
+    const editedFile = new File([editedBlob], selectedFile?.name || 'edited.png', {
+      type: 'image/png',
+    });
+    
+    setSelectedFile(editedFile);
+    
+    toast({
+      title: 'Success',
+      description: 'Image edited successfully. Click Upload to save.',
+    });
   };
 
   const handleUploadFile = async () => {
@@ -317,6 +351,19 @@ export const AdminMedia = () => {
         <p className="text-muted-foreground">Manage images and videos for your website</p>
       </div>
 
+      {/* Bulk Upload with Drag & Drop */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Bulk Upload Images</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <BulkUploadZone 
+            onUploadComplete={fetchMedia}
+            category={newMedia.category || 'general'}
+          />
+        </CardContent>
+      </Card>
+
       {/* Add New Media */}
       <Card>
         <CardHeader>
@@ -372,9 +419,20 @@ export const AdminMedia = () => {
                 </Button>
 
                 {selectedFile && (
-                  <Badge variant="outline" className="text-xs">
-                    {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                  </Badge>
+                  <>
+                    <Badge variant="outline" className="text-xs">
+                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </Badge>
+                    <Button
+                      onClick={handleEditImage}
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                    >
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit Image
+                    </Button>
+                  </>
                 )}
               </div>
 
@@ -609,6 +667,14 @@ export const AdminMedia = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Image Editor Modal */}
+      <ImageEditor
+        open={showEditor}
+        onClose={() => setShowEditor(false)}
+        imageFile={editingImage}
+        onSave={handleSaveEditedImage}
+      />
     </div>
   );
 };
