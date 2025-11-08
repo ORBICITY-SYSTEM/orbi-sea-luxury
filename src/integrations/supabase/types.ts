@@ -282,7 +282,9 @@ export type Database = {
           code: string
           created_at: string
           current_uses: number
-          discount_percentage: number
+          discount_amount: number | null
+          discount_percentage: number | null
+          discount_type: Database["public"]["Enums"]["discount_type"]
           id: string
           is_active: boolean
           max_uses: number | null
@@ -294,7 +296,9 @@ export type Database = {
           code: string
           created_at?: string
           current_uses?: number
-          discount_percentage: number
+          discount_amount?: number | null
+          discount_percentage?: number | null
+          discount_type?: Database["public"]["Enums"]["discount_type"]
           id?: string
           is_active?: boolean
           max_uses?: number | null
@@ -306,7 +310,9 @@ export type Database = {
           code?: string
           created_at?: string
           current_uses?: number
-          discount_percentage?: number
+          discount_amount?: number | null
+          discount_percentage?: number | null
+          discount_type?: Database["public"]["Enums"]["discount_type"]
           id?: string
           is_active?: boolean
           max_uses?: number | null
@@ -421,7 +427,9 @@ export type Database = {
       validate_promo_code: {
         Args: { code_input: string }
         Returns: {
+          discount_amount: number
           discount_percentage: number
+          discount_type: string
           id: string
           is_valid: boolean
           message: string
@@ -430,6 +438,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      discount_type: "percentage" | "fixed_amount"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -558,6 +567,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      discount_type: ["percentage", "fixed_amount"],
     },
   },
 } as const
