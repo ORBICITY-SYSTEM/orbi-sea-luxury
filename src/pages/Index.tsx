@@ -3,10 +3,17 @@ import { Footer } from '@/components/Footer';
 import { HeroSection } from '@/components/HeroSection';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, Sparkles } from 'lucide-react';
+import { Star, Sparkles, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
+  const { t } = useLanguage();
+  const { data: videos, isLoading } = useYouTubeVideos('UC3YPMVgwMBJWPvY1IjD8UFQ');
+  
+  const featuredVideos = videos?.slice(0, 3) || [];
+  
   const apartments = [
     {
       image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/e4578176040cf98304ee3ae0477a108f.jpg',
@@ -89,6 +96,61 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Featured Videos Section */}
+      {!isLoading && featuredVideos.length > 0 && (
+        <section className="py-20 bg-gradient-sea">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                {t('index.videos.title')}
+              </h2>
+              <p className="text-lg text-white/90 max-w-2xl mx-auto">
+                {t('index.videos.subtitle')}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {featuredVideos.map((video) => (
+                <Card key={video.id} className="group overflow-hidden bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300">
+                  <div className="relative aspect-video overflow-hidden">
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full bg-gradient-gold flex items-center justify-center shadow-gold group-hover:scale-110 transition-transform">
+                        <Play className="w-8 h-8 text-secondary-foreground ml-1" fill="currentColor" />
+                      </div>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <h3 className="text-lg font-semibold text-white line-clamp-2 mb-2">
+                      {video.title}
+                    </h3>
+                    <Button
+                      onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
+                      variant="outline"
+                      className="w-full border-white/30 text-white hover:bg-white/20"
+                    >
+                      {t('youtubeVideos.watchNow')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Link to="/youtube-videos">
+                <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
+                  {t('index.videos.viewAll')}
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Gallery Preview */}
       <section id="gallery" className="py-20 bg-background">

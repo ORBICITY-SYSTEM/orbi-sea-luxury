@@ -9,6 +9,7 @@ import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Play, Star, Building2, Users, MapPin, Sparkles } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { trackPageView } from '@/lib/tracking';
 
 // Category keywords for filtering
@@ -39,13 +40,19 @@ const categorizeVideo = (video: any) => {
 
 const YouTubeVideos = () => {
   const { t } = useLanguage();
+  const [searchParams] = useSearchParams();
   const channelId = 'UC3YPMVgwMBJWPvY1IjD8UFQ';
   const { data: videos, isLoading, error } = useYouTubeVideos(channelId);
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
     trackPageView();
-  }, []);
+    // Check if there's a type parameter in URL and switch to property tours
+    const typeParam = searchParams.get('type');
+    if (typeParam) {
+      setSelectedCategory('propertyTours');
+    }
+  }, [searchParams]);
 
   const categorizedVideos = useMemo(() => {
     if (!videos) return { all: [], propertyTours: [], testimonials: [], areaGuide: [], amenities: [] };

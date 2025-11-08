@@ -1,8 +1,9 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Maximize2, Users } from 'lucide-react';
+import { Maximize2, Users, Video } from 'lucide-react';
 
 const rooms = [
   {
@@ -44,6 +45,7 @@ const rooms = [
 
 export const RoomsSection = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   return (
     <section id="rooms" className="py-20 bg-muted/30">
@@ -75,6 +77,17 @@ export const RoomsSection = () => {
                     {t('rooms.from')} {room.price}{t('rooms.night')}
                   </Badge>
                 </div>
+                {/* Floating Video Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/youtube-videos?type=${room.id}`);
+                  }}
+                  className="absolute bottom-4 right-4 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full p-3 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                  aria-label={t('rooms.watchVideo')}
+                >
+                  <Video className="w-5 h-5" />
+                </button>
               </div>
 
               <CardContent className="p-6">

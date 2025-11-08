@@ -22,6 +22,11 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.bookNow': 'Book Now',
     'nav.videos': 'Videos',
     
+    // Index Videos Section
+    'index.videos.title': 'Explore Our Property Tours',
+    'index.videos.subtitle': 'Watch our latest videos showcasing the beauty and luxury of Orbi City Batumi',
+    'index.videos.viewAll': 'View All Videos',
+    
     // Hero
     'hero.title': 'Your Perfect Seaside Escape',
     'hero.subtitle': 'Luxury Sea View Apartments in the Heart of Batumi',
@@ -52,6 +57,7 @@ const translations: Record<Language, Record<string, string>> = {
     'rooms.night': '/night',
     'rooms.size': 'Size',
     'rooms.guests': 'Guests',
+    'rooms.watchVideo': 'Watch Property Tour',
     
     // Amenities
     'amenities.title': 'World-Class Amenities',
@@ -317,6 +323,11 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.bookNow': 'დაჯავშნე ახლავე',
     'nav.videos': 'ვიდეოები',
     
+    // Index Videos Section
+    'index.videos.title': 'გაეცანით ჩვენს ობიექტის ტურებს',
+    'index.videos.subtitle': 'ნახეთ ჩვენი უახლესი ვიდეოები, რომლებიც წარმოაჩენს Orbi City Batumi-ს სილამაზეს და ფუფუნებას',
+    'index.videos.viewAll': 'ყველა ვიდეოს ნახვა',
+    
     // Hero
     'hero.title': 'თქვენი იდეალური სანაპირო დასვენება',
     'hero.subtitle': 'ლუქს აპარტამენტები ზღვის ხედით ბათუმის გულში',
@@ -347,6 +358,7 @@ const translations: Record<Language, Record<string, string>> = {
     'rooms.night': '/ღამე',
     'rooms.size': 'ზომა',
     'rooms.guests': 'სტუმრები',
+    'rooms.watchVideo': 'ობიექტის ტურის ნახვა',
     
     // Amenities
     'amenities.title': 'მსოფლიო დონის სერვისები',

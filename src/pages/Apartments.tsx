@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Users, Bed, Bath, Maximize2 } from 'lucide-react';
+import { Users, Bed, Bath, Maximize2, Video } from 'lucide-react';
 import { trackViewItem, trackPageView } from '@/lib/tracking';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -168,12 +168,23 @@ const Apartments = () => {
                 onClick={() => handleApartmentView(apt)}
               >
                 <div className={`grid md:grid-cols-2 gap-0 ${index % 2 === 1 ? 'md:grid-flow-col-dense' : ''}`}>
-                  <div className={index % 2 === 1 ? 'md:col-start-2' : ''}>
+                  <div className={`relative ${index % 2 === 1 ? 'md:col-start-2' : ''}`}>
                     <img 
                       src={apt.image} 
                       alt={t(apt.titleKey)}
                       className="w-full h-full object-cover min-h-[300px]"
                     />
+                    {/* Floating Video Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/youtube-videos?type=${apt.id}`);
+                      }}
+                      className="absolute bottom-4 right-4 bg-primary/90 hover:bg-primary text-primary-foreground rounded-full p-4 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                      aria-label={t('rooms.watchVideo')}
+                    >
+                      <Video className="w-6 h-6" />
+                    </button>
                   </div>
                   <CardContent className="p-8 flex flex-col justify-center">
                     <h3 className="text-3xl font-bold text-foreground mb-4">{t(apt.titleKey)}</h3>
