@@ -418,6 +418,15 @@ export type Database = {
         }
         Returns: boolean
       }
+      validate_promo_code: {
+        Args: { code_input: string }
+        Returns: {
+          discount_percentage: number
+          id: string
+          is_valid: boolean
+          message: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "user"
