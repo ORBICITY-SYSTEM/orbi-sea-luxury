@@ -39,8 +39,20 @@ serve(async (req) => {
     const pixelId = Deno.env.get('META_PIXEL_ID');
     const accessToken = Deno.env.get('META_ACCESS_TOKEN');
 
+    // If Meta credentials are not configured, return success but skip Meta tracking
     if (!pixelId || !accessToken) {
-      throw new Error('Meta Pixel ID or Access Token not configured');
+      console.warn('Meta Pixel ID or Access Token not configured - skipping Meta Conversions API');
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          message: 'Meta tracking skipped - credentials not configured',
+          event_name 
+        }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 200 
+        }
+      );
     }
 
     const event: ConversionEvent = {
