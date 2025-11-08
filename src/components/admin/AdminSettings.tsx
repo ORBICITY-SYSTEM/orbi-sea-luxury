@@ -133,6 +133,15 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="contact_address">მისამართი</Label>
+              <Input
+                id="contact_address"
+                value={formData.contact_address || ''}
+                onChange={(e) => handleChange('contact_address', e.target.value)}
+                placeholder="Sheriff Khimshiashvili Street 7B, Batumi, Georgia"
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="google_maps_url">Google Maps URL</Label>
               <Input
                 id="google_maps_url"

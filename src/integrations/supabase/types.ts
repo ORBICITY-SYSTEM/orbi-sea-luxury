@@ -68,6 +68,149 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_submissions: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      experiment_assignments: {
+        Row: {
+          assigned_at: string | null
+          experiment_id: string | null
+          id: string
+          user_id: string
+          variant_name: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          experiment_id?: string | null
+          id?: string
+          user_id: string
+          variant_name: string
+        }
+        Update: {
+          assigned_at?: string | null
+          experiment_id?: string | null
+          id?: string
+          user_id?: string
+          variant_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experiment_assignments_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experiment_events: {
+        Row: {
+          assignment_id: string | null
+          created_at: string | null
+          event_data: Json | null
+          event_name: string
+          experiment_id: string | null
+          id: string
+        }
+        Insert: {
+          assignment_id?: string | null
+          created_at?: string | null
+          event_data?: Json | null
+          event_name: string
+          experiment_id?: string | null
+          id?: string
+        }
+        Update: {
+          assignment_id?: string | null
+          created_at?: string | null
+          event_data?: Json | null
+          event_name?: string
+          experiment_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experiment_events_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "experiment_assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "experiment_events_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experiments: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          traffic_allocation: number | null
+          updated_at: string | null
+          variants: Json
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          traffic_allocation?: number | null
+          updated_at?: string | null
+          variants?: Json
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          traffic_allocation?: number | null
+          updated_at?: string | null
+          variants?: Json
+        }
+        Relationships: []
+      }
       loyalty_points: {
         Row: {
           created_at: string

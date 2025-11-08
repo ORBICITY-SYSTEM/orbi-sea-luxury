@@ -4,44 +4,111 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Phone, Mail, MapPin, MessageCircle, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { trackLead, trackPageView } from '@/lib/tracking';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { z } from 'zod';
+
+const contactFormSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(1, { message: "Name is required" })
+    .max(100, { message: "Name must be less than 100 characters" }),
+  email: z.string()
+    .trim()
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be less than 255 characters" }),
+  phone: z.string()
+    .trim()
+    .optional(),
+  message: z.string()
+    .trim()
+    .min(10, { message: "Message must be at least 10 characters" })
+    .max(1000, { message: "Message must be less than 1000 characters" })
+});
 
 const Contact = () => {
   const { toast } = useToast();
+  const { settings, isLoading } = useSiteSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     message: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     trackPageView();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
     
-    // Track lead generation
-    trackLead({
-      content_name: 'Contact Form Submission',
-      form_id: 'contact_form',
-      form_name: 'Contact Page Form',
-    });
+    // Validate form data
+    try {
+      const validatedData = contactFormSchema.parse(formData);
+      setIsSubmitting(true);
 
-    // TODO: Save to database
-    console.log('Form submitted:', formData);
-    
-    toast({
-      title: 'Message Sent!',
-      description: 'We\'ll get back to you as soon as possible.',
-    });
-    
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+      // Insert to Supabase
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([validatedData]);
+
+      if (error) throw error;
+
+      // Track lead generation
+      trackLead({
+        content_name: 'Contact Form Submission',
+        form_id: 'contact_form',
+        form_name: 'Contact Page Form',
+      });
+
+      toast({
+        title: 'Message Sent Successfully! ✅',
+        description: 'We\'ll get back to you as soon as possible.',
+      });
+
+      // Reset form
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Set validation errors
+        const fieldErrors: Record<string, string> = {};
+        error.issues.forEach((issue) => {
+          if (issue.path[0]) {
+            fieldErrors[issue.path[0].toString()] = issue.message;
+          }
+        });
+        setErrors(fieldErrors);
+        toast({
+          title: 'Validation Error',
+          description: 'Please check the form fields and try again.',
+          variant: 'destructive',
+        });
+      } else {
+        console.error('Error submitting form:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to send message. Please try again.',
+          variant: 'destructive',
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const contactEmail = settings?.contact_email || 'info@orbicitybatumi.com';
+  const contactPhone = settings?.contact_phone || '+995555199090';
+  const contactAddress = settings?.contact_address || 'Sheriff Khimshiashvili Street 7B, Batumi, Georgia';
+  const googleMapsUrl = settings?.google_maps_url || 'https://maps.app.goo.gl/riaDxn5nAe';
 
   return (
     <Layout>
@@ -68,8 +135,8 @@ const Contact = () => {
                   <Phone className="w-8 h-8 text-secondary-foreground" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">Phone</h3>
-                <a href="tel:+995555199090" className="text-primary hover:underline text-lg">
-                  +995 555 19 90 90
+                <a href={`tel:${contactPhone}`} className="text-primary hover:underline text-lg">
+                  {contactPhone}
                 </a>
                 <p className="text-sm text-muted-foreground mt-2">24/7 Reception</p>
               </CardContent>
@@ -82,8 +149,8 @@ const Contact = () => {
                   <Mail className="w-8 h-8 text-secondary-foreground" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">Email</h3>
-                <a href="mailto:info@orbicitybatumi.com" className="text-primary hover:underline text-lg">
-                  info@orbicitybatumi.com
+                <a href={`mailto:${contactEmail}`} className="text-primary hover:underline text-lg">
+                  {contactEmail}
                 </a>
                 <p className="text-sm text-muted-foreground mt-2">Response within 24 hours</p>
               </CardContent>
@@ -97,17 +164,33 @@ const Contact = () => {
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">Address</h3>
                 <a 
-                  href="https://maps.app.goo.gl/riaDxn5nAe" 
+                  href={googleMapsUrl} 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline"
                 >
-                  Sheriff Khimshiashvili Street 7B<br/>Batumi, Georgia
+                  {contactAddress}
                 </a>
                 <p className="text-sm text-muted-foreground mt-2">Seafront Location</p>
               </CardContent>
             </Card>
           </div>
+
+          {/* Google Maps Embed */}
+          <Card className="mb-12 overflow-hidden">
+            <div className="w-full h-[400px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2974.8154446089724!2d41.64283647645193!3d41.642883371251976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406786e1e7d6b515%3A0x8b9d1c3e9a7f5b9e!2sOrbi%20City!5e0!3m2!1sen!2sge!4v1234567890123"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Orbi City Batumi Location"
+              />
+            </div>
+          </Card>
 
           {/* Contact Form */}
           <Card className="max-w-2xl mx-auto">
@@ -115,42 +198,75 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Send us a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name *</Label>
+                    <Input 
+                      id="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      className={errors.name ? 'border-destructive' : ''}
+                      disabled={isSubmitting}
+                    />
+                    {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input 
+                      id="email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className={errors.email ? 'border-destructive' : ''}
+                      disabled={isSubmitting}
+                    />
+                    {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone (Optional)</Label>
                   <Input 
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    required
-                  />
-                  <Input 
-                    type="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    required
+                    id="phone"
+                    type="tel"
+                    placeholder="+995 555 123 456"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    disabled={isSubmitting}
                   />
                 </div>
-                <Textarea 
-                  placeholder="Your Message"
-                  rows={6}
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  required
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="message">Message *</Label>
+                  <Textarea 
+                    id="message"
+                    placeholder="Your Message (minimum 10 characters)"
+                    rows={6}
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    className={errors.message ? 'border-destructive' : ''}
+                    disabled={isSubmitting}
+                  />
+                  {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
+                  <p className="text-xs text-muted-foreground">{formData.message.length}/1000 characters</p>
+                </div>
                 <div className="flex gap-4">
                   <Button 
                     type="button"
                     variant="outline"
-                    onClick={() => window.open('https://wa.me/995555199090', '_blank')}
+                    onClick={() => window.open(`https://wa.me/${contactPhone.replace(/[^0-9]/g, '')}`, '_blank')}
                     className="flex-1"
+                    disabled={isSubmitting}
                   >
                     <MessageCircle className="w-4 h-4 mr-2" />
-                    Message us on WhatsApp
+                    WhatsApp
                   </Button>
                   <Button 
                     type="submit"
                     className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold"
+                    disabled={isSubmitting}
                   >
-                    Send Message
+                    <Send className="w-4 h-4 mr-2" />
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                   </Button>
                 </div>
               </form>
