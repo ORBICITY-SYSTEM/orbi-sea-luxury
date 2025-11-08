@@ -294,6 +294,13 @@ const translations: Record<Language, Record<string, string>> = {
     'youtubeVideos.noVideos': 'No videos available',
     'youtubeVideos.noDescription': 'Watch this video to learn more',
     'youtubeVideos.watchNow': 'Watch Now',
+    'youtubeVideos.featured': 'Featured',
+    'youtubeVideos.noVideosInCategory': 'No videos in this category yet',
+    'youtubeVideos.category.all': 'All Videos',
+    'youtubeVideos.category.propertyTours': 'Property Tours',
+    'youtubeVideos.category.testimonials': 'Testimonials',
+    'youtubeVideos.category.areaGuide': 'Area Guide',
+    'youtubeVideos.category.amenities': 'Amenities',
     
     // Apartments page additions
     'nav.apartments': 'Apartments',
@@ -581,6 +588,13 @@ const translations: Record<Language, Record<string, string>> = {
     'youtubeVideos.noVideos': 'ვიდეოები მიუწვდომელია',
     'youtubeVideos.noDescription': 'უყურეთ ამ ვიდეოს მეტის გასაგებად',
     'youtubeVideos.watchNow': 'ყურება',
+    'youtubeVideos.featured': 'რჩეული',
+    'youtubeVideos.noVideosInCategory': 'ამ კატეგორიაში ჯერ არ არის ვიდეოები',
+    'youtubeVideos.category.all': 'ყველა ვიდეო',
+    'youtubeVideos.category.propertyTours': 'ტურები',
+    'youtubeVideos.category.testimonials': 'მიმოხილვები',
+    'youtubeVideos.category.areaGuide': 'გზამკვლევი',
+    'youtubeVideos.category.amenities': 'სერვისები',
     
     // Apartments page additions
     'nav.apartments': 'აპარტამენტები',
