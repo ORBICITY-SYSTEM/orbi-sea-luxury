@@ -20,6 +20,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.reviews': 'Reviews',
     'nav.contact': 'Contact',
     'nav.bookNow': 'Book Now',
+    'nav.videos': 'Videos',
     
     // Hero
     'hero.title': 'Your Perfect Seaside Escape',
@@ -314,6 +315,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.reviews': 'მიმოხილვები',
     'nav.contact': 'კონტაქტი',
     'nav.bookNow': 'დაჯავშნე ახლავე',
+    'nav.videos': 'ვიდეოები',
     
     // Hero
     'hero.title': 'თქვენი იდეალური სანაპირო დასვენება',

@@ -28,6 +28,7 @@ export const Footer = () => {
               <li><Link to="/apartments" className="text-white/80 hover:text-white transition-colors">Apartments</Link></li>
               <li><Link to="/amenities" className="text-white/80 hover:text-white transition-colors">Amenities</Link></li>
               <li><Link to="/gallery" className="text-white/80 hover:text-white transition-colors">Gallery</Link></li>
+              <li><Link to="/youtube-videos" className="text-white/80 hover:text-white transition-colors">Videos</Link></li>
               <li><Link to="/location" className="text-white/80 hover:text-white transition-colors">Location</Link></li>
               <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors">Contact</Link></li>
               <li><Link to="/loyalty-program" className="text-white/80 hover:text-white transition-colors">Loyalty Program</Link></li>

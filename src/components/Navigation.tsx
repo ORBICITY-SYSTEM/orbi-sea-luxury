@@ -68,6 +68,7 @@ export const Navigation = () => {
     { key: 'nav.rooms', path: '/apartments' },
     { key: 'nav.amenities', path: '/amenities' },
     { key: 'Gallery', path: '/gallery' },
+    { key: 'nav.videos', path: '/youtube-videos' },
     { key: 'nav.location', path: '/location' },
     { key: 'nav.contact', path: '/contact' },
     { key: 'Loyalty Program', path: '/loyalty-program' },
