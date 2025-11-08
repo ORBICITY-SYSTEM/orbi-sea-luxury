@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { CalendarIcon, Users } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { trackInitiateCheckout } from '@/lib/tracking';
 
 export const BookingWidget = () => {
   const { t } = useLanguage();
@@ -15,6 +16,14 @@ export const BookingWidget = () => {
   const [guests, setGuests] = useState('2');
 
   const handleCheckAvailability = () => {
+    // Track booking initiation
+    trackInitiateCheckout(undefined, 'USD', [{
+      item_id: 'apartment_inquiry',
+      item_name: 'Apartment Booking',
+      item_category: 'booking',
+      quantity: 1,
+    }]);
+
     const message = `Hello! I'm interested in booking an apartment at Orbi City.\n\nCheck-in: ${checkIn ? format(checkIn, 'PPP') : 'Not selected'}\nCheck-out: ${checkOut ? format(checkOut, 'PPP') : 'Not selected'}\nGuests: ${guests}`;
     window.open(`https://wa.me/+995555199090?text=${encodeURIComponent(message)}`, '_blank');
   };

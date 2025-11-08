@@ -110,8 +110,49 @@ export const trackPageView = () => {
   }
 };
 
+// Track view item (apartment/room view)
+export const trackViewItem = (item: {
+  item_id: string;
+  item_name: string;
+  item_category?: string;
+  price?: number;
+  currency?: string;
+}) => {
+  trackConversion('ViewContent', {
+    content_name: item.item_name,
+    content_type: 'product',
+    value: item.price,
+    currency: item.currency || 'USD',
+  });
+  
+  if (window.dataLayer) {
+    window.dataLayer.push({
+      event: 'view_item',
+      ecommerce: {
+        items: [{
+          item_id: item.item_id,
+          item_name: item.item_name,
+          item_category: item.item_category || 'apartment',
+          price: item.price,
+          currency: item.currency || 'USD',
+        }]
+      }
+    });
+  }
+};
+
 // Track initiate checkout
-export const trackInitiateCheckout = (value?: number, currency = 'USD') => {
+export const trackInitiateCheckout = (
+  value?: number, 
+  currency = 'USD',
+  items?: Array<{
+    item_id: string;
+    item_name: string;
+    item_category?: string;
+    price?: number;
+    quantity?: number;
+  }>
+) => {
   trackConversion('InitiateCheckout', {
     value,
     currency,
@@ -121,40 +162,69 @@ export const trackInitiateCheckout = (value?: number, currency = 'USD') => {
   if (window.dataLayer) {
     window.dataLayer.push({
       event: 'begin_checkout',
-      value,
-      currency,
+      ecommerce: {
+        value,
+        currency,
+        items: items || []
+      }
     });
   }
 };
 
 // Track purchase
-export const trackPurchase = (value: number, currency = 'USD', numItems = 1) => {
+export const trackPurchase = (
+  transactionId: string,
+  value: number,
+  currency = 'USD',
+  items?: Array<{
+    item_id: string;
+    item_name: string;
+    item_category?: string;
+    price?: number;
+    quantity?: number;
+  }>
+) => {
   trackConversion('Purchase', {
     value,
     currency,
-    num_items: numItems,
+    num_items: items?.length || 1,
   });
   
   if (window.dataLayer) {
     window.dataLayer.push({
       event: 'purchase',
-      value,
-      currency,
-      items: numItems,
+      ecommerce: {
+        transaction_id: transactionId,
+        value,
+        currency,
+        items: items || []
+      }
     });
   }
 };
 
 // Track lead
-export const trackLead = (contentName?: string) => {
+export const trackLead = (leadData?: {
+  content_name?: string;
+  form_id?: string;
+  form_name?: string;
+  value?: number;
+  currency?: string;
+}) => {
   trackConversion('Lead', {
-    content_name: contentName,
+    content_name: leadData?.content_name,
+    value: leadData?.value,
+    currency: leadData?.currency,
   });
   
   if (window.dataLayer) {
     window.dataLayer.push({
       event: 'generate_lead',
-      content_name: contentName,
+      form_id: leadData?.form_id || 'contact_form',
+      form_name: leadData?.form_name || 'Contact Form',
+      content_name: leadData?.content_name,
+      value: leadData?.value,
+      currency: leadData?.currency || 'USD',
     });
   }
 };

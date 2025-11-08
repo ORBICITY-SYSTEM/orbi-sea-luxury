@@ -5,19 +5,42 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackLead, trackPageView } from '@/lib/tracking';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
 
+  useEffect(() => {
+    trackPageView();
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    
+    // Track lead generation
+    trackLead({
+      content_name: 'Contact Form Submission',
+      form_id: 'contact_form',
+      form_name: 'Contact Page Form',
+    });
+
+    // TODO: Save to database
     console.log('Form submitted:', formData);
+    
+    toast({
+      title: 'Message Sent!',
+      description: 'We\'ll get back to you as soon as possible.',
+    });
+    
+    // Reset form
+    setFormData({ name: '', email: '', message: '' });
   };
 
   return (

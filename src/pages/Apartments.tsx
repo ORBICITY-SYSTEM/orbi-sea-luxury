@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, Bed, Bath, Maximize2 } from 'lucide-react';
+import { trackViewItem, trackPageView } from '@/lib/tracking';
 
 const apartments = [
   {
@@ -99,6 +101,18 @@ const apartments = [
 ];
 
 const Apartments = () => {
+  useEffect(() => {
+    trackPageView();
+  }, []);
+
+  const handleApartmentView = (apartment: typeof apartments[0]) => {
+    trackViewItem({
+      item_id: apartment.id,
+      item_name: apartment.title,
+      item_category: 'apartment',
+    });
+  };
+
   return (
     <Layout>
       {/* Hero */}
@@ -138,7 +152,11 @@ const Apartments = () => {
 
           <div className="space-y-16">
             {apartments.map((apt, index) => (
-              <Card key={apt.id} className="overflow-hidden">
+              <Card 
+                key={apt.id} 
+                className="overflow-hidden"
+                onClick={() => handleApartmentView(apt)}
+              >
                 <div className={`grid md:grid-cols-2 gap-0 ${index % 2 === 1 ? 'md:grid-flow-col-dense' : ''}`}>
                   <div className={index % 2 === 1 ? 'md:col-start-2' : ''}>
                     <img 
