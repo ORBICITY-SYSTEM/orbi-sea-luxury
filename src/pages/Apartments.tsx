@@ -14,8 +14,9 @@ const apartments = [
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/e4578176040cf98304ee3ae0477a108f.jpg',
     guests: 3,
     beds: 1,
+    sofaBeds: 1,
     baths: 1,
-    size: '45',
+    size: '30',
     descKey: 'apartments.suite.desc',
     featuresKeys: [
       'apartments.suite.feature1',
@@ -24,7 +25,6 @@ const apartments = [
       'apartments.suite.feature4',
       'apartments.suite.feature5',
       'apartments.suite.feature6',
-      'apartments.suite.feature7',
     ]
   },
   {
@@ -33,8 +33,9 @@ const apartments = [
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg',
     guests: 3,
     beds: 1,
+    sofaBeds: 1,
     baths: 1,
-    size: '55',
+    size: '33',
     descKey: 'apartments.deluxe.desc',
     featuresKeys: [
       'apartments.deluxe.feature1',
@@ -50,9 +51,10 @@ const apartments = [
     titleKey: 'apartments.superior.title',
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/78f6531862f26bbcdf6bca5ec8d7305c.jpg',
     guests: 3,
-    beds: 2,
+    beds: 1,
+    sofaBeds: 1,
     baths: 1,
-    size: '65',
+    size: '33',
     descKey: 'apartments.superior.desc',
     featuresKeys: [
       'apartments.superior.feature1',
@@ -62,7 +64,6 @@ const apartments = [
       'apartments.superior.feature5',
       'apartments.superior.feature6',
       'apartments.superior.feature7',
-      'apartments.superior.feature8',
     ]
   },
   {
@@ -71,8 +72,10 @@ const apartments = [
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/0922f2b1b13af96b0d24272d32439996.jpg',
     guests: 6,
     beds: 2,
+    sofaBeds: 2,
     baths: 2,
-    size: '85',
+    bidet: true,
+    size: '67',
     descKey: 'apartments.family.desc',
     featuresKeys: [
       'apartments.family.feature1',
@@ -82,7 +85,6 @@ const apartments = [
       'apartments.family.feature5',
       'apartments.family.feature6',
       'apartments.family.feature7',
-      'apartments.family.feature8',
     ]
   },
   {
@@ -185,12 +187,24 @@ const Apartments = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Bed className="w-5 h-5" />
-                        <span>{apt.beds} {t('apartments.beds')}</span>
+                        <span>{apt.beds} {t('apartments.bed')}</span>
                       </div>
+                      {apt.sofaBeds && (
+                        <div className="flex items-center gap-2">
+                          <Bed className="w-5 h-5" />
+                          <span>{apt.sofaBeds} {t('apartments.sofaBed')}</span>
+                        </div>
+                      )}
                       <div className="flex items-center gap-2">
                         <Bath className="w-5 h-5" />
-                        <span>{apt.baths} {t('apartments.baths')}</span>
+                        <span>{apt.baths} {t('apartments.bath')}</span>
                       </div>
+                      {apt.bidet && (
+                        <div className="flex items-center gap-2">
+                          <Bath className="w-5 h-5" />
+                          <span>{t('apartments.bidet')}</span>
+                        </div>
+                      )}
                     </div>
 
                     <p className="text-muted-foreground mb-6 text-lg leading-relaxed">{t(apt.descKey)}</p>
