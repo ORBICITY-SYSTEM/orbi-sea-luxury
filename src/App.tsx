@@ -10,6 +10,8 @@ import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import { StructuredData } from "@/components/StructuredData";
 import Index from "./pages/Index";
 import Apartments from "./pages/Apartments";
+import ApartmentDetail from "./pages/ApartmentDetail";
+import YouTubeVideos from "./pages/YouTubeVideos";
 import Amenities from "./pages/Amenities";
 import Gallery from "./pages/Gallery";
 import Location from "./pages/Location";
@@ -40,6 +42,8 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/apartments" element={<Apartments />} />
+              <Route path="/apartments/:id" element={<ApartmentDetail />} />
+              <Route path="/youtube-videos" element={<YouTubeVideos />} />
               <Route path="/amenities" element={<Amenities />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/location" element={<Location />} />

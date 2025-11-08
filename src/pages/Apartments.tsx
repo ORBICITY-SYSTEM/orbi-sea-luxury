@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Button } from '@/components/ui/button';
@@ -110,6 +111,7 @@ const apartments = [
 
 const Apartments = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   
   useEffect(() => {
     trackPageView();
@@ -227,7 +229,7 @@ const Apartments = () => {
                       </Button>
                       <Button 
                         variant="outline"
-                        onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
+                        onClick={() => navigate(`/apartments/${apt.id}`)}
                       >
                         {t('apartments.checkAvailability')}
                       </Button>

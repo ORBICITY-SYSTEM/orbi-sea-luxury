@@ -278,6 +278,23 @@ const translations: Record<Language, Record<string, string>> = {
     'about.stat3': 'Guest Rating',
     'about.stat4': 'Service',
     'about.gallery.title': 'Experience Orbi City',
+    
+    // Apartment Detail
+    'apartmentDetail.notFound': 'Apartment not found',
+    'apartmentDetail.backToList': 'Back to Apartments',
+    'apartmentDetail.description': 'Description',
+    'apartmentDetail.booking': 'Booking',
+    'apartmentDetail.watchVideos': 'Watch Videos',
+    
+    // YouTube Videos
+    'youtubeVideos.title': 'Video Gallery',
+    'youtubeVideos.subtitle': 'Discover Orbi City Batumi through our videos',
+    'youtubeVideos.breadcrumb': 'Videos',
+    'youtubeVideos.error': 'Unable to load videos at this moment. Please try again later.',
+    'youtubeVideos.noVideos': 'No videos available',
+    
+    // Apartments page additions
+    'nav.apartments': 'Apartments',
   },
   ka: {
     // Navigation
@@ -546,6 +563,23 @@ const translations: Record<Language, Record<string, string>> = {
     'about.stat3': 'სტუმრის რეიტინგი',
     'about.stat4': 'სერვისი',
     'about.gallery.title': 'გამოცადეთ ორბი სითი',
+    
+    // Apartment Detail
+    'apartmentDetail.notFound': 'აპარტამენტი ვერ მოიძებნა',
+    'apartmentDetail.backToList': 'უკან აპარტამენტებზე',
+    'apartmentDetail.description': 'აღწერა',
+    'apartmentDetail.booking': 'დაჯავშნა',
+    'apartmentDetail.watchVideos': 'ვიდეოების ნახვა',
+    
+    // YouTube Videos
+    'youtubeVideos.title': 'ვიდეო გალერეა',
+    'youtubeVideos.subtitle': 'აღმოაჩინეთ ორბი სითი ბათუმი ჩვენი ვიდეოების მეშვეობით',
+    'youtubeVideos.breadcrumb': 'ვიდეოები',
+    'youtubeVideos.error': 'ვიდეოების ჩატვირთვა ამჟამად შეუძლებელია. გთხოვთ სცადოთ მოგვიანებით.',
+    'youtubeVideos.noVideos': 'ვიდეოები მიუწვდომელია',
+    
+    // Apartments page additions
+    'nav.apartments': 'აპარტამენტები',
   },
   ru: {
     // Navigation
