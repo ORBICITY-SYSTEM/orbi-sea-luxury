@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -7,8 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Upload, Star, Trash2, Image as ImageIcon, Video } from 'lucide-react';
+import { Loader2, Upload, Star, Trash2, Image as ImageIcon, Video, FileUp } from 'lucide-react';
 
 interface MediaItem {
   id: string;
@@ -26,8 +27,12 @@ export const AdminMedia = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [newMedia, setNewMedia] = useState({
     title: '',
     url: '',
@@ -58,6 +63,135 @@ export const AdminMedia = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: 'Error',
+          description: 'Please select an image file',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Validate file size (10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          title: 'Error',
+          description: 'File size must be less than 10MB',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      setSelectedFile(file);
+      
+      // Auto-fill title from filename if empty
+      if (!newMedia.title) {
+        setNewMedia({ ...newMedia, title: file.name.split('.')[0] });
+      }
+    }
+  };
+
+  const handleUploadFile = async () => {
+    if (!selectedFile) {
+      toast({
+        title: 'Error',
+        description: 'Please select a file to upload',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!newMedia.title) {
+      toast({
+        title: 'Error',
+        description: 'Please enter a title',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setUploading(true);
+    setUploadProgress(0);
+
+    try {
+      // Generate unique filename
+      const fileExt = selectedFile.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `${newMedia.category || 'general'}/${fileName}`;
+
+      // Upload to storage
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, selectedFile, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      setUploadProgress(50);
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      setUploadProgress(75);
+
+      // Save to database
+      const { error: dbError } = await supabase
+        .from('media_library')
+        .insert({
+          title: newMedia.title,
+          url: publicUrl,
+          thumbnail_url: null,
+          category: newMedia.category || null,
+          description: newMedia.description || null,
+          media_type: 'image',
+          is_featured: false,
+          display_order: media.length,
+        });
+
+      if (dbError) throw dbError;
+
+      setUploadProgress(100);
+
+      toast({
+        title: 'Success',
+        description: 'Image uploaded successfully',
+      });
+
+      // Reset form
+      setNewMedia({
+        title: '',
+        url: '',
+        thumbnail_url: '',
+        category: '',
+        description: '',
+      });
+      setSelectedFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      fetchMedia();
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to upload file',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -206,59 +340,161 @@ export const AdminMedia = () => {
             </Button>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Title *</Label>
-              <Input
-                value={newMedia.title}
-                onChange={(e) => setNewMedia({ ...newMedia, title: e.target.value })}
-                placeholder="Media title"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Category</Label>
-              <Input
-                value={newMedia.category}
-                onChange={(e) => setNewMedia({ ...newMedia, category: e.target.value })}
-                placeholder="e.g., apartments, amenities, location"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>URL *</Label>
-              <Input
-                value={newMedia.url}
-                onChange={(e) => setNewMedia({ ...newMedia, url: e.target.value })}
-                placeholder={mediaType === 'image' ? 'Image URL' : 'YouTube video ID'}
-              />
-            </div>
-
-            {mediaType === 'video' && (
-              <div className="space-y-2">
-                <Label>Thumbnail URL</Label>
-                <Input
-                  value={newMedia.thumbnail_url}
-                  onChange={(e) => setNewMedia({ ...newMedia, thumbnail_url: e.target.value })}
-                  placeholder="Video thumbnail URL"
-                />
+          {/* Image Upload Section */}
+          {mediaType === 'image' && (
+            <div className="border-2 border-dashed border-border rounded-lg p-6 space-y-4">
+              <div className="text-center">
+                <FileUp className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
+                <h3 className="text-lg font-semibold mb-1">Upload Image</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Click to select or drag and drop your image (Max 10MB)
+                </p>
               </div>
-            )}
 
-            <div className="space-y-2 md:col-span-2">
-              <Label>Description</Label>
-              <Input
-                value={newMedia.description}
-                onChange={(e) => setNewMedia({ ...newMedia, description: e.target.value })}
-                placeholder="Media description"
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+                disabled={uploading}
               />
-            </div>
-          </div>
 
-          <Button onClick={handleAddMedia}>
-            <Upload className="h-4 w-4 mr-2" />
-            Add Media
-          </Button>
+              <div className="flex flex-col items-center gap-2">
+                <Button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  {selectedFile ? selectedFile.name : 'Choose File'}
+                </Button>
+
+                {selectedFile && (
+                  <Badge variant="outline" className="text-xs">
+                    {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                  </Badge>
+                )}
+              </div>
+
+              {uploading && (
+                <div className="space-y-2">
+                  <Progress value={uploadProgress} className="w-full" />
+                  <p className="text-sm text-center text-muted-foreground">
+                    Uploading... {uploadProgress}%
+                  </p>
+                </div>
+              )}
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Title *</Label>
+                  <Input
+                    value={newMedia.title}
+                    onChange={(e) => setNewMedia({ ...newMedia, title: e.target.value })}
+                    placeholder="Image title"
+                    disabled={uploading}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Category</Label>
+                  <Input
+                    value={newMedia.category}
+                    onChange={(e) => setNewMedia({ ...newMedia, category: e.target.value })}
+                    placeholder="e.g., apartments, amenities"
+                    disabled={uploading}
+                  />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <Label>Description</Label>
+                  <Input
+                    value={newMedia.description}
+                    onChange={(e) => setNewMedia({ ...newMedia, description: e.target.value })}
+                    placeholder="Image description"
+                    disabled={uploading}
+                  />
+                </div>
+              </div>
+
+              <Button 
+                onClick={handleUploadFile} 
+                disabled={!selectedFile || uploading}
+                className="w-full"
+              >
+                {uploading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Upload Image
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
+
+          {/* Video URL Section */}
+          {mediaType === 'video' && (
+            <>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Title *</Label>
+                  <Input
+                    value={newMedia.title}
+                    onChange={(e) => setNewMedia({ ...newMedia, title: e.target.value })}
+                    placeholder="Video title"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Category</Label>
+                  <Input
+                    value={newMedia.category}
+                    onChange={(e) => setNewMedia({ ...newMedia, category: e.target.value })}
+                    placeholder="e.g., tours, testimonials"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>YouTube Video ID *</Label>
+                  <Input
+                    value={newMedia.url}
+                    onChange={(e) => setNewMedia({ ...newMedia, url: e.target.value })}
+                    placeholder="e.g., dQw4w9WgXcQ"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Thumbnail URL</Label>
+                  <Input
+                    value={newMedia.thumbnail_url}
+                    onChange={(e) => setNewMedia({ ...newMedia, thumbnail_url: e.target.value })}
+                    placeholder="Video thumbnail URL"
+                  />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <Label>Description</Label>
+                  <Input
+                    value={newMedia.description}
+                    onChange={(e) => setNewMedia({ ...newMedia, description: e.target.value })}
+                    placeholder="Video description"
+                  />
+                </div>
+              </div>
+
+              <Button onClick={handleAddMedia}>
+                <Upload className="h-4 w-4 mr-2" />
+                Add Video
+              </Button>
+            </>
+          )}
         </CardContent>
       </Card>
 
