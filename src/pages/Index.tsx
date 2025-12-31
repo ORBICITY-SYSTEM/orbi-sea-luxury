@@ -1,6 +1,6 @@
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/HeroSection';
+import { HeroCarousel } from '@/components/HeroCarousel';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, Sparkles, Play } from 'lucide-react';
@@ -54,7 +54,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
-      <HeroSection />
+      <HeroCarousel />
 
       {/* Apartments Preview */}
       <section id="rooms" className="py-20 bg-muted/30">
