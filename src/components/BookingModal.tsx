@@ -10,11 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, Users, CreditCard, Loader2 } from 'lucide-react';
+import { CalendarIcon, Users, CreditCard, Loader2, Crown } from 'lucide-react';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
 import { BookingSuccessReviewPopup } from './BookingSuccessReviewPopup';
+import { useLoyaltyDiscount, addLoyaltyPoints } from './LoyaltyDashboard';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ApartmentPrice {
   id: string;
@@ -48,6 +50,8 @@ const bookingSchema = z.object({
 export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingModalProps) => {
   const { language } = useLanguage();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const { discount: loyaltyDiscount, tier: loyaltyTier } = useLoyaltyDiscount();
   
   // Form state
   const [checkIn, setCheckIn] = useState<Date>();
@@ -60,6 +64,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [guestIdNumber, setGuestIdNumber] = useState('');
   const [guestAddress, setGuestAddress] = useState('');
   const [specialRequests, setSpecialRequests] = useState('');
+  const [useLoyalty, setUseLoyalty] = useState(true);
   
   // UI state
   const [apartments, setApartments] = useState<ApartmentPrice[]>([]);
@@ -69,6 +74,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isReturningGuest, setIsReturningGuest] = useState(false);
   const [checkingEmail, setCheckingEmail] = useState(false);
+  const [earnedPoints, setEarnedPoints] = useState(0);
   
   // Fetch apartments
   useEffect(() => {
@@ -150,10 +156,15 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
     return () => clearTimeout(timeoutId);
   }, [guestEmail]);
   
-  // Calculate price
+  // Calculate price with loyalty discount
   const selectedApt = apartments.find(a => a.apartment_type === selectedApartment);
   const nights = checkIn && checkOut ? differenceInDays(checkOut, checkIn) : 0;
-  const totalPrice = selectedApt ? selectedApt.price_per_night * nights : 0;
+  const basePrice = selectedApt ? selectedApt.price_per_night * nights : 0;
+  const loyaltyDiscountAmount = user && useLoyalty && loyaltyDiscount > 0 
+    ? Math.round(basePrice * (loyaltyDiscount / 100)) 
+    : 0;
+  const totalPrice = basePrice - loyaltyDiscountAmount;
+  const pointsToEarn = Math.floor(totalPrice / 10);
   
   const validateForm = () => {
     const result = bookingSchema.safeParse({
@@ -226,6 +237,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           check_out: format(checkOut, 'yyyy-MM-dd'),
           guests: parseInt(guests),
           total_price: totalPrice,
+          discount_amount: loyaltyDiscountAmount,
           status: 'pending',
           payment_status: 'pay_later',
           payment_method: 'pay_at_hotel',
@@ -235,10 +247,20 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           guest_id_number: guestIdNumber,
           guest_address: guestAddress,
           special_requests: specialRequests || null,
-          user_id: '00000000-0000-0000-0000-000000000000', // Anonymous user placeholder
+          user_id: user?.id || '00000000-0000-0000-0000-000000000000',
         })
         .select()
         .single();
+      
+      if (bookingError) throw bookingError;
+      
+      // Add loyalty points for logged-in users
+      if (user) {
+        const result = await addLoyaltyPoints(user.id, totalPrice);
+        if (result) {
+          setEarnedPoints(result.pointsAdded);
+        }
+      }
       
       if (bookingError) throw bookingError;
       
@@ -450,12 +472,35 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
               <div className="bg-muted/50 rounded-lg p-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>{selectedApt.price_per_night} GEL × {nights} {language === 'ka' ? 'ღამე' : 'nights'}</span>
-                  <span>{totalPrice} GEL</span>
+                  <span>{basePrice} GEL</span>
                 </div>
+                
+                {/* Loyalty Discount */}
+                {user && loyaltyDiscount > 0 && (
+                  <div className="flex justify-between text-sm text-primary">
+                    <span className="flex items-center gap-1">
+                      <Crown className="w-3 h-3" />
+                      {language === 'ka' ? `ლოიალობის ფასდაკლება (${loyaltyDiscount}%)` : `Loyalty discount (${loyaltyDiscount}%)`}
+                    </span>
+                    <span>-{loyaltyDiscountAmount} GEL</span>
+                  </div>
+                )}
+                
                 <div className="flex justify-between font-bold text-lg border-t pt-2">
                   <span>{language === 'ka' ? 'სულ' : 'Total'}</span>
                   <span className="text-primary">{totalPrice} GEL</span>
                 </div>
+                
+                {/* Points to earn */}
+                {user && (
+                  <p className="text-xs text-primary flex items-center gap-1">
+                    <Crown className="w-3 h-3" />
+                    {language === 'ka' 
+                      ? `დაიგროვებთ ${pointsToEarn} ქულას`
+                      : `You'll earn ${pointsToEarn} points`}
+                  </p>
+                )}
+                
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <CreditCard className="w-3 h-3" />
                   {language === 'ka' ? 'გადახდა სასტუმროში მოსვლისას' : 'Pay at hotel upon arrival'}
