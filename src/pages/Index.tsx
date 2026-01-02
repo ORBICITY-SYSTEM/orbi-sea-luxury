@@ -3,10 +3,11 @@ import { Footer } from '@/components/Footer';
 import { HeroCarousel } from '@/components/HeroCarousel';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, Sparkles, Play } from 'lucide-react';
+import { Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { YouTubeEmbed } from '@/components/YouTubeEmbed';
 
 const Index = () => {
   const { t } = useLanguage();
@@ -110,34 +111,19 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {featuredVideos.map((video) => (
-                <Card key={video.id} className="group overflow-hidden bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300">
-                  <div className="relative aspect-video overflow-hidden">
-                    <img
-                      src={video.thumbnail}
-                      alt={video.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-gold flex items-center justify-center shadow-gold group-hover:scale-110 transition-transform">
-                        <Play className="w-8 h-8 text-secondary-foreground ml-1" fill="currentColor" />
-                      </div>
-                    </div>
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="text-lg font-semibold text-white line-clamp-2 mb-2">
-                      {video.title}
-                    </h3>
-                    <Button
-                      onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
-                      variant="outline"
-                      className="w-full border-white/30 text-white hover:bg-white/20"
-                    >
-                      {t('youtubeVideos.watchNow')}
-                    </Button>
-                  </CardContent>
-                </Card>
+                <div key={video.id} className="space-y-4">
+                  <YouTubeEmbed
+                    videoId={video.id}
+                    title={video.title}
+                    thumbnail={video.thumbnail}
+                    className="shadow-xl"
+                  />
+                  <h3 className="text-lg font-semibold text-white line-clamp-2">
+                    {video.title}
+                  </h3>
+                </div>
               ))}
             </div>
 
