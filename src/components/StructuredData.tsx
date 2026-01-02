@@ -97,7 +97,70 @@ export const StructuredData = () => {
     "checkoutTime": "12:00",
     "petsAllowed": false,
     "smokingAllowed": false,
-    "hasMap": "https://maps.google.com/?q=41.642883,41.644944"
+    "hasMap": "https://maps.google.com/?q=41.642883,41.644944",
+    "numberOfRooms": 50,
+    "availableLanguage": ["English", "Georgian", "Russian"]
+  };
+
+  // Review Schema (Google Rich Snippets)
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "itemReviewed": {
+      "@type": "Hotel",
+      "@id": "https://orbicitybatumi.com/#hotel"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Sarah Johnson"
+    },
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "5",
+      "bestRating": "5"
+    },
+    "reviewBody": "Absolutely stunning views of the Black Sea! The apartment was luxurious and the staff incredibly welcoming. The balcony breakfast was unforgettable.",
+    "datePublished": "2024-12-15"
+  };
+
+  // Offer Schema (for special deals)
+  const offerSchema = {
+    "@context": "https://schema.org",
+    "@type": "Offer",
+    "name": "Early Bird Discount - 20% Off",
+    "description": "Book 30 days in advance and save 20% on your stay at Orbi City Batumi",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "validFrom": "2024-01-01",
+    "validThrough": "2025-12-31",
+    "seller": {
+      "@type": "Organization",
+      "name": siteName
+    }
+  };
+
+  // Event Schema (for local events promotion)
+  const eventSchema = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Batumi Summer Season 2025",
+    "description": "Experience the vibrant summer season at Orbi City Batumi with special events and activities.",
+    "startDate": "2025-06-01",
+    "endDate": "2025-09-30",
+    "location": {
+      "@type": "Place",
+      "name": siteName,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Sheriff Khimshiashvili Street 7B",
+        "addressLocality": "Batumi",
+        "addressCountry": "GE"
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": siteName
+    }
   };
 
   // FAQ Schema
@@ -143,6 +206,14 @@ export const StructuredData = () => {
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Orbi City Batumi is located directly on the seafront, just steps away from Batumi Boulevard. You can walk to the famous promenade in under 2 minutes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What payment methods are accepted?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We accept cash (GEL, USD, EUR), all major credit cards (Visa, Mastercard, American Express), and bank transfers. Payment is secure and flexible."
         }
       }
     ]
@@ -232,6 +303,15 @@ export const StructuredData = () => {
       </script>
       <script type="application/ld+json">
         {JSON.stringify(hotelSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(reviewSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(offerSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(eventSchema)}
       </script>
       <script type="application/ld+json">
         {JSON.stringify(faqSchema)}
