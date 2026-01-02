@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Globe, LogIn, LogOut, User } from 'lucide-react';
+import { Menu, X, Globe, LogIn, LogOut, User, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdmin } from '@/hooks/useAdmin';
@@ -40,28 +40,11 @@ export const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMobileMenuOpen(false);
-  };
 
   const navLinks = [
     { key: 'nav.home', path: '/' },
@@ -79,103 +62,128 @@ export const Navigation = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled 
-        ? 'bg-navy-900/95 backdrop-blur-md shadow-elegant' 
-        : 'bg-gradient-to-b from-black/60 to-transparent'
+        ? 'bg-primary shadow-luxury py-2' 
+        : 'bg-primary/95 py-4'
     }`}>
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between">
           {/* Logo */}
           <Link 
             to="/"
-            className="flex items-center space-x-3 group"
+            className="flex items-center gap-3 group"
           >
-            <img 
-              src={logo} 
-              alt="Orbi City Batumi" 
-              className="h-14 w-auto group-hover:scale-105 transition-transform duration-300"
-            />
-            <span className="hidden md:block font-serif text-xl text-white font-light tracking-wide">
-              Orbi City
-            </span>
+            <div className="relative">
+              <img 
+                src={logo} 
+                alt="Orbi City Batumi" 
+                className={`transition-all duration-500 ${isScrolled ? 'h-12' : 'h-14'} w-auto rounded-lg shadow-soft group-hover:shadow-gold`}
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.key}
                 to={link.path}
-                className={`relative text-white/90 hover:text-gold-400 transition-all duration-300 font-sans text-sm tracking-wide uppercase ${
+                className={`relative px-4 py-2 font-sans text-sm tracking-wide transition-all duration-300 rounded-lg ${
                   location.pathname === link.path 
-                    ? 'text-gold-400 after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-gold-400' 
-                    : 'after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold-400 after:transition-all after:duration-300 hover:after:w-full'
+                    ? 'text-secondary font-medium' 
+                    : 'text-white/90 hover:text-secondary hover:bg-white/5'
                 }`}
               >
                 {t(link.key) || link.key}
+                {location.pathname === link.path && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-secondary rounded-full" />
+                )}
               </Link>
             ))}
           </div>
 
-          {/* Right Side - Language + Book Now */}
-          <div className="flex items-center space-x-4">
+          {/* Right Side Actions */}
+          <div className="flex items-center gap-2">
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2 text-white/80 hover:text-gold-400 hover:bg-transparent transition-colors">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="gap-1.5 text-white/90 hover:text-secondary hover:bg-white/5 border-0 transition-colors"
+                >
                   <Globe className="w-4 h-4" />
                   <span className="font-sans text-sm">{languageNames[language]}</span>
+                  <ChevronDown className="w-3 h-3 opacity-60" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-navy-900/95 backdrop-blur-md border-gold-400/20">
+              <DropdownMenuContent 
+                align="end" 
+                className="bg-primary/98 backdrop-blur-xl border border-white/10 shadow-luxury min-w-[140px]"
+              >
                 {(Object.keys(languageNames) as Array<keyof typeof languageNames>).map((lang) => (
                   <DropdownMenuItem
                     key={lang}
                     onClick={() => setLanguage(lang)}
-                    className={`hover:bg-gold-500/20 hover:text-gold-400 ${language === lang ? 'bg-gold-500/10 text-gold-400' : 'text-white'}`}
+                    className={`cursor-pointer transition-colors ${
+                      language === lang 
+                        ? 'bg-secondary/15 text-secondary' 
+                        : 'text-white hover:bg-white/10 hover:text-secondary'
+                    }`}
                   >
-                    <span className="mr-2">{languageFlags[lang]}</span>
-                    {languageNames[lang]}
+                    <span className="mr-2 text-base">{languageFlags[lang]}</span>
+                    <span className="font-medium">{languageNames[lang]}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Login/Profile Button */}
+            {/* Auth Button */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="ghost"
                     size="sm"
-                    className="hidden md:flex text-white hover:bg-white/10 gap-2"
+                    className="hidden md:flex text-white/90 hover:text-secondary hover:bg-white/5 gap-2 transition-colors"
                   >
-                    <User className="w-4 h-4" />
-                    <span className="max-w-[100px] truncate">
+                    <div className="w-7 h-7 rounded-full bg-secondary/20 flex items-center justify-center">
+                      <User className="w-4 h-4 text-secondary" />
+                    </div>
+                    <span className="max-w-[80px] truncate text-sm">
                       {user.email?.split('@')[0]}
                     </span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => window.location.href = '/loyalty-program'}>
+                <DropdownMenuContent 
+                  align="end" 
+                  className="bg-primary/98 backdrop-blur-xl border border-white/10 shadow-luxury"
+                >
+                  <DropdownMenuItem 
+                    onClick={() => window.location.href = '/loyalty-program'}
+                    className="text-white hover:bg-white/10 hover:text-secondary cursor-pointer"
+                  >
                     <User className="w-4 h-4 mr-2" />
                     პროფილი
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => signOut()}>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem 
+                    onClick={() => signOut()}
+                    className="text-white hover:bg-white/10 hover:text-secondary cursor-pointer"
+                  >
                     <LogOut className="w-4 h-4 mr-2" />
                     გასვლა
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/auth">
+              <Link to="/auth" className="hidden md:block">
                 <Button 
                   variant="ghost"
                   size="sm"
-                  className="hidden md:flex text-white hover:bg-white/10 gap-2"
+                  className="text-white/90 hover:text-secondary hover:bg-white/5 gap-2 transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
-                  შესვლა
+                  <span>შესვლა</span>
                 </Button>
               </Link>
             )}
@@ -184,62 +192,81 @@ export const Navigation = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden text-white"
+              className="lg:hidden text-white hover:bg-white/10"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <div className="relative w-6 h-6">
+                <span className={`absolute left-0 block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'top-3 rotate-45' : 'top-1'}`} />
+                <span className={`absolute left-0 top-3 block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+                <span className={`absolute left-0 block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'top-3 -rotate-45' : 'top-5'}`} />
+              </div>
             </Button>
           </div>
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden py-6 space-y-1 border-t border-gold-400/20 bg-navy-900/98 backdrop-blur-md animate-fade-in-up">
-            {navLinks.map((link) => (
+        <div className={`lg:hidden overflow-hidden transition-all duration-500 ease-out ${
+          isMobileMenuOpen ? 'max-h-[600px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="py-4 space-y-1 border-t border-white/10">
+            {navLinks.map((link, index) => (
               <Link
                 key={link.key}
                 to={link.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
+                className={`block py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
+                  location.pathname === link.path 
+                    ? 'bg-secondary/15 text-secondary' 
+                    : 'text-white/90 hover:bg-white/5 hover:text-secondary'
+                }`}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 {t(link.key) || link.key}
               </Link>
             ))}
             
-            {/* Mobile Auth Button */}
-            {user ? (
-              <>
+            {/* Mobile Auth */}
+            <div className="pt-4 mt-4 border-t border-white/10">
+              {user ? (
+                <>
+                  <Link
+                    to="/loyalty-program"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 py-3 px-4 rounded-lg text-white/90 hover:bg-white/5 hover:text-secondary transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center">
+                      <User className="w-4 h-4 text-secondary" />
+                    </div>
+                    <span className="font-medium">პროფილი</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      signOut();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3 w-full py-3 px-4 rounded-lg text-white/90 hover:bg-white/5 hover:text-secondary transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                      <LogOut className="w-4 h-4" />
+                    </div>
+                    <span className="font-medium">გასვლა</span>
+                  </button>
+                </>
+              ) : (
                 <Link
-                  to="/loyalty-program"
+                  to="/auth"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
+                  className="flex items-center gap-3 py-3 px-4 rounded-lg bg-secondary/15 text-secondary transition-colors"
                 >
-                  <User className="w-4 h-4 inline mr-2" />
-                  პროფილი
+                  <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center">
+                    <LogIn className="w-4 h-4" />
+                  </div>
+                  <span className="font-medium">შესვლა</span>
                 </Link>
-                <button
-                  onClick={() => {
-                    signOut();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
-                >
-                  <LogOut className="w-4 h-4 inline mr-2" />
-                  გასვლა
-                </button>
-              </>
-            ) : (
-              <Link
-                to="/auth"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-left py-2 px-2 text-white hover:bg-white/10 rounded transition-colors font-medium"
-              >
-                <LogIn className="w-4 h-4 inline mr-2" />
-                შესვლა
-              </Link>
-            )}
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
