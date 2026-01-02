@@ -5,11 +5,14 @@ import { MessageCircle, ChevronDown, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 
-// Hero video sources - can be expanded
+// Hero video sources
 const heroVideos = [
-  '/videos/hero-video.mov',
-  '/videos/hero-video-2.mp4',
-  '/videos/hero-video-3.mp4',
+  '/videos/hero-1.mp4',
+  '/videos/hero-2.mp4',
+  '/videos/hero-3.mp4',
+  '/videos/hero-4.mp4',
+  '/videos/hero-5.mp4',
+  '/videos/hero-6.mp4',
 ];
 
 export const HeroSection = () => {
