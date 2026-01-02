@@ -8,10 +8,10 @@ interface GoogleMapInteractiveProps {
   className?: string;
 }
 
-// Orbi City Batumi coordinates
+// Orbi City Batumi coordinates - 7B Sherif Khimshiashvili Str
 const ORBI_CITY_LOCATION = {
-  lat: 41.6464,
-  lng: 41.6328
+  lat: 41.6415,
+  lng: 41.6367
 };
 
 export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) => {
@@ -81,7 +81,7 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
                 Orbi City Sea View Aparthotel
               </h3>
               <p style="margin: 0 0 8px; color: #666; font-size: 14px;">
-                ${placeDetails?.formatted_address || 'Sheriff Khimshiashvili St, Batumi'}
+                ${placeDetails?.formatted_address || '7B Sherif Khimshiashvili Str, Orbi City, Batumi'}
               </p>
               ${placeDetails?.rating ? `
                 <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
