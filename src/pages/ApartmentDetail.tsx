@@ -285,7 +285,7 @@ const ApartmentDetail = () => {
                       <Button 
                         variant="outline"
                         className="w-full"
-                        onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
+                        onClick={() => window.open('https://wa.me/995555199090', '_blank')}
                       >
                         {t('apartments.checkAvailability')}
                       </Button>

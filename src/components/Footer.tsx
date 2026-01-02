@@ -180,7 +180,7 @@ export const Footer = () => {
                 </a>
               )}
               <a 
-                href="https://wa.me/+995555199090" 
+                href="https://wa.me/995555199090" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full bg-white/5 hover:bg-green-500 flex items-center justify-center transition-all duration-300 hover:scale-110"

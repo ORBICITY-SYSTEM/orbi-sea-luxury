@@ -43,7 +43,7 @@ export const BookingWidget = () => {
       : 'Not selected';
 
     const message = `Hello! I'm interested in booking an apartment at Orbi City.\n\nCheck-in: ${checkInFormatted}\nCheck-out: ${checkOutFormatted}\nGuests: ${guests}`;
-    window.open(`https://wa.me/+995555199090?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/995555199090?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   return (
