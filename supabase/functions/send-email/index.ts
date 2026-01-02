@@ -215,11 +215,12 @@ serve(async (req) => {
     }
 
     // Get template
-    let emailContent;
+    let emailContent: { subject: string; html: string };
     if (type === "custom" && subject) {
       emailContent = { subject, html: data.html || "" };
-    } else if (templates[type]) {
-      emailContent = templates[type](data);
+    } else if (type in templates && type !== "custom") {
+      const templateFn = templates[type as keyof typeof templates];
+      emailContent = templateFn(data);
     } else {
       throw new Error(`Unknown email type: ${type}`);
     }
@@ -249,10 +250,11 @@ serve(async (req) => {
     return new Response(JSON.stringify({ success: true, id: result.id }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Email send error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return new Response(
-      JSON.stringify({ success: false, error: error.message }),
+      JSON.stringify({ success: false, error: errorMessage }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
