@@ -6,6 +6,7 @@ import { Users, Bed, Bath, Maximize2, ChevronRight } from 'lucide-react';
 import { trackViewItem, trackPageView } from '@/lib/tracking';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import apartmentsHero from '@/assets/apartments-hero.png';
 
 const apartments = [
   {
@@ -17,7 +18,6 @@ const apartments = [
     beds: 1,
     baths: 1,
     size: '30',
-    price: 30,
     category: 'suites',
     descKey: 'apartments.suite.desc',
     desc: 'An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.'
@@ -31,7 +31,6 @@ const apartments = [
     beds: 1,
     baths: 1,
     size: '33',
-    price: 35,
     category: 'deluxe',
     descKey: 'apartments.deluxe.desc',
     desc: 'A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.'
@@ -45,7 +44,6 @@ const apartments = [
     beds: 2,
     baths: 1,
     size: '33',
-    price: 40,
     category: 'suites',
     descKey: 'apartments.superior.desc',
     desc: 'Our premium suite featuring a separate living area, top-tier amenities, and the best panoramic views of the sea.'
@@ -59,7 +57,6 @@ const apartments = [
     beds: 2,
     baths: 2,
     size: '68',
-    price: 70,
     category: 'family',
     descKey: 'apartments.family.desc',
     desc: 'A generously sized suite with multiple rooms, perfect for families or groups, ensuring comfort and privacy for everyone.'
@@ -73,7 +70,6 @@ const apartments = [
     beds: 3,
     baths: 3,
     size: '120',
-    price: 100,
     category: 'panoramic',
     descKey: 'apartments.twobed.desc',
     desc: 'An expansive two-bedroom suite with wrap-around panoramic windows, offering unparalleled views and ultimate luxury.'
@@ -111,13 +107,15 @@ const Apartments = () => {
 
   return (
     <Layout>
-      {/* Hero Section - Blue Gradient */}
-      <section className="relative min-h-[400px] bg-gradient-to-br from-[#1e3a5f] via-[#2d5a87] to-[#1e3a5f] overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        </div>
+      {/* Hero Section with Background Image */}
+      <section className="relative min-h-[450px] overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${apartmentsHero})` }}
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1e3a5f]/70 via-[#1e3a5f]/50 to-[#1e3a5f]/70" />
         
         <div className="relative z-10 container mx-auto px-4 py-24 flex flex-col items-center justify-center text-center">
           <motion.span 
@@ -206,11 +204,6 @@ const Apartments = () => {
                       alt={language === 'ka' ? t(apt.titleKey) : apt.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Price Badge */}
-                    <div className="absolute top-4 right-4 bg-[#1e3a5f]/90 backdrop-blur-sm text-white px-4 py-2 rounded-lg">
-                      <span className="text-xl font-bold">${apt.price}</span>
-                      <span className="text-sm opacity-80">/night</span>
-                    </div>
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
@@ -245,7 +238,7 @@ const Apartments = () => {
                       </div>
                     </div>
 
-                    {/* View Details Button */}
+                    {/* Check Availability Button */}
                     <Button 
                       onClick={(e) => {
                         e.stopPropagation();
@@ -254,7 +247,7 @@ const Apartments = () => {
                       variant="outline"
                       className="w-full group/btn border-primary/30 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                     >
-                      <span>{language === 'ka' ? 'დეტალების ნახვა' : 'View Details'}</span>
+                      <span>{language === 'ka' ? 'ხელმისაწვდომობის შემოწმება' : 'Check Availability'}</span>
                       <ChevronRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
                   </div>
@@ -282,15 +275,16 @@ const Apartments = () => {
           </h2>
           <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
             {language === 'ka' 
-              ? 'დაჯავშნეთ თქვენი სრულყოფილი დასვენება ბათუმში ახლავე' 
-              : 'Reserve your perfect getaway in Batumi today'}
+              ? 'შეამოწმეთ ხელმისაწვდომობა და დაჯავშნეთ თქვენი სრულყოფილი დასვენება ბათუმში' 
+              : 'Check availability and reserve your perfect getaway in Batumi'}
           </p>
           <Button 
             size="lg"
-            onClick={() => window.open('https://orbicitybatumi.com/booking', '_blank')}
-            className="bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+            onClick={() => navigate('/apartments')}
+            variant="outline"
+            className="bg-white/10 hover:bg-white hover:text-[#1e3a5f] text-white border-white font-bold px-8 py-6 text-lg transition-all duration-300"
           >
-            {language === 'ka' ? 'დაჯავშნე ახლა / გადაიხადე მოგვიანებით' : 'Book Now / Pay Later'}
+            {language === 'ka' ? 'ხელმისაწვდომობის შემოწმება' : 'Check Availability'}
           </Button>
         </div>
       </section>
