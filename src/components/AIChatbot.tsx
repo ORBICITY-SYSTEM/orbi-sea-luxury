@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -22,6 +23,19 @@ export const AIChatbot = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, t } = useLanguage();
+
+  // Quick reply suggestions
+  const quickReplies = language === 'ka' ? [
+    { text: '🏠 აპარტამენტები', message: 'რა ტიპის აპარტამენტები გაქვთ?' },
+    { text: '💰 ფასები', message: 'რა ფასები გაქვთ?' },
+    { text: '📍 მდებარეობა', message: 'სად მდებარეობთ?' },
+    { text: '🏊 კეთილმოწყობილობები', message: 'რა კეთილმოწყობილობები გაქვთ?' },
+  ] : [
+    { text: '🏠 Apartments', message: 'What types of apartments do you have?' },
+    { text: '💰 Prices', message: 'What are your prices?' },
+    { text: '📍 Location', message: 'Where are you located?' },
+    { text: '🏊 Amenities', message: 'What amenities do you have?' },
+  ];
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -140,10 +154,11 @@ export const AIChatbot = () => {
     }
   };
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSend = async (customMessage?: string) => {
+    const messageToSend = customMessage || input.trim();
+    if (!messageToSend || isLoading) return;
 
-    const userMessage: Message = { role: 'user', content: input.trim() };
+    const userMessage: Message = { role: 'user', content: messageToSend };
     const updatedMessages = [...messages, userMessage];
     
     setMessages(updatedMessages);
@@ -168,134 +183,181 @@ export const AIChatbot = () => {
   return (
     <>
       {/* Chat Button */}
-      <Button
-        onClick={() => setIsOpen(true)}
-        className={cn(
-          "fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg transition-all duration-300",
-          "bg-primary hover:bg-primary-foreground hover:text-primary",
-          "hover:scale-110 active:scale-95",
-          isOpen && "scale-0 opacity-0"
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            className="fixed bottom-6 right-6 z-50"
+          >
+            <Button
+              onClick={() => setIsOpen(true)}
+              className={cn(
+                "h-14 w-14 rounded-full shadow-lg transition-all duration-300",
+                "bg-gradient-gold hover:scale-110 active:scale-95",
+                "relative overflow-hidden"
+              )}
+              size="icon"
+              aria-label="Open chat"
+            >
+              <motion.div
+                className="absolute inset-0 bg-white/20"
+                initial={{ scale: 0, opacity: 1 }}
+                animate={{ scale: 2, opacity: 0 }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+              />
+              <MessageCircle className="h-6 w-6 text-secondary-foreground" />
+            </Button>
+          </motion.div>
         )}
-        size="icon"
-        aria-label="Open chat"
-      >
-        <MessageCircle className="h-6 w-6" />
-      </Button>
+      </AnimatePresence>
 
       {/* Chat Window */}
-      <div
-        className={cn(
-          "fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)]",
-          "rounded-2xl bg-card shadow-2xl border border-border",
-          "transition-all duration-300 transform origin-bottom-right",
-          isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none"
-        )}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border bg-primary rounded-t-2xl">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-              <Bot className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-primary-foreground">Orbi Assistant</h3>
-              <p className="text-xs text-primary-foreground/70">
-                {language === 'ka' ? 'ონლაინ' : 'Online'}
-              </p>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(false)}
-            className="text-primary-foreground hover:bg-primary-foreground/20 hover:text-primary-foreground"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] rounded-2xl bg-card shadow-2xl border border-border overflow-hidden"
           >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* Messages */}
-        <ScrollArea className="h-[350px] p-4" ref={scrollRef}>
-          <div className="space-y-4">
-            {/* Welcome message */}
-            {messages.length === 0 && (
-              <div className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Bot className="h-4 w-4 text-primary" />
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-gold">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                  <Sparkles className="h-5 w-5 text-secondary-foreground" />
                 </div>
-                <div className="bg-muted rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%]">
-                  <p className="text-sm">{welcomeMessage}</p>
+                <div>
+                  <h3 className="font-semibold text-secondary-foreground">Orbi Assistant</h3>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <p className="text-xs text-secondary-foreground/70">
+                      {language === 'ka' ? 'ონლაინ' : 'Online'}
+                    </p>
+                  </div>
                 </div>
               </div>
-            )}
-
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "flex gap-3",
-                  message.role === 'user' && "flex-row-reverse"
-                )}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsOpen(false)}
+                className="text-secondary-foreground hover:bg-white/20 hover:text-secondary-foreground"
               >
-                <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
-                  message.role === 'assistant' ? "bg-primary/10" : "bg-secondary/30"
-                )}>
-                  {message.role === 'assistant' ? (
-                    <Bot className="h-4 w-4 text-primary" />
-                  ) : (
-                    <User className="h-4 w-4 text-secondary-foreground" />
-                  )}
-                </div>
-                <div
-                  className={cn(
-                    "rounded-2xl px-4 py-3 max-w-[85%]",
-                    message.role === 'assistant' 
-                      ? "bg-muted rounded-tl-sm" 
-                      : "bg-primary text-primary-foreground rounded-tr-sm"
-                  )}
-                >
-                  <p className="text-sm whitespace-pre-wrap">
-                    {message.content || (
-                      <span className="flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        {language === 'ka' ? 'ვფიქრობ...' : 'Thinking...'}
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
 
-        {/* Input */}
-        <div className="p-4 border-t border-border">
-          <div className="flex gap-2">
-            <Input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder={language === 'ka' ? 'დაწერეთ შეტყობინება...' : 'Type a message...'}
-              disabled={isLoading}
-              className="flex-1 rounded-full"
-            />
-            <Button
-              onClick={handleSend}
-              disabled={!input.trim() || isLoading}
-              size="icon"
-              className="rounded-full shrink-0"
-            >
-              {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-        </div>
-      </div>
+            {/* Messages */}
+            <ScrollArea className="h-[350px] p-4" ref={scrollRef}>
+              <div className="space-y-4">
+                {/* Welcome message */}
+                {messages.length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-gold flex items-center justify-center flex-shrink-0">
+                        <Bot className="h-4 w-4 text-secondary-foreground" />
+                      </div>
+                      <div className="bg-muted rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%]">
+                        <p className="text-sm">{welcomeMessage}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Quick replies */}
+                    <div className="flex flex-wrap gap-2 ml-11">
+                      {quickReplies.map((reply, index) => (
+                        <motion.button
+                          key={index}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.2 + index * 0.1 }}
+                          onClick={() => handleSend(reply.message)}
+                          disabled={isLoading}
+                          className="px-3 py-1.5 text-xs rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
+                        >
+                          {reply.text}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {messages.map((message, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={cn(
+                      "flex gap-3",
+                      message.role === 'user' && "flex-row-reverse"
+                    )}
+                  >
+                    <div className={cn(
+                      "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
+                      message.role === 'assistant' ? "bg-gradient-gold" : "bg-primary"
+                    )}>
+                      {message.role === 'assistant' ? (
+                        <Bot className="h-4 w-4 text-secondary-foreground" />
+                      ) : (
+                        <User className="h-4 w-4 text-primary-foreground" />
+                      )}
+                    </div>
+                    <div
+                      className={cn(
+                        "rounded-2xl px-4 py-3 max-w-[85%]",
+                        message.role === 'assistant' 
+                          ? "bg-muted rounded-tl-sm" 
+                          : "bg-primary text-primary-foreground rounded-tr-sm"
+                      )}
+                    >
+                      <p className="text-sm whitespace-pre-wrap">
+                        {message.content || (
+                          <span className="flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            {language === 'ka' ? 'ვფიქრობ...' : 'Thinking...'}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </ScrollArea>
+
+            {/* Input */}
+            <div className="p-4 border-t border-border bg-background/50 backdrop-blur-sm">
+              <div className="flex gap-2">
+                <Input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder={language === 'ka' ? 'დაწერეთ შეტყობინება...' : 'Type a message...'}
+                  disabled={isLoading}
+                  className="flex-1 rounded-full bg-muted border-0"
+                />
+                <Button
+                  onClick={() => handleSend()}
+                  disabled={!input.trim() || isLoading}
+                  size="icon"
+                  className="rounded-full shrink-0 bg-gradient-gold hover:opacity-90"
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-secondary-foreground" />
+                  ) : (
+                    <Send className="h-4 w-4 text-secondary-foreground" />
+                  )}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

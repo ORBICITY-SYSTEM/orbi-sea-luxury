@@ -153,6 +153,28 @@ export const AdminSettings = () => {
           </CardContent>
         </Card>
 
+        {/* Google Analytics Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Google Analytics 4</CardTitle>
+            <CardDescription>GA4 Measurement ID ტრაფიკის ანალიზისთვის</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="ga4_measurement_id">GA4 Measurement ID</Label>
+              <Input
+                id="ga4_measurement_id"
+                value={formData.ga4_measurement_id || ''}
+                onChange={(e) => handleChange('ga4_measurement_id', e.target.value)}
+                placeholder="G-XXXXXXXXXX"
+              />
+              <p className="text-sm text-muted-foreground">
+                იხილეთ Google Analytics → Admin → Data Streams → Your Stream
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Meta Pixel Settings */}
         <Card>
           <CardHeader>
@@ -184,6 +206,52 @@ export const AdminSettings = () => {
               <p className="text-sm text-muted-foreground">
                 Conversions API-სთვის (სერვერული tracking)
               </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Popup Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Popup პარამეტრები</CardTitle>
+            <CardDescription>ფასდაკლებისა და შეფასების popup-ების კონფიგურაცია</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="discount_popup_code">ვაუჩერის კოდი</Label>
+              <Input
+                id="discount_popup_code"
+                value={formData.discount_popup_code || ''}
+                onChange={(e) => handleChange('discount_popup_code', e.target.value)}
+                placeholder="ORBI20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="discount_popup_percentage">ფასდაკლების პროცენტი</Label>
+              <Input
+                id="discount_popup_percentage"
+                value={formData.discount_popup_percentage || ''}
+                onChange={(e) => handleChange('discount_popup_percentage', e.target.value)}
+                placeholder="20"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="google_review_url">Google Review URL</Label>
+              <Input
+                id="google_review_url"
+                value={formData.google_review_url || ''}
+                onChange={(e) => handleChange('google_review_url', e.target.value)}
+                placeholder="https://g.page/r/..."
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="review_popup_discount">შეფასების ფასდაკლება (%)</Label>
+              <Input
+                id="review_popup_discount"
+                value={formData.review_popup_discount || ''}
+                onChange={(e) => handleChange('review_popup_discount', e.target.value)}
+                placeholder="10"
+              />
             </div>
           </CardContent>
         </Card>
