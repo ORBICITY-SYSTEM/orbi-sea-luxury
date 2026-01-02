@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Maximize2, Users, Video } from 'lucide-react';
-import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { useBooking } from '@/contexts/BookingContext';
 
 const rooms = [
   {
@@ -47,7 +47,7 @@ const rooms = [
 export const RoomsSection = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const { whatsappUrl } = useWhatsApp();
+  const { openBookingModal } = useBooking();
 
   return (
     <section id="rooms" className="py-20 bg-muted/30">
@@ -122,12 +122,10 @@ export const RoomsSection = () => {
                   {t('rooms.viewDetails')}
                 </Button>
                  <Button 
-                  asChild
+                  onClick={() => openBookingModal()}
                   className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
                 >
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                    {t('rooms.bookNow')}
-                  </a>
+                  {t('rooms.bookNow')}
                 </Button>
               </CardFooter>
             </Card>

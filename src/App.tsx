@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { BookingProvider } from "@/contexts/BookingContext";
 import { DiscountPopup } from "@/components/DiscountPopup";
 import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import { StructuredData } from "@/components/StructuredData";
@@ -68,27 +69,29 @@ const App = () => (
           <GoogleAnalytics />
           <MetaPixel />
           <AuthProvider>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/apartments" element={<Apartments />} />
-                <Route path="/apartments/:id" element={<ApartmentDetail />} />
-                <Route path="/youtube-videos" element={<YouTubeVideos />} />
-                <Route path="/amenities" element={<Amenities />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/location" element={<Location />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/loyalty-program" element={<LoyaltyProgram />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/about-us" element={<AboutUs />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-                <Route path="/purchase-conditions" element={<PurchaseConditions />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/admin/*" element={<Admin />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <BookingProvider>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/apartments" element={<Apartments />} />
+                  <Route path="/apartments/:id" element={<ApartmentDetail />} />
+                  <Route path="/youtube-videos" element={<YouTubeVideos />} />
+                  <Route path="/amenities" element={<Amenities />} />
+                  <Route path="/gallery" element={<Gallery />} />
+                  <Route path="/location" element={<Location />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/loyalty-program" element={<LoyaltyProgram />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/about-us" element={<AboutUs />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                  <Route path="/purchase-conditions" element={<PurchaseConditions />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/admin/*" element={<Admin />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BookingProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

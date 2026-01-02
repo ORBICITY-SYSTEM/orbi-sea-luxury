@@ -16,6 +16,7 @@ import { AdminExperiments } from '@/components/admin/AdminExperiments';
 import { AdminContent } from '@/components/admin/AdminContent';
 import { AdminMedia } from '@/components/admin/AdminMedia';
 import { AdminStyleGuide } from '@/components/admin/AdminStyleGuide';
+import { AdminPricing } from '@/components/admin/AdminPricing';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -48,6 +49,7 @@ const Admin = () => {
             <Routes>
               <Route index element={<AdminDashboard />} />
               <Route path="bookings" element={<div className="p-6"><AdminBookings /></div>} />
+              <Route path="pricing" element={<div className="p-6"><AdminPricing /></div>} />
               <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />
               <Route path="content" element={<div className="p-6"><AdminContent /></div>} />
               <Route path="media" element={<div className="p-6"><AdminMedia /></div>} />
