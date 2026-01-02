@@ -8,9 +8,11 @@ import { CalendarIcon, Users, Search } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { trackInitiateCheckout } from '@/lib/tracking';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 export const BookingWidget = () => {
   const { t } = useLanguage();
+  const { openWhatsApp } = useWhatsApp();
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
   const [guests, setGuests] = useState('2');
@@ -43,7 +45,7 @@ export const BookingWidget = () => {
       : 'Not selected';
 
     const message = `Hello! I'm interested in booking an apartment at Orbi City.\n\nCheck-in: ${checkInFormatted}\nCheck-out: ${checkOutFormatted}\nGuests: ${guests}`;
-    window.open(`https://wa.me/995555199090?text=${encodeURIComponent(message)}`, '_blank');
+    openWhatsApp(message);
   };
 
   return (

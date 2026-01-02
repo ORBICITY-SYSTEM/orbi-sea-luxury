@@ -8,6 +8,7 @@ import { Users, Bed, Bath, Maximize2, Video } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect } from 'react';
 import { trackPageView, trackViewItem } from '@/lib/tracking';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 const apartmentData = {
   suite: {
@@ -159,6 +160,7 @@ const ApartmentDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { whatsappUrl } = useWhatsApp();
 
   const apartment = id ? apartmentData[id as keyof typeof apartmentData] : null;
 
@@ -287,7 +289,7 @@ const ApartmentDetail = () => {
                         variant="outline"
                         className="w-full"
                       >
-                        <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                           {t('apartments.checkAvailability')}
                         </a>
                       </Button>

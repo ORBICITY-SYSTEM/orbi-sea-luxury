@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
 import logo from '@/assets/logo.jpg';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 export const Footer = () => {
   const { t } = useLanguage();
   const { settings } = useSiteSettings();
+  const { whatsappUrl, whatsappPhone } = useWhatsApp();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -180,7 +182,7 @@ export const Footer = () => {
                 </a>
               )}
               <a 
-                href="https://wa.me/995555199090" 
+                href={whatsappUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full bg-white/5 hover:bg-green-500 flex items-center justify-center transition-all duration-300 hover:scale-110"

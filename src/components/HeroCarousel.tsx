@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle, ChevronLeft, ChevronRight, ChevronDown, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
 import useEmblaCarousel from 'embla-carousel-react';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 interface HeroSlide {
   type: 'video' | 'image';
@@ -41,6 +42,7 @@ const heroSlides: HeroSlide[] = [
 
 export const HeroCarousel = () => {
   const { t } = useLanguage();
+  const { whatsappUrl } = useWhatsApp();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -191,7 +193,7 @@ export const HeroCarousel = () => {
             size="lg"
             className="bg-success hover:bg-success/90 text-success-foreground font-semibold text-base px-8 py-6 rounded-md shadow-lg"
           >
-            <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <MessageCircle className="w-5 h-5 mr-2" />
               WhatsApp
             </a>
