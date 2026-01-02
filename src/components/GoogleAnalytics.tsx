@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 // Google Analytics 4 integration
 declare global {
@@ -9,14 +10,41 @@ declare global {
   }
 }
 
-interface GoogleAnalyticsProps {
-  measurementId: string;
-}
-
-export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
+export const GoogleAnalytics = () => {
   const location = useLocation();
+  const [measurementId, setMeasurementId] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  // Fetch GA4 Measurement ID from site_settings
   useEffect(() => {
+    const fetchMeasurementId = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('site_settings')
+          .select('value')
+          .eq('key', 'google_analytics_id')
+          .single();
+
+        if (error) {
+          console.error('Error fetching GA4 ID:', error);
+          return;
+        }
+
+        if (data?.value) {
+          setMeasurementId(data.value);
+        }
+      } catch (err) {
+        console.error('Failed to fetch GA4 measurement ID:', err);
+      }
+    };
+
+    fetchMeasurementId();
+  }, []);
+
+  // Load GA4 script when measurement ID is available
+  useEffect(() => {
+    if (!measurementId || isLoaded) return;
+
     // Load Google Analytics script
     const script1 = document.createElement('script');
     script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
@@ -33,15 +61,19 @@ export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
       page_path: location.pathname + location.search,
     });
 
+    setIsLoaded(true);
+
     return () => {
       // Cleanup
-      document.head.removeChild(script1);
+      if (script1.parentNode) {
+        document.head.removeChild(script1);
+      }
     };
-  }, [measurementId]);
+  }, [measurementId, location.pathname, location.search, isLoaded]);
 
   // Track page views on route change
   useEffect(() => {
-    if (window.gtag) {
+    if (window.gtag && measurementId) {
       window.gtag('config', measurementId, {
         page_path: location.pathname + location.search,
       });
