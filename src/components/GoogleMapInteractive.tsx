@@ -8,11 +8,14 @@ interface GoogleMapInteractiveProps {
   className?: string;
 }
 
-// Fallback coordinates - Orbi City Batumi (will be overridden by API)
+// Fallback coordinates - Batumi (will be overridden by Place details when available)
 const FALLBACK_LOCATION = {
   lat: 41.6399416,
   lng: 41.6141119
 };
+
+// Your Google Business Place ID (specific 60-apartment property)
+const YOUR_BUSINESS_PLACE_ID = 'ChIJxf79LQmHZ0ARpmv2Eih-1WE';
 
 // Create custom marker content element
 const createMarkerContent = () => {
@@ -92,6 +95,7 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [scriptError, setScriptError] = useState(false);
   const { apiKey, placeDetails, loading } = useGoogleMaps();
 
   // Use API coordinates if available, otherwise fallback
@@ -107,12 +111,50 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
 
   // Load Google Maps script with marker library
   useEffect(() => {
-    if (!apiKey || scriptLoaded) return;
+    if (!apiKey || scriptLoaded || scriptError) return;
 
-    const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+    let pollId: number | undefined;
+    let timeoutId: number | undefined;
+
+    const startPoll = () => {
+      // Poll for google.maps presence (covers cases where script tag exists but load event already fired)
+      pollId = window.setInterval(() => {
+        if (window.google?.maps) {
+          if (pollId) window.clearInterval(pollId);
+          if (timeoutId) window.clearTimeout(timeoutId);
+          setScriptLoaded(true);
+        }
+      }, 200);
+
+      timeoutId = window.setTimeout(() => {
+        if (pollId) window.clearInterval(pollId);
+        if (!window.google?.maps) setScriptError(true);
+      }, 6000);
+    };
+
+    const existingScript = document.querySelector(
+      'script[src*="maps.googleapis.com"]'
+    ) as HTMLScriptElement | null;
+
     if (existingScript) {
-      setScriptLoaded(true);
-      return;
+      if (window.google?.maps) {
+        setScriptLoaded(true);
+        return;
+      }
+
+      const onLoad = () => setScriptLoaded(true);
+      const onError = () => setScriptError(true);
+
+      existingScript.addEventListener('load', onLoad, { once: true });
+      existingScript.addEventListener('error', onError, { once: true });
+      startPoll();
+
+      return () => {
+        existingScript.removeEventListener('load', onLoad);
+        existingScript.removeEventListener('error', onError);
+        if (pollId) window.clearInterval(pollId);
+        if (timeoutId) window.clearTimeout(timeoutId);
+      };
     }
 
     const script = document.createElement('script');
@@ -120,8 +162,15 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
     script.async = true;
     script.defer = true;
     script.onload = () => setScriptLoaded(true);
+    script.onerror = () => setScriptError(true);
     document.head.appendChild(script);
-  }, [apiKey, scriptLoaded]);
+    startPoll();
+
+    return () => {
+      if (pollId) window.clearInterval(pollId);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, [apiKey, scriptLoaded, scriptError]);
 
   // Initialize map after script loads
   useEffect(() => {
@@ -293,7 +342,22 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  if (loading || !apiKey) {
+  if (!apiKey || scriptError) {
+    // No API key available or Maps JS failed to load (often due to key restrictions) → fallback to embed
+    return (
+      <div className={className}>
+        <iframe
+          className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden"
+          src={`https://www.google.com/maps?q=${FALLBACK_LOCATION.lat},${FALLBACK_LOCATION.lng}&z=16&output=embed`}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Orbi City Sea View Aparthotel in Batumi Map"
+        />
+      </div>
+    );
+  }
+
+  if (loading || !scriptLoaded) {
     return (
       <div className={className}>
         <Skeleton className="w-full h-full min-h-[400px] rounded-2xl" />

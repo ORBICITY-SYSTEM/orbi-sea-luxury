@@ -1,6 +1,7 @@
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Card, CardContent } from '@/components/ui/card';
+import { GoogleMapInteractive } from '@/components/GoogleMapInteractive';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -186,19 +187,10 @@ const Contact = () => {
             </Card>
           </div>
 
-          {/* Google Maps Embed */}
+          {/* Map (interactive, uses your Google Business Place ID via backend function) */}
           <Card className="mb-12 overflow-hidden">
             <div className="w-full h-[400px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2974.8154446089724!2d41.64283647645193!3d41.642883371251976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406786e1e7d6b515%3A0x8b9d1c3e9a7f5b9e!2sOrbi%20City!5e0!3m2!1sen!2sge!4v1234567890123"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Orbi City Batumi Location"
-              />
+              <GoogleMapInteractive className="h-[400px]" />
             </div>
           </Card>
 
