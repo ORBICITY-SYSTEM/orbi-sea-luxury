@@ -80,7 +80,7 @@ export const Footer = () => {
           <div>
             <ul className="space-y-3 text-sm text-gray-500">
               <li>
-                <span className="block">Orbi City, Block C, Khimshiashvili St, Batumi</span>
+                <span className="block">7B Sherif Khimshiashvili Str, Orbi City, Batumi</span>
               </li>
               <li>
                 <span className="block">Email: info@orbicitybatumi.com</span>

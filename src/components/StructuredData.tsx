@@ -6,7 +6,7 @@ export const StructuredData = () => {
 
   const companyName = globalSettings?.company_legal_name || 'Orbi City Batumi LLC';
   const siteName = globalSettings?.site_name || 'Orbi City Batumi';
-  const address = globalSettings?.contact_address || 'Sheriff Khimshiashvili Street 7B, Batumi, Georgia';
+  const address = globalSettings?.contact_address || '7B Sherif Khimshiashvili Str, Orbi City, Batumi, Georgia';
   const phone = globalSettings?.contact_phone || '+995555199090';
   const email = globalSettings?.contact_email || 'info@orbicitybatumi.com';
 
@@ -50,7 +50,7 @@ export const StructuredData = () => {
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Sheriff Khimshiashvili Street 7B",
+      "streetAddress": "7B Sherif Khimshiashvili Str, Orbi City",
       "addressLocality": "Batumi",
       "addressRegion": "Adjara",
       "postalCode": "6010",
@@ -152,7 +152,7 @@ export const StructuredData = () => {
       "name": siteName,
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Sheriff Khimshiashvili Street 7B",
+        "streetAddress": "7B Sherif Khimshiashvili Str, Orbi City",
         "addressLocality": "Batumi",
         "addressCountry": "GE"
       }
