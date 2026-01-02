@@ -159,23 +159,14 @@ export const HeroSection = () => {
         {/* Decorative Line */}
         <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mb-10 animate-fade-in-up delay-300" />
 
-        {/* CTAs - Four Seasons Style */}
-        <div className="flex flex-col sm:flex-row gap-5 mb-14 animate-fade-in-up delay-400">
+        {/* CTA - Book Now Button */}
+        <div className="flex justify-center mb-14 animate-fade-in-up delay-400">
           <Button
             size="lg"
             onClick={scrollToRooms}
-            className="bg-white hover:bg-white/95 text-navy-900 font-semibold text-base px-10 py-7 rounded-full shadow-luxury hover:shadow-elegant transition-all duration-500 hover:scale-105 tracking-wider uppercase"
+            className="bg-white hover:bg-white/95 text-navy-900 font-semibold text-lg px-14 py-7 rounded-full shadow-luxury hover:shadow-elegant transition-all duration-500 hover:scale-105 tracking-wider uppercase"
           >
-            {t('nav.bookNow')}
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            onClick={() => openWhatsApp('გამარჯობა! მაინტერესებს ინფორმაცია ოთახების შესახებ Orbi City Batumi-ში. გთხოვთ დამეხმაროთ.')}
-            className="border-2 border-white/80 text-white hover:bg-white hover:text-navy-900 font-semibold text-base px-10 py-7 rounded-full transition-all duration-500 hover:scale-105 backdrop-blur-sm tracking-wider"
-          >
-            <MessageCircle className="w-5 h-5 mr-3" />
-            WhatsApp
+            BOOK NOW / PAY LATER
           </Button>
         </div>
 
