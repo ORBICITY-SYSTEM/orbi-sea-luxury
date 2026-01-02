@@ -11,7 +11,8 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
-  Image
+  Image,
+  Palette
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -84,7 +85,12 @@ const menuItems = [
     icon: Search 
   },
   { 
-    title: 'პარამეტრები', 
+    title: 'Style Guide', 
+    url: '/admin/style-guide', 
+    icon: Palette 
+  },
+  { 
+    title: 'პარამეტრები',
     url: '/admin/settings', 
     icon: Settings 
   },
