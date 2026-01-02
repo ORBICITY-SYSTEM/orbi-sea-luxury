@@ -6,6 +6,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
 import { AdminBookings } from '@/components/admin/AdminBookings';
+import { AdminPendingReservations } from '@/components/admin/AdminPendingReservations';
 import { AdminUsers } from '@/components/admin/AdminUsers';
 import { AdminLoyaltyPoints } from '@/components/admin/AdminLoyaltyPoints';
 import { AdminSettings } from '@/components/admin/AdminSettings';
@@ -48,6 +49,7 @@ const Admin = () => {
           <div className="h-full">
             <Routes>
               <Route index element={<AdminDashboard />} />
+              <Route path="pending" element={<div className="p-6"><AdminPendingReservations /></div>} />
               <Route path="bookings" element={<div className="p-6"><AdminBookings /></div>} />
               <Route path="pricing" element={<div className="p-6"><AdminPricing /></div>} />
               <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />

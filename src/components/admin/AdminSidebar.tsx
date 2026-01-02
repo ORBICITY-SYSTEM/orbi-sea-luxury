@@ -1,4 +1,5 @@
-import { 
+import {
+  Clock,
   LayoutDashboard, 
   Calendar, 
   Users, 
@@ -39,6 +40,11 @@ const menuItems = [
     url: '/admin', 
     icon: LayoutDashboard,
     end: true 
+  },
+  { 
+    title: 'მოლოდინში', 
+    url: '/admin/pending', 
+    icon: Clock 
   },
   { 
     title: 'ბრონირებები', 
