@@ -59,6 +59,10 @@ export const HeroCarousel = () => {
     });
   };
 
+  const getWhatsAppMessage = () => {
+    return 'გამარჯობა! მაინტერესებს ინფორმაცია ოთახების შესახებ Orbi City Batumi-ში. გთხოვთ დამეხმაროთ.';
+  };
+
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
       {/* Video Background */}
@@ -120,7 +124,7 @@ export const HeroCarousel = () => {
             className="bg-success hover:bg-success/90 text-white font-semibold text-sm tracking-wide px-10 py-6 rounded-sm shadow-lg"
           >
             <a 
-              href={whatsappUrl} 
+              href={`${whatsappUrl}?text=${encodeURIComponent(getWhatsAppMessage())}`}
               target="_blank" 
               rel="noopener noreferrer"
               onClick={handleWhatsAppClick}
