@@ -27,6 +27,7 @@ const Location = lazy(() => import("./pages/Location"));
 const Contact = lazy(() => import("./pages/Contact"));
 const LoyaltyProgram = lazy(() => import("./pages/LoyaltyProgram"));
 const Blog = lazy(() => import("./pages/Blog"));
+const BlogPostDetail = lazy(() => import("./pages/BlogPostDetail"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
@@ -82,6 +83,7 @@ const App = () => (
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/loyalty-program" element={<LoyaltyProgram />} />
                   <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPostDetail />} />
                   <Route path="/about-us" element={<AboutUs />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/terms-and-conditions" element={<TermsAndConditions />} />

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { SEO } from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { blogPosts, getFeaturedPosts } from '@/data/blogPosts';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,6 +24,13 @@ const Blog = () => {
 
   return (
     <Layout>
+      <SEO 
+        title={language === 'ka' ? 'ბლოგი | Orbi City Batumi' : 'Blog | Orbi City Batumi'}
+        description={language === 'ka' 
+          ? 'ისტორიები, რჩევები და სიახლეები Orbi City-დან და ბათუმიდან. აღმოაჩინეთ საუკეთესო ადგილები, რესტორნები და ღირსშესანიშნაობები.'
+          : 'Stories, tips, and news from Orbi City and Batumi. Discover the best places, restaurants, and attractions.'}
+        keywords="Batumi blog, Orbi City, travel tips, Georgian tourism, Black Sea"
+      />
       {/* Hero Section */}
       <div className="relative h-96 bg-gradient-to-br from-primary/90 via-primary to-primary/80 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920')] bg-cover bg-center opacity-20" />
