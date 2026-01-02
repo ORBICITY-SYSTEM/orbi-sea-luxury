@@ -4,18 +4,13 @@ export const useWhatsApp = () => {
   const { settings, isLoading } = useSiteSettings();
   const whatsappPhone = settings?.whatsapp_phone || '995555199090';
   
-  // Use api.whatsapp.com/send format - works better with browser security
+  // Use wa.me format - more reliable and widely supported
   const getWhatsAppUrl = (message?: string) => {
-    const baseUrl = `https://api.whatsapp.com/send`;
-    const params = new URLSearchParams({
-      phone: whatsappPhone,
-      type: 'phone_number',
-      app_absent: '0'
-    });
+    let url = `https://wa.me/${whatsappPhone}`;
     if (message) {
-      params.set('text', message);
+      url += `?text=${encodeURIComponent(message)}`;
     }
-    return `${baseUrl}?${params.toString()}`;
+    return url;
   };
 
   const whatsappUrl = getWhatsAppUrl();
