@@ -1,8 +1,9 @@
-import { Star, ExternalLink, CheckCircle, Heart } from 'lucide-react';
+import { Star, ExternalLink, CheckCircle, Heart, MessageCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent } from './ui/dialog';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { usePlaceId } from '@/hooks/usePlaceId';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackConversion } from '@/lib/tracking';
 import { motion } from 'framer-motion';
 
@@ -19,6 +20,7 @@ export const BookingSuccessReviewPopup = ({
 }: BookingSuccessReviewPopupProps) => {
   const { language } = useLanguage();
   const { placeId } = usePlaceId();
+  const { openWhatsApp } = useWhatsApp();
 
   const handleWriteReview = () => {
     trackConversion('GoogleReviewClick', {
@@ -27,6 +29,18 @@ export const BookingSuccessReviewPopup = ({
     
     const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
     window.open(reviewUrl, '_blank');
+  };
+
+  const handleWhatsAppClick = () => {
+    trackConversion('WhatsAppClick', {
+      content_name: 'Post-Booking WhatsApp Click'
+    });
+    
+    const message = language === 'ka'
+      ? `გამარჯობა! ახლახან დავჯავშნე ოთახი. მინდა დავადასტურო ჩემი ჯავშანი. სახელი: ${guestName}`
+      : `Hello! I just booked a room. I'd like to confirm my reservation. Name: ${guestName}`;
+    
+    openWhatsApp(message);
   };
 
   const firstName = guestName.split(' ')[0] || guestName;
@@ -129,21 +143,32 @@ export const BookingSuccessReviewPopup = ({
             transition={{ delay: 1.0 }}
             className="space-y-3"
           >
-            <Button 
-              onClick={handleWriteReview}
-              className="w-full gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
-              size="lg"
-            >
-              <ExternalLink className="h-4 w-4" />
-              {language === 'ka' ? 'დაწერეთ შეფასება Google-ზე' : 'Write a Review on Google'}
-            </Button>
+            <div className="grid grid-cols-2 gap-3">
+              <Button 
+                onClick={handleWriteReview}
+                className="gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
+                size="lg"
+              >
+                <ExternalLink className="h-4 w-4" />
+                {language === 'ka' ? 'შეფასება' : 'Review'}
+              </Button>
+              
+              <Button 
+                onClick={handleWhatsAppClick}
+                className="gap-2 bg-success hover:bg-success/90"
+                size="lg"
+              >
+                <MessageCircle className="h-4 w-4" />
+                WhatsApp
+              </Button>
+            </div>
             
             <Button 
               onClick={onClose}
               variant="ghost"
               className="w-full"
             >
-              {language === 'ka' ? 'მოგვიანებით' : 'Maybe Later'}
+              {language === 'ka' ? 'დახურვა' : 'Close'}
             </Button>
           </motion.div>
 

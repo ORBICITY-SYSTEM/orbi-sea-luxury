@@ -5,7 +5,10 @@ import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackLead } from '@/lib/tracking';
 
 export const WhatsAppFloatingButton = () => {
-  const { whatsappUrl } = useWhatsApp();
+  const { getWhatsAppUrl } = useWhatsApp();
+  
+  const prefilledMessage = 'გამარჯობა! მაინტერესებს ინფორმაცია ოთახების შესახებ Orbi City Batumi-ში. გთხოვთ დამეხმაროთ.';
+  const whatsappUrl = getWhatsAppUrl(prefilledMessage);
 
   const handleClick = () => {
     trackLead({
