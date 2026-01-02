@@ -1,78 +1,68 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, ChevronLeft, ChevronRight, ChevronDown, Play, Pause } from 'lucide-react';
-import useEmblaCarousel from 'embla-carousel-react';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackLead } from '@/lib/tracking';
 
-interface HeroSlide {
-  type: 'video' | 'image';
-  src: string;
-}
-
-const heroSlides: HeroSlide[] = [
-  {
-    type: 'video',
-    src: '/videos/hero-video.mov',
-  },
-  {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80',
-  },
-  {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=80',
-  },
-  {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80',
-  },
+const heroVideos = [
+  '/videos/hero-1.mp4',
+  '/videos/hero-2.mp4',
+  '/videos/hero-3.mp4',
+  '/videos/hero-4.mp4',
+  '/videos/hero-5.mp4',
+  '/videos/hero-6.mp4',
 ];
+
+const VIDEO_DURATION = 3; // 3 seconds per video
 
 export const HeroCarousel = () => {
   const { t } = useLanguage();
   const { whatsappUrl } = useWhatsApp();
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Set video ref
+  const setVideoRef = useCallback((el: HTMLVideoElement | null, index: number) => {
+    videoRefs.current[index] = el;
+  }, []);
+
+  // Handle video time update - switch to next video after 3 seconds
+  const handleTimeUpdate = useCallback((index: number) => {
+    const video = videoRefs.current[index];
+    if (video && video.currentTime >= VIDEO_DURATION) {
+      const nextIndex = (index + 1) % heroVideos.length;
+      setCurrentIndex(nextIndex);
+    }
+  }, []);
+
+  // Play current video and reset others
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        if (index === currentIndex && isPlaying) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }
+    });
+  }, [currentIndex, isPlaying]);
 
   const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+    setCurrentIndex((prev) => (prev - 1 + heroVideos.length) % heroVideos.length);
+  }, []);
 
   const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+    setCurrentIndex((prev) => (prev + 1) % heroVideos.length);
+  }, []);
 
   const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index);
-  }, [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-    return () => {
-      emblaApi.off('select', onSelect);
-    };
-  }, [emblaApi, onSelect]);
-
-  // Auto-play functionality
-  useEffect(() => {
-    if (!emblaApi || !isPlaying) return;
-    
-    const interval = setInterval(() => {
-      emblaApi.scrollNext();
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [emblaApi, isPlaying]);
+    setCurrentIndex(index);
+  }, []);
 
   const handleWhatsAppClick = () => {
     trackLead({
@@ -83,32 +73,22 @@ export const HeroCarousel = () => {
 
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
-      {/* Carousel */}
-      <div className="absolute inset-0" ref={emblaRef}>
-        <div className="flex h-full">
-          {heroSlides.map((slide, index) => (
-            <div key={index} className="flex-[0_0_100%] min-w-0 relative h-full">
-              {slide.type === 'video' ? (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover"
-                >
-                  <source src={slide.src} type="video/mp4" />
-                </video>
-              ) : (
-                <img
-                  src={slide.src}
-                  alt={`Orbi City Batumi - Slide ${index + 1}`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                />
-              )}
-            </div>
-          ))}
-        </div>
+      {/* Video Background */}
+      <div className="absolute inset-0">
+        {heroVideos.map((src, index) => (
+          <video
+            key={src}
+            ref={(el) => setVideoRef(el, index)}
+            muted
+            playsInline
+            onTimeUpdate={() => handleTimeUpdate(index)}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        ))}
       </div>
 
       {/* Gradient Overlay - Manus Style: Subtle, elegant */}
@@ -141,16 +121,16 @@ export const HeroCarousel = () => {
 
       {/* Dots Indicator - Bottom center, subtle */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {heroSlides.map((_, index) => (
+        {heroVideos.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollTo(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
-              index === selectedIndex 
+              index === currentIndex 
                 ? 'w-8 bg-white' 
                 : 'w-2 bg-white/40 hover:bg-white/60'
             }`}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Go to video ${index + 1}`}
           />
         ))}
       </div>
