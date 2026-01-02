@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Loader2, Trash2 } from 'lucide-react';
+import { Loader2, Trash2, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import * as XLSX from 'xlsx';
 import {
   Select,
   SelectContent,
@@ -14,6 +15,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+interface Booking {
+  id: string;
+  apartment_type: string;
+  check_in: string;
+  check_out: string;
+  guests: number;
+  total_price: number | null;
+  status: string;
+  payment_status: string;
+  guest_name: string | null;
+  guest_email: string | null;
+  guest_phone: string | null;
+  promo_code: string | null;
+  created_at: string;
+}
 
 export const AdminBookings = () => {
   const queryClient = useQueryClient();
@@ -27,7 +44,7 @@ export const AdminBookings = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data;
+      return data as Booking[];
     },
   });
 
@@ -67,6 +84,45 @@ export const AdminBookings = () => {
     },
   });
 
+  const exportToExcel = () => {
+    if (!bookings || bookings.length === 0) {
+      toast.error('ექსპორტისთვის მონაცემები არ არის');
+      return;
+    }
+
+    const exportData = bookings.map((booking) => ({
+      'სტუმრის სახელი': booking.guest_name || '-',
+      'ელ-ფოსტა': booking.guest_email || '-',
+      'ტელეფონი': booking.guest_phone || '-',
+      'აპარტამენტი': booking.apartment_type,
+      'შესვლა': format(new Date(booking.check_in), 'dd/MM/yyyy'),
+      'გასვლა': format(new Date(booking.check_out), 'dd/MM/yyyy'),
+      'სტუმრები': booking.guests,
+      'ფასი': booking.total_price ? `${booking.total_price} ₾` : '-',
+      'სტატუსი': booking.status === 'confirmed' ? 'დადასტურებული' : booking.status === 'cancelled' ? 'გაუქმებული' : 'მოლოდინში',
+      'გადახდა': booking.payment_status === 'paid' ? 'გადახდილი' : booking.payment_status === 'pay_later' ? 'ადგილზე' : 'გადაუხდელი',
+      'პრომო კოდი': booking.promo_code || '-',
+      'შექმნის თარიღი': format(new Date(booking.created_at), 'dd/MM/yyyy HH:mm'),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'ბრონირებები');
+
+    // Auto-size columns
+    const maxWidths = Object.keys(exportData[0]).map((key) => ({
+      wch: Math.max(
+        key.length,
+        ...exportData.map((row) => String(row[key as keyof typeof row]).length)
+      ),
+    }));
+    worksheet['!cols'] = maxWidths;
+
+    const fileName = `ბრონირებები_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+    toast.success('ფაილი გადმოწერილია');
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-8">
@@ -78,13 +134,20 @@ export const AdminBookings = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>ბრონირებების მართვა</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle>ბრონირებების მართვა</CardTitle>
+          <Button onClick={exportToExcel} variant="outline" className="gap-2">
+            <Download className="h-4 w-4" />
+            Excel ექსპორტი
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>სტუმარი</TableHead>
                 <TableHead>აპარტამენტი</TableHead>
                 <TableHead>შესვლა</TableHead>
                 <TableHead>გასვლა</TableHead>
@@ -97,6 +160,12 @@ export const AdminBookings = () => {
             <TableBody>
               {bookings?.map((booking) => (
                 <TableRow key={booking.id}>
+                  <TableCell>
+                    <div>
+                      <p className="font-medium">{booking.guest_name || '-'}</p>
+                      <p className="text-sm text-muted-foreground">{booking.guest_email || '-'}</p>
+                    </div>
+                  </TableCell>
                   <TableCell>{booking.apartment_type}</TableCell>
                   <TableCell>{format(new Date(booking.check_in), 'dd/MM/yyyy')}</TableCell>
                   <TableCell>{format(new Date(booking.check_out), 'dd/MM/yyyy')}</TableCell>
