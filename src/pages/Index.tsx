@@ -253,10 +253,13 @@ const Index = () => {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="https://orbicitybook-4w56az3r.manus.space/about-orbi-city-image.webp"
-                alt="Orbi City Building"
-                className="rounded-2xl shadow-luxury w-full"
+              <video 
+                src="/videos/discover-orbi.mp4#t=2,5"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="rounded-2xl shadow-luxury w-full object-cover"
               />
               <div className="absolute -bottom-6 -right-6 bg-gold-500 text-white rounded-xl p-6 shadow-gold">
                 <div className="flex items-center gap-1 mb-2">
