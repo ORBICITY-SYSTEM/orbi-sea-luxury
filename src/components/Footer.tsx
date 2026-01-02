@@ -40,7 +40,7 @@ export const Footer = () => {
                 { to: '/gallery', label: 'Gallery' },
                 { to: '/location', label: 'Location' },
                 { to: '/contact', label: 'Contact' },
-                { to: '/loyalty-program', label: 'Loyalty Program' },
+                { to: '/loyalty-program', label: 'Bonuses' },
                 { to: '/blog', label: 'Blog' },
               ].map((link) => (
                 <li key={link.to}>

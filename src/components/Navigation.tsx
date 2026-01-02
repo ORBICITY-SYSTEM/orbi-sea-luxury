@@ -58,7 +58,7 @@ export const Navigation = () => {
     { key: 'Gallery', path: '/gallery' },
     { key: 'nav.location', path: '/location' },
     { key: 'nav.contact', path: '/contact' },
-    { key: 'Loyalty Program', path: '/loyalty-program' },
+    { key: 'Bonuses', path: '/loyalty-program' },
     { key: 'Blog', path: '/blog' },
     ...(isAdmin ? [{ key: 'Admin', path: '/admin' }] : []),
   ];
