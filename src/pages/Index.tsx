@@ -5,15 +5,34 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { YouTubeEmbed } from '@/components/YouTubeEmbed';
+import { VideoTourCard } from '@/components/VideoTourCard';
 
 const Index = () => {
   const { t } = useLanguage();
-  const { data: videos, isLoading } = useYouTubeVideos('UC3YPMVgwMBJWPvY1IjD8UFQ');
   
-  const featuredVideos = videos?.slice(0, 4) || [];
+  const virtualTours = [
+    {
+      videoSrc: '/videos/orbi-city-tour.mp4',
+      title: 'Orbi City Batumi - Full Tour',
+      description: 'Explore the entire Orbi City complex, including apartments, amenities, and stunning sea views.'
+    },
+    {
+      videoSrc: '/videos/bedroom-luxury.mp4',
+      title: 'Luxury Apartment Interior',
+      description: 'Step inside our beautifully designed apartments with modern furnishings and panoramic views.'
+    },
+    {
+      videoSrc: '/videos/hotel-room.mp4',
+      title: 'Modern Hotel Room',
+      description: 'Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.'
+    },
+    {
+      videoSrc: '/videos/pool-amenities.mp4',
+      title: 'Amenities & Facilities',
+      description: 'Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.'
+    }
+  ];
   
   const apartments = [
     {
@@ -98,58 +117,42 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Videos Section */}
-      {!isLoading && featuredVideos.length > 0 && (
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <header className="text-center mb-14">
-              <p className="text-sm tracking-[0.25em] uppercase text-muted-foreground mb-4">
-                {t('index.videos.title')}
-              </p>
-              <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-                Virtual Tours
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                {t('index.videos.subtitle')}
-              </p>
-            </header>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-              {featuredVideos.map((video) => (
-                <Card
-                  key={video.id}
-                  className="overflow-hidden rounded-3xl border-border/60 shadow-luxury"
-                >
-                  <div className="p-6 md:p-8">
-                    <YouTubeEmbed
-                      videoId={video.id}
-                      title={video.title}
-                      thumbnail={video.thumbnail}
-                      className="rounded-2xl shadow-none"
-                    />
-                    <div className="mt-6">
-                      <h3 className="text-2xl font-semibold text-foreground mb-2 line-clamp-2">
-                        {video.title}
-                      </h3>
-                      <p className="text-muted-foreground line-clamp-3">
-                        {video.description || ''}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center mt-12">
-              <Link to="/youtube-videos">
-                <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
-                  {t('index.videos.viewAll')}
-                </Button>
-              </Link>
-            </div>
+      {/* Virtual Tours Section - Manus Style with Autoplay MP4 Videos */}
+      <section className="py-32 bg-gradient-to-b from-muted/20 to-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-20">
+            <p className="text-primary text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+              Immersive Experience
+            </p>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-foreground mb-6">
+              Virtual Tours
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
+              Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.
+            </p>
           </div>
-        </section>
-      )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+            {virtualTours.map((tour, index) => (
+              <VideoTourCard
+                key={index}
+                videoSrc={tour.videoSrc}
+                title={tour.title}
+                description={tour.description}
+                index={index}
+              />
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/youtube-videos">
+              <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
+                {t('index.videos.viewAll')}
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Gallery Preview */}
       <section id="gallery" className="py-20 bg-background">
