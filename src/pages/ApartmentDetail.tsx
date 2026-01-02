@@ -282,12 +282,14 @@ const ApartmentDetail = () => {
                       >
                         {t('apartments.bookNow')}
                       </Button>
-                      <Button 
+                      <Button
+                        asChild
                         variant="outline"
                         className="w-full"
-                        onClick={() => window.open('https://wa.me/995555199090', '_blank')}
                       >
-                        {t('apartments.checkAvailability')}
+                        <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+                          {t('apartments.checkAvailability')}
+                        </a>
                       </Button>
                       <Link to="/youtube-videos">
                         <Button 
