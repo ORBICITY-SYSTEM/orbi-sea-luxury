@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
-import { Users, Bed, Bath, Maximize2, ChevronRight } from 'lucide-react';
+import { Users, Bed, Bath, Maximize2, CreditCard } from 'lucide-react';
 import { trackViewItem, trackPageView } from '@/lib/tracking';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useBooking } from '@/contexts/BookingContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import apartmentsHero from '@/assets/apartments-hero.png';
 
@@ -87,6 +88,7 @@ const categories = [
 const Apartments = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const { openBookingModal } = useBooking();
   const [activeCategory, setActiveCategory] = useState('all');
   
   useEffect(() => {
@@ -238,17 +240,16 @@ const Apartments = () => {
                       </div>
                     </div>
 
-                    {/* Check Availability Button */}
+                    {/* Book Now Button */}
                     <Button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/apartments/${apt.id}`);
+                        openBookingModal(apt.id);
                       }}
-                      variant="outline"
-                      className="w-full group/btn border-primary/30 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                      className="w-full group/btn bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300"
                     >
-                      <span>{language === 'ka' ? 'ხელმისაწვდომობის შემოწმება' : 'Check Availability'}</span>
-                      <ChevronRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      <span>{language === 'ka' ? 'დაჯავშნე / გადაიხადე მოგვიანებით' : 'Book Now / Pay Later'}</span>
                     </Button>
                   </div>
                 </motion.div>
@@ -280,11 +281,11 @@ const Apartments = () => {
           </p>
           <Button 
             size="lg"
-            onClick={() => navigate('/apartments')}
-            variant="outline"
-            className="bg-white/10 hover:bg-white hover:text-[#1e3a5f] text-white border-white font-bold px-8 py-6 text-lg transition-all duration-300"
+            onClick={() => openBookingModal()}
+            className="bg-white hover:bg-white/90 text-[#1e3a5f] font-bold px-8 py-6 text-lg transition-all duration-300"
           >
-            {language === 'ka' ? 'ხელმისაწვდომობის შემოწმება' : 'Check Availability'}
+            <CreditCard className="w-5 h-5 mr-2" />
+            {language === 'ka' ? 'დაჯავშნე ახლავე / გადაიხადე მოგვიანებით' : 'Book Now / Pay Later'}
           </Button>
         </div>
       </section>
