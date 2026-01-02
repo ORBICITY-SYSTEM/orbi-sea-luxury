@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, ChevronDown, Play, Pause } from 'lucide-react';
+import { MessageCircle, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 
@@ -15,24 +15,51 @@ const heroVideos = [
   '/videos/hero-6.mp4',
 ];
 
+// Fallback image when videos fail to load
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80';
+
 export const HeroSection = () => {
   const { t } = useLanguage();
   const { openWhatsApp } = useWhatsApp();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [videoErrors, setVideoErrors] = useState<Set<number>>(new Set());
+  const [videosReady, setVideosReady] = useState<Set<number>>(new Set());
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Check if all videos failed - show fallback image
+  const allVideosFailed = videoErrors.size === heroVideos.length;
+
+  // Handle video error
+  const handleVideoError = useCallback((index: number) => {
+    setVideoErrors(prev => new Set(prev).add(index));
+  }, []);
+
+  // Handle video ready (can play)
+  const handleVideoReady = useCallback((index: number) => {
+    setVideosReady(prev => new Set(prev).add(index));
+  }, []);
 
   // Auto-rotate videos every 15 seconds
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || allVideosFailed) return;
     
     const interval = setInterval(() => {
-      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length);
+      setCurrentVideoIndex((prev) => {
+        // Skip to next non-errored video
+        let next = (prev + 1) % heroVideos.length;
+        let attempts = 0;
+        while (videoErrors.has(next) && attempts < heroVideos.length) {
+          next = (next + 1) % heroVideos.length;
+          attempts++;
+        }
+        return next;
+      });
     }, 15000);
 
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, videoErrors, allVideosFailed]);
 
   // Handle video load
   useEffect(() => {
@@ -62,23 +89,42 @@ export const HeroSection = () => {
 
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
-      {/* Video Background Carousel */}
-      {heroVideos.map((videoSrc, index) => (
-        <video
-          key={index}
-          ref={el => videoRefs.current[index] = el}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload={index === 0 ? "auto" : "metadata"}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1500 ${
-            index === currentVideoIndex ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-      ))}
+      {/* Fallback Image - Always present as background */}
+      <div 
+        className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+          allVideosFailed || videosReady.size === 0 ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{ backgroundImage: `url(${FALLBACK_IMAGE})` }}
+      />
+
+      {/* Video Background Carousel - Lazy loaded */}
+      {!allVideosFailed && heroVideos.map((videoSrc, index) => {
+        // Only render current video and adjacent videos for performance
+        const shouldRender = Math.abs(index - currentVideoIndex) <= 1 || 
+          (currentVideoIndex === 0 && index === heroVideos.length - 1) ||
+          (currentVideoIndex === heroVideos.length - 1 && index === 0);
+        
+        if (!shouldRender || videoErrors.has(index)) return null;
+        
+        return (
+          <video
+            key={index}
+            ref={el => videoRefs.current[index] = el}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload={index === currentVideoIndex ? "auto" : "none"}
+            onCanPlay={() => handleVideoReady(index)}
+            onError={() => handleVideoError(index)}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1500 ${
+              index === currentVideoIndex && videosReady.has(index) ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        );
+      })}
 
       {/* Elegant Overlay - Four Seasons Style */}
       <div className="absolute inset-0 hero-gradient" />
