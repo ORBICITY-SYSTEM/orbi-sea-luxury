@@ -77,29 +77,38 @@ export const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#2C3E50] shadow-lg">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      isScrolled 
+        ? 'bg-navy-900/95 backdrop-blur-md shadow-elegant' 
+        : 'bg-gradient-to-b from-black/60 to-transparent'
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link 
             to="/"
-            className="flex items-center space-x-2 group"
+            className="flex items-center space-x-3 group"
           >
             <img 
               src={logo} 
               alt="Orbi City Batumi" 
-              className="h-14 w-auto group-hover:scale-105 transition-transform"
+              className="h-14 w-auto group-hover:scale-105 transition-transform duration-300"
             />
+            <span className="hidden md:block font-serif text-xl text-white font-light tracking-wide">
+              Orbi City
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.key}
                 to={link.path}
-                className={`text-white hover:text-secondary transition-colors font-medium ${
-                  location.pathname === link.path ? 'text-secondary' : ''
+                className={`relative text-white/90 hover:text-gold-400 transition-all duration-300 font-sans text-sm tracking-wide uppercase ${
+                  location.pathname === link.path 
+                    ? 'text-gold-400 after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-gold-400' 
+                    : 'after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold-400 after:transition-all after:duration-300 hover:after:w-full'
                 }`}
               >
                 {t(link.key) || link.key}
@@ -112,17 +121,17 @@ export const Navigation = () => {
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2 text-white hover:bg-white/10">
+                <Button variant="ghost" size="sm" className="gap-2 text-white/80 hover:text-gold-400 hover:bg-transparent transition-colors">
                   <Globe className="w-4 h-4" />
-                  <span>{languageNames[language]}</span>
+                  <span className="font-sans text-sm">{languageNames[language]}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="bg-navy-900/95 backdrop-blur-md border-gold-400/20">
                 {(Object.keys(languageNames) as Array<keyof typeof languageNames>).map((lang) => (
                   <DropdownMenuItem
                     key={lang}
                     onClick={() => setLanguage(lang)}
-                    className={language === lang ? 'bg-muted' : ''}
+                    className={`hover:bg-gold-500/20 hover:text-gold-400 ${language === lang ? 'bg-gold-500/10 text-gold-400' : 'text-white'}`}
                   >
                     <span className="mr-2">{languageFlags[lang]}</span>
                     {languageNames[lang]}
@@ -185,7 +194,7 @@ export const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 space-y-2 border-t border-white/10 bg-[#2C3E50]">
+          <div className="lg:hidden py-6 space-y-1 border-t border-gold-400/20 bg-navy-900/98 backdrop-blur-md animate-fade-in-up">
             {navLinks.map((link) => (
               <Link
                 key={link.key}
