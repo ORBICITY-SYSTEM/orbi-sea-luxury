@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useEmail } from '@/hooks/useEmail';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { z } from 'zod';
 
 const contactFormSchema = z.object({
@@ -36,6 +37,7 @@ const Contact = () => {
   const { toast } = useToast();
   const { settings, isLoading } = useSiteSettings();
   const { sendContactReply } = useEmail();
+  const { getWhatsAppUrl } = useWhatsApp();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -261,7 +263,10 @@ const Contact = () => {
                   <Button 
                     type="button"
                     variant="outline"
-                    onClick={() => window.open(`https://wa.me/${contactPhone.replace(/[^0-9]/g, '')}`, '_blank')}
+                    onClick={() => {
+                      trackLead({ content_name: 'WhatsApp Click - Contact Page', form_name: 'Contact WhatsApp' });
+                      window.open(getWhatsAppUrl('Hello, I would like to get more information about Orbi City apartments.'), '_blank');
+                    }}
                     className="flex-1"
                     disabled={isSubmitting}
                   >

@@ -90,8 +90,9 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
                   <span style="color: #666; font-size: 12px;">(${placeDetails.user_ratings_total} reviews)</span>
                 </div>
               ` : ''}
-              <a href="https://www.google.com/maps/dir/?api=1&destination=${ORBI_CITY_LOCATION.lat},${ORBI_CITY_LOCATION.lng}" 
+              <a href="https://maps.google.com/maps?daddr=${ORBI_CITY_LOCATION.lat},${ORBI_CITY_LOCATION.lng}" 
                  target="_blank" 
+                 rel="noopener noreferrer"
                  style="color: #0d9488; text-decoration: none; font-weight: 500;">
                 Get Directions →
               </a>

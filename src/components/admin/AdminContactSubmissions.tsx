@@ -220,7 +220,10 @@ export const AdminContactSubmissions = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => window.open(`https://wa.me/${submission.phone.replace(/[^0-9]/g, '')}`, '_blank')}
+                          onClick={() => {
+                            const phone = submission.phone.replace(/[^0-9]/g, '');
+                            window.open(`https://api.whatsapp.com/send?phone=${phone}&type=phone_number&app_absent=0`, '_blank');
+                          }}
                         >
                           <Phone className="w-4 h-4 mr-2" />
                           WhatsApp
