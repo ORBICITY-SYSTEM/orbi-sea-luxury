@@ -1,7 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 
 interface EmailData {
-  type: 'booking_confirmation' | 'contact_reply' | 'welcome' | 'custom';
+  type: 'booking_confirmation' | 'contact_reply' | 'welcome' | 'comment_moderation' | 'custom';
   to: string;
   subject?: string;
   data: Record<string, any>;
