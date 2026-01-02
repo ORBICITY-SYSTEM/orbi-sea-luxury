@@ -4,10 +4,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Star, Gift, Award, TrendingUp, Users, Crown, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { LoyaltyDashboard } from '@/components/LoyaltyDashboard';
 
 const LoyaltyProgram = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
 
   const steps = [
     {
@@ -65,6 +68,15 @@ const LoyaltyProgram = () => {
       </div>
 
       <Breadcrumbs items={[{ label: t('nav.loyalty') }]} />
+
+      {/* User's Loyalty Dashboard */}
+      {user && (
+        <section className="py-12 bg-background">
+          <div className="container mx-auto px-4 max-w-2xl">
+            <LoyaltyDashboard />
+          </div>
+        </section>
+      )}
 
       {/* How it Works */}
       <section className="py-20 bg-background">
