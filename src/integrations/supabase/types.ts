@@ -73,6 +73,7 @@ export type Database = {
           guest_name: string | null
           id: string
           is_approved: boolean | null
+          parent_id: string | null
           post_slug: string
           updated_at: string
           user_id: string | null
@@ -84,6 +85,7 @@ export type Database = {
           guest_name?: string | null
           id?: string
           is_approved?: boolean | null
+          parent_id?: string | null
           post_slug: string
           updated_at?: string
           user_id?: string | null
@@ -95,11 +97,20 @@ export type Database = {
           guest_name?: string | null
           id?: string
           is_approved?: boolean | null
+          parent_id?: string | null
           post_slug?: string
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "blog_comments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       bookings: {
         Row: {
