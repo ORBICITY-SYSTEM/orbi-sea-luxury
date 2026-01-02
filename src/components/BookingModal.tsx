@@ -210,6 +210,16 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
         },
       });
       
+      // Save to localStorage for guest review popup
+      const guestBookings = JSON.parse(localStorage.getItem('guestBookings') || '[]');
+      guestBookings.push({
+        checkIn: format(checkIn, 'yyyy-MM-dd'),
+        checkOut: format(checkOut, 'yyyy-MM-dd'),
+        apartmentType: selectedApartment,
+        bookedAt: new Date().toISOString(),
+      });
+      localStorage.setItem('guestBookings', JSON.stringify(guestBookings));
+      
       setSuccess(true);
       toast({
         title: language === 'ka' ? 'ჯავშანი წარმატებით შეიქმნა!' : 'Booking confirmed!',
