@@ -13,7 +13,7 @@ const Index = () => {
   const { t } = useLanguage();
   const { data: videos, isLoading } = useYouTubeVideos('UC3YPMVgwMBJWPvY1IjD8UFQ');
   
-  const featuredVideos = videos?.slice(0, 3) || [];
+  const featuredVideos = videos?.slice(0, 4) || [];
   
   const apartments = [
     {
@@ -100,34 +100,47 @@ const Index = () => {
 
       {/* Featured Videos Section */}
       {!isLoading && featuredVideos.length > 0 && (
-        <section className="py-20 bg-gradient-sea">
+        <section className="py-24 bg-background">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <header className="text-center mb-14">
+              <p className="text-sm tracking-[0.25em] uppercase text-muted-foreground mb-4">
                 {t('index.videos.title')}
+              </p>
+              <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
+                Virtual Tours
               </h2>
-              <p className="text-lg text-white/90 max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 {t('index.videos.subtitle')}
               </p>
-            </div>
+            </header>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
               {featuredVideos.map((video) => (
-                <div key={video.id} className="space-y-4">
-                  <YouTubeEmbed
-                    videoId={video.id}
-                    title={video.title}
-                    thumbnail={video.thumbnail}
-                    className="shadow-xl"
-                  />
-                  <h3 className="text-lg font-semibold text-white line-clamp-2">
-                    {video.title}
-                  </h3>
-                </div>
+                <Card
+                  key={video.id}
+                  className="overflow-hidden rounded-3xl border-border/60 shadow-luxury"
+                >
+                  <div className="p-6 md:p-8">
+                    <YouTubeEmbed
+                      videoId={video.id}
+                      title={video.title}
+                      thumbnail={video.thumbnail}
+                      className="rounded-2xl shadow-none"
+                    />
+                    <div className="mt-6">
+                      <h3 className="text-2xl font-semibold text-foreground mb-2 line-clamp-2">
+                        {video.title}
+                      </h3>
+                      <p className="text-muted-foreground line-clamp-3">
+                        {video.description || ''}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
               ))}
             </div>
 
-            <div className="text-center">
+            <div className="text-center mt-12">
               <Link to="/youtube-videos">
                 <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
                   {t('index.videos.viewAll')}
