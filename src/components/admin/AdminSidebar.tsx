@@ -2,6 +2,7 @@ import {
   Clock,
   LayoutDashboard, 
   Calendar, 
+  CalendarDays,
   Users, 
   Award, 
   Tag, 
@@ -50,6 +51,11 @@ const menuItems = [
     title: 'ბრონირებები', 
     url: '/admin/bookings', 
     icon: Calendar 
+  },
+  { 
+    title: 'კალენდარი', 
+    url: '/admin/calendar', 
+    icon: CalendarDays 
   },
   { 
     title: 'ფასები', 
