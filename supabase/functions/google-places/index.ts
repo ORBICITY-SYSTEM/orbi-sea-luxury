@@ -1,16 +1,43 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Your specific business Place ID - Orbi City Sea View Aparthotel in Batumi (60 apartments)
-// NOT the entire Orbi City complex (15,000 apartments)
-const YOUR_BUSINESS_PLACE_ID = 'ChIJxf79LQmHZ0ARpmv2Eih-1WE';
+// Fallback values if database setting is not available
+const DEFAULT_PLACE_ID = 'ChIJxf79LQmHZ0ARpmv2Eih-1WE';
 const BUSINESS_NAME = 'Orbi City Sea View Aparthotel in Batumi';
 const BUSINESS_ADDRESS = '7b Sherif Khimshiashvili St, Batumi 6010, Georgia';
 const BUSINESS_PHONE = '555 19 90 90';
+
+// Fetch Place ID from site_settings table
+async function getPlaceIdFromSettings(): Promise<string> {
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    if (!supabaseUrl || !supabaseKey) {
+      return DEFAULT_PLACE_ID;
+    }
+    
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'google_maps_place_id')
+      .single();
+    
+    if (error || !data?.value) {
+      return DEFAULT_PLACE_ID;
+    }
+    
+    return data.value;
+  } catch {
+    return DEFAULT_PLACE_ID;
+  }
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -27,8 +54,9 @@ serve(async (req) => {
     const { action, placeId } = await req.json();
 
     if (action === 'getPlaceDetails') {
-      // Use your specific business Place ID directly
-      const targetPlaceId = placeId || YOUR_BUSINESS_PLACE_ID;
+      // Get Place ID from settings or use provided placeId
+      const settingsPlaceId = await getPlaceIdFromSettings();
+      const targetPlaceId = placeId || settingsPlaceId;
       
       console.log('Fetching place details for Place ID:', targetPlaceId);
       
