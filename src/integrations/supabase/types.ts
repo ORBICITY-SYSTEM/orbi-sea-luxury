@@ -65,6 +65,42 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_comments: {
+        Row: {
+          content: string
+          created_at: string
+          guest_email: string | null
+          guest_name: string | null
+          id: string
+          is_approved: boolean | null
+          post_slug: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          guest_email?: string | null
+          guest_name?: string | null
+          id?: string
+          is_approved?: boolean | null
+          post_slug: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          guest_email?: string | null
+          guest_name?: string | null
+          id?: string
+          is_approved?: boolean | null
+          post_slug?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           apartment_type: string

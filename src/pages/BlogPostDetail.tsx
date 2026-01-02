@@ -2,6 +2,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SEO } from '@/components/SEO';
+import { BlogArticleSchema } from '@/components/BlogArticleSchema';
+import { BlogComments } from '@/components/BlogComments';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getBlogPostBySlug, blogPosts } from '@/data/blogPosts';
 import { Button } from '@/components/ui/button';
@@ -100,6 +102,8 @@ const BlogPostDetail = () => {
       });
   };
 
+  const currentUrl = `https://orbicitybatumi.com/blog/${post.slug}`;
+
   return (
     <Layout>
       <SEO 
@@ -108,6 +112,11 @@ const BlogPostDetail = () => {
         keywords={`${post.category}, Batumi, Orbi City, ${title}`}
         ogImage={post.image}
         type="article"
+      />
+      <BlogArticleSchema 
+        post={post} 
+        language={language as 'en' | 'ka'} 
+        url={currentUrl} 
       />
 
       {/* Hero Section */}
@@ -222,6 +231,9 @@ const BlogPostDetail = () => {
                 </Link>
               )}
             </div>
+
+            {/* Comments Section */}
+            <BlogComments postSlug={post.slug} />
           </div>
         </div>
       </article>
