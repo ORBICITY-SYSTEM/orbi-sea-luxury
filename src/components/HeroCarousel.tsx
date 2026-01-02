@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { MessageCircle, ChevronLeft, ChevronRight, ChevronDown, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -158,30 +158,39 @@ export const HeroCarousel = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 drop-shadow-2xl">
+        {/* Welcome Text - Manus Style */}
+        <p className="text-sm md:text-base tracking-[0.3em] uppercase text-white/80 mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          Welcome to Orbi City Batumi
+        </p>
+        
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-normal text-white mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 drop-shadow-2xl">
           {t('hero.title')}
         </h1>
-        <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 drop-shadow-lg">
+        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 drop-shadow-lg">
           {t('hero.subtitle')}
         </p>
 
-        {/* CTAs */}
+        {/* Scroll Down Arrow - Manus Style */}
+        <div className="mb-6 animate-bounce-subtle">
+          <ChevronDown className="w-8 h-8 text-white/70" />
+        </div>
+
+        {/* CTAs - Manus Style */}
         <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <Button
             size="lg"
             onClick={() => document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-8 shadow-gold"
+            className="bg-navy-800 hover:bg-navy-900 text-white font-semibold text-base px-8 py-6 rounded-md shadow-lg"
           >
-            {t('nav.bookNow')}
+            CHECK RATES
           </Button>
           <Button
             size="lg"
-            variant="outline"
             onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
-            className="border-2 border-white text-white hover:bg-white hover:text-foreground font-bold text-lg px-8 backdrop-blur-sm"
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold text-base px-8 py-6 rounded-md shadow-lg"
           >
             <MessageCircle className="w-5 h-5 mr-2" />
-            {t('hero.whatsapp')}
+            WhatsApp
           </Button>
         </div>
 
