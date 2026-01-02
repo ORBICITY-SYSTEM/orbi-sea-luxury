@@ -75,37 +75,54 @@ const Location = () => {
 
   return (
     <Layout>
-      {/* Hero Section - Manus Style */}
-      <section className="relative py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-        <div className="container mx-auto px-4 text-center">
-          <motion.span 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-amber-500 tracking-[0.3em] uppercase text-sm font-medium mb-4 block"
-          >
-            {language === 'ka' ? 'მოგვძებნეთ' : 'FIND US'}
-          </motion.span>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
-          >
-            {language === 'ka' ? 'ჩვენი ადგილმდებარეობა' : 'Our Location'}
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto"
-          >
-            {language === 'ka' 
-              ? 'პრემიუმ ლოკაცია ბათუმის შავი ზღვის სანაპიროზე, საქართველო' 
-              : "Prime beachfront location in the heart of Batumi, Georgia's stunning Black Sea coast"}
-          </motion.p>
+      {/* Hero Section with Video */}
+      <section className="relative h-[60vh] lg:h-[70vh] overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/videos/location-hero.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+        
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <div className="container mx-auto px-4 text-center">
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-amber-400 tracking-[0.3em] uppercase text-sm font-medium mb-4 block"
+            >
+              {language === 'ka' ? 'მოგვძებნეთ' : 'FIND US'}
+            </motion.span>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+            >
+              {language === 'ka' ? 'ჩვენი ადგილმდებარეობა' : 'Our Location'}
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto"
+            >
+              {language === 'ka' 
+                ? 'პრემიუმ ლოკაცია ბათუმის შავი ზღვის სანაპიროზე, საქართველო' 
+                : "Prime beachfront location in the heart of Batumi, Georgia's stunning Black Sea coast"}
+            </motion.p>
+          </div>
         </div>
       </section>
 
