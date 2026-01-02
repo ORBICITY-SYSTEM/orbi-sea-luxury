@@ -50,7 +50,7 @@ const LoyaltyProgram = () => {
 
   return (
     <Layout>
-      <div className="relative h-[400px] bg-gradient-sea">
+      <div className="relative h-96 bg-gradient-sea">
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
           <Crown className="w-20 h-20 text-secondary mb-6 animate-pulse" />

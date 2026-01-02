@@ -24,7 +24,7 @@ const Blog = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <div className="relative h-[400px] bg-gradient-to-br from-primary/90 via-primary to-primary/80 overflow-hidden">
+      <div className="relative h-96 bg-gradient-to-br from-primary/90 via-primary to-primary/80 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920')] bg-cover bg-center opacity-20" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
           <motion.h1 

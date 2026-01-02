@@ -135,7 +135,7 @@ const Location = () => {
             transition={{ duration: 0.6 }}
             className="rounded-3xl overflow-hidden shadow-xl border border-gray-200"
           >
-            <GoogleMapInteractive className="h-[500px] lg:h-[550px]" />
+            <GoogleMapInteractive className="h-[500px] lg:h-[560px]" />
           </motion.div>
         </div>
       </section>
@@ -259,13 +259,13 @@ const Location = () => {
           >
             <a 
               href="/apartments" 
-              className="px-8 py-4 bg-[#1e3a5f] text-white rounded-full font-medium hover:bg-[#2d4a6f] transition-colors"
+              className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors"
             >
               {language === 'ka' ? 'აპარტამენტების ნახვა' : 'View Apartments'}
             </a>
             <a 
               href="/contact" 
-              className="px-8 py-4 bg-white text-[#1e3a5f] border-2 border-[#1e3a5f] rounded-full font-medium hover:bg-gray-50 transition-colors"
+              className="px-8 py-4 bg-background text-primary border-2 border-primary rounded-full font-medium hover:bg-muted transition-colors"
             >
               {language === 'ka' ? 'დაგვიკავშირდით' : 'Contact Us'}
             </a>

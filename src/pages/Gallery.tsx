@@ -63,7 +63,7 @@ const Gallery = () => {
     <Layout>
       {/* Hero */}
       <div 
-        className="relative h-[400px] bg-cover bg-center"
+        className="relative h-96 bg-cover bg-center"
         style={{ backgroundImage: 'url(https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg)' }}
       >
         <div className="absolute inset-0 bg-gradient-overlay" />
