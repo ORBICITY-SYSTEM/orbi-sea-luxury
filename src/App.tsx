@@ -7,8 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BookingProvider } from "@/contexts/BookingContext";
-import { DiscountPopup } from "@/components/DiscountPopup";
-import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import { StructuredData } from "@/components/StructuredData";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { AIChatbot } from "@/components/AIChatbot";
@@ -61,8 +59,6 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <DiscountPopup />
-        <GoogleReviewPopup />
         <StructuredData />
         <WhatsAppFloatingButton />
         <AIChatbot />
