@@ -8,8 +8,8 @@ export const WhatsAppFloatingButton = () => {
   const { settings } = useSiteSettings();
   const whatsappPhone = settings?.whatsapp_phone || '995555199090';
   
-  // Use api.whatsapp.com/send format for better compatibility
-  const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappPhone}&type=phone_number&app_absent=0`;
+  // Use wa.me format for better compatibility
+  const whatsappUrl = `https://wa.me/${whatsappPhone}`;
 
   const handleClick = () => {
     trackLead({
