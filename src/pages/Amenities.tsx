@@ -54,7 +54,7 @@ const Amenities = () => {
   return (
     <Layout>
       {/* Hero Section with Video */}
-      <section className="relative min-h-[400px] overflow-hidden">
+      <section className="relative min-h-96 overflow-hidden">
         <video
           autoPlay
           muted
@@ -64,7 +64,7 @@ const Amenities = () => {
         >
           <source src="/videos/amenities-hero.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1e3a5f]/60 via-[#1e3a5f]/40 to-[#1e3a5f]/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/70" />
         
         <div className="relative z-10 container mx-auto px-4 py-24 flex flex-col items-center justify-center text-center">
           <motion.span 
@@ -118,14 +118,14 @@ const Amenities = () => {
                   className="group"
                 >
                   {/* Gradient Border Wrapper */}
-                  <div className="relative p-[2px] rounded-3xl bg-gradient-to-br from-amber-400/60 via-amber-500/30 to-amber-600/60 hover:from-amber-400 hover:via-amber-500 hover:to-amber-600 transition-all duration-500">
+                  <div className="relative p-0.5 rounded-3xl bg-gradient-to-br from-secondary/60 via-secondary/30 to-secondary-dark/60 hover:from-secondary hover:via-secondary hover:to-secondary-dark transition-all duration-500">
                     {/* Glow Effect */}
-                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-400/0 via-amber-500/0 to-amber-600/0 group-hover:from-amber-400/20 group-hover:via-amber-500/30 group-hover:to-amber-600/20 blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary-dark/0 group-hover:from-secondary/20 group-hover:via-secondary/30 group-hover:to-secondary-dark/20 blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
                     
                     {/* Card Content */}
-                    <div className="relative bg-card rounded-[22px] overflow-hidden p-8 text-center group-hover:shadow-2xl transition-all duration-500">
+                    <div className="relative bg-card rounded-3xl overflow-hidden p-8 text-center group-hover:shadow-2xl transition-all duration-500">
                       {/* Icon Circle */}
-                      <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-500">
+                      <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-secondary to-secondary-dark flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 group-hover:shadow-gold transition-all duration-500">
                         <Icon className="w-10 h-10 text-white" strokeWidth={1.5} />
                       </div>
 

@@ -36,7 +36,7 @@ const PurchaseConditions = () => {
 
   return (
     <Layout>
-      <div className="relative h-[300px] bg-gradient-to-r from-primary via-accent to-secondary">
+      <div className="relative h-72 bg-gradient-to-r from-primary via-accent to-secondary">
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
           <h1 className="text-5xl font-bold text-white mb-4">{t('purchase.hero.title')}</h1>
           <p className="text-xl text-white/90 max-w-2xl">{t('purchase.hero.subtitle')}</p>

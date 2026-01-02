@@ -41,7 +41,7 @@ export const LocationSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Interactive Google Map */}
-          <GoogleMapInteractive className="h-[450px] lg:h-[500px] shadow-lg border border-border" />
+          <GoogleMapInteractive className="h-[448px] lg:h-[496px] shadow-lg border border-border" />
 
           {/* Distance Cards - Manus Style */}
           <div className="space-y-4">
