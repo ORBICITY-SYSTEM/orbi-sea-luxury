@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Maximize2, Users, Video } from 'lucide-react';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 const rooms = [
   {
@@ -46,6 +47,7 @@ const rooms = [
 export const RoomsSection = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { whatsappUrl } = useWhatsApp();
 
   return (
     <section id="rooms" className="py-20 bg-muted/30">
@@ -123,7 +125,7 @@ export const RoomsSection = () => {
                   asChild
                   className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
                 >
-                  <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                     {t('rooms.bookNow')}
                   </a>
                 </Button>

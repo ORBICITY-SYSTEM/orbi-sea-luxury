@@ -1,8 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 export const CTASection = () => {
   const { t } = useLanguage();
+  const { whatsappUrl } = useWhatsApp();
 
   return (
     <section className="py-20 bg-gradient-sea relative overflow-hidden">
@@ -24,7 +26,7 @@ export const CTASection = () => {
           size="lg"
           className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold hover:scale-105 transition-transform"
         >
-          <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
             {t('cta.button')}
           </a>
         </Button>

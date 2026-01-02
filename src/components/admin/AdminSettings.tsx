@@ -133,6 +133,18 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="whatsapp_phone">WhatsApp ნომერი</Label>
+              <Input
+                id="whatsapp_phone"
+                value={formData.whatsapp_phone || ''}
+                onChange={(e) => handleChange('whatsapp_phone', e.target.value)}
+                placeholder="995555199090"
+              />
+              <p className="text-sm text-muted-foreground">
+                ქვეყნის კოდით, + გარეშე (მაგ: 995555199090)
+              </p>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="contact_address">მისამართი</Label>
               <Input
                 id="contact_address"

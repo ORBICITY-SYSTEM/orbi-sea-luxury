@@ -3,6 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, ChevronDown, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 // Hero video sources - can be expanded
 const heroVideos = [
@@ -13,6 +14,7 @@ const heroVideos = [
 
 export const HeroSection = () => {
   const { t } = useLanguage();
+  const { openWhatsApp } = useWhatsApp();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -121,7 +123,7 @@ export const HeroSection = () => {
           <Button
             size="lg"
             variant="outline"
-            onClick={() => window.open('https://wa.me/995555199090', '_blank')}
+            onClick={() => openWhatsApp()}
             className="border-2 border-white/80 text-white hover:bg-white hover:text-navy-900 font-semibold text-base px-10 py-7 rounded-full transition-all duration-500 hover:scale-105 backdrop-blur-sm tracking-wider"
           >
             <MessageCircle className="w-5 h-5 mr-3" />
