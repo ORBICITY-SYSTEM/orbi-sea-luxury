@@ -6,8 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Mail, Phone, Clock, CheckCircle, XCircle, MessageSquare } from 'lucide-react';
+import { Mail, Phone, Clock, CheckCircle, XCircle, MessageSquare, Copy, MessageCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { toast as sonnerToast } from 'sonner';
 
 interface ContactSubmission {
   id: string;
@@ -27,6 +28,18 @@ export const AdminContactSubmissions = () => {
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<ContactSubmission | null>(null);
   const [adminNotes, setAdminNotes] = useState('');
+
+  const copyPhone = (phone: string) => {
+    navigator.clipboard.writeText(phone);
+    sonnerToast.success('ტელეფონი დაკოპირდა');
+  };
+
+  const handleWhatsApp = (submission: ContactSubmission) => {
+    if (!submission.phone) return;
+    const phone = submission.phone.replace(/[^0-9]/g, '');
+    const message = `გამარჯობა ${submission.name}! მადლობა Orbi City-სთან დაკავშირებისთვის.`;
+    window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+  };
 
   useEffect(() => {
     fetchSubmissions();
@@ -158,6 +171,24 @@ export const AdminContactSubmissions = () => {
                             <span className="flex items-center gap-1">
                               <Phone className="w-4 h-4" />
                               {submission.phone}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 ml-1"
+                                onClick={() => copyPhone(submission.phone!)}
+                                title="ტელეფონის კოპირება"
+                              >
+                                <Copy className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 text-green-600 hover:text-green-700"
+                                onClick={() => handleWhatsApp(submission)}
+                                title="WhatsApp-ით დაკავშირება"
+                              >
+                                <MessageCircle className="h-3 w-3" />
+                              </Button>
                             </span>
                           )}
                           <span className="flex items-center gap-1">
