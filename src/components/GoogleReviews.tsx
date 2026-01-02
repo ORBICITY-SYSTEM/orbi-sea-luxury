@@ -120,7 +120,7 @@ export const GoogleReviews = ({ maxReviews = 5, minRating = 4, className }: Goog
       {/* Write review CTA */}
       <div className="mt-6 text-center">
         <Button
-          onClick={() => window.open('https://g.page/r/CWgCWY_Oq6niEAI/review', '_blank')}
+          onClick={() => window.open(`https://search.google.com/local/writereview?placeid=${placeId}`, '_blank')}
           className="bg-teal-500 hover:bg-teal-600 text-white"
         >
           Write a Review on Google

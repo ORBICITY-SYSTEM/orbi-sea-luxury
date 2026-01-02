@@ -284,7 +284,7 @@ const Index = () => {
             </h2>
           </div>
 
-          <GoogleReviews maxReviews={5} minRating={4} />
+          <GoogleReviews maxReviews={3} minRating={4} />
         </div>
       </section>
 
