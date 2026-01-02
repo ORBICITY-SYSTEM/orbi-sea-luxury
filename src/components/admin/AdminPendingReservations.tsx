@@ -4,12 +4,24 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Loader2, CheckCircle, XCircle, Phone, Mail, User, Calendar, Users, Home } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle, Phone, Mail, User, Calendar, Users, Home, Copy, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 export const AdminPendingReservations = () => {
   const queryClient = useQueryClient();
+
+  const copyPhone = (phone: string) => {
+    navigator.clipboard.writeText(phone);
+    toast.success('ტელეფონი დაკოპირდა');
+  };
+
+  const handleWhatsApp = (booking: { guest_name: string | null; guest_phone: string | null; check_in: string; check_out: string }) => {
+    if (!booking.guest_phone) return;
+    const phone = booking.guest_phone.replace(/[^0-9]/g, '');
+    const message = `გამარჯობა ${booking.guest_name || ''}! თქვენი ჯავშანი Orbi City-ში: ${format(new Date(booking.check_in), 'dd/MM/yyyy')} - ${format(new Date(booking.check_out), 'dd/MM/yyyy')}`;
+    window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+  };
 
   const { data: pendingBookings, isLoading } = useQuery({
     queryKey: ['admin-pending-reservations'],
@@ -95,6 +107,28 @@ export const AdminPendingReservations = () => {
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <Phone className="h-3 w-3" />
                             {booking.guest_phone || 'N/A'}
+                            {booking.guest_phone && (
+                              <div className="flex gap-1 ml-1">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0"
+                                  onClick={() => copyPhone(booking.guest_phone!)}
+                                  title="ტელეფონის კოპირება"
+                                >
+                                  <Copy className="h-3 w-3" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0 text-green-600 hover:text-green-700"
+                                  onClick={() => handleWhatsApp(booking)}
+                                  title="WhatsApp-ით დაკავშირება"
+                                >
+                                  <MessageCircle className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            )}
                           </div>
                           {booking.guest_id_number && (
                             <div className="text-xs text-muted-foreground">
