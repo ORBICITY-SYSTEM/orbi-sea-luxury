@@ -67,6 +67,8 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isReturningGuest, setIsReturningGuest] = useState(false);
+  const [checkingEmail, setCheckingEmail] = useState(false);
   
   // Fetch apartments
   useEffect(() => {
@@ -95,6 +97,58 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
       fetchApartments();
     }
   }, [isOpen, preselectedApartment]);
+
+  // Check for returning guest by email
+  useEffect(() => {
+    const checkReturningGuest = async () => {
+      // Validate email format first
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!guestEmail || !emailRegex.test(guestEmail)) {
+        setIsReturningGuest(false);
+        return;
+      }
+
+      setCheckingEmail(true);
+      
+      try {
+        // Check in database for previous bookings
+        const { data: previousBooking } = await supabase
+          .from('bookings')
+          .select('guest_name, guest_phone, guest_id_number, guest_address')
+          .eq('guest_email', guestEmail.toLowerCase().trim())
+          .in('status', ['confirmed', 'completed', 'pending'])
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (previousBooking) {
+          setIsReturningGuest(true);
+          // Auto-fill fields if they're empty
+          if (!guestName && previousBooking.guest_name) setGuestName(previousBooking.guest_name);
+          if (!guestPhone && previousBooking.guest_phone) setGuestPhone(previousBooking.guest_phone);
+          if (!guestIdNumber && previousBooking.guest_id_number) setGuestIdNumber(previousBooking.guest_id_number);
+          if (!guestAddress && previousBooking.guest_address) setGuestAddress(previousBooking.guest_address);
+          
+          toast({
+            title: language === 'ka' ? '🎉 მოგესალმებით ხელახლა!' : '🎉 Welcome back!',
+            description: language === 'ka' 
+              ? 'თქვენი მონაცემები ავტომატურად შეივსო' 
+              : 'Your details have been auto-filled',
+          });
+        } else {
+          setIsReturningGuest(false);
+        }
+      } catch (error) {
+        console.error('Error checking returning guest:', error);
+      } finally {
+        setCheckingEmail(false);
+      }
+    };
+
+    // Debounce the check
+    const timeoutId = setTimeout(checkReturningGuest, 500);
+    return () => clearTimeout(timeoutId);
+  }, [guestEmail]);
   
   // Calculate price
   const selectedApt = apartments.find(a => a.apartment_type === selectedApartment);
@@ -428,13 +482,24 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                 </div>
 
                 <div className="space-y-2">
-                  <Label>{language === 'ka' ? 'ელ.ფოსტა *' : 'Email *'}</Label>
+                  <Label className="flex items-center gap-2">
+                    {language === 'ka' ? 'ელ.ფოსტა *' : 'Email *'}
+                    {checkingEmail && <Loader2 className="w-3 h-3 animate-spin" />}
+                    {isReturningGuest && !checkingEmail && (
+                      <span className="text-xs text-primary font-normal">
+                        ✓ {language === 'ka' ? 'ნამყოფი სტუმარი' : 'Returning guest'}
+                      </span>
+                    )}
+                  </Label>
                   <Input
                     type="email"
                     value={guestEmail}
-                    onChange={(e) => setGuestEmail(e.target.value)}
+                    onChange={(e) => setGuestEmail(e.target.value.toLowerCase().trim())}
                     placeholder="email@example.com"
-                    className={errors.guestEmail ? 'border-destructive' : ''}
+                    className={cn(
+                      errors.guestEmail ? 'border-destructive' : '',
+                      isReturningGuest ? 'border-primary' : ''
+                    )}
                   />
                   {errors.guestEmail && <p className="text-xs text-destructive">{errors.guestEmail}</p>}
                 </div>
