@@ -121,7 +121,7 @@ export const RoomsSection = () => {
                 </Button>
                 <Button 
                   className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
-                  onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
+                  onClick={() => window.open('https://wa.me/995555199090', '_blank')}
                 >
                   {t('rooms.bookNow')}
                 </Button>

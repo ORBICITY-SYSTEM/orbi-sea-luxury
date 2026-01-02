@@ -21,7 +21,7 @@ export const CTASection = () => {
         </p>
         <Button
           size="lg"
-          onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
+          onClick={() => window.open('https://wa.me/995555199090', '_blank')}
           className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold hover:scale-105 transition-transform"
         >
           {t('cta.button')}

@@ -121,7 +121,7 @@ export const HeroSection = () => {
           <Button
             size="lg"
             variant="outline"
-            onClick={() => window.open('https://wa.me/+995555199090', '_blank')}
+            onClick={() => window.open('https://wa.me/995555199090', '_blank')}
             className="border-2 border-white/80 text-white hover:bg-white hover:text-navy-900 font-semibold text-base px-10 py-7 rounded-full transition-all duration-500 hover:scale-105 backdrop-blur-sm tracking-wider"
           >
             <MessageCircle className="w-5 h-5 mr-3" />
@@ -197,7 +197,7 @@ export const HeroSection = () => {
           </svg>
         </a>
         <a 
-          href="https://wa.me/+995555199090" 
+          href="https://wa.me/995555199090" 
           target="_blank" 
           rel="noopener noreferrer"
           className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-green-500 hover:border-green-500 transition-all duration-300"
