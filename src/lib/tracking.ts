@@ -109,13 +109,7 @@ const getFacebookCookies = () => {
 // Track conversion event via Meta Conversions API
 export const trackConversion = async (
   eventName: string,
-  customData?: {
-    currency?: string;
-    value?: number;
-    content_name?: string;
-    content_type?: string;
-    num_items?: number;
-  }
+  customData?: Record<string, any>
 ) => {
   try {
     const { fbp, fbc } = getFacebookCookies();
