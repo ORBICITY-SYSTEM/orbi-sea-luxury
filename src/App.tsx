@@ -64,7 +64,7 @@ const App = () => (
         <WhatsAppFloatingButton />
         <AIChatbot />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <GoogleAnalytics measurementId={import.meta.env.VITE_GOOGLE_ANALYTICS_ID || ''} />
+          <GoogleAnalytics />
           <AuthProvider>
             <Suspense fallback={<PageLoader />}>
               <Routes>
