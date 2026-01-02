@@ -112,20 +112,20 @@ export const HeroCarousel = () => {
         </div>
       </div>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" />
+      {/* Gradient Overlay - Luxury style */}
+      <div className="absolute inset-0 bg-gradient-hero" />
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Luxury Gold style */}
       <button
         onClick={scrollPrev}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-gold-500/20 backdrop-blur-md border border-gold-400/30 text-white hover:bg-gold-500/40 hover:border-gold-400/50 transition-all duration-300 group"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-gold-500/20 backdrop-blur-md border border-gold-400/30 text-white hover:bg-gold-500/40 hover:border-gold-400/50 transition-all duration-300 group"
         aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
