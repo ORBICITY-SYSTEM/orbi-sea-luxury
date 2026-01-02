@@ -1,15 +1,11 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackLead } from '@/lib/tracking';
 
 export const WhatsAppFloatingButton = () => {
-  const { settings } = useSiteSettings();
-  const whatsappPhone = settings?.whatsapp_phone || '995555199090';
-  
-  // Use wa.me format for better compatibility
-  const whatsappUrl = `https://wa.me/${whatsappPhone}`;
+  const { whatsappUrl } = useWhatsApp();
 
   const handleClick = () => {
     trackLead({

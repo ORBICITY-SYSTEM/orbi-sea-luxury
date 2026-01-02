@@ -222,7 +222,7 @@ export const AdminContactSubmissions = () => {
                           size="sm"
                           onClick={() => {
                             const phone = submission.phone.replace(/[^0-9]/g, '');
-                            window.open(`https://api.whatsapp.com/send?phone=${phone}&type=phone_number&app_absent=0`, '_blank');
+                            window.open(`https://web.whatsapp.com/send?phone=${phone}`, '_blank', 'noopener,noreferrer');
                           }}
                         >
                           <Phone className="w-4 h-4 mr-2" />
