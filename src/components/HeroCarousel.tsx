@@ -2,41 +2,31 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, ChevronLeft, ChevronRight, ChevronDown, Play, Pause } from 'lucide-react';
-import { BookingWidget } from './BookingWidget';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { trackLead } from '@/lib/tracking';
 
 interface HeroSlide {
   type: 'video' | 'image';
   src: string;
-  title?: string;
-  subtitle?: string;
 }
 
 const heroSlides: HeroSlide[] = [
   {
     type: 'video',
     src: '/videos/hero-video.mov',
-    title: 'hero.title',
-    subtitle: 'hero.subtitle',
   },
   {
     type: 'image',
     src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80',
-    title: 'hero.title',
-    subtitle: 'hero.subtitle',
   },
   {
     type: 'image',
     src: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=80',
-    title: 'hero.title',
-    subtitle: 'hero.subtitle',
   },
   {
     type: 'image',
     src: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80',
-    title: 'hero.title',
-    subtitle: 'hero.subtitle',
   },
 ];
 
@@ -84,6 +74,13 @@ export const HeroCarousel = () => {
     return () => clearInterval(interval);
   }, [emblaApi, isPlaying]);
 
+  const handleWhatsAppClick = () => {
+    trackLead({
+      content_name: 'WhatsApp Click - Hero',
+      form_name: 'WhatsApp Button',
+    });
+  };
+
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
       {/* Carousel */}
@@ -114,102 +111,97 @@ export const HeroCarousel = () => {
         </div>
       </div>
 
-      {/* Gradient Overlay - Luxury style */}
-      <div className="absolute inset-0 bg-gradient-hero" />
+      {/* Gradient Overlay - Manus Style: Subtle, elegant */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
 
-      {/* Navigation Arrows - Luxury Gold style */}
+      {/* Navigation Arrows - Manus Style: Subtle gold circles */}
       <button
         onClick={scrollPrev}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-gold-500/20 backdrop-blur-md border border-gold-400/30 text-white hover:bg-gold-500/40 hover:border-gold-400/50 transition-all duration-300 group"
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-gold-500/20 backdrop-blur-sm border border-gold-400/30 text-white/80 hover:bg-gold-500/30 hover:text-white transition-all duration-300 flex items-center justify-center group"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-gold-500/20 backdrop-blur-md border border-gold-400/30 text-white hover:bg-gold-500/40 hover:border-gold-400/50 transition-all duration-300 group"
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-gold-500/20 backdrop-blur-sm border border-gold-400/30 text-white/80 hover:bg-gold-500/30 hover:text-white transition-all duration-300 flex items-center justify-center group"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform" />
       </button>
 
-      {/* Play/Pause Button */}
+      {/* Play/Pause Button - Positioned subtly */}
       <button
         onClick={() => setIsPlaying(!isPlaying)}
-        className="absolute bottom-32 right-4 md:right-8 z-20 p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+        className="absolute top-24 right-4 md:right-8 z-20 p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/70 hover:bg-white/20 hover:text-white transition-all duration-300"
         aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
       >
         {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
       </button>
 
-      {/* Dots Indicator */}
-      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+      {/* Dots Indicator - Bottom center, subtle */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollTo(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            className={`h-2 rounded-full transition-all duration-300 ${
               index === selectedIndex 
-                ? 'w-8 bg-secondary' 
-                : 'bg-white/50 hover:bg-white/70'
+                ? 'w-8 bg-white' 
+                : 'w-2 bg-white/40 hover:bg-white/60'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
 
-      {/* Content */}
+      {/* Content - Manus Style: Clean, centered, elegant */}
       <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-        {/* Welcome Text - Manus Style */}
-        <p className="text-xs md:text-sm tracking-[0.4em] uppercase text-white/90 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 font-light">
-          WELCOME TO ORBI CITY BATUMI
+        {/* Welcome Text - Manus Style: Wide letter spacing */}
+        <p className="text-xs md:text-sm tracking-[0.4em] uppercase text-white/80 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 font-light">
+          W E L C O M E &nbsp; T O &nbsp; O R B I &nbsp; C I T Y &nbsp; B A T U M I
         </p>
         
-        {/* Title - Manus Elegant Script/Italic Style */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-playfair italic font-normal text-white mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 drop-shadow-2xl leading-tight">
-          Your Perfect<br />
-          <span className="block">Seaside Escape</span>
+        {/* Title - Manus Style: Elegant serif italic */}
+        <h1 className="font-playfair italic font-normal text-white mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 drop-shadow-2xl leading-[1.1]">
+          <span className="block text-5xl md:text-7xl lg:text-8xl">Your Perfect</span>
+          <span className="block text-5xl md:text-7xl lg:text-8xl mt-2">Seaside Escape</span>
         </h1>
-        <p className="text-base md:text-lg text-white/80 mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 drop-shadow-lg font-light">
+
+        {/* Subtitle - Manus Style */}
+        <p className="text-base md:text-lg text-white/75 mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 drop-shadow-lg font-light tracking-wide">
           Experience unparalleled luxury on the shores of the Black Sea
         </p>
 
-        {/* Scroll Down Arrow - Manus Style */}
-        <div className="mb-6 animate-bounce-subtle">
-          <ChevronDown className="w-8 h-8 text-white/70" />
+        {/* Scroll Down Arrow - Manus Style: Animated chevron */}
+        <div className="mb-10 animate-bounce-subtle">
+          <ChevronDown className="w-7 h-7 text-white/60" strokeWidth={1.5} />
         </div>
 
-        {/* CTAs - Manus Style */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+        {/* CTAs - Manus Style: Black & Green buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <Button
             size="lg"
             onClick={() => document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-navy-800 hover:bg-navy-900 text-white font-semibold text-base px-8 py-6 rounded-md shadow-lg"
+            className="bg-black hover:bg-black/90 text-white font-semibold text-sm tracking-wider px-10 py-6 rounded-sm shadow-lg uppercase"
           >
-            CHECK RATES
+            Check Rates
           </Button>
           <Button
             asChild
             size="lg"
-            className="bg-success hover:bg-success/90 text-success-foreground font-semibold text-base px-8 py-6 rounded-md shadow-lg"
+            className="bg-success hover:bg-success/90 text-white font-semibold text-sm tracking-wide px-10 py-6 rounded-sm shadow-lg"
           >
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a 
+              href={whatsappUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={handleWhatsAppClick}
+            >
               <MessageCircle className="w-5 h-5 mr-2" />
               WhatsApp
             </a>
           </Button>
-        </div>
-
-        {/* Booking Widget */}
-        <div className="w-full max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
-          <BookingWidget />
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
-        <div className="w-6 h-10 border-2 border-white/70 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse" />
         </div>
       </div>
     </section>
