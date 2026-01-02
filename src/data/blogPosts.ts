@@ -98,7 +98,7 @@ Orbi City-ში თითოეული აპარტამენტი შ�
 
 დაჯავშნეთ თქვენი ყოფნა Orbi City-ში და გაიცანით ბათუმი, როგორც არასოდეს!
     `,
-    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800&q=80',
     category: 'Travel Tips',
     category_ka: 'მოგზაურობის რჩევები',
     author: 'Orbi City Team',
@@ -207,7 +207,7 @@ Stay at Orbi City Aparthotel for easy access to all these attractions!
 
 დასვენება Orbi City Aparthotel-ში მოგცემთ ამ ყველა ღირსშესანიშნაობაზე მარტივ წვდომას!
     `,
-    image: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1565967511849-76a60a516170?w=800&q=80',
     category: 'Destinations',
     category_ka: 'მიმართულებები',
     author: 'Orbi City Team',
@@ -348,7 +348,7 @@ Need recommendations? Our concierge at Orbi City is always happy to help with re
 
 გჭირდებათ რეკომენდაციები? Orbi City-ს კონსიერჟი ყოველთვის მზად არის დაგეხმაროთ რეზერვაციებში!
     `,
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80',
     category: 'Food & Dining',
     category_ka: 'საკვები და სასადილო',
     author: 'Orbi City Team',
@@ -535,7 +535,7 @@ Book your stay at Orbi City Aparthotel for any season - we're ready to welcome y
 
 დაჯავშნეთ თქვენი ყოფნა Orbi City Aparthotel-ში ნებისმიერი სეზონისთვის - მზად ვართ მივიღოთ თქვენ მთელი წლის განმავლობაში!
     `,
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&q=80',
     category: 'Travel Tips',
     category_ka: 'მოგზაურობის რჩევები',
     author: 'Orbi City Team',
@@ -756,7 +756,7 @@ Book a family apartment at Orbi City for your next Batumi adventure!
 
 დაჯავშნეთ საოჯახო აპარტამენტი Orbi City-ში თქვენი მომდევნო ბათუმის თავგადასავლისთვის!
     `,
-    image: 'https://images.unsplash.com/photo-1476234251651-f353703a034d?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80',
     category: 'Family Travel',
     category_ka: 'საოჯახო მოგზაურობა',
     author: 'Orbi City Team',
@@ -981,7 +981,7 @@ Ask our Orbi City concierge to arrange your perfect wine adventure!
 
 *რჩევა: ღვინის დეგუსტაციის დღის შემდეგ, დაბრუნდით თქვენს Orbi City აპარტამენტში დასასვენებლად და ისიამოვნეთ ზღვის ხედებით. იდეალური დასასრული იდეალური დღისთვის!*
     `,
-    image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80',
     category: 'Culture',
     category_ka: 'კულტურა',
     author: 'Orbi City Team',
