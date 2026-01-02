@@ -5,28 +5,54 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Function to find Place ID by searching for the hotel name
+// Your specific business details - Orbi City Sea View Aparthotel in Batumi (60 apartments)
+// NOT the entire Orbi City complex (15,000 apartments)
+const BUSINESS_SEARCH_QUERY = 'Orbi City Sea view Aparthotel in Batumi';
+const BUSINESS_ADDRESS = '7b Sherif Khimshiashvili St, Batumi 6010, Georgia';
+const BUSINESS_PHONE = '555 19 90 90';
+
+// Function to find your specific business Place ID
 async function findPlaceId(apiKey: string): Promise<string | null> {
-  const searchQuery = 'Orbi City Batumi';
-  const location = '41.6431,41.6347'; // Batumi coordinates
-  
   try {
-    // Use Find Place API to get Place ID
-    const findPlaceUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(searchQuery)}&inputtype=textquery&locationbias=point:${location}&fields=place_id,name,formatted_address&key=${apiKey}`;
+    // Search specifically for YOUR business: "Orbi City Sea view Aparthotel in Batumi"
+    const searchQueries = [
+      'Orbi City Sea view Aparthotel in Batumi',
+      'Orbi City Sea View Aparthotel Batumi Georgia',
+      'Orbi City Sea view Aparthotel 7b Sherif Khimshiashvili Batumi'
+    ];
     
-    console.log('Searching for place:', searchQuery);
-    const response = await fetch(findPlaceUrl);
-    const data = await response.json();
-    
-    console.log('Find Place response:', JSON.stringify(data));
-    
-    if (data.status === 'OK' && data.candidates && data.candidates.length > 0) {
-      console.log('Found place:', data.candidates[0].name, 'Place ID:', data.candidates[0].place_id);
-      return data.candidates[0].place_id;
+    for (const searchQuery of searchQueries) {
+      console.log('Searching for:', searchQuery);
+      
+      // Use Find Place API
+      const findPlaceUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(searchQuery)}&inputtype=textquery&fields=place_id,name,formatted_address,rating,user_ratings_total&key=${apiKey}`;
+      
+      const response = await fetch(findPlaceUrl);
+      const data = await response.json();
+      
+      console.log('Find Place response:', JSON.stringify(data));
+      
+      if (data.status === 'OK' && data.candidates && data.candidates.length > 0) {
+        // Find the one that matches YOUR business (around 100 reviews, rating ~2.9)
+        // Not the large Orbi City complex (1000+ reviews)
+        for (const candidate of data.candidates) {
+          console.log('Candidate:', candidate.name, 'Reviews:', candidate.user_ratings_total, 'Rating:', candidate.rating);
+          
+          // Your business has around 100 reviews, not 1000+
+          if (candidate.user_ratings_total && candidate.user_ratings_total < 500) {
+            console.log('Found YOUR business:', candidate.name, 'Place ID:', candidate.place_id);
+            return candidate.place_id;
+          }
+        }
+        
+        // If no match by review count, return first result
+        console.log('Returning first candidate:', data.candidates[0].name);
+        return data.candidates[0].place_id;
+      }
     }
     
-    // Fallback: try text search
-    const textSearchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent('Orbi City Aparthotel Batumi Georgia')}&key=${apiKey}`;
+    // Fallback: try text search with more specific query
+    const textSearchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent('Orbi City Sea view Aparthotel Batumi 7b Sherif Khimshiashvili')}&key=${apiKey}`;
     console.log('Trying text search...');
     const textResponse = await fetch(textSearchUrl);
     const textData = await textResponse.json();
@@ -34,6 +60,13 @@ async function findPlaceId(apiKey: string): Promise<string | null> {
     console.log('Text Search response:', JSON.stringify(textData));
     
     if (textData.status === 'OK' && textData.results && textData.results.length > 0) {
+      // Find result with fewer reviews (your business, not the complex)
+      for (const result of textData.results) {
+        if (result.user_ratings_total && result.user_ratings_total < 500) {
+          console.log('Found via text search (your business):', result.name, 'Place ID:', result.place_id);
+          return result.place_id;
+        }
+      }
       console.log('Found via text search:', textData.results[0].name, 'Place ID:', textData.results[0].place_id);
       return textData.results[0].place_id;
     }
@@ -60,23 +93,30 @@ serve(async (req) => {
     const { action, placeId } = await req.json();
 
     if (action === 'getPlaceDetails') {
-      // First, try to find the place ID dynamically
+      // First, try to find your specific business Place ID
       let targetPlaceId = placeId;
       
       if (!targetPlaceId) {
-        console.log('No Place ID provided, searching for Orbi City...');
+        console.log('No Place ID provided, searching for Orbi City Sea View Aparthotel...');
         targetPlaceId = await findPlaceId(GOOGLE_MAPS_API_KEY);
         
         if (!targetPlaceId) {
-          console.log('Could not find Place ID, returning fallback data');
-          // Return fallback data if we can't find the place
+          console.log('Could not find Place ID, returning your business fallback data');
+          // Return YOUR business fallback data
           return new Response(JSON.stringify({
             success: true,
             data: {
-              name: 'Orbi City Sea View Aparthotel',
-              rating: 4.5,
-              user_ratings_total: 150,
-              formatted_address: '7 Sheriff Khimshiashvili Street, Batumi 6010, Georgia',
+              name: 'Orbi City Sea View Aparthotel in Batumi',
+              rating: 2.9,
+              user_ratings_total: 100,
+              formatted_address: BUSINESS_ADDRESS,
+              formatted_phone_number: BUSINESS_PHONE,
+              geometry: {
+                location: {
+                  lat: 41.6399416,
+                  lng: 41.6141119
+                }
+              },
               reviews: []
             },
             fallback: true
@@ -98,14 +138,21 @@ serve(async (req) => {
       
       if (data.status !== 'OK') {
         console.error('Google Places API error:', data);
-        // Return fallback data instead of throwing error
+        // Return YOUR business fallback data instead of throwing error
         return new Response(JSON.stringify({
           success: true,
           data: {
-            name: 'Orbi City Sea View Aparthotel',
-            rating: 4.5,
-            user_ratings_total: 150,
-            formatted_address: '7 Sheriff Khimshiashvili Street, Batumi 6010, Georgia',
+            name: 'Orbi City Sea View Aparthotel in Batumi',
+            rating: 2.9,
+            user_ratings_total: 100,
+            formatted_address: BUSINESS_ADDRESS,
+            formatted_phone_number: BUSINESS_PHONE,
+            geometry: {
+              location: {
+                lat: 41.6399416,
+                lng: 41.6141119
+              }
+            },
             reviews: []
           },
           fallback: true
