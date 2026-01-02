@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { DiscountPopup } from "@/components/DiscountPopup";
 import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import { StructuredData } from "@/components/StructuredData";
+import { AIChatbot } from "@/components/AIChatbot";
 import Index from "./pages/Index";
 import Apartments from "./pages/Apartments";
 import ApartmentDetail from "./pages/ApartmentDetail";
@@ -37,6 +38,7 @@ const App = () => (
         <DiscountPopup />
         <GoogleReviewPopup />
         <StructuredData />
+        <AIChatbot />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <AuthProvider>
             <Routes>
