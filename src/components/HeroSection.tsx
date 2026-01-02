@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import heroPoster from '@/assets/hero-poster.jpg';
 
 // Hero video sources
 const heroVideos = [
@@ -14,9 +15,6 @@ const heroVideos = [
   '/videos/hero-5.mp4',
   '/videos/hero-6.mp4',
 ];
-
-// Fallback image when videos fail to load
-const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80';
 
 export const HeroSection = () => {
   const { t } = useLanguage();
@@ -89,12 +87,12 @@ export const HeroSection = () => {
 
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
-      {/* Fallback Image - Always present as background */}
+      {/* Fallback/Poster Image - Always present as background */}
       <div 
         className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
           allVideosFailed || videosReady.size === 0 ? 'opacity-100' : 'opacity-0'
         }`}
-        style={{ backgroundImage: `url(${FALLBACK_IMAGE})` }}
+        style={{ backgroundImage: `url(${heroPoster})` }}
       />
 
       {/* Video Background Carousel - Lazy loaded */}
@@ -114,6 +112,7 @@ export const HeroSection = () => {
             loop
             muted
             playsInline
+            poster={heroPoster}
             preload={index === currentVideoIndex ? "auto" : "none"}
             onCanPlay={() => handleVideoReady(index)}
             onError={() => handleVideoError(index)}
