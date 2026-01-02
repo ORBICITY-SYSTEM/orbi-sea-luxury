@@ -33,6 +33,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
+    'booking.title': 'Check Availability',
+    'booking.selectDate': 'Select date',
     'booking.checkIn': 'Check In',
     'booking.checkOut': 'Check Out',
     'booking.guests': 'Guests',
@@ -334,6 +336,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
+    'booking.title': 'დაჯავშნე ახლა',
+    'booking.selectDate': 'აირჩიე თარიღი',
     'booking.checkIn': 'დაბინავება',
     'booking.checkOut': 'დატოვება',
     'booking.guests': 'სტუმრები',
@@ -629,6 +633,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
+    'booking.title': 'Забронировать',
+    'booking.selectDate': 'Выберите дату',
     'booking.checkIn': 'Заезд',
     'booking.checkOut': 'Выезд',
     'booking.guests': 'Гости',
@@ -780,6 +786,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
+    'booking.title': 'Rezervasyon',
+    'booking.selectDate': 'Tarih seçin',
     'booking.checkIn': 'Giriş',
     'booking.checkOut': 'Çıkış',
     'booking.guests': 'Misafirler',
@@ -870,6 +878,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
+    'booking.title': 'Забронювати',
+    'booking.selectDate': 'Оберіть дату',
     'booking.checkIn': 'Заїзд',
     'booking.checkOut': 'Виїзд',
     'booking.guests': 'Гості',
