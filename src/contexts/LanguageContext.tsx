@@ -56,6 +56,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.title': 'Your Perfect Seaside Escape',
     'hero.subtitle': 'Luxury Sea View Apartments in the Heart of Batumi',
+    'hero.bookNowPayLater': 'BOOK NOW / PAY LATER',
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
@@ -359,6 +360,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.title': 'თქვენი იდეალური სანაპირო დასვენება',
     'hero.subtitle': 'ლუქს აპარტამენტები ზღვის ხედით ბათუმის გულში',
+    'hero.bookNowPayLater': 'დაჯავშნე ახლა / გადაიხადე მოგვიანებით',
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
@@ -656,6 +658,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.title': 'Ваш Идеальный Приморский Отдых',
     'hero.subtitle': 'Роскошные Апартаменты с Видом на Море в Сердце Батуми',
+    'hero.bookNowPayLater': 'ЗАБРОНИРОВАТЬ / ОПЛАТИТЬ ПОЗЖЕ',
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
@@ -809,6 +812,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.title': 'Mükemmel Deniz Kenarı Kaçışınız',
     'hero.subtitle': 'Batum\'un Kalbinde Lüks Deniz Manzaralı Apartmanlar',
+    'hero.bookNowPayLater': 'HEMEN REZERVE ET / SONRA ÖDE',
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
@@ -901,6 +905,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.title': 'Ваш Ідеальний Приморський Відпочинок',
     'hero.subtitle': 'Розкішні Апартаменти з Видом на Море в Серці Батумі',
+    'hero.bookNowPayLater': 'ЗАБРОНЮЙТЕ ЗАРАЗ / СПЛАТІТЬ ПІЗНІШЕ',
     'hero.whatsapp': 'WhatsApp',
     
     // Booking Widget
