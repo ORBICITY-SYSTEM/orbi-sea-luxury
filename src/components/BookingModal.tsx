@@ -10,10 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, Users, CreditCard, Loader2, CheckCircle } from 'lucide-react';
+import { CalendarIcon, Users, CreditCard, Loader2 } from 'lucide-react';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
+import { BookingSuccessReviewPopup } from './BookingSuccessReviewPopup';
 
 interface ApartmentPrice {
   id: string;
@@ -217,12 +218,6 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           : 'Confirmation sent to your email',
       });
       
-      // Reset form after delay
-      setTimeout(() => {
-        resetForm();
-        onClose();
-      }, 3000);
-      
     } catch (error) {
       console.error('Booking error:', error);
       toast({
@@ -254,26 +249,14 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
 
   if (success) {
     return (
-      <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-md">
-          <div className="text-center py-8">
-            <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-12 h-12 text-green-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-foreground mb-2">
-              {language === 'ka' ? 'ჯავშანი დადასტურებულია!' : 'Booking Confirmed!'}
-            </h3>
-            <p className="text-muted-foreground mb-4">
-              {language === 'ka' 
-                ? 'დადასტურება გამოგზავნილია თქვენს ელ.ფოსტაზე. ჩვენი მენეჯერი მალე დაგიკავშირდებათ.'
-                : 'Confirmation sent to your email. Our manager will contact you soon.'}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {language === 'ka' ? 'გადახდა: სასტუმროში მოსვლისას' : 'Payment: Upon arrival at hotel'}
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <BookingSuccessReviewPopup
+        isOpen={isOpen}
+        onClose={() => {
+          resetForm();
+          onClose();
+        }}
+        guestName={guestName}
+      />
     );
   }
 
