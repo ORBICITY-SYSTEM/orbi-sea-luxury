@@ -173,11 +173,11 @@ export const AdminSettings = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="ga4_measurement_id">GA4 Measurement ID</Label>
+              <Label htmlFor="google_analytics_id">GA4 Measurement ID</Label>
               <Input
-                id="ga4_measurement_id"
-                value={formData.ga4_measurement_id || ''}
-                onChange={(e) => handleChange('ga4_measurement_id', e.target.value)}
+                id="google_analytics_id"
+                value={formData.google_analytics_id || ''}
+                onChange={(e) => handleChange('google_analytics_id', e.target.value)}
                 placeholder="G-XXXXXXXXXX"
               />
               <p className="text-sm text-muted-foreground">
