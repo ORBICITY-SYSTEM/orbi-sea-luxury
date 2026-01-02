@@ -11,6 +11,7 @@ import { trackLead, trackPageView } from '@/lib/tracking';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useEmail } from '@/hooks/useEmail';
 import { z } from 'zod';
 
 const contactFormSchema = z.object({
@@ -34,6 +35,7 @@ const contactFormSchema = z.object({
 const Contact = () => {
   const { toast } = useToast();
   const { settings, isLoading } = useSiteSettings();
+  const { sendContactReply } = useEmail();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -63,6 +65,12 @@ const Contact = () => {
 
       if (error) throw error;
 
+      // Send auto-reply email to the user
+      await sendContactReply(validatedData.email, {
+        name: validatedData.name,
+        message: validatedData.message
+      });
+
       // Track lead generation
       trackLead({
         content_name: 'Contact Form Submission',
@@ -72,7 +80,7 @@ const Contact = () => {
 
       toast({
         title: 'Message Sent Successfully! ✅',
-        description: 'We\'ll get back to you as soon as possible.',
+        description: 'We\'ll get back to you as soon as possible. Check your email for confirmation.',
       });
 
       // Reset form

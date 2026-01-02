@@ -1,5 +1,46 @@
 import { supabase } from '@/integrations/supabase/client';
 
+// Initialize Google Analytics 4 dynamically
+export const initializeGA4 = async () => {
+  try {
+    const { data: settings } = await supabase
+      .from('site_settings')
+      .select('key, value')
+      .in('key', ['ga4_measurement_id']);
+    
+    const measurementId = settings?.find(s => s.key === 'ga4_measurement_id')?.value;
+    
+    if (!measurementId) {
+      console.warn('GA4 Measurement ID not configured');
+      return;
+    }
+
+    // Load Google Analytics script
+    if (!window.gtag) {
+      // Load gtag.js script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(script);
+
+      // Initialize dataLayer and gtag function
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function() {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag('js', new Date());
+      window.gtag('config', measurementId, {
+        page_path: window.location.pathname,
+        send_page_view: true
+      });
+      
+      console.log('GA4 initialized with ID:', measurementId);
+    }
+  } catch (error) {
+    console.error('Failed to initialize GA4:', error);
+  }
+};
+
 // Initialize Meta Pixel dynamically
 export const initializeMetaPixel = async () => {
   try {
@@ -40,6 +81,14 @@ export const initializeMetaPixel = async () => {
   } catch (error) {
     console.error('Failed to initialize Meta Pixel:', error);
   }
+};
+
+// Initialize all tracking
+export const initializeTracking = async () => {
+  await Promise.all([
+    initializeGA4(),
+    initializeMetaPixel()
+  ]);
 };
 
 // Get Facebook browser cookies
@@ -235,5 +284,6 @@ declare global {
     dataLayer: any[];
     fbq: any;
     _fbq: any;
+    gtag: (...args: any[]) => void;
   }
 }

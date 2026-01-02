@@ -10,6 +10,32 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// Browser language detection helper
+const detectBrowserLanguage = (): Language => {
+  const supportedLanguages: Language[] = ['en', 'ka', 'ru', 'tr', 'uk'];
+  
+  // First check localStorage
+  const savedLang = localStorage.getItem('preferred-language');
+  if (savedLang && supportedLanguages.includes(savedLang as Language)) {
+    return savedLang as Language;
+  }
+  
+  // Then check browser language
+  const browserLang = navigator.language.split('-')[0].toLowerCase();
+  
+  // Map browser language codes to our supported languages
+  const languageMap: Record<string, Language> = {
+    'en': 'en',
+    'ka': 'ka',
+    'ru': 'ru',
+    'tr': 'tr',
+    'uk': 'uk',
+    'ge': 'ka', // Alternative code for Georgian
+  };
+  
+  return languageMap[browserLang] || 'en';
+};
+
 const translations: Record<Language, Record<string, string>> = {
   en: {
     // Navigation
@@ -956,20 +982,12 @@ const translations: Record<Language, Record<string, string>> = {
   },
 };
 
-const detectLanguage = (): Language => {
-  const browserLang = navigator.language.toLowerCase();
-  
-  if (browserLang.startsWith('ka')) return 'ka';
-  if (browserLang.startsWith('ru')) return 'ru';
-  if (browserLang.startsWith('tr')) return 'tr';
-  if (browserLang.startsWith('uk')) return 'uk';
-  return 'en';
-};
+// Using detectBrowserLanguage defined at the top of the file
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
     const saved = localStorage.getItem('language') as Language;
-    return saved || detectLanguage();
+    return saved || detectBrowserLanguage();
   });
 
   useEffect(() => {
