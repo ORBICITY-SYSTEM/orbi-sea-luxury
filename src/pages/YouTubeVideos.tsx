@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Play } from 'lucide-react';
+import { YouTubeEmbed } from '@/components/YouTubeEmbed';
 import { useEffect } from 'react';
 import { trackPageView } from '@/lib/tracking';
 import { motion } from 'framer-motion';
@@ -58,11 +58,11 @@ const YouTubeVideos = () => {
             
             {/* Loading State */}
             {isLoading && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="group">
-                    <Skeleton className="w-full aspect-[4/3] rounded-3xl mb-5" />
-                    <Skeleton className="h-7 w-3/4 mb-3" />
+                  <div key={i} className="space-y-4">
+                    <Skeleton className="w-full aspect-video rounded-3xl" />
+                    <Skeleton className="h-7 w-3/4" />
                     <Skeleton className="h-5 w-full" />
                   </div>
                 ))}
@@ -86,27 +86,17 @@ const YouTubeVideos = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="group cursor-pointer"
-                    onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
+                    className="space-y-4"
                   >
-                    {/* Thumbnail */}
-                    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden mb-5 bg-muted shadow-lg group-hover:shadow-2xl transition-shadow duration-500">
-                      <img
-                        src={video.thumbnail}
-                        alt={video.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                        loading="lazy"
-                      />
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                        <div className="w-20 h-20 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition-all duration-300 shadow-xl">
-                          <Play className="w-10 h-10 text-primary-foreground fill-primary-foreground ml-1" />
-                        </div>
-                      </div>
-                    </div>
+                    {/* Embedded Video Player */}
+                    <YouTubeEmbed
+                      videoId={video.id}
+                      title={video.title}
+                      thumbnail={video.thumbnail}
+                    />
 
                     {/* Content */}
-                    <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300 line-clamp-2">
+                    <h3 className="text-xl md:text-2xl font-semibold text-foreground line-clamp-2">
                       {video.title}
                     </h3>
                     <p className="text-muted-foreground line-clamp-2 text-base">
