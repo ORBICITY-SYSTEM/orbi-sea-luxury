@@ -4,11 +4,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Loader2, Save } from 'lucide-react';
+import { Loader2, Save, TestTube, CheckCircle, XCircle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export const AdminSettings = () => {
   const { settings, isLoading, updateSetting } = useSiteSettings();
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const [gaTestStatus, setGaTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
+  const [metaTestStatus, setMetaTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
+  const { toast } = useToast();
 
   useEffect(() => {
     if (settings) {
@@ -29,6 +33,103 @@ export const AdminSettings = () => {
 
   const handleChange = (key: string, value: string) => {
     setFormData(prev => ({ ...prev, [key]: value }));
+  };
+
+  const testGoogleAnalytics = () => {
+    const gaId = formData.google_analytics_id;
+    if (!gaId) {
+      toast({
+        title: 'შეცდომა',
+        description: 'GA4 Measurement ID არ არის შეყვანილი',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setGaTestStatus('testing');
+    
+    // Check if gtag is loaded
+    if ((window as any).gtag) {
+      try {
+        // Send test event
+        (window as any).gtag('event', 'admin_test_event', {
+          event_category: 'admin',
+          event_label: 'GA4 Test from Admin Panel',
+          value: 1
+        });
+        
+        setGaTestStatus('success');
+        toast({
+          title: 'წარმატება!',
+          description: `GA4 (${gaId}) მუშაობს სწორად. ტესტ ივენტი გაიგზავნა.`,
+        });
+      } catch (error) {
+        setGaTestStatus('error');
+        toast({
+          title: 'შეცდომა',
+          description: 'ივენტის გაგზავნა ვერ მოხერხდა',
+          variant: 'destructive',
+        });
+      }
+    } else {
+      setGaTestStatus('error');
+      toast({
+        title: 'შეცდომა',
+        description: 'Google Analytics არ არის ჩატვირთული. შეამოწმეთ Measurement ID.',
+        variant: 'destructive',
+      });
+    }
+
+    // Reset status after 3 seconds
+    setTimeout(() => setGaTestStatus('idle'), 3000);
+  };
+
+  const testMetaPixel = () => {
+    const pixelId = formData.meta_pixel_id;
+    if (!pixelId) {
+      toast({
+        title: 'შეცდომა',
+        description: 'Meta Pixel ID არ არის შეყვანილი',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setMetaTestStatus('testing');
+    
+    // Check if fbq is loaded
+    if ((window as any).fbq) {
+      try {
+        // Send test event
+        (window as any).fbq('trackCustom', 'AdminTestEvent', {
+          source: 'Admin Panel',
+          timestamp: new Date().toISOString()
+        });
+        
+        setMetaTestStatus('success');
+        toast({
+          title: 'წარმატება!',
+          description: `Meta Pixel (${pixelId}) მუშაობს სწორად. ტესტ ივენტი გაიგზავნა.`,
+        });
+      } catch (error) {
+        setMetaTestStatus('error');
+        toast({
+          title: 'შეცდომა',
+          description: 'ივენტის გაგზავნა ვერ მოხერხდა',
+          variant: 'destructive',
+        });
+      }
+    } else {
+      setMetaTestStatus('error');
+      toast({
+        title: 'შეცდომა',
+        description: 'Meta Pixel არ არის ჩატვირთული. შეამოწმეთ Pixel ID.',
+        variant: 'destructive',
+      });
+    }
+
+    // Reset status after 3 seconds
+    setTimeout(() => setMetaTestStatus('idle'), 3000);
   };
 
   if (isLoading) {
@@ -174,12 +275,28 @@ export const AdminSettings = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="google_analytics_id">GA4 Measurement ID</Label>
-              <Input
-                id="google_analytics_id"
-                value={formData.google_analytics_id || ''}
-                onChange={(e) => handleChange('google_analytics_id', e.target.value)}
-                placeholder="G-XXXXXXXXXX"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="google_analytics_id"
+                  value={formData.google_analytics_id || ''}
+                  onChange={(e) => handleChange('google_analytics_id', e.target.value)}
+                  placeholder="G-XXXXXXXXXX"
+                  className="flex-1"
+                />
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={testGoogleAnalytics}
+                  disabled={gaTestStatus === 'testing'}
+                  className="shrink-0"
+                >
+                  {gaTestStatus === 'testing' && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                  {gaTestStatus === 'success' && <CheckCircle className="h-4 w-4 mr-2 text-green-500" />}
+                  {gaTestStatus === 'error' && <XCircle className="h-4 w-4 mr-2 text-red-500" />}
+                  {gaTestStatus === 'idle' && <TestTube className="h-4 w-4 mr-2" />}
+                  ტესტი
+                </Button>
+              </div>
               <p className="text-sm text-muted-foreground">
                 იხილეთ Google Analytics → Admin → Data Streams → Your Stream
               </p>
@@ -196,12 +313,28 @@ export const AdminSettings = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="meta_pixel_id">Meta Pixel ID</Label>
-              <Input
-                id="meta_pixel_id"
-                value={formData.meta_pixel_id || ''}
-                onChange={(e) => handleChange('meta_pixel_id', e.target.value)}
-                placeholder="1234567890123456"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="meta_pixel_id"
+                  value={formData.meta_pixel_id || ''}
+                  onChange={(e) => handleChange('meta_pixel_id', e.target.value)}
+                  placeholder="1234567890123456"
+                  className="flex-1"
+                />
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={testMetaPixel}
+                  disabled={metaTestStatus === 'testing'}
+                  className="shrink-0"
+                >
+                  {metaTestStatus === 'testing' && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                  {metaTestStatus === 'success' && <CheckCircle className="h-4 w-4 mr-2 text-green-500" />}
+                  {metaTestStatus === 'error' && <XCircle className="h-4 w-4 mr-2 text-red-500" />}
+                  {metaTestStatus === 'idle' && <TestTube className="h-4 w-4 mr-2" />}
+                  ტესტი
+                </Button>
+              </div>
               <p className="text-sm text-muted-foreground">
                 იხილეთ Meta Events Manager → Data Sources → Your Pixel
               </p>

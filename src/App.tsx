@@ -12,6 +12,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { AIChatbot } from "@/components/AIChatbot";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { MetaPixel } from "@/components/MetaPixel";
 import { Loader2 } from 'lucide-react';
 
 // Lazy loaded pages for better performance
@@ -65,6 +66,7 @@ const App = () => (
         <AIChatbot />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <GoogleAnalytics />
+          <MetaPixel />
           <AuthProvider>
             <Suspense fallback={<PageLoader />}>
               <Routes>
