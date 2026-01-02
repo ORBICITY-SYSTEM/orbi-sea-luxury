@@ -1,22 +1,40 @@
 import { Layout } from '@/components/Layout';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useYouTubeVideos } from '@/hooks/useYouTubeVideos';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { YouTubeEmbed } from '@/components/YouTubeEmbed';
+import { VideoTourCard } from '@/components/VideoTourCard';
 import { useEffect } from 'react';
 import { trackPageView } from '@/lib/tracking';
 import { motion } from 'framer-motion';
 
 const YouTubeVideos = () => {
   const { t } = useLanguage();
-  const channelId = 'UC3YPMVgwMBJWPvY1IjD8UFQ';
-  const { data: videos, isLoading, error } = useYouTubeVideos(channelId);
 
   useEffect(() => {
     trackPageView();
   }, []);
+
+  const virtualTours = [
+    {
+      videoSrc: '/videos/orbi-city-tour.mp4',
+      title: 'Orbi City Batumi - Full Tour',
+      description: 'Explore the entire Orbi City complex, including apartments, amenities, and stunning sea views.'
+    },
+    {
+      videoSrc: '/videos/bedroom-luxury.mp4',
+      title: 'Luxury Apartment Interior',
+      description: 'Step inside our beautifully designed apartments with modern furnishings and panoramic views.'
+    },
+    {
+      videoSrc: '/videos/hotel-room.mp4',
+      title: 'Modern Hotel Room',
+      description: 'Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.'
+    },
+    {
+      videoSrc: '/videos/pool-amenities.mp4',
+      title: 'Amenities & Facilities',
+      description: 'Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.'
+    }
+  ];
 
   return (
     <Layout>
@@ -28,23 +46,23 @@ const YouTubeVideos = () => {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-primary uppercase tracking-[0.25em] text-sm font-medium mb-4"
           >
-            {t('youtubeVideos.breadcrumb')}
+            Immersive Experience
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-serif font-light text-foreground mb-6"
           >
-            {t('youtubeVideos.title')}
+            Virtual Tours
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed"
           >
-            {t('youtubeVideos.subtitle')}
+            Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.
           </motion.p>
         </div>
       </section>
@@ -54,65 +72,16 @@ const YouTubeVideos = () => {
       {/* Videos Grid Section */}
       <section className="py-16 md:py-24 bg-muted/20">
         <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            
-            {/* Loading State */}
-            {isLoading && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="space-y-4">
-                    <Skeleton className="w-full aspect-video rounded-3xl" />
-                    <Skeleton className="h-7 w-3/4" />
-                    <Skeleton className="h-5 w-full" />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Error State */}
-            {error && (
-              <Alert variant="destructive" className="max-w-2xl mx-auto">
-                <AlertDescription>{t('youtubeVideos.error')}</AlertDescription>
-              </Alert>
-            )}
-
-            {/* Videos Grid */}
-            {videos && videos.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                {videos.map((video, index) => (
-                  <motion.article
-                    key={video.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="space-y-4"
-                  >
-                    {/* Embedded Video Player */}
-                    <YouTubeEmbed
-                      videoId={video.id}
-                      title={video.title}
-                      thumbnail={video.thumbnail}
-                    />
-
-                    {/* Content */}
-                    <h3 className="text-xl md:text-2xl font-semibold text-foreground line-clamp-2">
-                      {video.title}
-                    </h3>
-                    <p className="text-muted-foreground line-clamp-2 text-base">
-                      {video.description || t('youtubeVideos.noDescription')}
-                    </p>
-                  </motion.article>
-                ))}
-              </div>
-            )}
-
-            {/* Empty State */}
-            {videos && videos.length === 0 && !isLoading && (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">{t('youtubeVideos.noVideos')}</p>
-              </div>
-            )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+            {virtualTours.map((tour, index) => (
+              <VideoTourCard
+                key={index}
+                videoSrc={tour.videoSrc}
+                title={tour.title}
+                description={tour.description}
+                index={index}
+              />
+            ))}
           </div>
         </div>
       </section>
