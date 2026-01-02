@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BookingProvider } from "@/contexts/BookingContext";
+import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import { StructuredData } from "@/components/StructuredData";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { AIChatbot } from "@/components/AIChatbot";
@@ -60,6 +61,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <StructuredData />
+        <GoogleReviewPopup />
         <WhatsAppFloatingButton />
         <AIChatbot />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>

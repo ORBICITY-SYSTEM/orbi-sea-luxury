@@ -6,28 +6,63 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { trackConversion } from '@/lib/tracking';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const GoogleReviewPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const { settings } = useSiteSettings();
+  const { user } = useAuth();
 
   useEffect(() => {
-    const hasSeenReviewPopup = sessionStorage.getItem('hasSeenReviewPopup');
-    const hasSeenDiscountPopup = sessionStorage.getItem('hasSeenDiscountPopup');
-    
-    if (!hasSeenReviewPopup && hasSeenDiscountPopup) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-        sessionStorage.setItem('hasSeenReviewPopup', 'true');
-      }, 30000);
+    const checkPastBookings = async () => {
+      const hasSeenReviewPopup = sessionStorage.getItem('hasSeenReviewPopup');
+      if (hasSeenReviewPopup) return;
 
-      return () => clearTimeout(timer);
-    }
-  }, []);
+      const today = new Date().toISOString().split('T')[0];
+      let hasPastBooking = false;
+
+      // Check for logged-in users in DB
+      if (user) {
+        const { data: bookings } = await supabase
+          .from('bookings')
+          .select('id, check_out')
+          .eq('user_id', user.id)
+          .lt('check_out', today)
+          .in('status', ['confirmed', 'completed'])
+          .limit(1);
+        
+        hasPastBooking = bookings && bookings.length > 0;
+      } else {
+        // Check localStorage for guest bookings
+        const guestBookings = localStorage.getItem('guestBookings');
+        if (guestBookings) {
+          try {
+            const bookings = JSON.parse(guestBookings);
+            hasPastBooking = bookings.some((booking: { checkOut: string }) => 
+              new Date(booking.checkOut) < new Date(today)
+            );
+          } catch (e) {
+            console.error('Error parsing guest bookings:', e);
+          }
+        }
+      }
+
+      if (hasPastBooking) {
+        const timer = setTimeout(() => {
+          setIsOpen(true);
+          sessionStorage.setItem('hasSeenReviewPopup', 'true');
+        }, 5000); // Show after 5 seconds
+
+        return () => clearTimeout(timer);
+      }
+    };
+
+    checkPastBookings();
+  }, [user]);
 
   const handleReview = () => {
-    // Track conversion
     trackConversion('GoogleReviewClick', {
       content_name: 'Google Review Click'
     });
