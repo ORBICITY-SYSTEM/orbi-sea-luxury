@@ -2,7 +2,6 @@ import { Layout } from '@/components/Layout';
 import { Wifi, Shield, Clock, Car, Wind, ConciergeBell } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import apartmentsHero from '@/assets/apartments-hero.png';
 
 const Amenities = () => {
   const { language } = useLanguage();
@@ -54,15 +53,20 @@ const Amenities = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative min-h-[350px] overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${apartmentsHero})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1e3a5f]/70 via-[#1e3a5f]/50 to-[#1e3a5f]/70" />
+      {/* Hero Section with Video */}
+      <section className="relative min-h-[400px] overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/videos/amenities-hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1e3a5f]/60 via-[#1e3a5f]/40 to-[#1e3a5f]/70" />
         
-        <div className="relative z-10 container mx-auto px-4 py-20 flex flex-col items-center justify-center text-center">
+        <div className="relative z-10 container mx-auto px-4 py-24 flex flex-col items-center justify-center text-center">
           <motion.span 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -99,7 +103,7 @@ const Amenities = () => {
         </div>
       </section>
 
-      {/* Amenities Grid - Modern Icon Cards */}
+      {/* Amenities Grid with Gradient Border & Glow */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -113,20 +117,26 @@ const Amenities = () => {
                   transition={{ duration: 0.5, delay: index * 0.08 }}
                   className="group"
                 >
-                  {/* Modern Card with Icon */}
-                  <div className="bg-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-border/30 p-8 text-center hover:-translate-y-2">
-                    {/* Icon Circle */}
-                    <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 transition-transform duration-500">
-                      <Icon className="w-10 h-10 text-white" strokeWidth={1.5} />
-                    </div>
+                  {/* Gradient Border Wrapper */}
+                  <div className="relative p-[2px] rounded-3xl bg-gradient-to-br from-amber-400/60 via-amber-500/30 to-amber-600/60 hover:from-amber-400 hover:via-amber-500 hover:to-amber-600 transition-all duration-500">
+                    {/* Glow Effect */}
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-400/0 via-amber-500/0 to-amber-600/0 group-hover:from-amber-400/20 group-hover:via-amber-500/30 group-hover:to-amber-600/20 blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
+                    
+                    {/* Card Content */}
+                    <div className="relative bg-card rounded-[22px] overflow-hidden p-8 text-center group-hover:shadow-2xl transition-all duration-500">
+                      {/* Icon Circle */}
+                      <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-500">
+                        <Icon className="w-10 h-10 text-white" strokeWidth={1.5} />
+                      </div>
 
-                    {/* Content */}
-                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-[#1e3a5f] transition-colors">
-                      {language === 'ka' ? amenity.titleKa : amenity.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {language === 'ka' ? amenity.descKa : amenity.desc}
-                    </p>
+                      {/* Content */}
+                      <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-amber-500 transition-colors duration-300">
+                        {language === 'ka' ? amenity.titleKa : amenity.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {language === 'ka' ? amenity.descKa : amenity.desc}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               );
