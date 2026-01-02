@@ -37,39 +37,38 @@ const Index = () => {
   
   const apartments = [
     {
-      image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/e4578176040cf98304ee3ae0477a108f.jpg',
+      image: 'https://orbicitybook-4w56az3r.manus.space/apt-suite-sea-view-real.webp',
       title: 'Suite with Sea View',
-      description: 'An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.'
+      description: 'An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.',
+      guests: 3,
+      bedrooms: 1,
+      size: '30m²'
     },
     {
-      image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg',
+      image: 'https://orbicitybook-4w56az3r.manus.space/apt-delux-suite-real.webp',
       title: 'Delux Suite with Sea View',
-      description: 'A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.'
+      description: 'A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.',
+      guests: 3,
+      bedrooms: 1,
+      size: '33m²'
     },
     {
-      image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/78f6531862f26bbcdf6bca5ec8d7305c.jpg',
+      image: 'https://orbicitybook-4w56az3r.manus.space/apt-superior-suite-real.webp',
       title: 'Superior Suite with Sea View',
-      description: 'Our premium suite featuring a separate living area, top-tier amenities, and the best panoramic views of the sea.'
+      description: 'Our premium suite featuring a separate living area, top-tier amenities, and the best panoramic views of the sea.',
+      guests: 3,
+      bedrooms: 2,
+      size: '33m²'
     },
-    {
-      image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/0922f2b1b13af96b0d24272d32439996.jpg',
-      title: 'Superior Family Suite',
-      description: 'A generously sized suite with multiple rooms, perfect for families or groups, ensuring comfort and privacy for everyone.'
-    },
-    {
-      image: 'https://horizons-cdn.hostinger.com/b7134a16-4d20-4990-bbc6-0f01fe63442b/80787ed88713055ace717fd00ec62ca7.jpg',
-      title: 'Two Bedroom Panoramic Suite',
-      description: 'The pinnacle of luxury. This expansive suite features two bedrooms and a stunning panoramic terrace for an unforgettable experience.'
-    }
   ];
 
   const galleryImages = [
-    'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/755d262231af5921623772da76ea56c7.jpg',
-    'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/29683ca4a5e5c522d3bca348fa0eabb1.jpg',
-    'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/12b2972bcb9994f6e350284f65f6d745.jpg',
-    'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/0922f2b1b13af96b0d24272d32439996.jpg',
-    'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg',
-    'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/78f6531862f26bbcdf6bca5ec8d7305c.jpg',
+    'https://orbicitybook-4w56az3r.manus.space/gallery-1-balcony-sea.webp',
+    'https://orbicitybook-4w56az3r.manus.space/gallery-2-lobby.webp',
+    'https://orbicitybook-4w56az3r.manus.space/gallery-3-bedroom.webp',
+    'https://orbicitybook-4w56az3r.manus.space/gallery-4-night-view.webp',
+    'https://orbicitybook-4w56az3r.manus.space/gallery-5-bedroom-2.webp',
+    'https://orbicitybook-4w56az3r.manus.space/gallery-6-aerial-coast.webp',
   ];
 
   return (
@@ -78,40 +77,63 @@ const Index = () => {
       <HeroCarousel />
       <BookingSection />
 
-      {/* Apartments Preview */}
-      <section id="rooms" className="py-20 bg-muted/30">
+      {/* Apartments Preview - Manus Style */}
+      <section id="rooms" className="py-24 bg-cream-50">
         <div className="container mx-auto px-4">
+          {/* Section Header - Manus Style */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Find Your Perfect Space</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Each of our apartments is thoughtfully designed to provide an unparalleled experience. Explore our offerings and find the one that speaks to you.
+            <p className="text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+              Exclusive Residences
+            </p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground mb-6">
+              Discover Your <span className="italic text-gold-500">Perfect Sanctuary</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light">
+              Each residence is meticulously crafted to offer an unparalleled living experience, where timeless elegance meets contemporary comfort.
             </p>
           </div>
 
+          {/* Apartment Cards - Manus Style */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {apartments.slice(0, 3).map((apt, index) => (
-              <Card key={index} className="group overflow-hidden hover:shadow-luxury transition-all">
-                <div className="relative h-64 overflow-hidden">
+            {apartments.map((apt, index) => (
+              <div key={index} className="group bg-white rounded-xl overflow-hidden shadow-card hover:shadow-luxury transition-all duration-500">
+                {/* Image */}
+                <div className="relative h-72 overflow-hidden">
                   <img 
                     src={apt.image} 
                     alt={apt.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-2xl font-bold text-foreground mb-3">{apt.title}</h3>
-                  <p className="text-muted-foreground mb-4">{apt.description}</p>
+                
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-serif font-medium text-foreground mb-3">{apt.title}</h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{apt.description}</p>
+                  
+                  {/* Specs - Manus Style */}
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-5">
+                    <span>{apt.guests} Guests</span>
+                    <span className="text-gold-400">•</span>
+                    <span>{apt.bedrooms} Bedroom{apt.bedrooms > 1 ? 's' : ''}</span>
+                    <span className="text-gold-400">•</span>
+                    <span>{apt.size}</span>
+                  </div>
+                  
                   <Link to="/apartments">
-                    <Button variant="outline" className="w-full">View Details</Button>
+                    <Button variant="outline" className="w-full border-gold-300 text-foreground hover:bg-gold-50 hover:border-gold-400 transition-colors">
+                      View Details
+                    </Button>
                   </Link>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
 
+          {/* View All Button - Manus Style */}
           <div className="text-center">
             <Link to="/apartments">
-              <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
+              <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-white font-medium px-10 py-6 rounded-sm shadow-gold">
                 View All Apartments
               </Button>
             </Link>
@@ -156,29 +178,35 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Preview */}
-      <section id="gallery" className="py-20 bg-background">
+      {/* Gallery Preview - Manus Style */}
+      <section id="gallery" className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">A Glimpse into Our World of Luxury</h2>
+            <p className="text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+              Visual Journey
+            </p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground mb-6">
+              A Glimpse into Our <span className="italic text-gold-500">World of Luxury</span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
             {galleryImages.map((image, index) => (
-              <div key={index} className="relative h-64 overflow-hidden rounded-lg group">
+              <div key={index} className="relative h-64 md:h-72 overflow-hidden rounded-lg group cursor-pointer">
                 <img 
                   src={image} 
                   alt={`Gallery ${index + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
               </div>
             ))}
           </div>
 
           <div className="text-center">
             <Link to="/gallery">
-              <Button size="lg" variant="outline">
-                View Full Gallery
+              <Button size="lg" variant="outline" className="border-gold-400 text-foreground hover:bg-gold-50 px-10 py-6">
+                Explore Full Gallery
               </Button>
             </Link>
           </div>
@@ -203,85 +231,107 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About Section with Image */}
-      <section className="py-20 bg-background">
+      {/* About Section - Manus Style */}
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-foreground mb-6">5 Star Aparthotel Orbi City</h2>
-              <p className="text-muted-foreground mb-4">
+              <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-6">Discover Orbi City Batumi</h2>
+              <p className="text-muted-foreground mb-4 font-light leading-relaxed">
                 Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking Black Sea views and five-star comfort.
               </p>
-              <p className="text-muted-foreground mb-6">
-                Our modern apartments feature fully equipped kitchenettes, spacious living areas, and stunning sea views. 
-                Whether you're traveling for business or pleasure, solo or with family, we have the perfect accommodation for your needs.
+              <p className="text-muted-foreground mb-8 font-light leading-relaxed">
+                Located in the heart of Batumi, our serviced apartments combine modern elegance with exceptional hospitality. Whether you're here for business or leisure, experience the perfect blend of comfort, convenience, and coastal beauty.
               </p>
               <div className="flex gap-4">
                 <Link to="/amenities">
-                  <Button>Explore Amenities</Button>
+                  <Button className="bg-gold-500 hover:bg-gold-600 text-white px-8">Explore Amenities</Button>
                 </Link>
                 <Link to="/location">
-                  <Button variant="outline">View Location</Button>
+                  <Button variant="outline" className="border-gold-400 hover:bg-gold-50 px-8">View Location</Button>
                 </Link>
               </div>
             </div>
             <div className="relative">
               <img 
-                src="https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/755d262231af5921623772da76ea56c7.jpg"
-                alt="Orbi City Lobby"
-                className="rounded-2xl shadow-2xl"
+                src="https://orbicitybook-4w56az3r.manus.space/about-orbi-city-image.webp"
+                alt="Orbi City Building"
+                className="rounded-2xl shadow-luxury w-full"
               />
-              <div className="absolute -bottom-6 -right-6 bg-gradient-gold text-secondary-foreground rounded-xl p-6 shadow-gold">
-                <div className="flex items-center gap-2 mb-2">
+              <div className="absolute -bottom-6 -right-6 bg-gold-500 text-white rounded-xl p-6 shadow-gold">
+                <div className="flex items-center gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-current" />
                   ))}
                 </div>
                 <p className="text-3xl font-bold">4.9</p>
-                <p className="text-sm">Guest Rating</p>
+                <p className="text-sm opacity-90">Guest Rating</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-muted/30">
+      {/* Testimonials - Manus Style */}
+      <section className="py-24 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">What Our Guests Say</h2>
+            <p className="text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+              GUEST EXPERIENCES
+            </p>
+            <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-4">
+              What Our Guests Say
+            </h2>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            <Card className="p-8 shadow-luxury">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Review 1 */}
+            <Card className="p-8 shadow-card bg-white">
               <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-secondary text-secondary" />
+                  <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
                 ))}
               </div>
-              <p className="text-lg text-muted-foreground mb-6 italic">
+              <p className="text-muted-foreground mb-6 italic font-light leading-relaxed">
                 "Absolutely stunning views of the Black Sea! The apartment was luxurious and the staff incredibly welcoming. The balcony breakfast was unforgettable."
               </p>
-              <div className="flex items-center gap-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face"
-                  alt="Sarah Johnson"
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">Sarah Johnson</p>
-                  <p className="text-sm text-muted-foreground">United Kingdom</p>
-                </div>
+              <div>
+                <p className="font-medium text-foreground">Sarah Johnson</p>
+                <p className="text-sm text-muted-foreground">United Kingdom</p>
               </div>
             </Card>
-          </div>
 
-          <div className="text-center mt-8">
-            <Link to="/apartments">
-              <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
-                Book Your Stay
-              </Button>
-            </Link>
+            {/* Review 2 */}
+            <Card className="p-8 shadow-card bg-white">
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
+                ))}
+              </div>
+              <p className="text-muted-foreground mb-6 italic font-light leading-relaxed">
+                "Best hotel experience in Georgia! Modern facilities, impeccable service, and the location is perfect. Will definitely return."
+              </p>
+              <div>
+                <p className="font-medium text-foreground">Michael Chen</p>
+                <p className="text-sm text-muted-foreground">Singapore</p>
+              </div>
+            </Card>
+
+            {/* Review 3 */}
+            <Card className="p-8 shadow-card bg-white">
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
+                ))}
+              </div>
+              <p className="text-muted-foreground mb-6 italic font-light leading-relaxed">
+                "Превосходный отель! Роскошные номера с видом на море, отличный ресторан и очень дружелюбный персонал. Highly recommended!"
+              </p>
+              <div>
+                <p className="font-medium text-foreground">Elena Popov</p>
+                <p className="text-sm text-muted-foreground">Russia</p>
+              </div>
+            </Card>
           </div>
         </div>
       </section>
