@@ -1,5 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Waves, Sparkles, Plane, MapPin } from 'lucide-react';
+import { GoogleMapInteractive } from './GoogleMapInteractive';
 
 export const LocationSection = () => {
   const { t } = useLanguage();
@@ -39,19 +40,8 @@ export const LocationSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Map - Orbi City Batumi exact location */}
-          <div className="rounded-2xl overflow-hidden shadow-lg h-[450px] lg:h-[500px] border border-border">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2978.4721849520347!2d41.63281!3d41.6464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40678e4e8f0a1a1b%3A0x8f3f6f5e5a4e5f5e!2sOrbi%20City%20Twin%20Towers!5e0!3m2!1sen!2sge!4v1704067200000!5m2!1sen!2sge"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Orbi City Batumi Location"
-            />
-          </div>
+          {/* Interactive Google Map */}
+          <GoogleMapInteractive className="h-[450px] lg:h-[500px] shadow-lg border border-border" />
 
           {/* Distance Cards - Manus Style */}
           <div className="space-y-4">

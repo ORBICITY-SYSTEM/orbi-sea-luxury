@@ -11,6 +11,7 @@ import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
 import { StructuredData } from "@/components/StructuredData";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { AIChatbot } from "@/components/AIChatbot";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Loader2 } from 'lucide-react';
 
 // Lazy loaded pages for better performance
@@ -63,6 +64,7 @@ const App = () => (
         <WhatsAppFloatingButton />
         <AIChatbot />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <GoogleAnalytics measurementId={import.meta.env.VITE_GOOGLE_ANALYTICS_ID || ''} />
           <AuthProvider>
             <Suspense fallback={<PageLoader />}>
               <Routes>
