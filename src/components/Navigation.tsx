@@ -62,8 +62,8 @@ export const Navigation = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled 
-        ? 'bg-primary shadow-luxury py-2' 
-        : 'bg-primary/95 py-4'
+        ? 'bg-[#1a3a4a] shadow-luxury py-2' 
+        : 'bg-[#1a3a4a] py-3'
     }`}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between">
@@ -86,15 +86,15 @@ export const Navigation = () => {
               <Link
                 key={link.key}
                 to={link.path}
-                className={`relative px-4 py-2 font-sans text-sm tracking-wide transition-all duration-300 rounded-lg ${
+                className={`relative px-3 py-2 font-sans text-sm tracking-wide transition-all duration-300 ${
                   location.pathname === link.path 
-                    ? 'text-secondary font-medium' 
-                    : 'text-white/90 hover:text-secondary hover:bg-white/5'
+                    ? 'text-[#c9a962]' 
+                    : 'text-white hover:text-[#c9a962]'
                 }`}
               >
                 {t(link.key) || link.key}
                 {location.pathname === link.path && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-secondary rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#c9a962]" />
                 )}
               </Link>
             ))}
