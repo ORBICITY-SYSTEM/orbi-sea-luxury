@@ -214,49 +214,61 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
           google.maps.event.addListenerOnce(mapInstance, 'idle', () => resolve());
         });
 
-        // Create info window
+        // Create info window with business name and address (no rating, no coordinates)
         const infoWindow = new window.google.maps.InfoWindow({
           content: `
             <div style="padding: 12px; max-width: 280px; font-family: system-ui, -apple-system, sans-serif;">
               <h3 style="margin: 0 0 10px; font-weight: 700; color: #1a1a1a; font-size: 16px;">
                 🏨 Orbi City Sea View Aparthotel
               </h3>
-              <p style="margin: 0 0 10px; color: #555; font-size: 13px; line-height: 1.4;">
-                ${placeDetails?.formatted_address || '7B Sherif Khimshiashvili St, Batumi 6000, Georgia'}
+              <p style="margin: 0 0 12px; color: #555; font-size: 13px; line-height: 1.5;">
+                ${placeDetails?.formatted_address || '7B Sherif Khimshiashvili St, Batumi 6010, Georgia'}
               </p>
-              ${placeDetails?.rating ? `
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 12px; padding: 8px; background: #fef3c7; border-radius: 8px;">
-                  <span style="color: #f59e0b; font-size: 18px;">★</span>
-                  <span style="font-weight: 700; font-size: 16px; color: #92400e;">${placeDetails.rating}</span>
-                  <span style="color: #78350f; font-size: 12px;">(${placeDetails.user_ratings_total} reviews)</span>
-                </div>
-              ` : ''}
               ${placeDetails?.formatted_phone_number ? `
-                <p style="margin: 0 0 8px; color: #555; font-size: 13px;">
+                <p style="margin: 0 0 12px; color: #555; font-size: 13px;">
                   📞 ${placeDetails.formatted_phone_number}
                 </p>
               ` : ''}
-              <a href="https://maps.google.com/maps?daddr=${location.lat},${location.lng}" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 style="
-                   display: inline-flex;
-                   align-items: center;
-                   gap: 6px;
-                   color: white;
-                   background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-                   text-decoration: none;
-                   font-weight: 600;
-                   padding: 8px 16px;
-                   border-radius: 8px;
-                   font-size: 13px;
-                   transition: transform 0.2s;
-                 ">
-                🧭 Get Directions
-              </a>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="https://maps.google.com/maps?daddr=${location.lat},${location.lng}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="
+                     display: inline-flex;
+                     align-items: center;
+                     gap: 6px;
+                     color: white;
+                     background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+                     text-decoration: none;
+                     font-weight: 600;
+                     padding: 8px 14px;
+                     border-radius: 8px;
+                     font-size: 12px;
+                   ">
+                  🧭 Directions
+                </a>
+                <a href="https://www.google.com/maps/place/?q=place_id:${YOUR_BUSINESS_PLACE_ID}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="
+                     display: inline-flex;
+                     align-items: center;
+                     gap: 6px;
+                     color: #0d9488;
+                     background: white;
+                     border: 1.5px solid #0d9488;
+                     text-decoration: none;
+                     font-weight: 600;
+                     padding: 8px 14px;
+                     border-radius: 8px;
+                     font-size: 12px;
+                   ">
+                  📍 View on Google
+                </a>
+              </div>
             </div>
           `,
-          maxWidth: 300
+          maxWidth: 320
         });
 
         infoWindowRef.current = infoWindow;
@@ -336,9 +348,8 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
   };
 
   const openInGoogleMaps = () => {
-    // Open the actual Google Maps place page for better UX
-    const placeQuery = encodeURIComponent('Orbi City Sea View Aparthotel, Batumi');
-    const url = `https://www.google.com/maps/search/?api=1&query=${placeQuery}`;
+    // Open your specific Google Business page via Place ID
+    const url = `https://www.google.com/maps/place/?q=place_id:${YOUR_BUSINESS_PLACE_ID}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
