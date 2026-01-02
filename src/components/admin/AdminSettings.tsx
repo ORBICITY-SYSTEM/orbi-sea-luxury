@@ -367,6 +367,28 @@ export const AdminSettings = () => {
           </CardContent>
         </Card>
 
+        {/* WhatsApp Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>WhatsApp შეტყობინება</CardTitle>
+            <CardDescription>წინასწარ შევსებული ტექსტი WhatsApp ღილაკებზე</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="whatsapp_message">WhatsApp შეტყობინება</Label>
+              <Input
+                id="whatsapp_message"
+                value={formData.whatsapp_message || ''}
+                onChange={(e) => handleChange('whatsapp_message', e.target.value)}
+                placeholder="გამარჯობა! მაინტერესებს ჯავშანი Orbi City-ში 🏨"
+              />
+              <p className="text-sm text-muted-foreground">
+                ეს ტექსტი ავტომატურად შეივსება WhatsApp ჩატში
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Popup Settings */}
         <Card>
           <CardHeader>
