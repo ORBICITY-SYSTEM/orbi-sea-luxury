@@ -159,15 +159,17 @@ export const HeroCarousel = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
         {/* Welcome Text - Manus Style */}
-        <p className="text-sm md:text-base tracking-[0.3em] uppercase text-white/80 mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          Welcome to Orbi City Batumi
+        <p className="text-xs md:text-sm tracking-[0.4em] uppercase text-white/90 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 font-light">
+          WELCOME TO ORBI CITY BATUMI
         </p>
         
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-normal text-white mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 drop-shadow-2xl">
-          {t('hero.title')}
+        {/* Title - Manus Elegant Script/Italic Style */}
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-playfair italic font-normal text-white mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 drop-shadow-2xl leading-tight">
+          Your Perfect<br />
+          <span className="block">Seaside Escape</span>
         </h1>
-        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 drop-shadow-lg">
-          {t('hero.subtitle')}
+        <p className="text-base md:text-lg text-white/80 mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 drop-shadow-lg font-light">
+          Experience unparalleled luxury on the shores of the Black Sea
         </p>
 
         {/* Scroll Down Arrow - Manus Style */}
