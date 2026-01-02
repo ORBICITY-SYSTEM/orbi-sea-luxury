@@ -15,6 +15,7 @@ import { AdminPromoCodes } from '@/components/admin/AdminPromoCodes';
 import { AdminExperiments } from '@/components/admin/AdminExperiments';
 import { AdminContent } from '@/components/admin/AdminContent';
 import { AdminMedia } from '@/components/admin/AdminMedia';
+import { AdminStyleGuide } from '@/components/admin/AdminStyleGuide';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -55,6 +56,7 @@ const Admin = () => {
               <Route path="promo-codes" element={<div className="p-6"><AdminPromoCodes /></div>} />
               <Route path="experiments" element={<div className="p-6"><AdminExperiments /></div>} />
               <Route path="seo" element={<div className="p-6"><AdminSEO /></div>} />
+              <Route path="style-guide" element={<div className="p-6"><AdminStyleGuide /></div>} />
               <Route path="settings" element={<div className="p-6"><AdminSettings /></div>} />
             </Routes>
           </div>
