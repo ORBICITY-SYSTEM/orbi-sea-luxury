@@ -17,7 +17,7 @@ interface EmailRequest {
 // Email Templates
 const templates = {
   booking_confirmation: (data: Record<string, any>) => ({
-    subject: "Booking Confirmation - Orbi City Batumi",
+    subject: "🏨 Booking Confirmed - Orbi City Batumi | Pay at Hotel",
     html: `
 <!DOCTYPE html>
 <html>
@@ -36,47 +36,97 @@ const templates = {
       </td>
     </tr>
     
+    <!-- Success Banner -->
+    <tr>
+      <td style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 20px 30px; text-align: center;">
+        <p style="color: #ffffff; font-size: 18px; margin: 0; font-weight: 600;">✓ Booking Confirmed!</p>
+      </td>
+    </tr>
+    
     <!-- Content -->
     <tr>
       <td style="padding: 40px 30px;">
-        <h2 style="color: #1a2a3a; font-size: 24px; margin: 0 0 20px; font-weight: 400;">Booking Confirmed!</h2>
+        <h2 style="color: #1a2a3a; font-size: 24px; margin: 0 0 20px; font-weight: 400;">Dear ${data.guestName || 'Guest'},</h2>
         <p style="color: #666; font-size: 16px; line-height: 1.6; margin: 0 0 30px;">
-          Dear ${data.guestName || 'Guest'},<br><br>
-          Thank you for choosing Orbi City Batumi. Your booking has been confirmed.
+          Thank you for choosing Orbi City Batumi! Your reservation has been confirmed. Below are your booking details.
         </p>
         
         <!-- Booking Details -->
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-radius: 8px; margin-bottom: 30px;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e5e7eb;">
           <tr>
             <td style="padding: 25px;">
-              <h3 style="color: #d4af37; font-size: 14px; margin: 0 0 15px; letter-spacing: 1px;">BOOKING DETAILS</h3>
+              <h3 style="color: #d4af37; font-size: 14px; margin: 0 0 20px; letter-spacing: 1px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px;">📋 RESERVATION DETAILS</h3>
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="color: #666; font-size: 14px; padding: 8px 0;">Check-in:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 8px 0; text-align: right; font-weight: 600;">${data.checkIn || 'TBD'}</td>
+                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Apartment Type:</td>
+                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">${data.apartmentName || 'Premium Suite'}</td>
                 </tr>
                 <tr>
-                  <td style="color: #666; font-size: 14px; padding: 8px 0;">Check-out:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 8px 0; text-align: right; font-weight: 600;">${data.checkOut || 'TBD'}</td>
+                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Check-in Date:</td>
+                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">📅 ${data.checkIn || 'TBD'}</td>
                 </tr>
                 <tr>
-                  <td style="color: #666; font-size: 14px; padding: 8px 0;">Guests:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 8px 0; text-align: right; font-weight: 600;">${data.guests || '2'}</td>
+                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Check-out Date:</td>
+                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">📅 ${data.checkOut || 'TBD'}</td>
                 </tr>
                 <tr>
-                  <td style="color: #666; font-size: 14px; padding: 8px 0;">Apartment:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 8px 0; text-align: right; font-weight: 600;">${data.apartmentName || 'Premium Suite'}</td>
+                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Number of Nights:</td>
+                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">🌙 ${data.nights || '1'} night(s)</td>
+                </tr>
+                <tr>
+                  <td style="color: #666; font-size: 14px; padding: 10px 0;">Number of Guests:</td>
+                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600;">👥 ${data.guests || '2'} guest(s)</td>
                 </tr>
               </table>
             </td>
           </tr>
         </table>
+
+        <!-- Payment Info Box -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; margin-bottom: 25px; border: 2px solid #d4af37;">
+          <tr>
+            <td style="padding: 25px; text-align: center;">
+              <h3 style="color: #92400e; font-size: 16px; margin: 0 0 15px; font-weight: 700;">💳 PAYMENT INFORMATION</h3>
+              <p style="color: #78350f; font-size: 22px; margin: 0 0 10px; font-weight: 700;">${data.totalPrice || '0 GEL'}</p>
+              <p style="color: #92400e; font-size: 14px; margin: 0; font-weight: 600;">
+                ${data.paymentNote || 'Payment upon arrival at the hotel'}
+              </p>
+              <p style="color: #a16207; font-size: 12px; margin: 10px 0 0;">
+                ✓ No prepayment required<br>
+                ✓ Free cancellation up to 24 hours before check-in<br>
+                ✓ Pay in cash or card at reception
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Important Info -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f0f9ff; border-radius: 12px; margin-bottom: 25px; border: 1px solid #bae6fd;">
+          <tr>
+            <td style="padding: 20px;">
+              <h3 style="color: #0369a1; font-size: 14px; margin: 0 0 10px;">ℹ️ IMPORTANT INFORMATION</h3>
+              <ul style="color: #0c4a6e; font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li>Check-in time: 14:00 (2:00 PM)</li>
+                <li>Check-out time: 12:00 (12:00 PM)</li>
+                <li>Please bring a valid ID/passport</li>
+                <li>Our manager will contact you to confirm your reservation</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
         
         <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 0 0 20px;">
-          If you have any questions, please don't hesitate to contact us via WhatsApp or email.
+          If you have any questions or need to modify your reservation, please don't hesitate to contact us via WhatsApp or email.
         </p>
         
-        <a href="https://wa.me/+995555199090" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8963a 100%); color: #1a2a3a; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 14px; letter-spacing: 1px;">CONTACT US</a>
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="text-align: center;">
+              <a href="https://wa.me/+995555199090" style="display: inline-block; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 14px; margin-right: 10px;">📱 WhatsApp</a>
+              <a href="tel:+995555199090" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8963a 100%); color: #1a2a3a; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 14px;">📞 Call Us</a>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
     
@@ -88,6 +138,9 @@ const templates = {
         <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
           Orbi City, Block C, Khimshiashvili St, Batumi<br>
           +995 555 19 90 90 | info@orbicitybatumi.com
+        </p>
+        <p style="color: #d4af37; font-size: 11px; margin: 15px 0 0;">
+          <a href="https://orbicitybatumi.com" style="color: #d4af37; text-decoration: none;">www.orbicitybatumi.com</a>
         </p>
       </td>
     </tr>
@@ -214,6 +267,8 @@ serve(async (req) => {
       throw new Error("Missing required fields: to, type");
     }
 
+    console.log(`Sending ${type} email to ${to}`);
+
     // Get template
     let emailContent: { subject: string; html: string };
     if (type === "custom" && subject) {
@@ -242,10 +297,12 @@ serve(async (req) => {
 
     if (!res.ok) {
       const error = await res.text();
+      console.error("Resend API error:", error);
       throw new Error(`Resend API error: ${error}`);
     }
 
     const result = await res.json();
+    console.log("Email sent successfully:", result.id);
 
     return new Response(JSON.stringify({ success: true, id: result.id }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

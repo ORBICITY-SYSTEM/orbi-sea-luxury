@@ -4,52 +4,20 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { CalendarIcon, Users, Search, Shield, Clock, BadgeCheck } from 'lucide-react';
+import { useBooking } from '@/contexts/BookingContext';
+import { CalendarIcon, Users, CreditCard, Shield, Clock, BadgeCheck } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { trackInitiateCheckout, trackLead } from '@/lib/tracking';
-import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 export const BookingSection = () => {
-  const { t } = useLanguage();
-  const { openWhatsApp } = useWhatsApp();
+  const { t, language } = useLanguage();
+  const { openBookingModal } = useBooking();
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
   const [guests, setGuests] = useState('2');
 
-  const handleCheckAvailability = () => {
-    if (checkIn && !(checkIn instanceof Date) || (checkIn && isNaN(checkIn.getTime()))) {
-      console.error('Invalid check-in date');
-      return;
-    }
-    
-    if (checkOut && !(checkOut instanceof Date) || (checkOut && isNaN(checkOut.getTime()))) {
-      console.error('Invalid check-out date');
-      return;
-    }
-
-    // Track WhatsApp click from Booking Widget
-    trackLead({
-      content_name: 'WhatsApp Click - Booking Widget',
-      form_name: 'Booking Widget',
-    });
-
-    trackInitiateCheckout(undefined, 'USD', [{
-      item_id: 'apartment_inquiry',
-      item_name: 'Apartment Booking',
-      item_category: 'booking',
-      quantity: 1,
-    }]);
-
-    const checkInFormatted = checkIn && checkIn instanceof Date && !isNaN(checkIn.getTime()) 
-      ? format(checkIn, 'PPP') 
-      : 'Not selected';
-    const checkOutFormatted = checkOut && checkOut instanceof Date && !isNaN(checkOut.getTime()) 
-      ? format(checkOut, 'PPP') 
-      : 'Not selected';
-
-    const message = `Hello! I'm interested in booking an apartment at Orbi City.\n\nCheck-in: ${checkInFormatted}\nCheck-out: ${checkOutFormatted}\nGuests: ${guests}`;
-    openWhatsApp(message);
+  const handleBookNow = () => {
+    openBookingModal();
   };
 
   return (
@@ -62,11 +30,14 @@ export const BookingSection = () => {
         {/* Header - Manus Style */}
         <div className="text-center mb-12">
           <p className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4 font-light">
-            BOOK YOUR STAY
+            {language === 'ka' ? 'დაჯავშნეთ თქვენი დასვენება' : 'BOOK YOUR STAY'}
           </p>
           <h2 className="font-playfair italic font-normal text-white text-4xl md:text-5xl lg:text-6xl">
-            Check Availability
+            {language === 'ka' ? 'დაჯავშნე ახლავე • გადაიხადე მოგვიანებით' : 'Book Now • Pay Later'}
           </h2>
+          <p className="text-white/60 mt-4 text-lg">
+            {language === 'ka' ? 'გადახდა სასტუმროში მოსვლისას' : 'Payment upon arrival at the hotel'}
+          </p>
         </div>
 
         {/* Booking Form - Manus Style */}
@@ -75,7 +46,9 @@ export const BookingSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {/* Check In */}
               <div className="space-y-3">
-                <label className="text-xs font-medium text-gold-400 uppercase tracking-wider">Check In</label>
+                <label className="text-xs font-medium text-gold-400 uppercase tracking-wider">
+                  {language === 'ka' ? 'ჩასვლა' : 'Check In'}
+                </label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -89,7 +62,7 @@ export const BookingSection = () => {
                       {checkIn ? (
                         <span className="font-medium">{format(checkIn, 'MMM dd, yyyy')}</span>
                       ) : (
-                        <span>Select date</span>
+                        <span>{language === 'ka' ? 'აირჩიეთ თარიღი' : 'Select date'}</span>
                       )}
                     </Button>
                   </PopoverTrigger>
@@ -108,7 +81,9 @@ export const BookingSection = () => {
 
               {/* Check Out */}
               <div className="space-y-3">
-                <label className="text-xs font-medium text-gold-400 uppercase tracking-wider">Check Out</label>
+                <label className="text-xs font-medium text-gold-400 uppercase tracking-wider">
+                  {language === 'ka' ? 'გასვლა' : 'Check Out'}
+                </label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -122,7 +97,7 @@ export const BookingSection = () => {
                       {checkOut ? (
                         <span className="font-medium">{format(checkOut, 'MMM dd, yyyy')}</span>
                       ) : (
-                        <span>Select date</span>
+                        <span>{language === 'ka' ? 'აირჩიეთ თარიღი' : 'Select date'}</span>
                       )}
                     </Button>
                   </PopoverTrigger>
@@ -141,7 +116,9 @@ export const BookingSection = () => {
 
               {/* Guests */}
               <div className="space-y-3">
-                <label className="text-xs font-medium text-gold-400 uppercase tracking-wider">Guests</label>
+                <label className="text-xs font-medium text-gold-400 uppercase tracking-wider">
+                  {language === 'ka' ? 'სტუმრები' : 'Guests'}
+                </label>
                 <Select value={guests} onValueChange={setGuests}>
                   <SelectTrigger className="w-full h-14 rounded-lg bg-white/5 border-white/20 hover:bg-white/10 hover:border-gold-400/50 text-white transition-all duration-300">
                     <div className="flex items-center">
@@ -152,22 +129,22 @@ export const BookingSection = () => {
                   <SelectContent className="rounded-xl shadow-luxury">
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
                       <SelectItem key={num} value={num.toString()} className="rounded-lg">
-                        {num} {num === 1 ? 'Guest' : 'Guests'}
+                        {num} {language === 'ka' ? 'სტუმარი' : (num === 1 ? 'Guest' : 'Guests')}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Check Availability Button */}
+              {/* Book Now Button */}
               <div className="space-y-3">
                 <label className="text-xs font-medium text-transparent hidden md:block">Action</label>
                 <Button
-                  onClick={handleCheckAvailability}
+                  onClick={handleBookNow}
                   className="w-full h-14 bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold rounded-lg shadow-lg hover:shadow-gold transition-all duration-300 tracking-wider uppercase text-sm"
                 >
-                  <Search className="w-5 h-5 mr-2" />
-                  Check Availability
+                  <CreditCard className="w-5 h-5 mr-2" />
+                  {language === 'ka' ? 'დაჯავშნე / გადაიხადე მოგვიანებით' : 'Book Now / Pay Later'}
                 </Button>
               </div>
             </div>
@@ -179,8 +156,12 @@ export const BookingSection = () => {
                   <Shield className="w-6 h-6 text-gold-400" />
                 </div>
                 <div>
-                  <p className="text-white font-medium">Best Price Guarantee</p>
-                  <p className="text-white/50 text-sm">We match any lower price</p>
+                  <p className="text-white font-medium">
+                    {language === 'ka' ? 'საუკეთესო ფასის გარანტია' : 'Best Price Guarantee'}
+                  </p>
+                  <p className="text-white/50 text-sm">
+                    {language === 'ka' ? 'ჩვენ ვამცირებთ ნებისმიერ ფასს' : 'We match any lower price'}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-3">
@@ -188,8 +169,12 @@ export const BookingSection = () => {
                   <Clock className="w-6 h-6 text-gold-400" />
                 </div>
                 <div>
-                  <p className="text-white font-medium">Free Cancellation</p>
-                  <p className="text-white/50 text-sm">Up to 24 hours before check-in</p>
+                  <p className="text-white font-medium">
+                    {language === 'ka' ? 'უფასო გაუქმება' : 'Free Cancellation'}
+                  </p>
+                  <p className="text-white/50 text-sm">
+                    {language === 'ka' ? '24 საათით ადრე' : 'Up to 24 hours before check-in'}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-3">
@@ -197,8 +182,12 @@ export const BookingSection = () => {
                   <BadgeCheck className="w-6 h-6 text-gold-400" />
                 </div>
                 <div>
-                  <p className="text-white font-medium">Instant Confirmation</p>
-                  <p className="text-white/50 text-sm">Book now, confirm instantly</p>
+                  <p className="text-white font-medium">
+                    {language === 'ka' ? 'გადახდა სასტუმროში' : 'Pay at Hotel'}
+                  </p>
+                  <p className="text-white/50 text-sm">
+                    {language === 'ka' ? 'წინასწარი გადახდა არ არის საჭირო' : 'No prepayment needed'}
+                  </p>
                 </div>
               </div>
             </div>
