@@ -20,11 +20,13 @@ export const CTASection = () => {
           {t('cta.subtitle')}
         </p>
         <Button
+          asChild
           size="lg"
-          onClick={() => window.open('https://wa.me/995555199090', '_blank')}
           className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold hover:scale-105 transition-transform"
         >
-          {t('cta.button')}
+          <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+            {t('cta.button')}
+          </a>
         </Button>
       </div>
     </section>

@@ -119,11 +119,13 @@ export const RoomsSection = () => {
                 >
                   {t('rooms.viewDetails')}
                 </Button>
-                <Button 
+                 <Button 
+                  asChild
                   className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
-                  onClick={() => window.open('https://wa.me/995555199090', '_blank')}
                 >
-                  {t('rooms.bookNow')}
+                  <a href="https://wa.me/995555199090" target="_blank" rel="noopener noreferrer">
+                    {t('rooms.bookNow')}
+                  </a>
                 </Button>
               </CardFooter>
             </Card>
