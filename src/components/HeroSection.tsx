@@ -166,7 +166,7 @@ export const HeroSection = () => {
             onClick={scrollToRooms}
             className="bg-white hover:bg-white/95 text-navy-900 font-semibold text-lg px-14 py-7 rounded-full shadow-luxury hover:shadow-elegant transition-all duration-500 hover:scale-105 tracking-wider uppercase"
           >
-            BOOK NOW / PAY LATER
+            {t('hero.bookNowPayLater')}
           </Button>
         </div>
 
