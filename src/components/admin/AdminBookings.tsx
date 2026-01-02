@@ -6,10 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, Trash2, Download, Filter, X } from 'lucide-react';
+import { Loader2, Trash2, Download, Filter, X, Copy, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import * as XLSX from 'xlsx';
+import { useWhatsApp } from '@/hooks/useWhatsApp';
 import {
   Select,
   SelectContent,
@@ -36,6 +37,7 @@ interface Booking {
 
 export const AdminBookings = () => {
   const queryClient = useQueryClient();
+  const { openWhatsApp } = useWhatsApp();
   
   // Filter states
   const [dateFrom, setDateFrom] = useState('');
@@ -138,6 +140,21 @@ export const AdminBookings = () => {
       toast.error('შეცდომა: ' + error.message);
     },
   });
+
+  const copyPhone = (phone: string) => {
+    navigator.clipboard.writeText(phone);
+    toast.success('ტელეფონი დაკოპირდა');
+  };
+
+  const handleWhatsApp = (booking: Booking) => {
+    if (!booking.guest_phone) {
+      toast.error('ტელეფონის ნომერი არ არის მითითებული');
+      return;
+    }
+    const phone = booking.guest_phone.replace(/[^0-9]/g, '');
+    const message = `გამარჯობა ${booking.guest_name || ''}! თქვენი ჯავშანი Orbi City-ში: ${format(new Date(booking.check_in), 'dd/MM/yyyy')} - ${format(new Date(booking.check_out), 'dd/MM/yyyy')}`;
+    window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+  };
 
   const exportToExcel = () => {
     if (!filteredBookings || filteredBookings.length === 0) {
@@ -298,6 +315,9 @@ export const AdminBookings = () => {
                       <div>
                         <p className="font-medium">{booking.guest_name || '-'}</p>
                         <p className="text-sm text-muted-foreground">{booking.guest_email || '-'}</p>
+                        {booking.guest_phone && (
+                          <p className="text-sm text-muted-foreground">{booking.guest_phone}</p>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>{booking.apartment_type}</TableCell>
@@ -323,14 +343,38 @@ export const AdminBookings = () => {
                       </Select>
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => deleteBookingMutation.mutate(booking.id)}
-                        disabled={deleteBookingMutation.isPending}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        {booking.guest_phone && (
+                          <>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => copyPhone(booking.guest_phone!)}
+                              title="ტელეფონის კოპირება"
+                            >
+                              <Copy className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleWhatsApp(booking)}
+                              title="WhatsApp-ით დაკავშირება"
+                              className="text-green-600 hover:text-green-700"
+                            >
+                              <MessageCircle className="h-4 w-4" />
+                            </Button>
+                          </>
+                        )}
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => deleteBookingMutation.mutate(booking.id)}
+                          disabled={deleteBookingMutation.isPending}
+                          title="წაშლა"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
