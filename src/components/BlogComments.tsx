@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { MessageCircle, Send, Trash2, User } from 'lucide-react';
+import { MessageCircle, Send, Trash2, User, Reply, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
@@ -20,11 +20,126 @@ interface BlogCommentsProps {
   postSlug: string;
 }
 
+interface Comment {
+  id: string;
+  post_slug: string;
+  content: string;
+  user_id: string | null;
+  guest_name: string | null;
+  guest_email: string | null;
+  is_approved: boolean | null;
+  parent_id: string | null;
+  created_at: string;
+  updated_at: string;
+  replies?: Comment[];
+}
+
 const commentSchema = z.object({
   content: z.string().trim().min(3, { message: "Comment must be at least 3 characters" }).max(1000, { message: "Comment must be less than 1000 characters" }),
   guest_name: z.string().trim().min(2, { message: "Name must be at least 2 characters" }).max(100).optional(),
   guest_email: z.string().trim().email({ message: "Invalid email address" }).max(255).optional(),
 });
+
+// Recursive component for rendering comments and their replies
+const CommentItem = ({
+  comment,
+  user,
+  language,
+  onReply,
+  onDelete,
+  deleteComment,
+  depth = 0,
+}: {
+  comment: Comment;
+  user: { id: string } | null;
+  language: string;
+  onReply: (commentId: string, authorName: string) => void;
+  onDelete: (commentId: string) => void;
+  deleteComment: { isPending: boolean };
+  depth?: number;
+}) => {
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  };
+
+  const maxDepth = 3;
+  const marginLeft = Math.min(depth, maxDepth) * 24;
+
+  return (
+    <div style={{ marginLeft: `${marginLeft}px` }}>
+      <Card className={depth > 0 ? 'border-l-2 border-l-primary/30' : ''}>
+        <CardContent className="p-4 md:p-6">
+          <div className="flex gap-3 md:gap-4">
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 flex-shrink-0">
+              <AvatarFallback className="bg-primary/10 text-primary text-xs md:text-sm">
+                {comment.guest_name 
+                  ? getInitials(comment.guest_name)
+                  : <User className="w-4 h-4 md:w-5 md:h-5" />}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-semibold text-sm md:text-base">
+                    {comment.guest_name || (language === 'ka' ? 'რეგისტრირებული მომხმარებელი' : 'Registered User')}
+                  </span>
+                  <span className="text-xs md:text-sm text-muted-foreground">
+                    {format(new Date(comment.created_at), 'dd MMM yyyy, HH:mm', {
+                      locale: language === 'ka' ? ka : enUS
+                    })}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onReply(comment.id, comment.guest_name || (language === 'ka' ? 'მომხმარებელი' : 'User'))}
+                    className="h-8 px-2 text-xs"
+                  >
+                    <Reply className="w-3 h-3 mr-1" />
+                    {language === 'ka' ? 'პასუხი' : 'Reply'}
+                  </Button>
+                  {user?.id === comment.user_id && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => onDelete(comment.id)}
+                      disabled={deleteComment.isPending}
+                      className="h-8 w-8"
+                    >
+                      <Trash2 className="w-3 h-3 text-destructive" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <p className="text-sm md:text-base text-muted-foreground whitespace-pre-wrap break-words">
+                {comment.content}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Render replies recursively */}
+      {comment.replies && comment.replies.length > 0 && (
+        <div className="mt-2 space-y-2">
+          {comment.replies.map((reply) => (
+            <CommentItem
+              key={reply.id}
+              comment={reply}
+              user={user}
+              language={language}
+              onReply={onReply}
+              onDelete={onDelete}
+              deleteComment={deleteComment}
+              depth={depth + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
   const { user } = useAuth();
@@ -35,6 +150,7 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
   const [content, setContent] = useState('');
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
+  const [replyingTo, setReplyingTo] = useState<{ id: string; name: string } | null>(null);
   const [errors, setErrors] = useState<{ content?: string; guest_name?: string; guest_email?: string }>({});
 
   // Fetch approved comments
@@ -46,12 +162,40 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
         .select('*')
         .eq('post_slug', postSlug)
         .eq('is_approved', true)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: true });
       
       if (error) throw error;
-      return data || [];
+      
+      // Organize comments into tree structure
+      const commentMap = new Map<string, Comment>();
+      const rootComments: Comment[] = [];
+      
+      (data || []).forEach((comment) => {
+        commentMap.set(comment.id, { ...comment, replies: [] });
+      });
+      
+      commentMap.forEach((comment) => {
+        if (comment.parent_id && commentMap.has(comment.parent_id)) {
+          const parent = commentMap.get(comment.parent_id)!;
+          parent.replies = parent.replies || [];
+          parent.replies.push(comment);
+        } else if (!comment.parent_id) {
+          rootComments.push(comment);
+        }
+      });
+      
+      return rootComments;
     },
   });
+
+  // Count total comments including replies
+  const countAllComments = (comments: Comment[]): number => {
+    return comments.reduce((count, comment) => {
+      return count + 1 + (comment.replies ? countAllComments(comment.replies) : 0);
+    }, 0);
+  };
+
+  const totalComments = countAllComments(comments);
 
   // Submit comment mutation
   const submitComment = useMutation({
@@ -94,6 +238,7 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
         guest_name: user ? null : guestName.trim(),
         guest_email: user ? null : guestEmail.trim(),
         is_approved: !!user, // Auto-approve authenticated users
+        parent_id: replyingTo?.id || null,
       };
 
       const { error } = await supabase
@@ -115,12 +260,13 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
                 authorEmail: guestEmail.trim(),
                 content: content.trim(),
                 createdAt: new Date().toLocaleString('ka-GE'),
+                isReply: !!replyingTo,
+                replyToName: replyingTo?.name,
               },
             },
           });
         } catch (emailError) {
           console.error('Failed to send moderation email:', emailError);
-          // Don't throw - comment was saved, email is secondary
         }
       }
     },
@@ -128,6 +274,7 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
       setContent('');
       setGuestName('');
       setGuestEmail('');
+      setReplyingTo(null);
       queryClient.invalidateQueries({ queryKey: ['blog-comments', postSlug] });
       
       toast({
@@ -171,8 +318,14 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
     submitComment.mutate();
   };
 
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  const handleReply = (commentId: string, authorName: string) => {
+    setReplyingTo({ id: commentId, name: authorName });
+    // Scroll to form
+    document.getElementById('comment-form')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const cancelReply = () => {
+    setReplyingTo(null);
   };
 
   return (
@@ -181,16 +334,26 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
         <div className="flex items-center gap-3 mb-8">
           <MessageCircle className="w-6 h-6 text-primary" />
           <h2 className="text-2xl font-bold">
-            {language === 'ka' ? 'კომენტარები' : 'Comments'} ({comments.length})
+            {language === 'ka' ? 'კომენტარები' : 'Comments'} ({totalComments})
           </h2>
         </div>
 
         {/* Comment Form */}
-        <Card className="mb-8">
+        <Card className="mb-8" id="comment-form">
           <CardHeader>
-            <CardTitle className="text-lg">
-              {language === 'ka' ? 'დატოვეთ კომენტარი' : 'Leave a Comment'}
-            </CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg">
+                {replyingTo 
+                  ? (language === 'ka' ? `პასუხი: ${replyingTo.name}` : `Reply to: ${replyingTo.name}`)
+                  : (language === 'ka' ? 'დატოვეთ კომენტარი' : 'Leave a Comment')}
+              </CardTitle>
+              {replyingTo && (
+                <Button variant="ghost" size="sm" onClick={cancelReply}>
+                  <X className="w-4 h-4 mr-1" />
+                  {language === 'ka' ? 'გაუქმება' : 'Cancel'}
+                </Button>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -238,7 +401,11 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder={language === 'ka' ? 'დაწერეთ თქვენი კომენტარი...' : 'Write your comment...'}
+                  placeholder={
+                    replyingTo
+                      ? (language === 'ka' ? `დაწერეთ პასუხი ${replyingTo.name}-ს...` : `Write your reply to ${replyingTo.name}...`)
+                      : (language === 'ka' ? 'დაწერეთ თქვენი კომენტარი...' : 'Write your comment...')
+                  }
                   rows={4}
                   maxLength={1000}
                 />
@@ -266,7 +433,9 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
                 <Send className="w-4 h-4" />
                 {submitComment.isPending 
                   ? (language === 'ka' ? 'იგზავნება...' : 'Submitting...')
-                  : (language === 'ka' ? 'გაგზავნა' : 'Submit')}
+                  : replyingTo
+                    ? (language === 'ka' ? 'პასუხის გაგზავნა' : 'Send Reply')
+                    : (language === 'ka' ? 'გაგზავნა' : 'Submit')}
               </Button>
             </form>
           </CardContent>
@@ -312,46 +481,14 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Card>
-                    <CardContent className="p-6">
-                      <div className="flex gap-4">
-                        <Avatar className="w-10 h-10">
-                          <AvatarFallback className="bg-primary/10 text-primary">
-                            {comment.guest_name 
-                              ? getInitials(comment.guest_name)
-                              : <User className="w-5 h-5" />}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-2">
-                            <div>
-                              <span className="font-semibold">
-                                {comment.guest_name || (language === 'ka' ? 'რეგისტრირებული მომხმარებელი' : 'Registered User')}
-                              </span>
-                              <span className="text-sm text-muted-foreground ml-2">
-                                {format(new Date(comment.created_at), 'dd MMM yyyy, HH:mm', {
-                                  locale: language === 'ka' ? ka : enUS
-                                })}
-                              </span>
-                            </div>
-                            {user?.id === comment.user_id && (
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => deleteComment.mutate(comment.id)}
-                                disabled={deleteComment.isPending}
-                              >
-                                <Trash2 className="w-4 h-4 text-destructive" />
-                              </Button>
-                            )}
-                          </div>
-                          <p className="text-muted-foreground whitespace-pre-wrap">
-                            {comment.content}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <CommentItem
+                    comment={comment}
+                    user={user}
+                    language={language}
+                    onReply={handleReply}
+                    onDelete={(id) => deleteComment.mutate(id)}
+                    deleteComment={deleteComment}
+                  />
                 </motion.div>
               ))}
             </div>
