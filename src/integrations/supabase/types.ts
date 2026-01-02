@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      apartment_prices: {
+        Row: {
+          apartment_type: string
+          created_at: string
+          description_en: string | null
+          description_ka: string | null
+          display_order: number | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          max_guests: number
+          name_en: string
+          name_ka: string
+          price_per_night: number
+          size_sqm: number | null
+          updated_at: string
+        }
+        Insert: {
+          apartment_type: string
+          created_at?: string
+          description_en?: string | null
+          description_ka?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          max_guests?: number
+          name_en: string
+          name_ka: string
+          price_per_night: number
+          size_sqm?: number | null
+          updated_at?: string
+        }
+        Update: {
+          apartment_type?: string
+          created_at?: string
+          description_en?: string | null
+          description_ka?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          max_guests?: number
+          name_en?: string
+          name_ka?: string
+          price_per_night?: number
+          size_sqm?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           apartment_type: string
@@ -21,12 +72,18 @@ export type Database = {
           check_out: string
           created_at: string
           discount_amount: number | null
+          guest_address: string | null
+          guest_email: string | null
+          guest_id_number: string | null
+          guest_name: string | null
+          guest_phone: string | null
           guests: number
           id: string
           notes: string | null
           payment_method: string | null
           payment_status: string
           promo_code: string | null
+          special_requests: string | null
           status: string
           total_price: number | null
           updated_at: string
@@ -38,12 +95,18 @@ export type Database = {
           check_out: string
           created_at?: string
           discount_amount?: number | null
+          guest_address?: string | null
+          guest_email?: string | null
+          guest_id_number?: string | null
+          guest_name?: string | null
+          guest_phone?: string | null
           guests?: number
           id?: string
           notes?: string | null
           payment_method?: string | null
           payment_status?: string
           promo_code?: string | null
+          special_requests?: string | null
           status?: string
           total_price?: number | null
           updated_at?: string
@@ -55,12 +118,18 @@ export type Database = {
           check_out?: string
           created_at?: string
           discount_amount?: number | null
+          guest_address?: string | null
+          guest_email?: string | null
+          guest_id_number?: string | null
+          guest_name?: string | null
+          guest_phone?: string | null
           guests?: number
           id?: string
           notes?: string | null
           payment_method?: string | null
           payment_status?: string
           promo_code?: string | null
+          special_requests?: string | null
           status?: string
           total_price?: number | null
           updated_at?: string

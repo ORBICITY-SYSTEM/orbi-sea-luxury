@@ -12,7 +12,8 @@ import {
   ChevronRight,
   FileText,
   Image,
-  Palette
+  Palette,
+  DollarSign
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -43,6 +44,11 @@ const menuItems = [
     title: 'ბრონირებები', 
     url: '/admin/bookings', 
     icon: Calendar 
+  },
+  { 
+    title: 'ფასები', 
+    url: '/admin/pricing', 
+    icon: DollarSign 
   },
   { 
     title: 'შეტყობინებები', 
