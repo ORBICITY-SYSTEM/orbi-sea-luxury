@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { useGoogleMaps } from '@/hooks/useGoogleMaps';
+import { usePlaceId } from '@/hooks/usePlaceId';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Navigation, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,8 @@ const FALLBACK_LOCATION = {
   lng: 41.6141119
 };
 
-// Your Google Business Place ID (specific 60-apartment property)
-const YOUR_BUSINESS_PLACE_ID = 'ChIJxf79LQmHZ0ARpmv2Eih-1WE';
+// Default Place ID if not set in database
+const DEFAULT_PLACE_ID = 'ChIJxf79LQmHZ0ARpmv2Eih-1WE';
 
 // Create custom marker content element
 const createMarkerContent = () => {
@@ -97,6 +98,7 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [scriptError, setScriptError] = useState(false);
   const { apiKey, placeDetails, loading } = useGoogleMaps();
+  const { placeId } = usePlaceId();
 
   // Use API coordinates if available, otherwise fallback
   const location = useMemo(() => {
@@ -247,7 +249,7 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
                    ">
                   🧭 Directions
                 </a>
-                <a href="https://www.google.com/maps/place/?q=place_id:${YOUR_BUSINESS_PLACE_ID}" 
+                <a href="https://www.google.com/maps/place/?q=place_id:${placeId}" 
                    target="_blank" 
                    rel="noopener noreferrer"
                    style="
@@ -349,7 +351,7 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
 
   const openInGoogleMaps = () => {
     // Open your specific Google Business page via Place ID
-    const url = `https://www.google.com/maps/place/?q=place_id:${YOUR_BUSINESS_PLACE_ID}`;
+    const url = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 

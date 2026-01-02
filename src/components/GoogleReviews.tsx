@@ -1,4 +1,5 @@
 import { useGoogleMaps, GoogleReview } from '@/hooks/useGoogleMaps';
+import { usePlaceId } from '@/hooks/usePlaceId';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Star, ExternalLink } from 'lucide-react';
@@ -6,11 +7,13 @@ import { Button } from '@/components/ui/button';
 
 interface GoogleReviewsProps {
   maxReviews?: number;
+  minRating?: number;
   className?: string;
 }
 
-export const GoogleReviews = ({ maxReviews = 5, className }: GoogleReviewsProps) => {
+export const GoogleReviews = ({ maxReviews = 5, minRating = 4, className }: GoogleReviewsProps) => {
   const { placeDetails, loading, error } = useGoogleMaps();
+  const { placeId } = usePlaceId();
 
   if (loading) {
     return (
@@ -26,7 +29,10 @@ export const GoogleReviews = ({ maxReviews = 5, className }: GoogleReviewsProps)
     return null;
   }
 
-  const reviews = placeDetails.reviews.slice(0, maxReviews);
+  // Filter reviews with minRating or higher, then take maxReviews
+  const reviews = placeDetails.reviews
+    .filter(review => review.rating >= minRating)
+    .slice(0, maxReviews);
 
   const renderStars = (rating: number) => {
     return [...Array(5)].map((_, i) => (
@@ -39,7 +45,7 @@ export const GoogleReviews = ({ maxReviews = 5, className }: GoogleReviewsProps)
 
   const openGoogleReviews = () => {
     window.open(
-      'https://www.google.com/maps/place/Orbi+City+Sea+view+Aparthotel/@41.6464,41.6328,17z/data=!4m8!3m7!1s0x40678615948bba1b:0xe2a9abce8f590268!8m2!3d41.6464!4d41.6328!9m1!1b1!16s%2Fg%2F11c1qz5_0n',
+      `https://www.google.com/maps/place/?q=place_id:${placeId}`,
       '_blank'
     );
   };

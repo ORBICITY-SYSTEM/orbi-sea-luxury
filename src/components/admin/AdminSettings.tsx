@@ -255,6 +255,18 @@ export const AdminSettings = () => {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="google_maps_place_id">Google Maps Place ID</Label>
+              <Input
+                id="google_maps_place_id"
+                value={formData.google_maps_place_id || ''}
+                onChange={(e) => handleChange('google_maps_place_id', e.target.value)}
+                placeholder="ChIJxf79LQmHZ0ARpmv2Eih-1WE"
+              />
+              <p className="text-sm text-muted-foreground">
+                თქვენი ბიზნესის Place ID (რუკაზე და შეფასებებში გამოსაჩენად)
+              </p>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="google_maps_url">Google Maps URL</Label>
               <Input
                 id="google_maps_url"
