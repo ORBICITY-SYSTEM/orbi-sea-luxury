@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'luci
 import logo from '@/assets/logo.jpg';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { trackLead } from '@/lib/tracking';
 
 export const Footer = () => {
   const { t } = useLanguage();
@@ -185,6 +186,7 @@ export const Footer = () => {
                 href={whatsappUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
+                onClick={() => trackLead({ content_name: 'WhatsApp Click - Footer', form_name: 'Footer WhatsApp' })}
                 className="w-12 h-12 rounded-full bg-white/5 hover:bg-green-500 flex items-center justify-center transition-all duration-300 hover:scale-110"
                 aria-label="WhatsApp"
               >
