@@ -117,17 +117,15 @@ export const GoogleMapInteractive = ({ className }: GoogleMapInteractiveProps) =
   }, [scriptLoaded, placeDetails, mapLoaded]);
 
   const openDirections = () => {
-    window.open(
-      `https://www.google.com/maps/dir/?api=1&destination=${ORBI_CITY_LOCATION.lat},${ORBI_CITY_LOCATION.lng}&destination_place_id=ChIJG7qLlBWGREARaAJZj86rqeI`,
-      '_blank'
-    );
+    // Use maps.google.com instead of www.google.com/maps for better compatibility
+    const url = `https://maps.google.com/maps?daddr=${ORBI_CITY_LOCATION.lat},${ORBI_CITY_LOCATION.lng}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const openInGoogleMaps = () => {
-    window.open(
-      `https://www.google.com/maps/place/Orbi+City+Sea+view+Aparthotel/@${ORBI_CITY_LOCATION.lat},${ORBI_CITY_LOCATION.lng},17z`,
-      '_blank'
-    );
+    // Use maps.google.com for better compatibility with iframe restrictions
+    const url = `https://maps.google.com/maps?q=${ORBI_CITY_LOCATION.lat},${ORBI_CITY_LOCATION.lng}&z=17`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   if (loading || !apiKey) {
