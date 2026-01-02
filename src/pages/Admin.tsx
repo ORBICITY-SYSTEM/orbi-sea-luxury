@@ -19,6 +19,7 @@ import { AdminMedia } from '@/components/admin/AdminMedia';
 import { AdminStyleGuide } from '@/components/admin/AdminStyleGuide';
 import { AdminPricing } from '@/components/admin/AdminPricing';
 import AdminCalendar from '@/components/admin/AdminCalendar';
+import { AdminComments } from '@/components/admin/AdminComments';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -55,6 +56,7 @@ const Admin = () => {
               <Route path="calendar" element={<div className="p-6"><AdminCalendar /></div>} />
               <Route path="pricing" element={<div className="p-6"><AdminPricing /></div>} />
               <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />
+              <Route path="comments" element={<div className="p-6"><AdminComments /></div>} />
               <Route path="content" element={<div className="p-6"><AdminContent /></div>} />
               <Route path="media" element={<div className="p-6"><AdminMedia /></div>} />
               <Route path="users" element={<div className="p-6"><AdminUsers /></div>} />

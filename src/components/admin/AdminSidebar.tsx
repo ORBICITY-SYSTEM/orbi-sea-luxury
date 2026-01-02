@@ -10,6 +10,7 @@ import {
   Search, 
   Settings, 
   MessageSquare,
+  MessageCircle,
   ChevronLeft,
   ChevronRight,
   FileText,
@@ -66,6 +67,11 @@ const menuItems = [
     title: 'შეტყობინებები', 
     url: '/admin/contacts', 
     icon: MessageSquare 
+  },
+  { 
+    title: 'კომენტარები', 
+    url: '/admin/comments', 
+    icon: MessageCircle 
   },
   { 
     title: 'კონტენტი', 

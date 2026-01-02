@@ -86,6 +86,7 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
 
       setErrors({});
 
+      const isGuestComment = !user;
       const commentData = {
         post_slug: postSlug,
         content: content.trim(),
@@ -100,6 +101,28 @@ export const BlogComments = ({ postSlug }: BlogCommentsProps) => {
         .insert(commentData);
 
       if (error) throw error;
+
+      // Send email notification for guest comments (pending moderation)
+      if (isGuestComment) {
+        try {
+          await supabase.functions.invoke('send-email', {
+            body: {
+              type: 'comment_moderation',
+              to: 'info@orbicitybatumi.com',
+              data: {
+                postSlug,
+                authorName: guestName.trim(),
+                authorEmail: guestEmail.trim(),
+                content: content.trim(),
+                createdAt: new Date().toLocaleString('ka-GE'),
+              },
+            },
+          });
+        } catch (emailError) {
+          console.error('Failed to send moderation email:', emailError);
+          // Don't throw - comment was saved, email is secondary
+        }
+      }
     },
     onSuccess: () => {
       setContent('');

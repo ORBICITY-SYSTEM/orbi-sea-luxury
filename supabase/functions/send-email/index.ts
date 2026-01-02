@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 interface EmailRequest {
-  type: "booking_confirmation" | "contact_reply" | "welcome" | "custom";
+  type: "booking_confirmation" | "contact_reply" | "welcome" | "comment_moderation" | "custom";
   to: string;
   subject?: string;
   data: Record<string, any>;
@@ -240,6 +240,71 @@ const templates = {
       <td style="background-color: #1a2a3a; padding: 30px; text-align: center;">
         <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
           © ${new Date().getFullYear()} Orbi City Batumi. All rights reserved.
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `,
+  }),
+
+  comment_moderation: (data: Record<string, any>) => ({
+    subject: "🔔 ახალი კომენტარი მოელის მოდერაციას - Orbi City Batumi",
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <tr>
+      <td style="background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%); padding: 40px 30px; text-align: center;">
+        <h1 style="color: #d4af37; font-size: 28px; margin: 0; font-weight: 300; letter-spacing: 3px;">ORBI CITY</h1>
+        <p style="color: #ffffff; font-size: 12px; margin: 8px 0 0; letter-spacing: 2px;">BATUMI ADMIN</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 15px 30px; text-align: center;">
+        <p style="color: #ffffff; font-size: 16px; margin: 0; font-weight: 600;">⏳ ახალი კომენტარი მოელის მოდერაციას</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 40px 30px;">
+        <h2 style="color: #1a2a3a; font-size: 22px; margin: 0 0 20px; font-weight: 500;">ახალი კომენტარი ბლოგზე</h2>
+        
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e5e7eb;">
+          <tr>
+            <td style="padding: 20px;">
+              <p style="color: #666; font-size: 14px; margin: 0 0 8px;"><strong>სტატია:</strong> ${data.postSlug || 'Unknown'}</p>
+              <p style="color: #666; font-size: 14px; margin: 0 0 8px;"><strong>ავტორი:</strong> ${data.authorName || 'Guest'}</p>
+              <p style="color: #666; font-size: 14px; margin: 0 0 8px;"><strong>Email:</strong> ${data.authorEmail || 'N/A'}</p>
+              <p style="color: #666; font-size: 14px; margin: 0;"><strong>თარიღი:</strong> ${data.createdAt || new Date().toLocaleString()}</p>
+            </td>
+          </tr>
+        </table>
+
+        <div style="background-color: #fff7ed; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+          <h3 style="color: #92400e; font-size: 14px; margin: 0 0 10px;">💬 კომენტარის ტექსტი:</h3>
+          <p style="color: #78350f; font-size: 14px; margin: 0; line-height: 1.6;">"${data.content || 'No content'}"</p>
+        </div>
+        
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="text-align: center; padding-top: 20px;">
+              <a href="https://orbicitybatumi.com/admin/comments" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8963a 100%); color: #1a2a3a; text-decoration: none; padding: 15px 40px; border-radius: 30px; font-weight: 600; font-size: 14px;">მოდერაციის გვერდზე გადასვლა</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="background-color: #1a2a3a; padding: 25px; text-align: center;">
+        <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
+          ეს არის ავტომატური შეტყობინება ადმინისტრაციისთვის<br>
+          © ${new Date().getFullYear()} Orbi City Batumi
         </p>
       </td>
     </tr>
