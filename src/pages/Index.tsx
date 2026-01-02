@@ -8,7 +8,7 @@ import { Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoTourCard } from '@/components/VideoTourCard';
-
+import { GoogleReviews } from '@/components/GoogleReviews';
 const Index = () => {
   const { t } = useLanguage();
   
@@ -272,7 +272,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials - Manus Style */}
+      {/* Google Reviews Section */}
       <section className="py-24 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -284,55 +284,7 @@ const Index = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Review 1 */}
-            <Card className="p-8 shadow-card bg-white">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                ))}
-              </div>
-              <p className="text-muted-foreground mb-6 italic font-light leading-relaxed">
-                "Absolutely stunning views of the Black Sea! The apartment was luxurious and the staff incredibly welcoming. The balcony breakfast was unforgettable."
-              </p>
-              <div>
-                <p className="font-medium text-foreground">Sarah Johnson</p>
-                <p className="text-sm text-muted-foreground">United Kingdom</p>
-              </div>
-            </Card>
-
-            {/* Review 2 */}
-            <Card className="p-8 shadow-card bg-white">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                ))}
-              </div>
-              <p className="text-muted-foreground mb-6 italic font-light leading-relaxed">
-                "Best hotel experience in Georgia! Modern facilities, impeccable service, and the location is perfect. Will definitely return."
-              </p>
-              <div>
-                <p className="font-medium text-foreground">Michael Chen</p>
-                <p className="text-sm text-muted-foreground">Singapore</p>
-              </div>
-            </Card>
-
-            {/* Review 3 */}
-            <Card className="p-8 shadow-card bg-white">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                ))}
-              </div>
-              <p className="text-muted-foreground mb-6 italic font-light leading-relaxed">
-                "Превосходный отель! Роскошные номера с видом на море, отличный ресторан и очень дружелюбный персонал. Highly recommended!"
-              </p>
-              <div>
-                <p className="font-medium text-foreground">Elena Popov</p>
-                <p className="text-sm text-muted-foreground">Russia</p>
-              </div>
-            </Card>
-          </div>
+          <GoogleReviews maxReviews={5} minRating={4} />
         </div>
       </section>
 
