@@ -72,13 +72,12 @@ export const Navigation = () => {
             to="/"
             className="flex items-center gap-3 group"
           >
-            <div className="relative">
-              <img 
-                src={logo} 
-                alt="Orbi City Batumi" 
-                className={`transition-all duration-500 ${isScrolled ? 'h-12' : 'h-14'} w-auto rounded-lg shadow-soft group-hover:shadow-gold`}
-              />
-            </div>
+            <img 
+              src={logo} 
+              alt="Orbi City Batumi" 
+              className={`transition-all duration-500 ${isScrolled ? 'h-10' : 'h-12'} w-auto rounded-lg`}
+            />
+            <span className="text-xl font-bold text-white tracking-wide hidden sm:block">ORBI CITY</span>
           </Link>
 
           {/* Desktop Navigation */}
