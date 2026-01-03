@@ -114,10 +114,9 @@ export const HeroCarousel = () => {
           <Button
             size="lg"
             onClick={() => document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-black hover:bg-black/90 text-white font-semibold text-sm tracking-wider px-10 py-6 rounded-sm shadow-lg uppercase flex flex-col items-center gap-0.5"
+            className="bg-black hover:bg-black/90 text-white font-semibold text-sm tracking-wider px-10 py-6 rounded-sm shadow-lg uppercase"
           >
-            <span>BOOK NOW / PAY LATER</span>
-            <span className="text-[10px] text-green-400 font-normal">✓ Free Cancellation</span>
+            BOOK NOW/<em className="not-italic font-light">Pay Later</em>
           </Button>
           <Button
             asChild
