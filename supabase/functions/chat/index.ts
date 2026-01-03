@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,10 +15,76 @@ serve(async (req) => {
   try {
     const { messages, language = 'en' } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     
     if (!LOVABLE_API_KEY) {
       console.error("LOVABLE_API_KEY is not configured");
       throw new Error("LOVABLE_API_KEY is not configured");
+    }
+
+    // Fetch current pricing data from database
+    let pricingInfo = "";
+    try {
+      const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+      
+      // Get base apartment prices
+      const { data: apartments } = await supabase
+        .from('apartment_prices')
+        .select('apartment_type, name_en, name_ka, price_per_night, max_guests, size_sqm')
+        .eq('is_active', true)
+        .order('display_order');
+
+      // Get seasonal prices for current and next year
+      const currentYear = new Date().getFullYear();
+      const { data: seasonalPrices } = await supabase
+        .from('seasonal_prices')
+        .select('apartment_type, month, year, price_per_night')
+        .eq('is_active', true)
+        .gte('year', currentYear)
+        .order('apartment_type')
+        .order('year')
+        .order('month');
+
+      if (apartments && apartments.length > 0) {
+        const monthNames = language === 'ka' 
+          ? ['იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი', 'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი', 'დეკემბერი']
+          : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        pricingInfo = language === 'ka' 
+          ? `\n\nაქტუალური ფასები:\n`
+          : `\n\nCurrent Pricing:\n`;
+
+        apartments.forEach(apt => {
+          const name = language === 'ka' ? apt.name_ka : apt.name_en;
+          pricingInfo += `\n${name}:\n`;
+          pricingInfo += language === 'ka' 
+            ? `  - საბაზისო ფასი: ${apt.price_per_night} GEL/ღამე\n`
+            : `  - Base price: ${apt.price_per_night} GEL/night\n`;
+          pricingInfo += language === 'ka'
+            ? `  - მაქს. სტუმრები: ${apt.max_guests}\n`
+            : `  - Max guests: ${apt.max_guests}\n`;
+          if (apt.size_sqm) {
+            pricingInfo += language === 'ka'
+              ? `  - ფართი: ${apt.size_sqm} მ²\n`
+              : `  - Size: ${apt.size_sqm} m²\n`;
+          }
+
+          // Add seasonal prices for this apartment
+          const aptSeasonalPrices = seasonalPrices?.filter(sp => sp.apartment_type === apt.apartment_type);
+          if (aptSeasonalPrices && aptSeasonalPrices.length > 0) {
+            pricingInfo += language === 'ka' 
+              ? `  - სეზონური ფასები:\n`
+              : `  - Seasonal prices:\n`;
+            aptSeasonalPrices.forEach(sp => {
+              const monthName = monthNames[sp.month - 1];
+              pricingInfo += `      ${monthName} ${sp.year}: ${sp.price_per_night} GEL\n`;
+            });
+          }
+        });
+      }
+    } catch (dbError) {
+      console.error("Error fetching pricing data:", dbError);
     }
 
     // System prompt for hotel concierge
@@ -37,6 +104,8 @@ serve(async (req) => {
 - Check-in: 14:00, Check-out: 12:00
 - ზღვის ხედი ყველა აპარტამენტიდან
 - 5-ვარსკვლავიანი სასტუმრო
+${pricingInfo}
+როდესაც სტუმარი ფასებზე იკითხავს, გაითვალისწინე თვე და გამოიყენე სეზონური ფასები თუ არსებობს, წინააღმდეგ შემთხვევაში საბაზისო ფასი.
 
 იყავი მეგობრული, პროფესიონალური და დამხმარე. პასუხები იყოს მოკლე და ინფორმატიული.`
       : `You are the virtual concierge and AI assistant for Orbi City Batumi, a luxury 5-star aparthotel.
@@ -54,6 +123,8 @@ Important details:
 - Check-in: 14:00, Check-out: 12:00
 - All apartments have stunning sea views
 - 5-star luxury aparthotel
+${pricingInfo}
+When a guest asks about prices, consider the month they're interested in and use seasonal prices if available, otherwise use the base price.
 
 Be friendly, professional, and helpful. Keep responses concise and informative.`;
 

@@ -516,6 +516,39 @@ export type Database = {
         }
         Relationships: []
       }
+      seasonal_prices: {
+        Row: {
+          apartment_type: string
+          created_at: string
+          id: string
+          is_active: boolean
+          month: number
+          price_per_night: number
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          apartment_type: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          month: number
+          price_per_night: number
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          apartment_type?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          month?: number
+          price_per_night?: number
+          updated_at?: string
+          year?: number
+        }
+        Relationships: []
+      }
       seo_pages: {
         Row: {
           canonical_url: string | null

@@ -11,12 +11,13 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { CalendarIcon, Users, CreditCard, Loader2, Crown } from 'lucide-react';
-import { format, differenceInDays } from 'date-fns';
+import { format, differenceInDays, eachDayOfInterval, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
 import { BookingSuccessReviewPopup } from './BookingSuccessReviewPopup';
 import { useLoyaltyDiscount, addLoyaltyPoints } from './LoyaltyDashboard';
 import { useAuth } from '@/contexts/AuthContext';
+import { useQuery } from '@tanstack/react-query';
 
 interface ApartmentPrice {
   id: string;
@@ -156,10 +157,53 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
     return () => clearTimeout(timeoutId);
   }, [guestEmail]);
   
-  // Calculate price with loyalty discount
+  // Fetch seasonal prices
+  const currentYear = new Date().getFullYear();
+  const { data: seasonalPrices } = useQuery({
+    queryKey: ['seasonal-prices-booking'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('seasonal_prices')
+        .select('*')
+        .eq('is_active', true)
+        .gte('year', currentYear);
+      if (error) throw error;
+      return data;
+    },
+    enabled: isOpen,
+  });
+
+  // Calculate price with seasonal pricing and loyalty discount
   const selectedApt = apartments.find(a => a.apartment_type === selectedApartment);
   const nights = checkIn && checkOut ? differenceInDays(checkOut, checkIn) : 0;
-  const basePrice = selectedApt ? selectedApt.price_per_night * nights : 0;
+  
+  // Calculate base price considering seasonal pricing
+  const calculateSeasonalPrice = () => {
+    if (!checkIn || !checkOut || !selectedApt) return 0;
+    
+    let total = 0;
+    const days = eachDayOfInterval({ start: checkIn, end: addDays(checkOut, -1) });
+    
+    days.forEach(day => {
+      const month = day.getMonth() + 1;
+      const year = day.getFullYear();
+      
+      // Check for seasonal price
+      const seasonalPrice = seasonalPrices?.find(
+        sp => sp.apartment_type === selectedApartment && sp.month === month && sp.year === year
+      );
+      
+      if (seasonalPrice) {
+        total += seasonalPrice.price_per_night;
+      } else {
+        total += selectedApt.price_per_night;
+      }
+    });
+    
+    return total;
+  };
+
+  const basePrice = calculateSeasonalPrice();
   const loyaltyDiscountAmount = user && useLoyalty && loyaltyDiscount > 0 
     ? Math.round(basePrice * (loyaltyDiscount / 100)) 
     : 0;

@@ -18,6 +18,7 @@ import { AdminContent } from '@/components/admin/AdminContent';
 import { AdminMedia } from '@/components/admin/AdminMedia';
 import { AdminStyleGuide } from '@/components/admin/AdminStyleGuide';
 import { AdminPricing } from '@/components/admin/AdminPricing';
+import { AdminSeasonalPricing } from '@/components/admin/AdminSeasonalPricing';
 import AdminCalendar from '@/components/admin/AdminCalendar';
 import { AdminComments } from '@/components/admin/AdminComments';
 
@@ -55,6 +56,7 @@ const Admin = () => {
               <Route path="bookings" element={<div className="p-6"><AdminBookings /></div>} />
               <Route path="calendar" element={<div className="p-6"><AdminCalendar /></div>} />
               <Route path="pricing" element={<div className="p-6"><AdminPricing /></div>} />
+              <Route path="seasonal-pricing" element={<div className="p-6"><AdminSeasonalPricing /></div>} />
               <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />
               <Route path="comments" element={<div className="p-6"><AdminComments /></div>} />
               <Route path="content" element={<div className="p-6"><AdminContent /></div>} />

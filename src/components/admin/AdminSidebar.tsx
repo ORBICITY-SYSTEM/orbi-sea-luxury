@@ -64,6 +64,11 @@ const menuItems = [
     icon: DollarSign 
   },
   { 
+    title: 'სეზონური ფასები', 
+    url: '/admin/seasonal-pricing', 
+    icon: CalendarDays 
+  },
+  { 
     title: 'შეტყობინებები', 
     url: '/admin/contacts', 
     icon: MessageSquare 
