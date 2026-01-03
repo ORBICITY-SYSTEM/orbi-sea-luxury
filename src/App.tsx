@@ -61,14 +61,14 @@ const App = () => (
         <Toaster />
         <Sonner />
         <StructuredData />
-        <GoogleReviewPopup />
-        <WhatsAppFloatingButton />
-        <AIChatbot />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <GoogleAnalytics />
           <MetaPixel />
           <AuthProvider>
             <BookingProvider>
+              <GoogleReviewPopup />
+              <WhatsAppFloatingButton />
+              <AIChatbot />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
