@@ -122,7 +122,7 @@ export const RoomsSection = () => {
                   {t('rooms.viewDetails')}
                 </Button>
                  <Button 
-                  onClick={() => openBookingModal()}
+                  onClick={() => openBookingModal(room.id)}
                   className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
                 >
                   {t('rooms.bookNow')}
