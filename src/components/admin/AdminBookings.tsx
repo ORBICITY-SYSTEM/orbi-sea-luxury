@@ -6,11 +6,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, Trash2, Download, Filter, X, Copy, MessageCircle } from 'lucide-react';
+import { Loader2, Trash2, Download, Filter, X, Copy, MessageCircle, ChevronDown, ChevronUp, StickyNote } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import * as XLSX from 'xlsx';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { AdminBookingNotes } from './AdminBookingNotes';
 import {
   Select,
   SelectContent,
@@ -18,6 +19,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
+interface BookingNote {
+  id: string;
+  booking_id: string;
+  note: string;
+  note_type: string;
+  created_at: string;
+}
 
 interface Booking {
   id: string;
@@ -33,6 +47,7 @@ interface Booking {
   guest_phone: string | null;
   promo_code: string | null;
   created_at: string;
+  booking_notes?: BookingNote[];
 }
 
 export const AdminBookings = () => {
@@ -44,13 +59,14 @@ export const AdminBookings = () => {
   const [dateTo, setDateTo] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [apartmentFilter, setApartmentFilter] = useState('all');
+  const [expandedBookingId, setExpandedBookingId] = useState<string | null>(null);
 
   const { data: bookings, isLoading } = useQuery({
     queryKey: ['admin-bookings'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('bookings')
-        .select('*')
+        .select('*, booking_notes(*)')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -310,73 +326,111 @@ export const AdminBookings = () => {
                 </TableRow>
               ) : (
                 filteredBookings.map((booking) => (
-                  <TableRow key={booking.id}>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">{booking.guest_name || '-'}</p>
-                        <p className="text-sm text-muted-foreground">{booking.guest_email || '-'}</p>
-                        {booking.guest_phone && (
-                          <p className="text-sm text-muted-foreground">{booking.guest_phone}</p>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>{booking.apartment_type}</TableCell>
-                    <TableCell>{format(new Date(booking.check_in), 'dd/MM/yyyy')}</TableCell>
-                    <TableCell>{format(new Date(booking.check_out), 'dd/MM/yyyy')}</TableCell>
-                    <TableCell>{booking.guests}</TableCell>
-                    <TableCell>{booking.total_price} ₾</TableCell>
-                    <TableCell>
-                      <Select
-                        value={booking.status}
-                        onValueChange={(value) =>
-                          updateStatusMutation.mutate({ id: booking.id, status: value })
-                        }
-                      >
-                        <SelectTrigger className="w-32">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">მოლოდინში</SelectItem>
-                          <SelectItem value="confirmed">დადასტურებული</SelectItem>
-                          <SelectItem value="cancelled">გაუქმებული</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        {booking.guest_phone && (
-                          <>
+                  <Collapsible 
+                    key={booking.id} 
+                    open={expandedBookingId === booking.id}
+                    onOpenChange={(open) => setExpandedBookingId(open ? booking.id : null)}
+                    asChild
+                  >
+                    <>
+                      <TableRow className="group">
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">{booking.guest_name || '-'}</p>
+                            <p className="text-sm text-muted-foreground">{booking.guest_email || '-'}</p>
+                            {booking.guest_phone && (
+                              <p className="text-sm text-muted-foreground">{booking.guest_phone}</p>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>{booking.apartment_type}</TableCell>
+                        <TableCell>{format(new Date(booking.check_in), 'dd/MM/yyyy')}</TableCell>
+                        <TableCell>{format(new Date(booking.check_out), 'dd/MM/yyyy')}</TableCell>
+                        <TableCell>{booking.guests}</TableCell>
+                        <TableCell>{booking.total_price} ₾</TableCell>
+                        <TableCell>
+                          <Select
+                            value={booking.status}
+                            onValueChange={(value) =>
+                              updateStatusMutation.mutate({ id: booking.id, status: value })
+                            }
+                          >
+                            <SelectTrigger className="w-32">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">მოლოდინში</SelectItem>
+                              <SelectItem value="confirmed">დადასტურებული</SelectItem>
+                              <SelectItem value="cancelled">გაუქმებული</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            <CollapsibleTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                title="შენიშვნები"
+                                className="relative"
+                              >
+                                <StickyNote className="h-4 w-4" />
+                                {(booking.booking_notes?.length || 0) > 0 && (
+                                  <Badge 
+                                    variant="secondary" 
+                                    className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                                  >
+                                    {booking.booking_notes?.length}
+                                  </Badge>
+                                )}
+                              </Button>
+                            </CollapsibleTrigger>
+                            {booking.guest_phone && (
+                              <>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => copyPhone(booking.guest_phone!)}
+                                  title="ტელეფონის კოპირება"
+                                >
+                                  <Copy className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleWhatsApp(booking)}
+                                  title="WhatsApp-ით დაკავშირება"
+                                  className="text-green-600 hover:text-green-700"
+                                >
+                                  <MessageCircle className="h-4 w-4" />
+                                </Button>
+                              </>
+                            )}
                             <Button
-                              variant="outline"
+                              variant="destructive"
                               size="sm"
-                              onClick={() => copyPhone(booking.guest_phone!)}
-                              title="ტელეფონის კოპირება"
+                              onClick={() => deleteBookingMutation.mutate(booking.id)}
+                              disabled={deleteBookingMutation.isPending}
+                              title="წაშლა"
                             >
-                              <Copy className="h-4 w-4" />
+                              <Trash2 className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleWhatsApp(booking)}
-                              title="WhatsApp-ით დაკავშირება"
-                              className="text-green-600 hover:text-green-700"
-                            >
-                              <MessageCircle className="h-4 w-4" />
-                            </Button>
-                          </>
-                        )}
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => deleteBookingMutation.mutate(booking.id)}
-                          disabled={deleteBookingMutation.isPending}
-                          title="წაშლა"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                      <CollapsibleContent asChild>
+                        <TableRow className="bg-muted/30 hover:bg-muted/30">
+                          <TableCell colSpan={8} className="p-4">
+                            <AdminBookingNotes 
+                              bookingId={booking.id} 
+                              notes={booking.booking_notes || []}
+                              onNotesChange={() => queryClient.invalidateQueries({ queryKey: ['admin-bookings'] })}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      </CollapsibleContent>
+                    </>
+                  </Collapsible>
                 ))
               )}
             </TableBody>
