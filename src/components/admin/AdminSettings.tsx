@@ -389,6 +389,28 @@ export const AdminSettings = () => {
           </CardContent>
         </Card>
 
+        {/* Webhook Integration */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Webhook ინტეგრაცია</CardTitle>
+            <CardDescription>ახალი რეზერვაციისას ავტომატური notification გაგზავნა გარე სისტემაზე (n8n, Make.com, Zapier და ა.შ.)</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="booking_webhook_url">Webhook URL</Label>
+              <Input
+                id="booking_webhook_url"
+                value={formData.booking_webhook_url || ''}
+                onChange={(e) => handleChange('booking_webhook_url', e.target.value)}
+                placeholder="https://n8n.yourdomain.com/webhook/..."
+              />
+              <p className="text-sm text-muted-foreground">
+                ახალი რეზერვაციის შემდეგ, მონაცემები ავტომატურად გაიგზავნება ამ URL-ზე POST მეთოდით
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Popup Settings */}
         <Card>
           <CardHeader>
