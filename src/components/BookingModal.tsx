@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, Users, CreditCard, Loader2, Crown } from 'lucide-react';
+import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { format, differenceInDays, eachDayOfInterval, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
@@ -584,6 +585,63 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <CreditCard className="w-3 h-3" />
                   {language === 'ka' ? 'გადახდა სასტუმროში მოსვლისას' : 'Pay at hotel upon arrival'}
+                </p>
+                
+                {/* Free Cancellation Badge */}
+                <div className="flex items-center gap-2 text-xs text-green-600 bg-green-50 rounded-lg px-3 py-2 mt-2">
+                  <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-medium">
+                    {language === 'ka' ? 'უფასო გაუქმება ჩასვლამდე 24 საათით ადრე' : 'Free cancellation up to 24 hours before check-in'}
+                  </span>
+                </div>
+              </div>
+            )}
+            
+            {/* Registration Offer for Non-Logged Users */}
+            {!user && nights > 0 && (
+              <div className="bg-gradient-to-r from-gold-50 to-primary/5 border border-gold-200 rounded-xl p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-gold flex items-center justify-center flex-shrink-0 shadow-gold">
+                    <Gift className="w-6 h-6 text-secondary-foreground" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground">
+                      {language === 'ka' ? '🎁 მიიღეთ 20₾ საჩუქარი!' : '🎁 Get 20 GEL Welcome Gift!'}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {language === 'ka' 
+                        ? 'დარეგისტრირდით და მიიღეთ 20 ლარი ბონუსად' 
+                        : 'Register now and receive 20 GEL bonus credit'}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Crown className="w-3 h-3 text-gold-500" />
+                  <span>
+                    {language === 'ka' 
+                      ? 'ლოიალობის პროგრამით დააგროვეთ ქულები და მიიღეთ ფასდაკლებები' 
+                      : 'Earn points with every booking and get exclusive discounts'}
+                  </span>
+                </div>
+                
+                <Link to="/auth" className="block">
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    className="w-full border-gold-400 text-gold-700 hover:bg-gold-50 font-semibold"
+                  >
+                    <Gift className="w-4 h-4 mr-2" />
+                    {language === 'ka' ? 'დარეგისტრირდით და მიიღეთ 20₾' : 'Register & Get 20 GEL'}
+                  </Button>
+                </Link>
+                
+                <p className="text-[10px] text-center text-muted-foreground">
+                  {language === 'ka' 
+                    ? 'ან გააგრძელეთ როგორც სტუმარი ქვემოთ' 
+                    : 'Or continue as guest below'}
                 </p>
               </div>
             )}
