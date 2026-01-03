@@ -177,11 +177,12 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const selectedApt = apartments.find(a => a.apartment_type === selectedApartment);
   const nights = checkIn && checkOut ? differenceInDays(checkOut, checkIn) : 0;
   
-  // Calculate base price considering seasonal pricing
-  const calculateSeasonalPrice = () => {
-    if (!checkIn || !checkOut || !selectedApt) return 0;
+  // Calculate base price considering seasonal pricing with breakdown
+  const calculateSeasonalPriceWithBreakdown = () => {
+    if (!checkIn || !checkOut || !selectedApt) return { total: 0, breakdown: [] as { date: Date; price: number }[] };
     
     let total = 0;
+    const breakdown: { date: Date; price: number }[] = [];
     const days = eachDayOfInterval({ start: checkIn, end: addDays(checkOut, -1) });
     
     days.forEach(day => {
@@ -193,22 +194,24 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
         sp => sp.apartment_type === selectedApartment && sp.month === month && sp.year === year
       );
       
-      if (seasonalPrice) {
-        total += seasonalPrice.price_per_night;
-      } else {
-        total += selectedApt.price_per_night;
-      }
+      const priceForDay = seasonalPrice ? seasonalPrice.price_per_night : selectedApt.price_per_night;
+      total += priceForDay;
+      breakdown.push({ date: day, price: priceForDay });
     });
     
-    return total;
+    return { total, breakdown };
   };
 
-  const basePrice = calculateSeasonalPrice();
+  const { total: basePrice, breakdown: priceBreakdown } = calculateSeasonalPriceWithBreakdown();
   const loyaltyDiscountAmount = user && useLoyalty && loyaltyDiscount > 0 
     ? Math.round(basePrice * (loyaltyDiscount / 100)) 
     : 0;
   const totalPrice = basePrice - loyaltyDiscountAmount;
   const pointsToEarn = Math.floor(totalPrice / 10);
+  
+  // Check if prices vary (to show breakdown only when relevant)
+  const hasVariedPrices = priceBreakdown.length > 1 && 
+    new Set(priceBreakdown.map(p => p.price)).size > 1;
   
   const validateForm = () => {
     const result = bookingSchema.safeParse({
@@ -514,10 +517,40 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
             {/* Price Summary */}
             {nights > 0 && selectedApt && (
               <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>{selectedApt.price_per_night} GEL × {nights} {language === 'ka' ? 'ღამე' : 'nights'}</span>
-                  <span>{basePrice} GEL</span>
-                </div>
+                {/* Nightly breakdown - show when prices vary */}
+                {hasVariedPrices && priceBreakdown.length > 0 && (
+                  <div className="space-y-1 pb-2 border-b border-border/50">
+                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                      {language === 'ka' ? 'ღამეების დეტალები:' : 'Nightly breakdown:'}
+                    </p>
+                    <div className="max-h-32 overflow-y-auto space-y-1">
+                      {priceBreakdown.map((item, index) => (
+                        <div key={index} className="flex justify-between text-xs">
+                          <span className="text-muted-foreground">
+                            {format(item.date, 'MMM d, yyyy')}
+                          </span>
+                          <span>{item.price} GEL</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Simple summary when prices don't vary */}
+                {!hasVariedPrices && (
+                  <div className="flex justify-between text-sm">
+                    <span>{selectedApt.price_per_night} GEL × {nights} {language === 'ka' ? 'ღამე' : 'nights'}</span>
+                    <span>{basePrice} GEL</span>
+                  </div>
+                )}
+                
+                {/* Total for varied prices */}
+                {hasVariedPrices && (
+                  <div className="flex justify-between text-sm">
+                    <span>{nights} {language === 'ka' ? 'ღამე' : 'nights'}</span>
+                    <span>{basePrice} GEL</span>
+                  </div>
+                )}
                 
                 {/* Loyalty Discount */}
                 {user && loyaltyDiscount > 0 && (
