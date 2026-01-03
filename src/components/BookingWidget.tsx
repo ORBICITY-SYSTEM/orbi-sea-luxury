@@ -131,10 +131,13 @@ export const BookingWidget = () => {
             <label className="text-xs font-semibold text-transparent hidden md:block">Action</label>
             <Button
               onClick={handleBookNow}
-              className="w-full h-14 bg-gradient-to-r from-gold-400 to-gold-600 hover:from-gold-500 hover:to-gold-700 text-navy-900 font-bold rounded-xl shadow-gold hover:shadow-glow transition-all duration-300 tracking-wider uppercase text-sm"
+              className="w-full h-14 bg-gradient-to-r from-gold-400 to-gold-600 hover:from-gold-500 hover:to-gold-700 text-navy-900 font-bold rounded-xl shadow-gold hover:shadow-glow transition-all duration-300 tracking-wider uppercase text-xs flex flex-col items-center gap-0"
             >
-              <CreditCard className="w-5 h-5 mr-2" />
-              {language === 'ka' ? 'დაჯავშნე' : 'Book Now'}
+              <div className="flex items-center">
+                <CreditCard className="w-4 h-4 mr-1.5" />
+                {language === 'ka' ? 'დაჯავშნე / მოგვიანებით' : 'Book Now / Pay Later'}
+              </div>
+              <span className="text-[9px] text-green-700 font-medium">✓ {language === 'ka' ? 'უფასო გაუქმება' : 'Free Cancellation'}</span>
             </Button>
           </div>
         </div>
