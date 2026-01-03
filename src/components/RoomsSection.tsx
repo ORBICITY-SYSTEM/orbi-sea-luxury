@@ -45,7 +45,7 @@ const rooms = [
 ];
 
 export const RoomsSection = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const { openBookingModal } = useBooking();
 
@@ -123,9 +123,10 @@ export const RoomsSection = () => {
                 </Button>
                  <Button 
                   onClick={() => openBookingModal(room.id)}
-                  className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold"
+                  className="flex-1 bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-semibold shadow-gold flex flex-col items-center gap-0 py-3 h-auto"
                 >
-                  {t('rooms.bookNow')}
+                  <span>{language === 'ka' ? 'დაჯავშნე / მოგვიანებით' : 'Book Now / Pay Later'}</span>
+                  <span className="text-[10px] text-green-700 font-normal">✓ {language === 'ka' ? 'უფასო გაუქმება' : 'Free Cancellation'}</span>
                 </Button>
               </CardFooter>
             </Card>
