@@ -124,23 +124,26 @@ export function AdminChannelManager() {
         throw new Error('iCal URL არ არის მითითებული');
       }
 
-      // In a real implementation, this would call an edge function to parse the iCal feed
-      // For now, we just update the last_synced_at timestamp
-      const { error } = await supabase
-        .from('channel_integrations')
-        .update({ 
-          last_synced_at: new Date().toISOString(),
-          sync_errors: null 
-        })
-        .eq('id', integration.id);
-      
+      // Call the edge function to sync iCal
+      const { data, error } = await supabase.functions.invoke('sync-ical', {
+        body: { integration_id: integration.id },
+      });
+
       if (error) throw error;
+      if (!data.success) throw new Error(data.error || 'სინქრონიზაცია ვერ მოხერხდა');
+      
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['channel-integrations'] });
-      toast({ title: 'სინქრონიზაცია წარმატებულია' });
+      queryClient.invalidateQueries({ queryKey: ['blocked-dates'] });
+      toast({ 
+        title: 'სინქრონიზაცია წარმატებულია', 
+        description: `${data.added} ახალი დაბლოკილი თარიღი დაემატა (${data.future_events} ჯავშანი ნაპოვნია)` 
+      });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
+      queryClient.invalidateQueries({ queryKey: ['channel-integrations'] });
       toast({ title: 'სინქრონიზაციის შეცდომა', description: error.message, variant: 'destructive' });
     },
   });
