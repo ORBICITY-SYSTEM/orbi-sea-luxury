@@ -16,7 +16,12 @@ import {
   FileText,
   Image,
   Palette,
-  DollarSign
+  DollarSign,
+  CalendarX,
+  Sparkles,
+  Mail,
+  BarChart3,
+  Link2
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -59,6 +64,11 @@ const menuItems = [
     icon: CalendarDays 
   },
   { 
+    title: 'Block Dates', 
+    url: '/admin/blocked-dates', 
+    icon: CalendarX 
+  },
+  { 
     title: 'ფასები', 
     url: '/admin/pricing', 
     icon: DollarSign 
@@ -74,9 +84,34 @@ const menuItems = [
     icon: MessageSquare 
   },
   { 
+    title: 'სტუმრებთან ჩატი', 
+    url: '/admin/messages', 
+    icon: MessageCircle 
+  },
+  { 
     title: 'კომენტარები', 
     url: '/admin/comments', 
     icon: MessageCircle 
+  },
+  { 
+    title: 'Housekeeping', 
+    url: '/admin/housekeeping', 
+    icon: Sparkles 
+  },
+  { 
+    title: 'Email შაბლონები', 
+    url: '/admin/email-templates', 
+    icon: Mail 
+  },
+  { 
+    title: 'ანგარიშები', 
+    url: '/admin/reports', 
+    icon: BarChart3 
+  },
+  { 
+    title: 'Channel Manager', 
+    url: '/admin/channels', 
+    icon: Link2 
   },
   { 
     title: 'კონტენტი', 
