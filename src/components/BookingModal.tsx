@@ -343,6 +343,13 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
       });
       localStorage.setItem('guestBookings', JSON.stringify(guestBookings));
       
+      // Send webhook notification (fire and forget - don't block success)
+      if (booking) {
+        supabase.functions.invoke('send-booking-webhook', {
+          body: { booking }
+        }).catch(err => console.error('Webhook error:', err));
+      }
+      
       setSuccess(true);
       toast({
         title: language === 'ka' ? 'ჯავშანი წარმატებით შეიქმნა!' : 'Booking confirmed!',
