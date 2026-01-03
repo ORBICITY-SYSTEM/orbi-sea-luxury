@@ -21,6 +21,12 @@ import { AdminPricing } from '@/components/admin/AdminPricing';
 import { AdminSeasonalPricing } from '@/components/admin/AdminSeasonalPricing';
 import AdminCalendar from '@/components/admin/AdminCalendar';
 import { AdminComments } from '@/components/admin/AdminComments';
+import { AdminBlockedDates } from '@/components/admin/AdminBlockedDates';
+import { AdminHousekeeping } from '@/components/admin/AdminHousekeeping';
+import { AdminEmailTemplates } from '@/components/admin/AdminEmailTemplates';
+import { AdminGuestMessages } from '@/components/admin/AdminGuestMessages';
+import { AdminReports } from '@/components/admin/AdminReports';
+import { AdminChannelManager } from '@/components/admin/AdminChannelManager';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -55,10 +61,16 @@ const Admin = () => {
               <Route path="pending" element={<div className="p-6"><AdminPendingReservations /></div>} />
               <Route path="bookings" element={<div className="p-6"><AdminBookings /></div>} />
               <Route path="calendar" element={<div className="p-6"><AdminCalendar /></div>} />
+              <Route path="blocked-dates" element={<div className="p-6"><AdminBlockedDates /></div>} />
               <Route path="pricing" element={<div className="p-6"><AdminPricing /></div>} />
               <Route path="seasonal-pricing" element={<div className="p-6"><AdminSeasonalPricing /></div>} />
               <Route path="contacts" element={<div className="p-6"><AdminContactSubmissions /></div>} />
+              <Route path="messages" element={<div className="p-6"><AdminGuestMessages /></div>} />
               <Route path="comments" element={<div className="p-6"><AdminComments /></div>} />
+              <Route path="housekeeping" element={<div className="p-6"><AdminHousekeeping /></div>} />
+              <Route path="email-templates" element={<div className="p-6"><AdminEmailTemplates /></div>} />
+              <Route path="reports" element={<div className="p-6"><AdminReports /></div>} />
+              <Route path="channels" element={<div className="p-6"><AdminChannelManager /></div>} />
               <Route path="content" element={<div className="p-6"><AdminContent /></div>} />
               <Route path="media" element={<div className="p-6"><AdminMedia /></div>} />
               <Route path="users" element={<div className="p-6"><AdminUsers /></div>} />

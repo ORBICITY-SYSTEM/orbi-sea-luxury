@@ -65,6 +65,36 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_dates: {
+        Row: {
+          apartment_type: string
+          created_at: string
+          end_date: string
+          id: string
+          reason: string | null
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          apartment_type: string
+          created_at?: string
+          end_date: string
+          id?: string
+          reason?: string | null
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          apartment_type?: string
+          created_at?: string
+          end_date?: string
+          id?: string
+          reason?: string | null
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_comments: {
         Row: {
           content: string
@@ -108,6 +138,41 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "blog_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_notes: {
+        Row: {
+          booking_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string
+          note_type: string | null
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note: string
+          note_type?: string | null
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string
+          note_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_notes_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
             referencedColumns: ["id"]
           },
         ]
@@ -184,6 +249,42 @@ export type Database = {
         }
         Relationships: []
       }
+      channel_integrations: {
+        Row: {
+          apartment_type: string
+          channel_name: string
+          created_at: string
+          ical_url: string | null
+          id: string
+          is_active: boolean | null
+          last_synced_at: string | null
+          sync_errors: string | null
+          updated_at: string
+        }
+        Insert: {
+          apartment_type: string
+          channel_name: string
+          created_at?: string
+          ical_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_synced_at?: string | null
+          sync_errors?: string | null
+          updated_at?: string
+        }
+        Update: {
+          apartment_type?: string
+          channel_name?: string
+          created_at?: string
+          ical_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_synced_at?: string | null
+          sync_errors?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           admin_notes: string | null
@@ -252,6 +353,86 @@ export type Database = {
           section_key?: string
           section_name?: string
           section_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_logs: {
+        Row: {
+          booking_id: string | null
+          error_message: string | null
+          id: string
+          recipient_email: string
+          recipient_name: string | null
+          sent_at: string
+          status: string | null
+          template_key: string | null
+        }
+        Insert: {
+          booking_id?: string | null
+          error_message?: string | null
+          id?: string
+          recipient_email: string
+          recipient_name?: string | null
+          sent_at?: string
+          status?: string | null
+          template_key?: string | null
+        }
+        Update: {
+          booking_id?: string | null
+          error_message?: string | null
+          id?: string
+          recipient_email?: string
+          recipient_name?: string | null
+          sent_at?: string
+          status?: string | null
+          template_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_logs_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_templates: {
+        Row: {
+          body_en: string
+          body_ka: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          subject_en: string
+          subject_ka: string
+          template_key: string
+          template_name: string
+          updated_at: string
+        }
+        Insert: {
+          body_en: string
+          body_ka: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          subject_en: string
+          subject_ka: string
+          template_key: string
+          template_name: string
+          updated_at?: string
+        }
+        Update: {
+          body_en?: string
+          body_ka?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          subject_en?: string
+          subject_ka?: string
+          template_key?: string
+          template_name?: string
           updated_at?: string
         }
         Relationships: []
@@ -360,6 +541,86 @@ export type Database = {
           traffic_allocation?: number | null
           updated_at?: string | null
           variants?: Json
+        }
+        Relationships: []
+      }
+      guest_messages: {
+        Row: {
+          booking_id: string | null
+          created_at: string
+          id: string
+          is_read: boolean | null
+          message: string
+          sender_type: string
+          user_id: string | null
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message: string
+          sender_type?: string
+          user_id?: string | null
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          sender_type?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guest_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      housekeeping: {
+        Row: {
+          apartment_type: string
+          assigned_to: string | null
+          created_at: string
+          id: string
+          last_cleaned_at: string | null
+          next_check_in: string | null
+          notes: string | null
+          priority: string | null
+          room_number: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          apartment_type: string
+          assigned_to?: string | null
+          created_at?: string
+          id?: string
+          last_cleaned_at?: string | null
+          next_check_in?: string | null
+          notes?: string | null
+          priority?: string | null
+          room_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          apartment_type?: string
+          assigned_to?: string | null
+          created_at?: string
+          id?: string
+          last_cleaned_at?: string | null
+          next_check_in?: string | null
+          notes?: string | null
+          priority?: string | null
+          room_number?: string | null
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
