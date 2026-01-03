@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { LoyaltyDashboard } from '@/components/LoyaltyDashboard';
+import WelcomeBonusCard from '@/components/WelcomeBonusCard';
 
 const LoyaltyProgram = () => {
   const { t, language } = useLanguage();
@@ -70,72 +71,10 @@ const LoyaltyProgram = () => {
       <Breadcrumbs items={[{ label: t('nav.loyalty') }]} />
 
       {/* 20 GEL Welcome Bonus Banner */}
-      <section className="py-12 bg-gradient-to-r from-gold-50 via-white to-gold-50">
+      <section className="py-16 bg-gradient-to-b from-blue-50 via-cyan-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-luxury border border-gold-200 overflow-hidden">
-            <div className="flex flex-col md:flex-row items-center">
-              {/* Gift Visual */}
-              <div className="w-full md:w-1/3 bg-gradient-gold p-8 flex flex-col items-center justify-center text-center">
-                <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur flex items-center justify-center mb-4 animate-pulse">
-                  <Gift className="w-14 h-14 text-secondary-foreground" />
-                </div>
-                <div className="text-5xl font-bold text-secondary-foreground mb-2">20₾</div>
-                <p className="text-secondary-foreground/80 text-sm uppercase tracking-wider">
-                  {language === 'ka' ? 'სასაჩუქრე ბონუსი' : 'Welcome Bonus'}
-                </p>
-              </div>
-              
-              {/* Content */}
-              <div className="flex-1 p-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-                  {language === 'ka' 
-                    ? '🎉 დარეგისტრირდით და მიიღეთ 20₾ საჩუქრად!' 
-                    : '🎉 Register Now & Get 20 GEL Free!'}
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  {language === 'ka' 
-                    ? 'ყველა ახალ წევრს ვაჩუქებთ 20 ლარის ბონუს კრედიტს, რომლის გამოყენებაც შესაძლებელია პირველივე დაჯავშნისას. გახდით ჩვენი ლოიალური მომხმარებელი და ისარგებლეთ ექსკლუზიური ფასდაკლებებით!' 
-                    : 'Every new member receives 20 GEL bonus credit to use on their first booking. Join our loyalty program and enjoy exclusive discounts on all future stays!'}
-                </p>
-                
-                <div className="flex flex-wrap gap-4 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-green-600">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <span>{language === 'ka' ? 'მყისიერი აქტივაცია' : 'Instant activation'}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-green-600">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <span>{language === 'ka' ? 'ვადა არ აქვს' : 'No expiration'}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-green-600">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <span>{language === 'ka' ? 'უფასო გაწევრიანება' : 'Free to join'}</span>
-                  </div>
-                </div>
-                
-                {!user && (
-                  <Link to="/auth">
-                    <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
-                      <Gift className="w-5 h-5 mr-2" />
-                      {language === 'ka' ? 'დარეგისტრირდი და მიიღე 20₾' : 'Register & Get 20 GEL'}
-                    </Button>
-                  </Link>
-                )}
-                
-                {user && (
-                  <div className="flex items-center gap-2 text-primary font-semibold">
-                    <Crown className="w-5 h-5" />
-                    {language === 'ka' ? 'თქვენ უკვე ლოიალური წევრი ხართ!' : 'You are already a loyalty member!'}
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="max-w-3xl mx-auto">
+            <WelcomeBonusCard />
           </div>
         </div>
       </section>
