@@ -14,141 +14,298 @@ interface EmailRequest {
   data: Record<string, any>;
 }
 
-// Email Templates
+// Four Seasons-inspired Email Templates
 const templates = {
-  booking_confirmation: (data: Record<string, any>) => ({
-    subject: "🏨 Booking Confirmed - Orbi City Batumi | Pay at Hotel",
-    html: `
+  booking_confirmation: (data: Record<string, any>) => {
+    const isGeorgian = data.language === 'ka';
+    
+    const content = {
+      subject: isGeorgian 
+        ? '✨ თქვენი დაჯავშნა დადასტურებულია | Orbi City Batumi'
+        : '✨ Your Reservation is Confirmed | Orbi City Batumi',
+      
+      greeting: isGeorgian 
+        ? `პატივცემულო ${data.guestName || 'სტუმარო'}` 
+        : `Dear ${data.guestName || 'Guest'}`,
+      
+      welcomeText: isGeorgian
+        ? 'გმადლობთ, რომ აირჩიეთ Orbi City Batumi. ჩვენთვის პატივია მოგესალმოთ ჩვენს ექსკლუზიურ სასტუმროში შავი ზღვის სანაპიროზე.'
+        : 'Thank you for choosing Orbi City Batumi. We are honored to welcome you to our exclusive residence on the shores of the Black Sea.',
+      
+      reservationTitle: isGeorgian ? 'თქვენი ჯავშანი' : 'Your Reservation',
+      apartmentLabel: isGeorgian ? 'აპარტამენტი' : 'Apartment',
+      checkInLabel: isGeorgian ? 'ჩასვლა' : 'Check-in',
+      checkOutLabel: isGeorgian ? 'გასვლა' : 'Check-out',
+      nightsLabel: isGeorgian ? 'ღამეები' : 'Nights',
+      guestsLabel: isGeorgian ? 'სტუმრები' : 'Guests',
+      
+      expectTitle: isGeorgian ? 'რას უნდა ელოდეთ' : 'What to Expect',
+      expectItems: isGeorgian 
+        ? [
+            '14:00 — ჩასვლა (ადრეული ჩასვლა მოთხოვნით)',
+            '12:00 — გასვლა (გვიანი გასვლა მოთხოვნით)',
+            'უფასო მაღალსიჩქარიანი WiFi',
+            'აუზი და ფიტნეს ცენტრი',
+            '24/7 კონსიერჟ სერვისი',
+            'პანორამული ხედი ზღვაზე'
+          ]
+        : [
+            '14:00 — Check-in (early arrival upon request)',
+            '12:00 — Check-out (late departure upon request)',
+            'Complimentary high-speed WiFi',
+            'Pool & Fitness Center access',
+            '24/7 Concierge service',
+            'Panoramic sea views'
+          ],
+      
+      paymentTitle: isGeorgian ? 'გადახდა' : 'Payment',
+      paymentText: isGeorgian 
+        ? 'გადახდა მოხდება სასტუმროში მოსვლისას. მიიღება როგორც ნაღდი, ასევე საბანკო ბარათი.'
+        : 'Payment upon arrival at the hotel. We accept both cash and card payments.',
+      
+      conciergeTitle: isGeorgian ? 'კონსიერჟი' : 'Concierge',
+      conciergeText: isGeorgian
+        ? 'ნებისმიერი კითხვის ან სპეციალური მოთხოვნის შემთხვევაში, გთხოვთ დაგვიკავშირდეთ:'
+        : 'For any questions or special requests, please contact us:',
+      
+      closingText: isGeorgian
+        ? 'გელოდებით თქვენს სტუმრობას.'
+        : 'We look forward to welcoming you.',
+      
+      warmRegards: isGeorgian ? 'პატივისცემით' : 'With warm regards',
+      teamName: 'The Orbi City Team',
+      
+      cancellationNote: isGeorgian
+        ? 'უფასო გაუქმება ჩასვლამდე 24 საათით ადრე'
+        : 'Free cancellation up to 24 hours before check-in'
+    };
+
+    return {
+      subject: content.subject,
+      html: `
 <!DOCTYPE html>
-<html>
+<html lang="${isGeorgian ? 'ka' : 'en'}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking Confirmation</title>
+  <title>${content.subject}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+  </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
-    <!-- Header -->
+<body style="margin: 0; padding: 0; background-color: #f8f7f4; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f7f4; padding: 40px 20px;">
     <tr>
-      <td style="background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%); padding: 40px 30px; text-align: center;">
-        <h1 style="color: #d4af37; font-size: 28px; margin: 0; font-weight: 300; letter-spacing: 3px;">ORBI CITY</h1>
-        <p style="color: #ffffff; font-size: 12px; margin: 8px 0 0; letter-spacing: 2px;">BATUMI</p>
-      </td>
-    </tr>
-    
-    <!-- Success Banner -->
-    <tr>
-      <td style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 20px 30px; text-align: center;">
-        <p style="color: #ffffff; font-size: 18px; margin: 0; font-weight: 600;">✓ Booking Confirmed!</p>
-      </td>
-    </tr>
-    
-    <!-- Content -->
-    <tr>
-      <td style="padding: 40px 30px;">
-        <h2 style="color: #1a2a3a; font-size: 24px; margin: 0 0 20px; font-weight: 400;">Dear ${data.guestName || 'Guest'},</h2>
-        <p style="color: #666; font-size: 16px; line-height: 1.6; margin: 0 0 30px;">
-          Thank you for choosing Orbi City Batumi! Your reservation has been confirmed. Below are your booking details.
-        </p>
-        
-        <!-- Booking Details -->
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e5e7eb;">
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 640px; background-color: #ffffff; border-radius: 2px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+          
+          <!-- Header -->
           <tr>
-            <td style="padding: 25px;">
-              <h3 style="color: #d4af37; font-size: 14px; margin: 0 0 20px; letter-spacing: 1px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px;">📋 RESERVATION DETAILS</h3>
-              <table width="100%" cellpadding="0" cellspacing="0">
+            <td style="background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); padding: 50px 40px; text-align: center;">
+              <p style="color: #c9a962; font-size: 11px; letter-spacing: 4px; margin: 0 0 15px; font-weight: 500;">★ ★ ★ ★ ★</p>
+              <h1 style="font-family: 'Playfair Display', Georgia, serif; color: #ffffff; font-size: 36px; margin: 0; font-weight: 400; letter-spacing: 2px;">ORBI CITY</h1>
+              <p style="color: #c9a962; font-size: 12px; margin: 10px 0 0; letter-spacing: 3px; font-weight: 500;">BATUMI</p>
+            </td>
+          </tr>
+
+          <!-- Confirmation Badge -->
+          <tr>
+            <td style="padding: 0;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #c9a962 0%, #dfc283 100%);">
                 <tr>
-                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Apartment Type:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">${data.apartmentName || 'Premium Suite'}</td>
-                </tr>
-                <tr>
-                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Check-in Date:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">📅 ${data.checkIn || 'TBD'}</td>
-                </tr>
-                <tr>
-                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Check-out Date:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">📅 ${data.checkOut || 'TBD'}</td>
-                </tr>
-                <tr>
-                  <td style="color: #666; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">Number of Nights:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600; border-bottom: 1px solid #f0f0f0;">🌙 ${data.nights || '1'} night(s)</td>
-                </tr>
-                <tr>
-                  <td style="color: #666; font-size: 14px; padding: 10px 0;">Number of Guests:</td>
-                  <td style="color: #1a2a3a; font-size: 14px; padding: 10px 0; text-align: right; font-weight: 600;">👥 ${data.guests || '2'} guest(s)</td>
+                  <td style="padding: 20px 40px; text-align: center;">
+                    <p style="color: #1a1a1a; font-size: 14px; margin: 0; font-weight: 600; letter-spacing: 1px;">
+                      ✓ ${isGeorgian ? 'ჯავშანი დადასტურებულია' : 'RESERVATION CONFIRMED'}
+                    </p>
+                  </td>
                 </tr>
               </table>
             </td>
           </tr>
-        </table>
 
-        <!-- Payment Info Box -->
-        <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; margin-bottom: 25px; border: 2px solid #d4af37;">
+          <!-- Welcome Message -->
           <tr>
-            <td style="padding: 25px; text-align: center;">
-              <h3 style="color: #92400e; font-size: 16px; margin: 0 0 15px; font-weight: 700;">💳 PAYMENT INFORMATION</h3>
-              <p style="color: #78350f; font-size: 22px; margin: 0 0 10px; font-weight: 700;">${data.totalPrice || '0 GEL'}</p>
-              <p style="color: #92400e; font-size: 14px; margin: 0; font-weight: 600;">
-                ${data.paymentNote || 'Payment upon arrival at the hotel'}
-              </p>
-              <p style="color: #a16207; font-size: 12px; margin: 10px 0 0;">
-                ✓ No prepayment required<br>
-                ✓ Free cancellation up to 24 hours before check-in<br>
-                ✓ Pay in cash or card at reception
+            <td style="padding: 50px 50px 30px;">
+              <h2 style="font-family: 'Playfair Display', Georgia, serif; color: #1a1a1a; font-size: 26px; margin: 0 0 20px; font-weight: 400;">${content.greeting},</h2>
+              <p style="color: #666666; font-size: 15px; line-height: 1.8; margin: 0;">
+                ${content.welcomeText}
               </p>
             </td>
           </tr>
-        </table>
 
-        <!-- Important Info -->
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f0f9ff; border-radius: 12px; margin-bottom: 25px; border: 1px solid #bae6fd;">
+          <!-- Elegant Divider -->
           <tr>
-            <td style="padding: 20px;">
-              <h3 style="color: #0369a1; font-size: 14px; margin: 0 0 10px;">ℹ️ IMPORTANT INFORMATION</h3>
-              <ul style="color: #0c4a6e; font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;">
-                <li>Check-in time: 14:00 (2:00 PM)</li>
-                <li>Check-out time: 12:00 (12:00 PM)</li>
-                <li>Please bring a valid ID/passport</li>
-                <li>Our manager will contact you to confirm your reservation</li>
-              </ul>
+            <td style="padding: 0 50px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-bottom: 1px solid #e8e5e0;"></td>
+                </tr>
+              </table>
             </td>
           </tr>
-        </table>
-        
-        <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 0 0 20px;">
-          If you have any questions or need to modify your reservation, please don't hesitate to contact us via WhatsApp or email.
-        </p>
-        
-        <table width="100%" cellpadding="0" cellspacing="0">
+
+          <!-- Reservation Details -->
           <tr>
-            <td style="text-align: center;">
-              <a href="https://wa.me/+995555199090" style="display: inline-block; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 14px; margin-right: 10px;">📱 WhatsApp</a>
-              <a href="tel:+995555199090" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8963a 100%); color: #1a2a3a; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 14px;">📞 Call Us</a>
+            <td style="padding: 40px 50px;">
+              <h3 style="font-family: 'Playfair Display', Georgia, serif; color: #1a1a1a; font-size: 18px; margin: 0 0 25px; font-weight: 500; letter-spacing: 1px;">${content.reservationTitle}</h3>
+              
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #fafaf8; border: 1px solid #e8e5e0; border-radius: 4px;">
+                <tr>
+                  <td style="padding: 25px 30px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding: 12px 0; border-bottom: 1px solid #e8e5e0;">
+                          <span style="color: #999999; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">${content.apartmentLabel}</span>
+                          <p style="color: #1a1a1a; font-size: 16px; margin: 6px 0 0; font-weight: 500;">${data.apartmentName || 'Premium Suite'}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 20px 0;">
+                          <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td width="50%" style="padding-right: 15px; border-right: 1px solid #e8e5e0;">
+                                <span style="color: #999999; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">${content.checkInLabel}</span>
+                                <p style="color: #1a1a1a; font-size: 15px; margin: 6px 0 0; font-weight: 500;">${data.checkIn || 'TBD'}</p>
+                                <p style="color: #c9a962; font-size: 12px; margin: 4px 0 0;">14:00</p>
+                              </td>
+                              <td width="50%" style="padding-left: 15px;">
+                                <span style="color: #999999; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">${content.checkOutLabel}</span>
+                                <p style="color: #1a1a1a; font-size: 15px; margin: 6px 0 0; font-weight: 500;">${data.checkOut || 'TBD'}</p>
+                                <p style="color: #c9a962; font-size: 12px; margin: 4px 0 0;">12:00</p>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 15px; border-top: 1px solid #e8e5e0;">
+                          <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td width="50%">
+                                <span style="color: #999999; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">${content.nightsLabel}</span>
+                                <p style="color: #1a1a1a; font-size: 15px; margin: 6px 0 0; font-weight: 500;">${data.nights || '1'}</p>
+                              </td>
+                              <td width="50%">
+                                <span style="color: #999999; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">${content.guestsLabel}</span>
+                                <p style="color: #1a1a1a; font-size: 15px; margin: 6px 0 0; font-weight: 500;">${data.guests || '2'}</p>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
+
+          <!-- Payment Box -->
+          <tr>
+            <td style="padding: 0 50px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 4px;">
+                <tr>
+                  <td style="padding: 30px; text-align: center;">
+                    <span style="color: #c9a962; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">${content.paymentTitle}</span>
+                    <p style="color: #ffffff; font-size: 32px; margin: 12px 0; font-family: 'Playfair Display', Georgia, serif; font-weight: 500;">${data.totalPrice || '0 GEL'}</p>
+                    <p style="color: #888888; font-size: 13px; margin: 0; line-height: 1.6;">${content.paymentText}</p>
+                    <p style="color: #c9a962; font-size: 11px; margin: 15px 0 0; letter-spacing: 1px;">✓ ${content.cancellationNote}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- What to Expect -->
+          <tr>
+            <td style="padding: 0 50px 40px;">
+              <h3 style="font-family: 'Playfair Display', Georgia, serif; color: #1a1a1a; font-size: 18px; margin: 0 0 20px; font-weight: 500; letter-spacing: 1px;">${content.expectTitle}</h3>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                ${content.expectItems.map((item: string) => `
+                <tr>
+                  <td style="padding: 10px 0; color: #666666; font-size: 14px; line-height: 1.6;">
+                    <span style="color: #c9a962; margin-right: 10px;">•</span>${item}
+                  </td>
+                </tr>
+                `).join('')}
+              </table>
+            </td>
+          </tr>
+
+          <!-- Concierge -->
+          <tr>
+            <td style="padding: 0 50px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #fafaf8; border: 1px solid #e8e5e0; border-radius: 4px;">
+                <tr>
+                  <td style="padding: 30px; text-align: center;">
+                    <h4 style="color: #1a1a1a; font-size: 14px; margin: 0 0 10px; letter-spacing: 1px; font-weight: 600;">${content.conciergeTitle}</h4>
+                    <p style="color: #666666; font-size: 13px; margin: 0 0 20px;">${content.conciergeText}</p>
+                    <table cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                      <tr>
+                        <td style="padding: 0 8px;">
+                          <a href="https://wa.me/995555199090" style="display: inline-block; background-color: #25D366; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 25px; font-size: 13px; font-weight: 500;">WhatsApp</a>
+                        </td>
+                        <td style="padding: 0 8px;">
+                          <a href="tel:+995555199090" style="display: inline-block; background-color: #1a1a1a; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 25px; font-size: 13px; font-weight: 500;">+995 555 19 90 90</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Closing -->
+          <tr>
+            <td style="padding: 0 50px 50px; text-align: center;">
+              <p style="color: #666666; font-size: 15px; line-height: 1.8; margin: 0 0 20px; font-style: italic;">
+                ${content.closingText}
+              </p>
+              <p style="color: #1a1a1a; font-size: 14px; margin: 0;">
+                ${content.warmRegards},<br>
+                <strong style="font-family: 'Playfair Display', Georgia, serif; font-size: 16px;">${content.teamName}</strong>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #1a1a1a; padding: 40px 50px; text-align: center;">
+              <p style="color: #c9a962; font-size: 12px; letter-spacing: 3px; margin: 0 0 15px;">★ ★ ★ ★ ★</p>
+              <p style="color: #ffffff; font-size: 12px; margin: 0 0 5px; opacity: 0.8;">Orbi City, Block C, Khimshiashvili St, Batumi</p>
+              <p style="color: #ffffff; font-size: 12px; margin: 0 0 20px; opacity: 0.6;">+995 555 19 90 90 | info@orbicitybatumi.com</p>
+              <a href="https://orbicitybatumi.com" style="color: #c9a962; font-size: 12px; text-decoration: none; letter-spacing: 1px;">www.orbicitybatumi.com</a>
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 25px;">
+                <tr>
+                  <td style="text-align: center;">
+                    <a href="https://www.instagram.com/orbicity.batumi/" style="display: inline-block; margin: 0 8px; color: #888888; text-decoration: none;">
+                      <img src="https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Instagram-64.png" width="24" height="24" alt="Instagram" style="opacity: 0.7;" />
+                    </a>
+                    <a href="https://www.facebook.com/orbicity.batumi" style="display: inline-block; margin: 0 8px; color: #888888; text-decoration: none;">
+                      <img src="https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Facebook-64.png" width="24" height="24" alt="Facebook" style="opacity: 0.7;" />
+                    </a>
+                    <a href="https://wa.me/995555199090" style="display: inline-block; margin: 0 8px; color: #888888; text-decoration: none;">
+                      <img src="https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Whatsapp-64.png" width="24" height="24" alt="WhatsApp" style="opacity: 0.7;" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="color: #666666; font-size: 10px; margin: 20px 0 0;">
+                © ${new Date().getFullYear()} Orbi City Batumi. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
         </table>
-      </td>
-    </tr>
-    
-    <!-- Footer -->
-    <tr>
-      <td style="background-color: #1a2a3a; padding: 30px; text-align: center;">
-        <p style="color: #d4af37; font-size: 16px; margin: 0 0 10px; letter-spacing: 2px;">★★★★★</p>
-        <p style="color: #ffffff; font-size: 12px; margin: 0 0 15px; opacity: 0.8;">Luxury Aparthotel in Batumi</p>
-        <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
-          Orbi City, Block C, Khimshiashvili St, Batumi<br>
-          +995 555 19 90 90 | info@orbicitybatumi.com
-        </p>
-        <p style="color: #d4af37; font-size: 11px; margin: 15px 0 0;">
-          <a href="https://orbicitybatumi.com" style="color: #d4af37; text-decoration: none;">www.orbicitybatumi.com</a>
-        </p>
       </td>
     </tr>
   </table>
 </body>
 </html>
-    `,
-  }),
+      `,
+    };
+  },
 
   contact_reply: (data: Record<string, any>) => ({
     subject: "Thank you for contacting Orbi City Batumi",
@@ -159,33 +316,35 @@ const templates = {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa;">
+<body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f8f7f4;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
     <tr>
-      <td style="background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%); padding: 40px 30px; text-align: center;">
-        <h1 style="color: #d4af37; font-size: 28px; margin: 0; font-weight: 300; letter-spacing: 3px;">ORBI CITY</h1>
-        <p style="color: #ffffff; font-size: 12px; margin: 8px 0 0; letter-spacing: 2px;">BATUMI</p>
+      <td style="background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); padding: 50px 40px; text-align: center;">
+        <p style="color: #c9a962; font-size: 11px; letter-spacing: 4px; margin: 0 0 15px; font-weight: 500;">★ ★ ★ ★ ★</p>
+        <h1 style="font-family: Georgia, serif; color: #ffffff; font-size: 32px; margin: 0; font-weight: 400; letter-spacing: 2px;">ORBI CITY</h1>
+        <p style="color: #c9a962; font-size: 12px; margin: 10px 0 0; letter-spacing: 3px;">BATUMI</p>
       </td>
     </tr>
     <tr>
-      <td style="padding: 40px 30px;">
-        <h2 style="color: #1a2a3a; font-size: 24px; margin: 0 0 20px; font-weight: 400;">Thank You for Reaching Out!</h2>
-        <p style="color: #666; font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      <td style="padding: 50px 40px;">
+        <h2 style="font-family: Georgia, serif; color: #1a1a1a; font-size: 24px; margin: 0 0 20px; font-weight: 400;">Thank You for Reaching Out</h2>
+        <p style="color: #666; font-size: 15px; line-height: 1.8; margin: 0 0 25px;">
           Dear ${data.name || 'Guest'},<br><br>
           We have received your message and will get back to you within 24 hours.
         </p>
-        <div style="background-color: #f8f9fa; border-left: 4px solid #d4af37; padding: 20px; margin: 20px 0;">
-          <p style="color: #666; font-size: 14px; margin: 0; font-style: italic;">"${data.message || 'Your message'}"</p>
+        <div style="background-color: #fafaf8; border-left: 3px solid #c9a962; padding: 20px 25px; margin: 25px 0;">
+          <p style="color: #666; font-size: 14px; margin: 0; font-style: italic; line-height: 1.6;">"${data.message || 'Your message'}"</p>
         </div>
-        <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 20px 0;">
-          For immediate assistance, you can reach us via WhatsApp.
+        <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 25px 0;">
+          For immediate assistance, please contact our concierge via WhatsApp.
         </p>
-        <a href="https://wa.me/+995555199090" style="display: inline-block; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 14px;">WhatsApp Us</a>
+        <a href="https://wa.me/+995555199090" style="display: inline-block; background: #25D366; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 25px; font-weight: 500; font-size: 14px;">WhatsApp Us</a>
       </td>
     </tr>
     <tr>
-      <td style="background-color: #1a2a3a; padding: 30px; text-align: center;">
-        <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
+      <td style="background-color: #1a1a1a; padding: 30px; text-align: center;">
+        <p style="color: #c9a962; font-size: 12px; letter-spacing: 3px; margin: 0 0 10px;">★ ★ ★ ★ ★</p>
+        <p style="color: #ffffff; font-size: 11px; margin: 0; opacity: 0.6;">
           © ${new Date().getFullYear()} Orbi City Batumi. All rights reserved.
         </p>
       </td>
@@ -205,40 +364,43 @@ const templates = {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa;">
+<body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f8f7f4;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
     <tr>
-      <td style="background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%); padding: 50px 30px; text-align: center;">
-        <h1 style="color: #d4af37; font-size: 32px; margin: 0; font-weight: 300; letter-spacing: 3px;">ORBI CITY</h1>
-        <p style="color: #ffffff; font-size: 12px; margin: 8px 0 0; letter-spacing: 2px;">BATUMI</p>
-        <p style="color: #d4af37; font-size: 18px; margin: 20px 0 0;">★★★★★</p>
+      <td style="background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); padding: 60px 40px; text-align: center;">
+        <p style="color: #c9a962; font-size: 11px; letter-spacing: 4px; margin: 0 0 15px; font-weight: 500;">★ ★ ★ ★ ★</p>
+        <h1 style="font-family: Georgia, serif; color: #ffffff; font-size: 36px; margin: 0; font-weight: 400; letter-spacing: 2px;">ORBI CITY</h1>
+        <p style="color: #c9a962; font-size: 12px; margin: 10px 0 0; letter-spacing: 3px;">BATUMI</p>
       </td>
     </tr>
     <tr>
-      <td style="padding: 40px 30px; text-align: center;">
-        <h2 style="color: #1a2a3a; font-size: 28px; margin: 0 0 20px; font-weight: 400;">Welcome, ${data.name || 'Guest'}!</h2>
-        <p style="color: #666; font-size: 16px; line-height: 1.6; margin: 0 0 30px;">
-          Thank you for joining our exclusive community. As a member, you'll enjoy special benefits and personalized offers.
+      <td style="padding: 50px 40px; text-align: center;">
+        <h2 style="font-family: Georgia, serif; color: #1a1a1a; font-size: 28px; margin: 0 0 20px; font-weight: 400;">Welcome, ${data.name || 'Guest'}</h2>
+        <p style="color: #666; font-size: 15px; line-height: 1.8; margin: 0 0 35px;">
+          Thank you for joining our exclusive community. As a member, you will enjoy special benefits and personalized offers.
         </p>
         
-        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 35px; background-color: #fafaf8; border: 1px solid #e8e5e0; border-radius: 4px;">
           <tr>
-            <td style="padding: 20px; background-color: #f8f9fa; border-radius: 8px; text-align: center;">
-              <h3 style="color: #d4af37; font-size: 14px; margin: 0 0 10px; letter-spacing: 1px;">YOUR BENEFITS</h3>
-              <p style="color: #666; font-size: 14px; margin: 0;">✓ Exclusive member discounts</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">✓ Early access to promotions</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">✓ Loyalty points on every stay</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0 0;">✓ Priority booking</p>
+            <td style="padding: 30px; text-align: center;">
+              <h3 style="color: #c9a962; font-size: 12px; margin: 0 0 20px; letter-spacing: 2px;">YOUR EXCLUSIVE BENEFITS</h3>
+              <p style="color: #666; font-size: 14px; margin: 0; line-height: 2;">
+                ✓ Member-only discounts<br>
+                ✓ Early access to promotions<br>
+                ✓ Loyalty points on every stay<br>
+                ✓ Priority booking privileges
+              </p>
             </td>
           </tr>
         </table>
         
-        <a href="https://orbicitybatumi.com/apartments" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8963a 100%); color: #1a2a3a; text-decoration: none; padding: 15px 40px; border-radius: 30px; font-weight: 600; font-size: 14px; letter-spacing: 1px;">EXPLORE APARTMENTS</a>
+        <a href="https://orbicitybatumi.com/apartments" style="display: inline-block; background: linear-gradient(135deg, #c9a962 0%, #dfc283 100%); color: #1a1a1a; text-decoration: none; padding: 16px 45px; border-radius: 25px; font-weight: 600; font-size: 14px; letter-spacing: 1px;">EXPLORE APARTMENTS</a>
       </td>
     </tr>
     <tr>
-      <td style="background-color: #1a2a3a; padding: 30px; text-align: center;">
-        <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
+      <td style="background-color: #1a1a1a; padding: 35px; text-align: center;">
+        <p style="color: #c9a962; font-size: 12px; letter-spacing: 3px; margin: 0 0 10px;">★ ★ ★ ★ ★</p>
+        <p style="color: #ffffff; font-size: 11px; margin: 0; opacity: 0.6;">
           © ${new Date().getFullYear()} Orbi City Batumi. All rights reserved.
         </p>
       </td>
@@ -258,52 +420,52 @@ const templates = {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa;">
+<body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f8f7f4;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
     <tr>
-      <td style="background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%); padding: 40px 30px; text-align: center;">
-        <h1 style="color: #d4af37; font-size: 28px; margin: 0; font-weight: 300; letter-spacing: 3px;">ORBI CITY</h1>
-        <p style="color: #ffffff; font-size: 12px; margin: 8px 0 0; letter-spacing: 2px;">BATUMI ADMIN</p>
+      <td style="background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); padding: 40px 30px; text-align: center;">
+        <h1 style="font-family: Georgia, serif; color: #ffffff; font-size: 28px; margin: 0; font-weight: 400; letter-spacing: 2px;">ORBI CITY</h1>
+        <p style="color: #c9a962; font-size: 11px; margin: 8px 0 0; letter-spacing: 2px;">ADMIN PANEL</p>
       </td>
     </tr>
     <tr>
-      <td style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 15px 30px; text-align: center;">
-        <p style="color: #ffffff; font-size: 16px; margin: 0; font-weight: 600;">⏳ ახალი კომენტარი მოელის მოდერაციას</p>
+      <td style="background: linear-gradient(135deg, #c9a962 0%, #dfc283 100%); padding: 15px 30px; text-align: center;">
+        <p style="color: #1a1a1a; font-size: 14px; margin: 0; font-weight: 600; letter-spacing: 1px;">⏳ NEW COMMENT AWAITING MODERATION</p>
       </td>
     </tr>
     <tr>
       <td style="padding: 40px 30px;">
-        <h2 style="color: #1a2a3a; font-size: 22px; margin: 0 0 20px; font-weight: 500;">ახალი კომენტარი ბლოგზე</h2>
+        <h2 style="font-family: Georgia, serif; color: #1a1a1a; font-size: 20px; margin: 0 0 20px; font-weight: 500;">New Blog Comment</h2>
         
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e5e7eb;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #fafaf8; border: 1px solid #e8e5e0; border-radius: 4px; margin-bottom: 25px;">
           <tr>
             <td style="padding: 20px;">
-              <p style="color: #666; font-size: 14px; margin: 0 0 8px;"><strong>სტატია:</strong> ${data.postSlug || 'Unknown'}</p>
-              <p style="color: #666; font-size: 14px; margin: 0 0 8px;"><strong>ავტორი:</strong> ${data.authorName || 'Guest'}</p>
-              <p style="color: #666; font-size: 14px; margin: 0 0 8px;"><strong>Email:</strong> ${data.authorEmail || 'N/A'}</p>
-              <p style="color: #666; font-size: 14px; margin: 0;"><strong>თარიღი:</strong> ${data.createdAt || new Date().toLocaleString()}</p>
+              <p style="color: #666; font-size: 13px; margin: 0 0 8px;"><strong>Article:</strong> ${data.postSlug || 'Unknown'}</p>
+              <p style="color: #666; font-size: 13px; margin: 0 0 8px;"><strong>Author:</strong> ${data.authorName || 'Guest'}</p>
+              <p style="color: #666; font-size: 13px; margin: 0 0 8px;"><strong>Email:</strong> ${data.authorEmail || 'N/A'}</p>
+              <p style="color: #666; font-size: 13px; margin: 0;"><strong>Date:</strong> ${data.createdAt || new Date().toLocaleString()}</p>
             </td>
           </tr>
         </table>
 
-        <div style="background-color: #fff7ed; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0;">
-          <h3 style="color: #92400e; font-size: 14px; margin: 0 0 10px;">💬 კომენტარის ტექსტი:</h3>
+        <div style="background-color: #fff9e6; border-left: 3px solid #c9a962; padding: 20px; margin: 20px 0; border-radius: 0 4px 4px 0;">
+          <h4 style="color: #92400e; font-size: 12px; margin: 0 0 10px; letter-spacing: 1px;">💬 COMMENT:</h4>
           <p style="color: #78350f; font-size: 14px; margin: 0; line-height: 1.6;">"${data.content || 'No content'}"</p>
         </div>
         
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td style="text-align: center; padding-top: 20px;">
-              <a href="https://orbicitybatumi.com/admin/comments" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8963a 100%); color: #1a2a3a; text-decoration: none; padding: 15px 40px; border-radius: 30px; font-weight: 600; font-size: 14px;">მოდერაციის გვერდზე გადასვლა</a>
+              <a href="https://orbicitybatumi.com/admin/comments" style="display: inline-block; background: linear-gradient(135deg, #c9a962 0%, #dfc283 100%); color: #1a1a1a; text-decoration: none; padding: 14px 35px; border-radius: 25px; font-weight: 600; font-size: 13px;">Go to Moderation</a>
             </td>
           </tr>
         </table>
       </td>
     </tr>
     <tr>
-      <td style="background-color: #1a2a3a; padding: 25px; text-align: center;">
-        <p style="color: #ffffff; font-size: 12px; margin: 0; opacity: 0.6;">
-          ეს არის ავტომატური შეტყობინება ადმინისტრაციისთვის<br>
+      <td style="background-color: #1a1a1a; padding: 25px; text-align: center;">
+        <p style="color: #888; font-size: 11px; margin: 0;">
+          This is an automated notification for administrators<br>
           © ${new Date().getFullYear()} Orbi City Batumi
         </p>
       </td>
@@ -353,33 +515,36 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Orbi City Batumi <noreply@orbicitybatumi.com>",
+        from: "Orbi City Batumi <booking@orbicitybatumi.com>",
         to: [to],
         subject: emailContent.subject,
         html: emailContent.html,
       }),
     });
 
+    const result = await res.json();
+
     if (!res.ok) {
-      const error = await res.text();
-      console.error("Resend API error:", error);
-      throw new Error(`Resend API error: ${error}`);
+      console.error("Resend API error:", result);
+      throw new Error(result.message || "Failed to send email");
     }
 
-    const result = await res.json();
-    console.log("Email sent successfully:", result.id);
+    console.log("Email sent successfully:", result);
 
-    return new Response(JSON.stringify({ success: true, id: result.id }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  } catch (error: unknown) {
-    console.error("Email send error:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
+      JSON.stringify({ success: true, id: result.id }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      }
+    );
+  } catch (error: any) {
+    console.error("Error in send-email function:", error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
       {
         status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );
   }

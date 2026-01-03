@@ -1,10 +1,13 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { useBooking } from '@/contexts/BookingContext';
+import { MessageCircle, CalendarCheck } from 'lucide-react';
 
 export const CTASection = () => {
   const { t } = useLanguage();
   const { whatsappUrl } = useWhatsApp();
+  const { openBookingModal } = useBooking();
 
   return (
     <section className="py-20 bg-gradient-sea relative overflow-hidden">
@@ -21,15 +24,27 @@ export const CTASection = () => {
         <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
           {t('cta.subtitle')}
         </p>
-        <Button
-          asChild
-          size="lg"
-          className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold hover:scale-105 transition-transform"
-        >
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            {t('cta.button')}
-          </a>
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Button
+            size="lg"
+            onClick={() => openBookingModal()}
+            className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold hover:scale-105 transition-transform"
+          >
+            <CalendarCheck className="w-5 h-5 mr-2" />
+            {t('hero.bookNow')}
+          </Button>
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="border-2 border-white text-white hover:bg-white hover:text-primary font-bold text-lg px-12 py-6 hover:scale-105 transition-transform"
+          >
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="w-5 h-5 mr-2" />
+              WhatsApp
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );

@@ -311,7 +311,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
       
       if (bookingError) throw bookingError;
       
-      // Send confirmation email
+      // Send confirmation email with language preference
       const apartmentName = language === 'ka' ? selectedApt?.name_ka : selectedApt?.name_en;
       
       await supabase.functions.invoke('send-email', {
@@ -326,6 +326,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
             apartmentName,
             totalPrice: `${totalPrice} GEL`,
             nights,
+            language, // Pass language preference
             paymentNote: language === 'ka' 
               ? 'გადახდა სასტუმროში მოსვლისას' 
               : 'Payment upon arrival at the hotel',
