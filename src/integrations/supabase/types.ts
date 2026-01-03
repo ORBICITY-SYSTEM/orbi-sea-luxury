@@ -70,8 +70,11 @@ export type Database = {
           apartment_type: string
           created_at: string
           end_date: string
+          external_id: string | null
           id: string
+          integration_id: string | null
           reason: string | null
+          source: string | null
           start_date: string
           updated_at: string
         }
@@ -79,8 +82,11 @@ export type Database = {
           apartment_type: string
           created_at?: string
           end_date: string
+          external_id?: string | null
           id?: string
+          integration_id?: string | null
           reason?: string | null
+          source?: string | null
           start_date: string
           updated_at?: string
         }
@@ -88,12 +94,23 @@ export type Database = {
           apartment_type?: string
           created_at?: string
           end_date?: string
+          external_id?: string | null
           id?: string
+          integration_id?: string | null
           reason?: string | null
+          source?: string | null
           start_date?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "blocked_dates_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "channel_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       blog_comments: {
         Row: {

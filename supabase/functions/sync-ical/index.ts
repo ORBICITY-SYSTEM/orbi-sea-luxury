@@ -195,7 +195,7 @@ Deno.serve(async (req) => {
         continue
       }
 
-      const reason = `${channelName}: ${event.summary || 'დაჯავშნილი'}`
+      const reason = `${event.summary || 'დაჯავშნილი'}`
       
       const { error: insertError } = await supabase
         .from('blocked_dates')
@@ -204,6 +204,9 @@ Deno.serve(async (req) => {
           start_date: startDate,
           end_date: endDate,
           reason: reason,
+          source: integration.channel_name,
+          external_id: event.uid,
+          integration_id: integration.id,
         })
 
       if (insertError) {
