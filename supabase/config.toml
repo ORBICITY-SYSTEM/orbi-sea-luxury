@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.sync-ical]
 verify_jwt = false
+
+[functions.otelms-sync]
+verify_jwt = false
