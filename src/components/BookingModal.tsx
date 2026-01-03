@@ -428,15 +428,10 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                 <SelectTrigger className="h-12">
                   <SelectValue placeholder={language === 'ka' ? 'აირჩიეთ...' : 'Select...'} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background border">
                   {apartments.map((apt) => (
                     <SelectItem key={apt.id} value={apt.apartment_type}>
-                      <div className="flex items-center justify-between w-full gap-4">
-                        <span>{language === 'ka' ? apt.name_ka : apt.name_en}</span>
-                        <span className="text-primary font-semibold">
-                          {apt.price_per_night} GEL/{language === 'ka' ? 'ღამე' : 'night'}
-                        </span>
-                      </div>
+                      {language === 'ka' ? apt.name_ka : apt.name_en}
                     </SelectItem>
                   ))}
                 </SelectContent>
