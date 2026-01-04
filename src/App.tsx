@@ -35,6 +35,7 @@ const PurchaseConditions = lazy(() => import("./pages/PurchaseConditions"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Admin = lazy(() => import("./pages/Admin"));
 const GuestDashboard = lazy(() => import("./pages/GuestDashboard"));
+const InstallApp = lazy(() => import("./pages/InstallApp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -91,6 +92,7 @@ const App = () => (
                   <Route path="/purchase-conditions" element={<PurchaseConditions />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/dashboard" element={<GuestDashboard />} />
+                  <Route path="/install" element={<InstallApp />} />
                   <Route path="/admin/*" element={<Admin />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
