@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle, Play, Pause } from 'lucide-react';
 import { BookingWidget } from './BookingWidget';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { useIsMobile } from '@/hooks/use-mobile';
 import heroPoster from '@/assets/hero-poster.jpg';
 
-// Hero video sources
+// Hero video sources - optimized for fast loading
 const heroVideos = [
   '/videos/hero-1.mp4',
   '/videos/hero-2.mp4',
@@ -19,12 +20,14 @@ const heroVideos = [
 export const HeroSection = () => {
   const { t } = useLanguage();
   const { openWhatsApp } = useWhatsApp();
+  const isMobile = useIsMobile();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const [videoErrors, setVideoErrors] = useState<Set<number>>(new Set());
   const [videosReady, setVideosReady] = useState<Set<number>>(new Set());
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [showVideo, setShowVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // Check if all videos failed - show fallback image
   const allVideosFailed = videoErrors.size === heroVideos.length;
@@ -39,9 +42,19 @@ export const HeroSection = () => {
     setVideosReady(prev => new Set(prev).add(index));
   }, []);
 
-  // Auto-rotate videos every 15 seconds
+  // Delay video loading for better initial page load - especially on mobile
   useEffect(() => {
-    if (!isPlaying || allVideosFailed) return;
+    // Show poster first, then load video after delay
+    const videoDelay = isMobile ? 2000 : 500;
+    const timer = setTimeout(() => {
+      setShowVideo(true);
+    }, videoDelay);
+    return () => clearTimeout(timer);
+  }, [isMobile]);
+
+  // Auto-rotate videos every 15 seconds (desktop only for performance)
+  useEffect(() => {
+    if (!isPlaying || allVideosFailed || isMobile) return;
     
     const interval = setInterval(() => {
       setCurrentVideoIndex((prev) => {
@@ -57,21 +70,19 @@ export const HeroSection = () => {
     }, 15000);
 
     return () => clearInterval(interval);
-  }, [isPlaying, videoErrors, allVideosFailed]);
+  }, [isPlaying, videoErrors, allVideosFailed, isMobile]);
 
-  // Handle video load
+  // Handle content load
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 500);
+    const timer = setTimeout(() => setIsLoaded(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
-    videoRefs.current.forEach(video => {
-      if (video) {
-        isPlaying ? video.pause() : video.play();
-      }
-    });
+    if (videoRef.current) {
+      isPlaying ? videoRef.current.pause() : videoRef.current.play();
+    }
   };
 
   const scrollToRooms = () => {
@@ -87,136 +98,128 @@ export const HeroSection = () => {
 
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
-      {/* Fallback/Poster Image - Always present as background */}
+      {/* Fallback/Poster Image - Always present as background, optimized for mobile */}
       <div 
-        className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
-          allVideosFailed || videosReady.size === 0 ? 'opacity-100' : 'opacity-0'
+        className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-700 ${
+          (!showVideo || allVideosFailed || !videosReady.has(currentVideoIndex)) ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ backgroundImage: `url(${heroPoster})` }}
       />
 
-      {/* Video Background Carousel - Lazy loaded */}
-      {!allVideosFailed && heroVideos.map((videoSrc, index) => {
-        // Only render current video and adjacent videos for performance
-        const shouldRender = Math.abs(index - currentVideoIndex) <= 1 || 
-          (currentVideoIndex === 0 && index === heroVideos.length - 1) ||
-          (currentVideoIndex === heroVideos.length - 1 && index === 0);
-        
-        if (!shouldRender || videoErrors.has(index)) return null;
-        
-        return (
-          <video
-            key={index}
-            ref={el => videoRefs.current[index] = el}
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster={heroPoster}
-            preload={index === currentVideoIndex ? "auto" : "none"}
-            onCanPlay={() => handleVideoReady(index)}
-            onError={() => handleVideoError(index)}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1500 ${
-              index === currentVideoIndex && videosReady.has(index) ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        );
-      })}
+      {/* Single Video - Only load one video at a time for mobile performance */}
+      {showVideo && !allVideosFailed && (
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={heroPoster}
+          preload="metadata"
+          onCanPlayThrough={() => handleVideoReady(currentVideoIndex)}
+          onError={() => handleVideoError(currentVideoIndex)}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            videosReady.has(currentVideoIndex) ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
+        </video>
+      )}
 
-      {/* Elegant Overlay - Four Seasons Style */}
+      {/* Elegant Overlay */}
       <div className="absolute inset-0 hero-gradient" />
       
       {/* Additional Vignette Effect */}
       <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 via-transparent to-navy-900/30" />
 
-      {/* Content */}
-      <div className={`relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center transition-all duration-1000 ${
-        isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      {/* Content - Optimized for mobile */}
+      <div className={`relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center transition-all duration-700 ${
+        isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
       }`}>
         {/* Luxury Badge */}
-        <div className="mb-8 animate-fade-in-down">
-          <span className="inline-flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-gold-400/30">
-            <span className="text-gold-400 text-sm">★★★★★</span>
-            <span className="text-white/90 text-sm font-light tracking-wider">LUXURY APARTHOTEL</span>
+        <div className="mb-4 md:mb-8 animate-fade-in-down">
+          <span className="inline-flex items-center gap-1.5 md:gap-2 px-4 md:px-6 py-1.5 md:py-2 bg-white/10 backdrop-blur-sm rounded-full border border-gold-400/30">
+            <span className="text-gold-400 text-xs md:text-sm">★★★★★</span>
+            <span className="text-white/90 text-xs md:text-sm font-light tracking-wider">LUXURY APARTHOTEL</span>
           </span>
         </div>
 
-        {/* Main Title */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-light text-white mb-6 hero-text-shadow animate-fade-in-up">
+        {/* Main Title - Responsive sizes */}
+        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-light text-white mb-4 md:mb-6 hero-text-shadow animate-fade-in-up">
           <span className="block">{t('hero.title').split(' ').slice(0, 2).join(' ')}</span>
-          <span className="block text-gold-400 font-normal mt-2">
+          <span className="block text-gold-400 font-normal mt-1 md:mt-2">
             {t('hero.title').split(' ').slice(2).join(' ') || 'Seaside Escape'}
           </span>
         </h1>
 
-        {/* Subtitle */}
-        <p className="text-lg md:text-xl lg:text-2xl text-white/85 mb-10 max-w-3xl font-light leading-relaxed animate-fade-in-up delay-200">
+        {/* Subtitle - Hide on very small screens */}
+        <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-white/85 mb-6 md:mb-10 max-w-3xl font-light leading-relaxed animate-fade-in-up delay-200 px-2">
           {t('hero.subtitle')}
         </p>
 
         {/* Decorative Line */}
-        <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mb-10 animate-fade-in-up delay-300" />
+        <div className="w-16 md:w-24 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mb-6 md:mb-10 animate-fade-in-up delay-300" />
 
-        {/* CTA - Book Now Button */}
-        <div className="flex justify-center mb-14 animate-fade-in-up delay-400">
+        {/* CTA - Book Now Button - Responsive */}
+        <div className="flex justify-center mb-8 md:mb-14 animate-fade-in-up delay-400">
           <Button
             size="lg"
             onClick={scrollToRooms}
-            className="bg-white hover:bg-white/95 text-navy-900 font-semibold text-lg px-14 py-7 rounded-full shadow-luxury hover:shadow-elegant transition-all duration-500 hover:scale-105 tracking-wider uppercase"
+            className="bg-white hover:bg-white/95 text-navy-900 font-semibold text-sm md:text-lg px-8 md:px-14 py-5 md:py-7 rounded-full shadow-luxury hover:shadow-elegant transition-all duration-500 hover:scale-105 tracking-wider uppercase"
           >
             {t('hero.bookNowPayLater')}
           </Button>
         </div>
 
-        {/* Booking Widget */}
-        <div className="w-full max-w-5xl animate-fade-in-up delay-500">
+        {/* Booking Widget - Hidden on mobile for cleaner look */}
+        <div className="w-full max-w-5xl animate-fade-in-up delay-500 hidden md:block">
           <BookingWidget />
         </div>
       </div>
 
-      {/* Video Controls */}
-      <div className="absolute bottom-32 left-8 z-20 flex items-center gap-4">
-        {/* Play/Pause Button */}
-        <button
-          onClick={togglePlayPause}
-          className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300"
-        >
-          {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
-        </button>
+      {/* Video Controls - Hidden on mobile */}
+      {!isMobile && (
+        <div className="absolute bottom-32 left-8 z-20 flex items-center gap-4">
+          {/* Play/Pause Button */}
+          <button
+            onClick={togglePlayPause}
+            className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300"
+          >
+            {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+          </button>
 
-        {/* Video Indicators */}
-        <div className="flex gap-2">
-          {heroVideos.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentVideoIndex(index)}
-              className={`h-1 rounded-full transition-all duration-500 ${
-                index === currentVideoIndex 
-                  ? 'w-8 bg-gold-400' 
-                  : 'w-4 bg-white/40 hover:bg-white/60'
-              }`}
-            />
-          ))}
+          {/* Video Indicators */}
+          <div className="flex gap-2">
+            {heroVideos.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentVideoIndex(index)}
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  index === currentVideoIndex 
+                    ? 'w-8 bg-gold-400' 
+                    : 'w-4 bg-white/40 hover:bg-white/60'
+                }`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - Simplified on mobile */}
       <button 
         onClick={scrollToNext}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-subtle"
+        className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-subtle"
       >
-        <div className="flex flex-col items-center gap-2 text-white/70 hover:text-gold-400 transition-colors cursor-pointer">
-          <span className="text-xs tracking-[0.3em] uppercase font-light">Scroll</span>
-          <div className="w-8 h-12 border-2 border-current rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-current rounded-full animate-pulse" />
+        <div className="flex flex-col items-center gap-1 md:gap-2 text-white/70 hover:text-gold-400 transition-colors cursor-pointer">
+          <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase font-light hidden sm:block">Scroll</span>
+          <div className="w-6 md:w-8 h-10 md:h-12 border-2 border-current rounded-full flex justify-center pt-2">
+            <div className="w-1 md:w-1.5 h-2 md:h-3 bg-current rounded-full animate-pulse" />
           </div>
         </div>
       </button>
 
-      {/* Side Social Links */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-4">
+      {/* Side Social Links - Hidden on mobile */}
+      <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-4">
         <a 
           href="https://www.instagram.com/orbicity.batumi/" 
           target="_blank" 

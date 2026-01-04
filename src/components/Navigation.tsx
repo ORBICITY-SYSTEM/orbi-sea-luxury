@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Globe, LogIn, LogOut, User, ChevronDown } from 'lucide-react';
+import { Globe, LogIn, LogOut, User, ChevronDown, LayoutDashboard } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdmin } from '@/hooks/useAdmin';
@@ -192,6 +192,13 @@ export const Navigation = () => {
                   className="bg-white border border-gray-200 shadow-lg rounded-lg"
                 >
                   <DropdownMenuItem 
+                    onClick={() => window.location.href = '/dashboard'}
+                    className="text-navy-700 hover:bg-gray-50 hover:text-gold-600 cursor-pointer rounded-md mx-1"
+                  >
+                    <LayoutDashboard className="w-4 h-4 mr-2" />
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
                     onClick={() => window.location.href = '/loyalty-program'}
                     className="text-navy-700 hover:bg-gray-50 hover:text-gold-600 cursor-pointer rounded-md mx-1"
                   >
@@ -272,6 +279,25 @@ export const Navigation = () => {
               {user ? (
                 <>
                   <Link
+                    to="/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 ${
+                      isScrolled 
+                        ? 'text-navy-700 hover:bg-gray-50' 
+                        : 'text-white/90 hover:bg-white/10'
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      isScrolled ? 'bg-gold-100' : 'bg-white/20'
+                    }`}>
+                      <LayoutDashboard className={`w-5 h-5 ${isScrolled ? 'text-gold-600' : 'text-white'}`} />
+                    </div>
+                    <div>
+                      <span className="font-medium block">Dashboard</span>
+                      <span className={`text-xs ${isScrolled ? 'text-gray-500' : 'text-white/60'}`}>ჯავშნები & ქულები</span>
+                    </div>
+                  </Link>
+                  <Link
                     to="/loyalty-program"
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 ${
@@ -287,7 +313,7 @@ export const Navigation = () => {
                     </div>
                     <div>
                       <span className="font-medium block">{user.email?.split('@')[0]}</span>
-                      <span className={`text-xs ${isScrolled ? 'text-gray-500' : 'text-white/60'}`}>პროფილის ნახვა</span>
+                      <span className={`text-xs ${isScrolled ? 'text-gray-500' : 'text-white/60'}`}>პროფილი</span>
                     </div>
                   </Link>
                   <button
