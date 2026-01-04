@@ -7,7 +7,7 @@ import { trackViewItem, trackPageView } from '@/lib/tracking';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useBooking } from '@/contexts/BookingContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import apartmentsHero from '@/assets/apartments-hero.png';
+import apartmentsHero from '@/assets/apartments-hero-optimized.webp';
 
 const apartments = [
   {
