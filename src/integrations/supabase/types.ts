@@ -266,6 +266,42 @@ export type Database = {
         }
         Relationships: []
       }
+      changelog: {
+        Row: {
+          change_date: string
+          change_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          labels: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          change_date?: string
+          change_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          labels?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          change_date?: string
+          change_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          labels?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       channel_integrations: {
         Row: {
           apartment_type: string
