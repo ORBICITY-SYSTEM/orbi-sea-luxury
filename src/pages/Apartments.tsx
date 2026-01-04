@@ -8,6 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useBooking } from '@/contexts/BookingContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import apartmentsHero from '@/assets/apartments-hero-optimized.webp';
+import { LazyImage } from '@/components/ui/lazy-image';
 
 const apartments = [
   {
@@ -201,7 +202,7 @@ const Apartments = () => {
                 >
                   {/* Image Container */}
                   <div className="relative h-64 overflow-hidden">
-                    <img 
+                    <LazyImage 
                       src={apt.image} 
                       alt={language === 'ka' ? t(apt.titleKey) : apt.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
