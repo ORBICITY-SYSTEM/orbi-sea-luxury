@@ -35,3 +35,6 @@ verify_jwt = false
 
 [functions.otelms-sync]
 verify_jwt = false
+
+[functions.management-api]
+verify_jwt = false

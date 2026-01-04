@@ -19,6 +19,7 @@ import { useLoyaltyDiscount, addLoyaltyPoints } from './LoyaltyDashboard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useQuery } from '@tanstack/react-query';
 import { Checkbox } from '@/components/ui/checkbox';
+import RegistrationSuccessPopup from './RegistrationSuccessPopup';
 
 interface ApartmentPrice {
   id: string;
@@ -84,7 +85,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [isReturningGuest, setIsReturningGuest] = useState(false);
   const [checkingEmail, setCheckingEmail] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(0);
-  
+  const [showRegistrationPopup, setShowRegistrationPopup] = useState(false);
   // Fetch apartments
   useEffect(() => {
     const fetchApartments = async () => {
@@ -323,12 +324,8 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
         if (authData.user) {
           registeredUserId = authData.user.id;
           
-          toast({
-            title: language === 'ka' ? '🎉 რეგისტრაცია წარმატებულია!' : '🎉 Registration successful!',
-            description: language === 'ka' 
-              ? '20 ლარი ბონუსი დაემატა თქვენს ანგარიშს!' 
-              : '20 GEL bonus has been added to your account!',
-          });
+          // Show registration success popup with confetti
+          setShowRegistrationPopup(true);
         }
       }
       
@@ -887,6 +884,13 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           </div>
         )}
       </DialogContent>
+      
+      {/* Registration Success Popup with Confetti */}
+      <RegistrationSuccessPopup
+        isOpen={showRegistrationPopup}
+        onClose={() => setShowRegistrationPopup(false)}
+        bonusAmount={20}
+      />
     </Dialog>
   );
 };
