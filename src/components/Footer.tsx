@@ -1,11 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp, Download } from 'lucide-react';
 import logo from '@/assets/logo.jpg';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackLead } from '@/lib/tracking';
-
 export const Footer = () => {
   const { t } = useLanguage();
   const { settings } = useSiteSettings();
@@ -55,7 +54,7 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: Legal */}
+          {/* Column 3: Legal + Install App */}
           <div>
             <ul className="space-y-3">
               {[
@@ -63,6 +62,7 @@ export const Footer = () => {
                 { to: '/purchase-conditions', label: 'Purchase Conditions' },
                 { to: '/privacy-policy', label: 'Privacy Policy' },
                 { to: '/terms-and-conditions', label: 'Terms and Conditions' },
+                { to: '/install-app', label: '📱 Install App' },
               ].map((link) => (
                 <li key={link.to}>
                   <Link 
