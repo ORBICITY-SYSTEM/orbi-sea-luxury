@@ -13,6 +13,7 @@ import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { AIChatbot } from "@/components/AIChatbot";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
+import { GoogleTagManager } from "@/components/GoogleTagManager";
 import { Loader2 } from 'lucide-react';
 
 // Lazy loaded pages for better performance
@@ -64,6 +65,7 @@ const App = () => (
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <GoogleAnalytics />
           <MetaPixel />
+          <GoogleTagManager />
           <AuthProvider>
             <BookingProvider>
               <GoogleReviewPopup />

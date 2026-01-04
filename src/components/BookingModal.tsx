@@ -10,8 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift, Lock, Eye, EyeOff } from 'lucide-react';
 import { format, differenceInDays, eachDayOfInterval, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
@@ -19,6 +18,7 @@ import { BookingSuccessReviewPopup } from './BookingSuccessReviewPopup';
 import { useLoyaltyDiscount, addLoyaltyPoints } from './LoyaltyDashboard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useQuery } from '@tanstack/react-query';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ApartmentPrice {
   id: string;
@@ -67,6 +67,13 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [guestAddress, setGuestAddress] = useState('');
   const [specialRequests, setSpecialRequests] = useState('');
   const [useLoyalty, setUseLoyalty] = useState(true);
+  
+  // Registration state for non-logged users
+  const [wantsToRegister, setWantsToRegister] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [registrationError, setRegistrationError] = useState('');
   
   // UI state
   const [apartments, setApartments] = useState<ApartmentPrice[]>([]);
@@ -273,9 +280,58 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
       return;
     }
     
+    // Validate registration if user wants to register
+    if (wantsToRegister && !user) {
+      if (password.length < 6) {
+        setRegistrationError(language === 'ka' ? 'პაროლი მინიმუმ 6 სიმბოლო უნდა იყოს' : 'Password must be at least 6 characters');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setRegistrationError(language === 'ka' ? 'პაროლები არ ემთხვევა' : 'Passwords do not match');
+        return;
+      }
+    }
+    
     setSubmitting(true);
     
+    let registeredUserId: string | null = null;
+    
     try {
+      // Auto-register user if they want to
+      if (wantsToRegister && !user) {
+        const { data: authData, error: signUpError } = await supabase.auth.signUp({
+          email: guestEmail,
+          password: password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+            data: {
+              full_name: guestName,
+            }
+          }
+        });
+        
+        if (signUpError) {
+          // Check for specific errors
+          if (signUpError.message.includes('already registered')) {
+            setRegistrationError(language === 'ka' ? 'ეს ელ.ფოსტა უკვე რეგისტრირებულია. გთხოვთ შეხვიდეთ სისტემაში.' : 'This email is already registered. Please log in.');
+            setSubmitting(false);
+            return;
+          }
+          throw signUpError;
+        }
+        
+        if (authData.user) {
+          registeredUserId = authData.user.id;
+          
+          toast({
+            title: language === 'ka' ? '🎉 რეგისტრაცია წარმატებულია!' : '🎉 Registration successful!',
+            description: language === 'ka' 
+              ? '20 ლარი ბონუსი დაემატა თქვენს ანგარიშს!' 
+              : '20 GEL bonus has been added to your account!',
+          });
+        }
+      }
+      
       // Create booking
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
@@ -295,22 +351,21 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           guest_id_number: guestIdNumber,
           guest_address: guestAddress,
           special_requests: specialRequests || null,
-          user_id: user?.id || '00000000-0000-0000-0000-000000000000',
+          user_id: registeredUserId || user?.id || '00000000-0000-0000-0000-000000000000',
         })
         .select()
         .single();
       
       if (bookingError) throw bookingError;
       
-      // Add loyalty points for logged-in users
-      if (user) {
-        const result = await addLoyaltyPoints(user.id, totalPrice);
+      // Add loyalty points for registered or logged-in users
+      const effectiveUserId = registeredUserId || user?.id;
+      if (effectiveUserId) {
+        const result = await addLoyaltyPoints(effectiveUserId, totalPrice);
         if (result) {
           setEarnedPoints(result.pointsAdded);
         }
       }
-      
-      if (bookingError) throw bookingError;
       
       // Send confirmation email with language preference
       const apartmentName = language === 'ka' ? selectedApt?.name_ka : selectedApt?.name_en;
@@ -387,6 +442,10 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
     setSpecialRequests('');
     setSuccess(false);
     setErrors({});
+    setWantsToRegister(false);
+    setPassword('');
+    setConfirmPassword('');
+    setRegistrationError('');
   };
 
   if (success) {
@@ -612,37 +671,104 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                     </h4>
                     <p className="text-sm text-muted-foreground">
                       {language === 'ka' 
-                        ? 'დარეგისტრირდით და მიიღეთ 20 ლარი ბონუსად' 
-                        : 'Register now and receive 20 GEL bonus credit'}
+                        ? 'დაამატეთ პაროლი და მიიღეთ 20 ლარი ბონუსად' 
+                        : 'Add a password and receive 20 GEL bonus credit'}
                     </p>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Crown className="w-3 h-3 text-gold-500" />
-                  <span>
+                {/* Registration checkbox */}
+                <div className="flex items-center space-x-2 mt-3">
+                  <Checkbox 
+                    id="wantsToRegister" 
+                    checked={wantsToRegister}
+                    onCheckedChange={(checked) => {
+                      setWantsToRegister(checked === true);
+                      if (!checked) {
+                        setPassword('');
+                        setConfirmPassword('');
+                        setRegistrationError('');
+                      }
+                    }}
+                  />
+                  <label 
+                    htmlFor="wantsToRegister" 
+                    className="text-sm font-medium leading-none cursor-pointer flex items-center gap-2"
+                  >
+                    <Gift className="w-4 h-4 text-gold-500" />
                     {language === 'ka' 
-                      ? 'ლოიალობის პროგრამით დააგროვეთ ქულები და მიიღეთ ფასდაკლებები' 
-                      : 'Earn points with every booking and get exclusive discounts'}
-                  </span>
+                      ? 'დიახ, მინდა რეგისტრაცია და 20₾ ბონუსი!' 
+                      : 'Yes, register me and get 20 GEL bonus!'}
+                  </label>
                 </div>
                 
-                <Link to="/auth" className="block">
-                  <Button 
-                    type="button"
-                    variant="outline" 
-                    className="w-full border-gold-400 text-gold-700 hover:bg-gold-50 font-semibold"
-                  >
-                    <Gift className="w-4 h-4 mr-2" />
-                    {language === 'ka' ? 'დარეგისტრირდით და მიიღეთ 20₾' : 'Register & Get 20 GEL'}
-                  </Button>
-                </Link>
+                {/* Password fields - only shown when checkbox is checked */}
+                {wantsToRegister && (
+                  <div className="space-y-3 mt-3 p-3 bg-background/50 rounded-lg border border-gold-200/50">
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Lock className="w-3 h-3" />
+                        {language === 'ka' ? 'პაროლი *' : 'Password *'}
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          value={password}
+                          onChange={(e) => {
+                            setPassword(e.target.value);
+                            setRegistrationError('');
+                          }}
+                          placeholder={language === 'ka' ? 'მინიმუმ 6 სიმბოლო' : 'Minimum 6 characters'}
+                          className="pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        >
+                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Lock className="w-3 h-3" />
+                        {language === 'ka' ? 'გაიმეორეთ პაროლი *' : 'Confirm Password *'}
+                      </Label>
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        value={confirmPassword}
+                        onChange={(e) => {
+                          setConfirmPassword(e.target.value);
+                          setRegistrationError('');
+                        }}
+                        placeholder={language === 'ka' ? 'იგივე პაროლი' : 'Same password'}
+                      />
+                    </div>
+                    
+                    {registrationError && (
+                      <p className="text-xs text-destructive">{registrationError}</p>
+                    )}
+                    
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Crown className="w-3 h-3 text-gold-500" />
+                      <span>
+                        {language === 'ka' 
+                          ? 'ლოიალობის პროგრამით დააგროვეთ ქულები' 
+                          : 'Earn points with loyalty program'}
+                      </span>
+                    </div>
+                  </div>
+                )}
                 
-                <p className="text-[10px] text-center text-muted-foreground">
-                  {language === 'ka' 
-                    ? 'ან გააგრძელეთ როგორც სტუმარი ქვემოთ' 
-                    : 'Or continue as guest below'}
-                </p>
+                {!wantsToRegister && (
+                  <p className="text-[10px] text-center text-muted-foreground">
+                    {language === 'ka' 
+                      ? 'ან გააგრძელეთ როგორც სტუმარი' 
+                      : 'Or continue as guest'}
+                  </p>
+                )}
               </div>
             )}
 

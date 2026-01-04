@@ -316,6 +316,28 @@ export const AdminSettings = () => {
           </CardContent>
         </Card>
 
+        {/* Google Tag Manager Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Google Tag Manager</CardTitle>
+            <CardDescription>GTM Container ID მარკეტინგული კოდების მართვისთვის</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="gtm_container_id">GTM Container ID</Label>
+              <Input
+                id="gtm_container_id"
+                value={formData.gtm_container_id || ''}
+                onChange={(e) => handleChange('gtm_container_id', e.target.value)}
+                placeholder="GTM-XXXXXXX"
+              />
+              <p className="text-sm text-muted-foreground">
+                იხილეთ Google Tag Manager → Admin → Container Settings
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Meta Pixel Settings */}
         <Card>
           <CardHeader>
