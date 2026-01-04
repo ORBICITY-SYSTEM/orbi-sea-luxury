@@ -1,41 +1,38 @@
 import { useState, useRef, useEffect, ImgHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 
-interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+interface OptimizedImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
-  fallback?: string;
-  blurPlaceholder?: boolean;
-  priority?: boolean;
   width?: number;
   height?: number;
+  priority?: boolean;
+  fallback?: string;
 }
 
 /**
- * LazyImage component optimized for Core Web Vitals
- * - LCP: priority prop for critical images
- * - CLS: explicit width/height prevent layout shifts
- * - FID: lazy loading reduces main thread blocking
+ * OptimizedImage component for Core Web Vitals optimization
+ * - LCP: priority prop for above-the-fold images
+ * - CLS: explicit width/height to reserve space
+ * - Performance: lazy loading for below-the-fold images
  */
-export const LazyImage = ({ 
+export const OptimizedImage = ({ 
   src, 
   alt, 
-  className, 
-  fallback = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300" fill="%23f3f4f6"%3E%3C/svg%3E',
-  blurPlaceholder = true,
-  priority = false,
   width,
   height,
+  priority = false,
+  className, 
+  fallback = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300" fill="%23f3f4f6"%3E%3C/svg%3E',
   style,
   ...props 
-}: LazyImageProps) => {
+}: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    // Priority images load immediately
     if (priority) {
       setIsInView(true);
       return;
@@ -49,7 +46,7 @@ export const LazyImage = ({
         }
       },
       {
-        rootMargin: '200px', // Increased for smoother loading
+        rootMargin: '200px',
         threshold: 0.01,
       }
     );
@@ -82,9 +79,9 @@ export const LazyImage = ({
       onLoad={handleLoad}
       onError={handleError}
       className={cn(
-        'transition-all duration-300',
-        blurPlaceholder && !isLoaded && 'blur-sm scale-[1.02]',
-        isLoaded && 'blur-0 scale-100',
+        'transition-opacity duration-300',
+        !isLoaded && 'opacity-0',
+        isLoaded && 'opacity-100',
         className
       )}
       style={{
