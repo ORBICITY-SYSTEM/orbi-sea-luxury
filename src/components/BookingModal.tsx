@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useQuery } from '@tanstack/react-query';
 import { Checkbox } from '@/components/ui/checkbox';
 import RegistrationSuccessPopup from './RegistrationSuccessPopup';
+import LoyaltyRedemptionSection from './LoyaltyRedemptionSection';
+import { useLoyaltyRedemption } from '@/hooks/useLoyaltyRedemption';
 
 interface ApartmentPrice {
   id: string;
@@ -55,6 +57,11 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const { toast } = useToast();
   const { user } = useAuth();
   const { discount: loyaltyDiscount, tier: loyaltyTier } = useLoyaltyDiscount();
+  const { redeemPoints } = useLoyaltyRedemption();
+  
+  // Points redemption state
+  const [pointsRedemptionDiscount, setPointsRedemptionDiscount] = useState(0);
+  const [pointsToRedeem, setPointsToRedeem] = useState(0);
   
   // Form state
   const [checkIn, setCheckIn] = useState<Date>();
@@ -215,8 +222,14 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const loyaltyDiscountAmount = user && useLoyalty && loyaltyDiscount > 0 
     ? Math.round(basePrice * (loyaltyDiscount / 100)) 
     : 0;
-  const totalPrice = basePrice - loyaltyDiscountAmount;
+  const totalPrice = basePrice - loyaltyDiscountAmount - pointsRedemptionDiscount;
   const pointsToEarn = Math.floor(totalPrice / 10);
+  
+  // Handler for points redemption
+  const handlePointsRedemptionChange = useCallback((discount: number, points: number) => {
+    setPointsRedemptionDiscount(discount);
+    setPointsToRedeem(points);
+  }, []);
   
   // Check if prices vary (to show breakdown only when relevant)
   const hasVariedPrices = priceBreakdown.length > 1 && 
@@ -329,6 +342,16 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
         }
       }
       
+      // Redeem loyalty points if user is using them
+      if (user && pointsToRedeem > 0) {
+        try {
+          await redeemPoints(pointsToRedeem);
+        } catch (error) {
+          console.error('Error redeeming points:', error);
+          // Continue with booking even if points redemption fails
+        }
+      }
+      
       // Create booking
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
@@ -338,7 +361,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           check_out: format(checkOut, 'yyyy-MM-dd'),
           guests: parseInt(guests),
           total_price: totalPrice,
-          discount_amount: loyaltyDiscountAmount,
+          discount_amount: loyaltyDiscountAmount + pointsRedemptionDiscount,
           status: 'pending',
           payment_status: 'pay_later',
           payment_method: 'pay_at_hotel',
@@ -348,6 +371,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           guest_id_number: guestIdNumber,
           guest_address: guestAddress,
           special_requests: specialRequests || null,
+          notes: pointsToRedeem > 0 ? `Redeemed ${pointsToRedeem} loyalty points for ${pointsRedemptionDiscount} GEL discount` : null,
           user_id: registeredUserId || user?.id || '00000000-0000-0000-0000-000000000000',
         })
         .select()
@@ -443,6 +467,8 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
     setPassword('');
     setConfirmPassword('');
     setRegistrationError('');
+    setPointsRedemptionDiscount(0);
+    setPointsToRedeem(0);
   };
 
   if (success) {
@@ -623,9 +649,20 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                   </div>
                 )}
                 
+                {/* Points Redemption Discount */}
+                {pointsRedemptionDiscount > 0 && (
+                  <div className="flex justify-between text-sm text-green-600">
+                    <span className="flex items-center gap-1">
+                      <Gift className="w-3 h-3" />
+                      {language === 'ka' ? `ქულებით ფასდაკლება (${pointsToRedeem} ქულა)` : `Points discount (${pointsToRedeem} pts)`}
+                    </span>
+                    <span>-{pointsRedemptionDiscount.toFixed(2)} GEL</span>
+                  </div>
+                )}
+                
                 <div className="flex justify-between font-bold text-lg border-t pt-2">
                   <span>{language === 'ka' ? 'სულ' : 'Total'}</span>
-                  <span className="text-primary">{totalPrice} GEL</span>
+                  <span className="text-primary">{totalPrice.toFixed(2)} GEL</span>
                 </div>
                 
                 {/* Points to earn */}
@@ -653,6 +690,14 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                   </span>
                 </div>
               </div>
+            )}
+            
+            {/* Loyalty Points Redemption Section */}
+            {user && nights > 0 && basePrice > 0 && (
+              <LoyaltyRedemptionSection 
+                totalPrice={basePrice - loyaltyDiscountAmount} 
+                onDiscountChange={handlePointsRedemptionChange} 
+              />
             )}
             
             {/* Registration Offer for Non-Logged Users */}
