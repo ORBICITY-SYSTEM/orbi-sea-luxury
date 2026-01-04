@@ -21,7 +21,8 @@ import {
   Sparkles,
   Mail,
   BarChart3,
-  Link2
+  Link2,
+  History
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -157,6 +158,11 @@ const menuItems = [
     title: 'პარამეტრები',
     url: '/admin/settings', 
     icon: Settings 
+  },
+  { 
+    title: 'ცვლილებები',
+    url: '/admin/changelog', 
+    icon: History 
   },
 ];
 

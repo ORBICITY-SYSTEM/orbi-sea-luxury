@@ -27,6 +27,7 @@ import { AdminEmailTemplates } from '@/components/admin/AdminEmailTemplates';
 import { AdminGuestMessages } from '@/components/admin/AdminGuestMessages';
 import { AdminReports } from '@/components/admin/AdminReports';
 import { AdminChannelManager } from '@/components/admin/AdminChannelManager';
+import { AdminChangelog } from '@/components/admin/AdminChangelog';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -80,6 +81,7 @@ const Admin = () => {
               <Route path="seo" element={<div className="p-6"><AdminSEO /></div>} />
               <Route path="style-guide" element={<div className="p-6"><AdminStyleGuide /></div>} />
               <Route path="settings" element={<div className="p-6"><AdminSettings /></div>} />
+              <Route path="changelog" element={<div className="p-6"><AdminChangelog /></div>} />
             </Routes>
           </div>
         </main>
