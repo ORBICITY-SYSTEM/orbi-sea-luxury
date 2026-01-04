@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { LazyImage } from '@/components/ui/lazy-image';
 
 const galleryImages = {
   interiors: [
@@ -95,11 +96,10 @@ const Gallery = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {galleryImages.interiors.map((image, index) => (
                     <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                      <img 
+                      <LazyImage 
                         src={image.url} 
                         alt={image.caption}
                         className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <p className="text-white font-medium">{image.caption}</p>
@@ -118,11 +118,10 @@ const Gallery = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {galleryImages.buildingViews.map((image, index) => (
                     <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                      <img 
+                      <LazyImage 
                         src={image.url} 
                         alt={image.caption}
                         className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <p className="text-white font-medium">{image.caption}</p>
@@ -141,11 +140,10 @@ const Gallery = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {galleryImages.amenities.map((image, index) => (
                     <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                      <img 
+                      <LazyImage 
                         src={image.url} 
                         alt={image.caption}
                         className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <p className="text-white font-medium">{image.caption}</p>

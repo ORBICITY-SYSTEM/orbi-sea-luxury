@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoTourCard } from '@/components/VideoTourCard';
 import { GoogleReviews } from '@/components/GoogleReviews';
+import { LazyImage } from '@/components/ui/lazy-image';
 const Index = () => {
   const { t } = useLanguage();
   
@@ -99,7 +100,7 @@ const Index = () => {
               <div key={index} className="group bg-white rounded-xl overflow-hidden shadow-card hover:shadow-luxury transition-all duration-500">
                 {/* Image */}
                 <div className="relative h-72 overflow-hidden">
-                  <img 
+                  <LazyImage 
                     src={apt.image} 
                     alt={apt.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -193,7 +194,7 @@ const Index = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
             {galleryImages.map((image, index) => (
               <div key={index} className="relative h-64 md:h-72 overflow-hidden rounded-lg group cursor-pointer">
-                <img 
+                <LazyImage 
                   src={image} 
                   alt={`Gallery ${index + 1}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
