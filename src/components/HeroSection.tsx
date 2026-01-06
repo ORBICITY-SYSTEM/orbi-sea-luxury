@@ -98,12 +98,16 @@ export const HeroSection = () => {
 
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
-      {/* Fallback/Poster Image - Always present as background, optimized for mobile */}
-      <div 
-        className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-700 ${
+      {/* Fallback/Poster Image - Always present as background, optimized for LCP */}
+      <img 
+        src={heroPoster}
+        alt="Orbi City Batumi - Luxury Sea View"
+        fetchPriority="high"
+        loading="eager"
+        decoding="sync"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           (!showVideo || allVideosFailed || !videosReady.has(currentVideoIndex)) ? 'opacity-100' : 'opacity-0'
         }`}
-        style={{ backgroundImage: `url(${heroPoster})` }}
       />
 
       {/* Single Video - Only load one video at a time for mobile performance */}
@@ -115,7 +119,7 @@ export const HeroSection = () => {
           muted
           playsInline
           poster={heroPoster}
-          preload="metadata"
+          preload="auto"
           onCanPlayThrough={() => handleVideoReady(currentVideoIndex)}
           onError={() => handleVideoError(currentVideoIndex)}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${

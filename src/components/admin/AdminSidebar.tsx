@@ -22,7 +22,8 @@ import {
   Mail,
   BarChart3,
   Link2,
-  History
+  History,
+  Activity
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -163,6 +164,11 @@ const menuItems = [
     title: 'ცვლილებები',
     url: '/admin/changelog', 
     icon: History 
+  },
+  { 
+    title: 'Web Vitals',
+    url: '/admin/web-vitals', 
+    icon: Activity 
   },
 ];
 
