@@ -194,11 +194,10 @@ export const AIChatbot = () => {
             <Button
               onClick={() => setIsOpen(true)}
               className={cn(
-                "h-14 w-14 rounded-full shadow-lg transition-all duration-300",
+                "h-12 px-5 rounded-full shadow-lg transition-all duration-300",
                 "bg-gradient-gold hover:scale-110 active:scale-95",
-                "relative overflow-hidden"
+                "relative overflow-hidden gap-2"
               )}
-              size="icon"
               aria-label="Open chat"
             >
               <motion.div
@@ -207,7 +206,8 @@ export const AIChatbot = () => {
                 animate={{ scale: 2, opacity: 0 }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
               />
-              <MessageCircle className="h-6 w-6 text-secondary-foreground" />
+              <MessageCircle className="h-5 w-5 text-secondary-foreground relative" />
+              <span className="font-medium text-sm text-secondary-foreground relative">AI Chat</span>
             </Button>
           </motion.div>
         )}
