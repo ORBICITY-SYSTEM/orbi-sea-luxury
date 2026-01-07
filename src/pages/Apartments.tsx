@@ -127,7 +127,7 @@ const Apartments = () => {
             transition={{ duration: 0.5 }}
             className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 tracking-[0.3em] uppercase text-sm font-medium mb-4 drop-shadow-[0_2px_4px_rgba(212,175,55,0.5)]"
           >
-            {language === 'ka' ? 'ფუფუნებით ცხოვრება' : 'Luxury Living'}
+            {t('apartments.page.badge')}
           </motion.span>
           
           <motion.h1 
@@ -136,7 +136,7 @@ const Apartments = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]"
           >
-            {language === 'ka' ? 'ჩვენი აპარტამენტები' : 'Our Apartments'}
+            {t('apartments.page.title')}
           </motion.h1>
           
           <motion.p 
@@ -145,7 +145,7 @@ const Apartments = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/80 text-lg md:text-xl max-w-2xl mb-12"
           >
-            {language === 'ka' ? 'აღმოაჩინეთ თქვენი სრულყოფილი თავშესაფარი შავი ზღვის პირას' : 'Discover your perfect sanctuary by the Black Sea'}
+            {t('apartments.page.subtitle')}
           </motion.p>
 
           {/* Category Filter Tabs */}
@@ -165,7 +165,7 @@ const Apartments = () => {
                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                 }`}
               >
-                {language === 'ka' ? cat.labelKa : cat.label}
+                {t(`apartments.category.${cat.id}`)}
               </button>
             ))}
           </motion.div>
@@ -204,7 +204,7 @@ const Apartments = () => {
                   <div className="relative h-64 overflow-hidden">
                     <LazyImage 
                       src={apt.image} 
-                      alt={language === 'ka' ? t(apt.titleKey) : apt.title}
+                      alt={t(apt.titleKey)}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     {/* Gradient Overlay */}
@@ -214,30 +214,30 @@ const Apartments = () => {
                   {/* Content */}
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {language === 'ka' ? t(apt.titleKey) : apt.title}
+                      {t(apt.titleKey)}
                     </h3>
                     
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                      {language === 'ka' ? t(apt.descKey) : apt.desc}
+                      {t(apt.descKey)}
                     </p>
 
                     {/* Features Grid */}
                     <div className="grid grid-cols-2 gap-3 mb-6">
                       <div className="flex items-center gap-2 text-muted-foreground text-sm">
                         <Users className="w-4 h-4 text-primary" />
-                        <span>{apt.guests} {language === 'ka' ? 'სტუმარი' : 'Guests'}</span>
+                        <span>{apt.guests} {t('apartments.guests')}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground text-sm">
                         <Bed className="w-4 h-4 text-primary" />
-                        <span>{apt.beds} {language === 'ka' ? 'საძინებელი' : 'Bedroom'}</span>
+                        <span>{apt.beds} {t('apartments.bedroom')}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground text-sm">
                         <Bath className="w-4 h-4 text-primary" />
-                        <span>{apt.baths} {language === 'ka' ? 'აბაზანა' : 'Bathroom'}</span>
+                        <span>{apt.baths} {t('apartments.bathroom')}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground text-sm">
                         <Maximize2 className="w-4 h-4 text-primary" />
-                        <span>{apt.size} {language === 'ka' ? 'კვ.მ' : 'm²'}</span>
+                        <span>{apt.size} {t('apartments.sqm')}</span>
                       </div>
                     </div>
 
@@ -250,7 +250,7 @@ const Apartments = () => {
                       className="w-full group/btn bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300"
                     >
                       <CreditCard className="w-4 h-4 mr-2" />
-                      <span>{language === 'ka' ? 'დაჯავშნე / გადაიხადე მოგვიანებით' : 'Book Now / Pay Later'}</span>
+                      <span>{t('apartments.bookNow')}</span>
                     </Button>
                   </div>
                 </motion.div>
@@ -262,7 +262,7 @@ const Apartments = () => {
           {filteredApartments.length === 0 && (
             <div className="text-center py-16">
               <p className="text-muted-foreground text-lg">
-                {language === 'ka' ? 'ამ კატეგორიაში აპარტამენტი ვერ მოიძებნა' : 'No apartments found in this category'}
+                {t('apartments.noApartments')}
               </p>
             </div>
           )}
@@ -273,12 +273,10 @@ const Apartments = () => {
       <section className="py-16 bg-gradient-to-r from-[#1e3a5f] to-[#2d5a87]">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">
-            {language === 'ka' ? 'მზად ხართ დასაჯავშნად?' : 'Ready to Book?'}
+            {t('apartments.cta.title')}
           </h2>
           <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
-            {language === 'ka' 
-              ? 'შეამოწმეთ ხელმისაწვდომობა და დაჯავშნეთ თქვენი სრულყოფილი დასვენება ბათუმში' 
-              : 'Check availability and reserve your perfect getaway in Batumi'}
+            {t('apartments.cta.subtitle')}
           </p>
           <Button 
             size="lg"
@@ -286,7 +284,7 @@ const Apartments = () => {
             className="bg-white hover:bg-white/90 text-[#1e3a5f] font-bold px-8 py-6 text-lg transition-all duration-300"
           >
             <CreditCard className="w-5 h-5 mr-2" />
-            {language === 'ka' ? 'დაჯავშნე ახლავე / გადაიხადე მოგვიანებით' : 'Book Now / Pay Later'}
+            {t('apartments.cta.button')}
           </Button>
         </div>
       </section>
