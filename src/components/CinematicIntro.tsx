@@ -5,10 +5,28 @@ interface CinematicIntroProps {
   onComplete: () => void;
 }
 
+// Check if device is mobile - skip intro entirely
+const getIsMobile = () => {
+  if (typeof window === 'undefined') return true;
+  return window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+};
+
 export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
   const [phase, setPhase] = useState<'curtain' | 'logo' | 'complete'>('curtain');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if mobile immediately and skip intro
+    const mobile = getIsMobile();
+    setIsMobile(mobile);
+    
+    if (mobile) {
+      // Skip intro on mobile
+      setPhase('complete');
+      onComplete();
+      return;
+    }
+
     // Phase 1: Curtain starts opening after 200ms
     const logoTimer = setTimeout(() => setPhase('logo'), 200);
     
@@ -23,6 +41,9 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
       clearTimeout(completeTimer);
     };
   }, [onComplete]);
+
+  // Don't render anything on mobile
+  if (isMobile) return null;
 
   return (
     <AnimatePresence>
