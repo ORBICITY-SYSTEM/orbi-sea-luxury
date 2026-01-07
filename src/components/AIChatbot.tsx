@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles, CalendarCheck, Gift } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles, CalendarCheck, Gift, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -10,12 +10,14 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChatBookingForm } from './ChatBookingForm';
 import { ChatRegistrationForm } from './ChatRegistrationForm';
+import { useNavigate } from 'react-router-dom';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   showBookingForm?: boolean;
   showRegistrationForm?: boolean;
+  showApartmentButtons?: boolean;
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
@@ -23,6 +25,14 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 // Keywords that indicate booking intent
 const BOOKING_KEYWORDS_KA = ['დაჯავშნა', 'ჯავშანი', 'რეზერვაცია', 'დავჯავშნო', 'ვჯავშნი', 'შევუკვეთო'];
 const BOOKING_KEYWORDS_EN = ['book', 'booking', 'reserve', 'reservation', 'stay', 'available'];
+
+// Apartment types for quick buttons
+const APARTMENT_TYPES = [
+  { type: 'studio', name_en: 'Studio', name_ka: 'სტუდიო' },
+  { type: 'deluxe-studio', name_en: 'Deluxe Studio', name_ka: 'დელუქს სტუდიო' },
+  { type: 'superior-studio', name_en: 'Superior Studio', name_ka: 'სუპერიორ სტუდიო' },
+  { type: 'sauna-room', name_en: 'Sauna Room', name_ka: 'საუნა ოთახი' },
+];
 
 export const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,11 +46,26 @@ export const AIChatbot = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, t } = useLanguage();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Check if message contains booking intent
   const hasBookingIntent = (text: string) => {
     const keywords = language === 'ka' ? BOOKING_KEYWORDS_KA : BOOKING_KEYWORDS_EN;
     return keywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
+  };
+
+  // Check if message contains apartment intent
+  const hasApartmentIntent = (text: string) => {
+    const keywords_ka = ['აპარტამენტ', 'ოთახ', 'სტუდიო', 'ნომერ', 'საცხოვრებელ', 'სადგომ'];
+    const keywords_en = ['apartment', 'room', 'studio', 'accommodation', 'suite', 'types'];
+    const keywords = language === 'ka' ? keywords_ka : keywords_en;
+    return keywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
+  };
+
+  // Navigate to apartment detail
+  const handleViewApartment = (apartmentType: string) => {
+    setIsOpen(false);
+    navigate(`/apartments/${apartmentType}`);
   };
 
   // Quick reply suggestions - include registration offer for non-logged users
@@ -227,6 +252,24 @@ export const AIChatbot = () => {
       }]);
       setShowRegistrationForm(true);
       setIsLoading(false);
+      return;
+    }
+
+    // Check for apartment intent - show apartment buttons
+    if (hasApartmentIntent(messageToSend)) {
+      const apartmentResponse = language === 'ka'
+        ? '🏠 აი, ჩვენი აპარტამენტები! აირჩიეთ რომელიც გაინტერესებთ:'
+        : '🏠 Here are our apartments! Choose the one you\'re interested in:';
+      
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: apartmentResponse,
+        showApartmentButtons: true 
+      }]);
+      setIsLoading(false);
+      
+      // Also continue with AI response for more details
+      await streamChat(updatedMessages);
       return;
     }
 
@@ -444,6 +487,25 @@ export const AIChatbot = () => {
                           onComplete={handleRegistrationComplete}
                           onClose={() => setShowRegistrationForm(false)}
                         />
+                      </div>
+                    )}
+
+                    {/* Show apartment view buttons */}
+                    {message.showApartmentButtons && (
+                      <div className="ml-11 flex flex-wrap gap-2">
+                        {APARTMENT_TYPES.map((apt, aptIndex) => (
+                          <motion.button
+                            key={apt.type}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: aptIndex * 0.1 }}
+                            onClick={() => handleViewApartment(apt.type)}
+                            className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/15 transition-all hover:scale-105"
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                            {language === 'ka' ? apt.name_ka : apt.name_en}
+                          </motion.button>
+                        ))}
                       </div>
                     )}
                   </motion.div>
