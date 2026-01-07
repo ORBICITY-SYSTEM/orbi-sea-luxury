@@ -16,47 +16,47 @@ const Index = () => {
   const virtualTours = [
     {
       videoSrc: '/videos/orbi-city-tour.mp4',
-      title: 'Orbi City Batumi - Full Tour',
-      description: 'Explore the entire Orbi City complex, including apartments, amenities, and stunning sea views.'
+      titleKey: 'index.tour.fullTour.title',
+      descKey: 'index.tour.fullTour.desc'
     },
     {
       videoSrc: '/videos/bedroom-luxury.mp4',
-      title: 'Luxury Apartment Interior',
-      description: 'Step inside our beautifully designed apartments with modern furnishings and panoramic views.'
+      titleKey: 'index.tour.interior.title',
+      descKey: 'index.tour.interior.desc'
     },
     {
       videoSrc: '/videos/hotel-room.mp4',
-      title: 'Modern Hotel Room',
-      description: 'Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.'
+      titleKey: 'index.tour.room.title',
+      descKey: 'index.tour.room.desc'
     },
     {
       videoSrc: '/videos/pool-amenities.mp4',
-      title: 'Amenities & Facilities',
-      description: 'Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.'
+      titleKey: 'index.tour.amenities.title',
+      descKey: 'index.tour.amenities.desc'
     }
   ];
   
   const apartments = [
     {
       image: 'https://orbicitybook-4w56az3r.manus.space/apt-suite-sea-view-real.webp',
-      title: 'Suite with Sea View',
-      description: 'An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.',
+      titleKey: 'index.apt.suite.title',
+      descKey: 'index.apt.suite.desc',
       guests: 3,
       bedrooms: 1,
       size: '30m²'
     },
     {
       image: 'https://orbicitybook-4w56az3r.manus.space/apt-delux-suite-real.webp',
-      title: 'Delux Suite with Sea View',
-      description: 'A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.',
+      titleKey: 'index.apt.deluxe.title',
+      descKey: 'index.apt.deluxe.desc',
       guests: 3,
       bedrooms: 1,
       size: '33m²'
     },
     {
       image: 'https://orbicitybook-4w56az3r.manus.space/apt-superior-suite-real.webp',
-      title: 'Superior Suite with Sea View',
-      description: 'Our premium suite featuring a separate living area, top-tier amenities, and the best panoramic views of the sea.',
+      titleKey: 'index.apt.superior.title',
+      descKey: 'index.apt.superior.desc',
       guests: 3,
       bedrooms: 2,
       size: '33m²'
@@ -84,13 +84,13 @@ const Index = () => {
           {/* Section Header - 3D Gold Effect */}
           <div className="text-center mb-16">
             <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-              Exclusive Residences
+              {t('index.apartments.badge')}
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground mb-6">
-              Discover Your <span className="italic text-3d-gold">Perfect Sanctuary</span>
+              {t('index.apartments.title')} <span className="italic text-3d-gold">{t('index.apartments.titleHighlight')}</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light">
-              Each residence is meticulously crafted to offer an unparalleled living experience, where timeless elegance meets contemporary comfort.
+              {t('index.apartments.subtitle')}
             </p>
           </div>
 
@@ -102,28 +102,28 @@ const Index = () => {
                 <div className="relative h-72 overflow-hidden">
                   <LazyImage 
                     src={apt.image} 
-                    alt={apt.title}
+                    alt={t(apt.titleKey)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
                 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-serif font-medium text-foreground mb-3">{apt.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{apt.description}</p>
+                  <h3 className="text-xl font-serif font-medium text-foreground mb-3">{t(apt.titleKey)}</h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{t(apt.descKey)}</p>
                   
                   {/* Specs - Manus Style */}
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-5">
-                    <span>{apt.guests} Guests</span>
+                    <span>{apt.guests} {t('index.apartments.guests')}</span>
                     <span className="text-gold-400">•</span>
-                    <span>{apt.bedrooms} Bedroom{apt.bedrooms > 1 ? 's' : ''}</span>
+                    <span>{apt.bedrooms} {apt.bedrooms > 1 ? t('index.apartments.bedrooms') : t('index.apartments.bedroom')}</span>
                     <span className="text-gold-400">•</span>
                     <span>{apt.size}</span>
                   </div>
                   
                   <Link to="/apartments">
                     <Button variant="outline" className="w-full border-gold-300 text-foreground hover:bg-gold-50 hover:border-gold-400 transition-colors">
-                      View Details
+                      {t('index.apartments.viewDetails')}
                     </Button>
                   </Link>
                 </div>
@@ -135,7 +135,7 @@ const Index = () => {
           <div className="text-center">
             <Link to="/apartments">
               <Button size="lg" className="bg-gold-500 hover:bg-gold-600 text-white font-medium px-10 py-6 rounded-sm shadow-gold">
-                View All Apartments
+                {t('index.apartments.viewAll')}
               </Button>
             </Link>
           </div>
@@ -147,13 +147,13 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
             <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-              Immersive Experience
+              {t('index.tours.badge')}
             </p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-foreground mb-6">
-              <span className="text-3d-gold">Virtual Tours</span>
+              <span className="text-3d-gold">{t('index.tours.title')}</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
-              Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.
+              {t('index.tours.subtitle')}
             </p>
           </div>
 
@@ -162,8 +162,8 @@ const Index = () => {
               <VideoTourCard
                 key={index}
                 videoSrc={tour.videoSrc}
-                title={tour.title}
-                description={tour.description}
+                title={t(tour.titleKey)}
+                description={t(tour.descKey)}
                 index={index}
               />
             ))}
@@ -184,10 +184,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-              Visual Journey
+              {t('index.gallery.badge')}
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground mb-6">
-              A Glimpse into Our <span className="italic text-3d-gold">World of Luxury</span>
+              {t('index.gallery.title')} <span className="italic text-3d-gold">{t('index.gallery.titleHighlight')}</span>
             </h2>
           </div>
 
@@ -196,7 +196,7 @@ const Index = () => {
               <div key={index} className="relative h-64 md:h-72 overflow-hidden rounded-lg group cursor-pointer">
                 <LazyImage 
                   src={image} 
-                  alt={`Gallery ${index + 1}`}
+                  alt={`${t('nav.gallery')} ${index + 1}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
@@ -207,7 +207,7 @@ const Index = () => {
           <div className="text-center">
             <Link to="/gallery">
               <Button size="lg" variant="outline" className="border-gold-400 text-foreground hover:bg-gold-50 px-10 py-6">
-                Explore Full Gallery
+                {t('index.gallery.viewAll')}
               </Button>
             </Link>
           </div>
@@ -219,13 +219,13 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-12 text-center border border-gold-400/30">
             <Sparkles className="w-16 h-16 mx-auto mb-6 text-gold-400" />
-            <h2 className="text-4xl font-bold text-3d-gold-glow mb-6">Loyalty Program</h2>
+            <h2 className="text-4xl font-bold text-3d-gold-glow mb-6">{t('index.loyalty.title')}</h2>
             <p className="text-xl text-white/90 mb-8">
-              Earn points with every stay and enjoy exclusive rewards.
+              {t('index.loyalty.subtitle')}
             </p>
             <Link to="/loyalty-program">
               <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
-                Learn More
+                {t('index.loyalty.cta')}
               </Button>
             </Link>
           </div>
@@ -237,19 +237,19 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-6">Discover <span className="text-3d-gold">Orbi City</span> Batumi</h2>
+              <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-6">{t('index.about.title')} <span className="text-3d-gold">Orbi City</span> Batumi</h2>
               <p className="text-muted-foreground mb-4 font-light leading-relaxed">
-                Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking Black Sea views and five-star comfort.
+                {t('index.about.p1')}
               </p>
               <p className="text-muted-foreground mb-8 font-light leading-relaxed">
-                Located in the heart of Batumi, our serviced apartments combine modern elegance with exceptional hospitality. Whether you're here for business or leisure, experience the perfect blend of comfort, convenience, and coastal beauty.
+                {t('index.about.p2')}
               </p>
               <div className="flex gap-4">
                 <Link to="/amenities">
-                  <Button className="bg-gold-500 hover:bg-gold-600 text-white px-8">Explore Amenities</Button>
+                  <Button className="bg-gold-500 hover:bg-gold-600 text-white px-8">{t('index.about.amenitiesBtn')}</Button>
                 </Link>
                 <Link to="/location">
-                  <Button variant="outline" className="border-gold-400 hover:bg-gold-50 px-8">View Location</Button>
+                  <Button variant="outline" className="border-gold-400 hover:bg-gold-50 px-8">{t('index.about.locationBtn')}</Button>
                 </Link>
               </div>
             </div>
@@ -269,7 +269,7 @@ const Index = () => {
                   ))}
                 </div>
                 <p className="text-3xl font-bold">4.9</p>
-                <p className="text-sm opacity-90">Guest Rating</p>
+                <p className="text-sm opacity-90">{t('index.about.rating')}</p>
               </div>
             </div>
           </div>
@@ -281,10 +281,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-              GUEST EXPERIENCES
+              {t('index.reviews.badge')}
             </p>
             <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-4">
-              What Our <span className="text-3d-gold">Guests</span> Say
+              {t('index.reviews.title')} <span className="text-3d-gold">{t('index.reviews.titleHighlight')}</span> {t('index.reviews.titleEnd')}
             </h2>
           </div>
 
@@ -299,13 +299,13 @@ const Index = () => {
       >
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold text-3d-gold-glow mb-6">Ready for Your Seaside Escape?</h2>
+          <h2 className="text-5xl font-bold text-3d-gold-glow mb-6">{t('index.cta.title')}</h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Experience the perfect blend of luxury and comfort at <span className="text-3d-gold-glow font-semibold">Orbi City Batumi</span>
+            {t('index.cta.subtitle')} <span className="text-3d-gold-glow font-semibold">Orbi City Batumi</span>
           </p>
           <Link to="/contact">
             <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold">
-              Contact Us Today
+              {t('index.cta.button')}
             </Button>
           </Link>
         </div>
