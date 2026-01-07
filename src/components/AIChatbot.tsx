@@ -18,6 +18,7 @@ interface Message {
   showBookingForm?: boolean;
   showRegistrationForm?: boolean;
   showApartmentButtons?: boolean;
+  showBookNowButton?: boolean;
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
@@ -62,10 +63,32 @@ export const AIChatbot = () => {
     return keywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
   };
 
+  // Check if message contains pricing intent
+  const hasPricingIntent = (text: string) => {
+    const keywords_ka = ['ფას', 'ღირ', 'თანხა', 'ლარ', 'gel', 'რამდენ'];
+    const keywords_en = ['price', 'cost', 'rate', 'how much', 'fee', 'gel'];
+    const keywords = language === 'ka' ? keywords_ka : keywords_en;
+    return keywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
+  };
+
   // Navigate to apartment detail
   const handleViewApartment = (apartmentType: string) => {
     setIsOpen(false);
     navigate(`/apartments/${apartmentType}`);
+  };
+
+  // Show booking form when "Book Now" button is clicked
+  const handleShowBookingForm = () => {
+    const bookingResponse = language === 'ka'
+      ? '🎉 შესანიშნავი არჩევანი! შეავსეთ ფორმა დაჯავშნისთვის:'
+      : '🎉 Excellent choice! Fill out the form to book:';
+    
+    setMessages(prev => [...prev, { 
+      role: 'assistant', 
+      content: bookingResponse,
+      showBookingForm: true 
+    }]);
+    setShowBookingForm(true);
   };
 
   // Quick reply suggestions - include registration offer for non-logged users
@@ -255,7 +278,7 @@ export const AIChatbot = () => {
       return;
     }
 
-    // Check for apartment intent - show apartment buttons
+    // Check for apartment intent - show apartment buttons with book now
     if (hasApartmentIntent(messageToSend)) {
       const apartmentResponse = language === 'ka'
         ? '🏠 აი, ჩვენი აპარტამენტები! აირჩიეთ რომელიც გაინტერესებთ:'
@@ -264,12 +287,32 @@ export const AIChatbot = () => {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: apartmentResponse,
-        showApartmentButtons: true 
+        showApartmentButtons: true,
+        showBookNowButton: true
       }]);
       setIsLoading(false);
       
       // Also continue with AI response for more details
       await streamChat(updatedMessages);
+      return;
+    }
+
+    // Check for pricing intent - show prices with book now button
+    if (hasPricingIntent(messageToSend)) {
+      // Let AI respond with prices, then add book now button
+      await streamChat(updatedMessages);
+      
+      // Add book now suggestion after AI response
+      const bookNowSuggestion = language === 'ka'
+        ? '💡 მოგეწონათ ფასები? დაჯავშნეთ ახლა და მიიღეთ საუკეთესო პირობები!'
+        : '💡 Like our prices? Book now and get the best conditions!';
+      
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: bookNowSuggestion,
+        showBookNowButton: true
+      }]);
+      setIsLoading(false);
       return;
     }
 
@@ -506,6 +549,22 @@ export const AIChatbot = () => {
                             {language === 'ka' ? apt.name_ka : apt.name_en}
                           </motion.button>
                         ))}
+                      </div>
+                    )}
+
+                    {/* Show Book Now button */}
+                    {message.showBookNowButton && !showBookingForm && (
+                      <div className="ml-11">
+                        <motion.button
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.3 }}
+                          onClick={handleShowBookingForm}
+                          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl bg-gradient-gold text-secondary-foreground hover:opacity-90 transition-all hover:scale-105 shadow-lg"
+                        >
+                          <CalendarCheck className="h-4 w-4" />
+                          {language === 'ka' ? '📅 დაჯავშნე ახლა!' : '📅 Book Now!'}
+                        </motion.button>
                       </div>
                     )}
                   </motion.div>
