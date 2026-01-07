@@ -49,7 +49,7 @@ const statusLabels: Record<string, { en: string; ka: string; color: string }> = 
 
 const GuestDashboard = () => {
   const { user, loading: authLoading } = useAuth();
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -139,26 +139,8 @@ const GuestDashboard = () => {
     ? 100 
     : Math.min(100, (totalEarned / nextTierPoints[tier]) * 100);
 
-  const t = {
-    dashboard: { en: 'My Dashboard', ka: 'ჩემი პანელი' },
-    welcome: { en: 'Welcome back', ka: 'გამარჯობა' },
-    myBookings: { en: 'My Bookings', ka: 'ჩემი ჯავშნები' },
-    loyaltyPoints: { en: 'Loyalty Points', ka: 'ლოიალობის ქულები' },
-    upcoming: { en: 'Upcoming', ka: 'მომავალი' },
-    past: { en: 'Past', ka: 'წარსული' },
-    cancelled: { en: 'Cancelled', ka: 'გაუქმებული' },
-    noBookings: { en: 'No bookings yet', ka: 'ჯავშნები არ არის' },
-    bookNow: { en: 'Book Now', ka: 'დაჯავშნე' },
-    currentPoints: { en: 'Current Points', ka: 'მიმდინარე ქულები' },
-    totalEarned: { en: 'Total Earned', ka: 'სულ მიღებული' },
-    totalRedeemed: { en: 'Total Redeemed', ka: 'სულ გამოყენებული' },
-    tier: { en: 'Tier', ka: 'დონე' },
-    progressToNext: { en: 'Progress to next tier', ka: 'პროგრესი შემდეგ დონემდე' },
-    nights: { en: 'nights', ka: 'ღამე' },
-    guests: { en: 'guests', ka: 'სტუმარი' },
-  };
-
-  const getText = (key: keyof typeof t) => t[key][language as 'en' | 'ka'] || t[key].en;
+  const tierLabel = t(`dashboard.tier.${tier}`);
+  const getText = (key: string) => t(`dashboard.${key}`);
 
   return (
     <Layout>
@@ -166,9 +148,9 @@ const GuestDashboard = () => {
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">{getText('dashboard')}</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">{t('dashboard.title')}</h1>
             <p className="text-muted-foreground">
-              {getText('welcome')}, {profile?.full_name || user.email}
+              {t('dashboard.welcome')}, {profile?.full_name || user.email}
             </p>
           </div>
 
@@ -176,24 +158,24 @@ const GuestDashboard = () => {
             {/* Loyalty Points Card */}
             <Card className="lg:col-span-1 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-primary" />
-                  {getText('loyaltyPoints')}
+              <CardTitle className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-primary" />
+                {t('dashboard.loyaltyPoints')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="text-center">
                   <Badge variant="outline" className={`${tierColors[tier]} text-lg px-4 py-1 mb-4`}>
-                    {tierLabels[tier][language as 'en' | 'ka'] || tierLabels[tier].en}
+                    {tierLabel}
                   </Badge>
                   <div className="text-5xl font-bold text-primary mb-2">{points}</div>
-                  <p className="text-sm text-muted-foreground">{getText('currentPoints')}</p>
+                  <p className="text-sm text-muted-foreground">{t('dashboard.currentPoints')}</p>
                 </div>
 
                 {tier !== 'platinum' && (
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">{getText('progressToNext')}</span>
+                      <span className="text-muted-foreground">{t('dashboard.progressToNext')}</span>
                       <span className="text-foreground">{Math.round(progressToNextTier)}%</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -208,11 +190,11 @@ const GuestDashboard = () => {
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                   <div className="text-center">
                     <div className="text-xl font-semibold text-green-400">{totalEarned}</div>
-                    <p className="text-xs text-muted-foreground">{getText('totalEarned')}</p>
+                    <p className="text-xs text-muted-foreground">{t('dashboard.totalEarned')}</p>
                   </div>
                   <div className="text-center">
                     <div className="text-xl font-semibold text-orange-400">{totalRedeemed}</div>
-                    <p className="text-xs text-muted-foreground">{getText('totalRedeemed')}</p>
+                    <p className="text-xs text-muted-foreground">{t('dashboard.totalRedeemed')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -221,9 +203,9 @@ const GuestDashboard = () => {
             {/* Bookings Section */}
             <Card className="lg:col-span-2">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  {getText('myBookings')}
+                  {t('dashboard.myBookings')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -231,51 +213,51 @@ const GuestDashboard = () => {
                   <TabsList className="grid w-full grid-cols-3 mb-6">
                     <TabsTrigger value="upcoming" className="gap-2">
                       <Clock className="w-4 h-4" />
-                      {getText('upcoming')} ({upcomingBookings.length})
+                      {t('dashboard.upcoming')} ({upcomingBookings.length})
                     </TabsTrigger>
                     <TabsTrigger value="past" className="gap-2">
                       <CheckCircle className="w-4 h-4" />
-                      {getText('past')} ({pastBookings.length})
+                      {t('dashboard.past')} ({pastBookings.length})
                     </TabsTrigger>
                     <TabsTrigger value="cancelled" className="gap-2">
                       <XCircle className="w-4 h-4" />
-                      {getText('cancelled')} ({cancelledBookings.length})
+                      {t('dashboard.cancelled')} ({cancelledBookings.length})
                     </TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="upcoming">
                     <BookingsList 
                       bookings={upcomingBookings} 
-                      emptyMessage={getText('noBookings')}
+                      emptyMessage={t('dashboard.noBookings')}
                       language={language}
-                      getText={getText}
+                      t={t}
                     />
                   </TabsContent>
 
                   <TabsContent value="past">
                     <BookingsList 
                       bookings={pastBookings} 
-                      emptyMessage={getText('noBookings')}
+                      emptyMessage={t('dashboard.noBookings')}
                       language={language}
-                      getText={getText}
+                      t={t}
                     />
                   </TabsContent>
 
                   <TabsContent value="cancelled">
                     <BookingsList 
                       bookings={cancelledBookings} 
-                      emptyMessage={getText('noBookings')}
+                      emptyMessage={t('dashboard.noBookings')}
                       language={language}
-                      getText={getText}
+                      t={t}
                     />
                   </TabsContent>
                 </Tabs>
 
                 {bookings.length === 0 && (
                   <div className="text-center py-8">
-                    <p className="text-muted-foreground mb-4">{getText('noBookings')}</p>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.noBookings')}</p>
                     <Button onClick={() => navigate('/apartments')}>
-                      {getText('bookNow')}
+                      {t('dashboard.bookNow')}
                     </Button>
                   </div>
                 )}
@@ -292,10 +274,10 @@ interface BookingsListProps {
   bookings: any[];
   emptyMessage: string;
   language: string;
-  getText: (key: any) => string;
+  t: (key: string) => string;
 }
 
-const BookingsList = ({ bookings, emptyMessage, language, getText }: BookingsListProps) => {
+const BookingsList = ({ bookings, emptyMessage, language, t }: BookingsListProps) => {
   if (bookings.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
@@ -307,7 +289,11 @@ const BookingsList = ({ bookings, emptyMessage, language, getText }: BookingsLis
   return (
     <div className="space-y-4">
       {bookings.map((booking) => {
-        const statusConfig = statusLabels[booking.status] || statusLabels.pending;
+        const statusKey = `dashboard.status.${booking.status}`;
+        const statusColor = booking.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                           booking.status === 'confirmed' ? 'bg-green-500/20 text-green-400' :
+                           booking.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
+                           'bg-blue-500/20 text-blue-400';
         const checkIn = new Date(booking.check_in);
         const checkOut = new Date(booking.check_out);
         const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
@@ -318,8 +304,8 @@ const BookingsList = ({ bookings, emptyMessage, language, getText }: BookingsLis
               <div className="flex flex-col sm:flex-row justify-between gap-4">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline" className={statusConfig.color}>
-                      {statusConfig[language as 'en' | 'ka'] || statusConfig.en}
+                    <Badge variant="outline" className={statusColor}>
+                      {t(statusKey)}
                     </Badge>
                     <span className="font-medium text-foreground">{booking.apartment_type}</span>
                   </div>
@@ -329,10 +315,10 @@ const BookingsList = ({ bookings, emptyMessage, language, getText }: BookingsLis
                       <Calendar className="w-4 h-4" />
                       {format(checkIn, 'd MMM', { locale: ka })} - {format(checkOut, 'd MMM, yyyy', { locale: ka })}
                     </span>
-                    <span>{nights} {getText('nights')}</span>
+                    <span>{nights} {t('dashboard.nights')}</span>
                     <span className="flex items-center gap-1">
                       <User className="w-4 h-4" />
-                      {booking.guests} {getText('guests')}
+                      {booking.guests} {t('dashboard.guests')}
                     </span>
                   </div>
                 </div>
@@ -343,7 +329,7 @@ const BookingsList = ({ bookings, emptyMessage, language, getText }: BookingsLis
                   </div>
                   {booking.discount_amount > 0 && (
                     <p className="text-xs text-green-400">
-                      -{booking.discount_amount} ₾ {language === 'ka' ? 'ფასდაკლება' : 'discount'}
+                      -{booking.discount_amount} ₾ {t('dashboard.discount')}
                     </p>
                   )}
                 </div>

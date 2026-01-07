@@ -4,50 +4,38 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 
 const Amenities = () => {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
 
   const amenities = [
     {
       icon: Wifi,
-      title: 'High-Speed WiFi',
-      titleKa: 'მაღალსიჩქარიანი WiFi',
-      desc: 'Free high-speed internet throughout the property',
-      descKa: 'უფასო მაღალსიჩქარიანი ინტერნეტი მთელ ტერიტორიაზე'
+      titleKey: 'amenities.page.wifi.title',
+      descKey: 'amenities.page.wifi.desc'
     },
     {
       icon: Shield,
-      title: '24/7 Security',
-      titleKa: '24/7 დაცვა',
-      desc: 'Round-the-clock security for your peace of mind',
-      descKa: 'მთელი დღე-ღამის დაცვა თქვენი სიმშვიდისთვის'
+      titleKey: 'amenities.page.security.title',
+      descKey: 'amenities.page.security.desc'
     },
     {
       icon: Clock,
-      title: '24/7 Reception',
-      titleKa: '24/7 რეცეფცია',
-      desc: 'Our front desk team is always ready to assist you',
-      descKa: 'ჩვენი გუნდი ყოველთვის მზადაა დაგეხმაროთ'
+      titleKey: 'amenities.page.reception.title',
+      descKey: 'amenities.page.reception.desc'
     },
     {
       icon: Car,
-      title: 'Parking',
-      titleKa: 'პარკინგი',
-      desc: 'Secure underground parking available for guests',
-      descKa: 'დაცული მიწისქვეშა პარკინგი სტუმრებისთვის'
+      titleKey: 'amenities.page.parking.title',
+      descKey: 'amenities.page.parking.desc'
     },
     {
       icon: Wind,
-      title: 'Air Conditioning',
-      titleKa: 'კონდიცირება',
-      desc: 'Climate control in all rooms and common areas',
-      descKa: 'კლიმატ-კონტროლი ყველა ოთახსა და საერთო სივრცეში'
+      titleKey: 'amenities.page.ac.title',
+      descKey: 'amenities.page.ac.desc'
     },
     {
       icon: ConciergeBell,
-      title: 'Concierge Service',
-      titleKa: 'კონსიერჟ სერვისი',
-      desc: 'Personalized assistance for all your needs',
-      descKa: 'პერსონალიზებული დახმარება ყველა თქვენი საჭიროებისთვის'
+      titleKey: 'amenities.page.concierge.title',
+      descKey: 'amenities.page.concierge.desc'
     },
   ];
 
@@ -73,7 +61,7 @@ const Amenities = () => {
             transition={{ duration: 0.5 }}
             className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 tracking-[0.3em] uppercase text-sm font-medium mb-4 drop-shadow-[0_2px_4px_rgba(212,175,55,0.5)]"
           >
-            {language === 'ka' ? 'პრემიუმ სერვისები' : 'Premium Services'}
+            {t('amenities.page.badge')}
           </motion.span>
           
           <motion.h1 
@@ -82,7 +70,7 @@ const Amenities = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]"
           >
-            {language === 'ka' ? 'ჩვენი კეთილმოწყობა' : 'Our Amenities'}
+            {t('amenities.page.title')}
           </motion.h1>
           
           <motion.p 
@@ -91,7 +79,7 @@ const Amenities = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/80 text-lg md:text-xl max-w-2xl"
           >
-            {language === 'ka' ? 'აღმოაჩინეთ მსოფლიო დონის კეთილმოწყობა და სერვისები' : 'Discover world-class facilities and services'}
+            {t('amenities.page.subtitle')}
           </motion.p>
         </div>
 
@@ -131,10 +119,10 @@ const Amenities = () => {
 
                       {/* Content */}
                       <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-amber-500 transition-colors duration-300">
-                        {language === 'ka' ? amenity.titleKa : amenity.title}
+                        {t(amenity.titleKey)}
                       </h3>
                       <p className="text-muted-foreground text-sm leading-relaxed">
-                        {language === 'ka' ? amenity.descKa : amenity.desc}
+                        {t(amenity.descKey)}
                       </p>
                     </div>
                   </div>
