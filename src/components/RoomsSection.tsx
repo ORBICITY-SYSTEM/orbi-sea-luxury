@@ -65,7 +65,7 @@ export const RoomsSection = () => {
         {/* Rooms Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {rooms.map((room) => (
-            <Card key={room.id} className="group overflow-hidden hover:shadow-luxury transition-all duration-300">
+            <Card key={room.id} className="group overflow-hidden transition-all duration-500 hover:scale-[1.02] border-2 border-transparent hover:border-gold-400/60 hover:shadow-[0_0_30px_rgba(212,175,55,0.4),_0_0_60px_rgba(212,175,55,0.2),_inset_0_0_20px_rgba(212,175,55,0.1)] relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-gold-400/0 before:via-gold-400/10 before:to-gold-400/0 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 before:pointer-events-none">
               {/* Image */}
               <div className="relative h-64 overflow-hidden">
                 <img
