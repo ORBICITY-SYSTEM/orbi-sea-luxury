@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChatBookingForm } from './ChatBookingForm';
 import { ChatRegistrationForm } from './ChatRegistrationForm';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -21,14 +22,22 @@ interface Message {
   showBookNowButton?: boolean;
 }
 
+interface ApartmentType {
+  type: string;
+  name_en: string;
+  name_ka: string;
+  image: string;
+  price: string;
+}
+
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 // Keywords that indicate booking intent
 const BOOKING_KEYWORDS_KA = ['დაჯავშნა', 'ჯავშანი', 'რეზერვაცია', 'დავჯავშნო', 'ვჯავშნი', 'შევუკვეთო'];
 const BOOKING_KEYWORDS_EN = ['book', 'booking', 'reserve', 'reservation', 'stay', 'available'];
 
-// Apartment types for quick buttons with preview images
-const APARTMENT_TYPES = [
+// Default fallback apartment types
+const DEFAULT_APARTMENT_TYPES: ApartmentType[] = [
   { 
     type: 'studio', 
     name_en: 'Studio', 
@@ -67,11 +76,35 @@ export const AIChatbot = () => {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [hasShownRegistrationOffer, setHasShownRegistrationOffer] = useState(false);
+  const [apartmentTypes, setApartmentTypes] = useState<ApartmentType[]>(DEFAULT_APARTMENT_TYPES);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, t } = useLanguage();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Fetch apartment types from database
+  useEffect(() => {
+    const fetchApartments = async () => {
+      const { data } = await supabase
+        .from('apartment_prices')
+        .select('apartment_type, name_en, name_ka, price_per_night, image_url')
+        .eq('is_active', true)
+        .order('display_order');
+      
+      if (data && data.length > 0) {
+        const mapped = data.map(apt => ({
+          type: apt.apartment_type.toLowerCase().replace(/\s+/g, '-'),
+          name_en: apt.name_en,
+          name_ka: apt.name_ka,
+          image: apt.image_url || DEFAULT_APARTMENT_TYPES[0].image,
+          price: `${apt.price_per_night}₾`
+        }));
+        setApartmentTypes(mapped);
+      }
+    };
+    fetchApartments();
+  }, []);
 
   // Check if message contains booking intent
   const hasBookingIntent = (text: string) => {
@@ -560,7 +593,7 @@ export const AIChatbot = () => {
                     {/* Show apartment cards with photo preview */}
                     {message.showApartmentButtons && (
                       <div className="ml-11 grid grid-cols-2 gap-2">
-                        {APARTMENT_TYPES.map((apt, aptIndex) => (
+                        {apartmentTypes.map((apt, aptIndex) => (
                           <motion.button
                             key={apt.type}
                             initial={{ opacity: 0, scale: 0.8, y: 10 }}
