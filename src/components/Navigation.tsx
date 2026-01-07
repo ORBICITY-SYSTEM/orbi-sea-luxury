@@ -5,7 +5,6 @@ import { Globe, LogIn, LogOut, User, ChevronDown, LayoutDashboard } from 'lucide
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdmin } from '@/hooks/useAdmin';
-import logo from '@/assets/logo.jpg';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -71,28 +70,21 @@ export const Navigation = () => {
     }`}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo - Manus Style */}
+          {/* Logo - Text Only with 3D Gold Effect */}
           <Link 
             to="/"
-            className="flex items-center gap-3 group"
+            className="flex items-center group"
           >
-            <div className="relative">
-              <img 
-                src={logo} 
-                alt="Orbi City Batumi" 
-                className={`transition-all duration-500 ${isScrolled ? 'h-10' : 'h-12'} w-auto rounded-lg`}
-              />
-            </div>
-            <div className="hidden sm:block">
-              <span className={`text-xl font-serif font-normal tracking-wider block transition-all duration-300 ${
+            <div className="flex flex-col">
+              <span className={`text-2xl sm:text-3xl font-serif font-bold tracking-wider transition-all duration-300 ${
                 isScrolled ? 'text-3d-gold' : 'text-3d-gold-glow'
               }`}>
                 ORBI CITY
               </span>
-              <span className={`text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${
+              <span className={`text-xs sm:text-sm tracking-[0.3em] uppercase font-medium transition-colors duration-300 ${
                 isScrolled ? 'text-3d-gold' : 'text-3d-gold-glow'
               }`}>
-                Batumi
+                BATUMI
               </span>
             </div>
           </Link>

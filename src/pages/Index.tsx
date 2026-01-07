@@ -81,13 +81,13 @@ const Index = () => {
       {/* Apartments Preview - Manus Style */}
       <section id="rooms" className="py-24 bg-cream-50">
         <div className="container mx-auto px-4">
-          {/* Section Header - Manus Style */}
+          {/* Section Header - 3D Gold Effect */}
           <div className="text-center mb-16">
-            <p className="text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+            <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
               Exclusive Residences
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground mb-6">
-              Discover Your <span className="italic text-gold-500">Perfect Sanctuary</span>
+              Discover Your <span className="italic text-3d-gold">Perfect Sanctuary</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light">
               Each residence is meticulously crafted to offer an unparalleled living experience, where timeless elegance meets contemporary comfort.
@@ -142,15 +142,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Virtual Tours Section - Manus Style with Autoplay MP4 Videos */}
+      {/* Virtual Tours Section - 3D Gold Effect */}
       <section className="py-32 bg-gradient-to-b from-muted/20 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <p className="text-primary text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+            <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
               Immersive Experience
             </p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-foreground mb-6">
-              Virtual Tours
+              <span className="text-3d-gold">Virtual Tours</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
               Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.
@@ -179,15 +179,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Preview - Manus Style */}
+      {/* Gallery Preview - 3D Gold Effect */}
       <section id="gallery" className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+            <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
               Visual Journey
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground mb-6">
-              A Glimpse into Our <span className="italic text-gold-500">World of Luxury</span>
+              A Glimpse into Our <span className="italic text-3d-gold">World of Luxury</span>
             </h2>
           </div>
 
@@ -214,12 +214,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Loyalty Program Preview */}
+      {/* Loyalty Program Preview - 3D Gold Effect */}
       <section className="py-20 bg-gradient-sea">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-12 text-center">
-            <Sparkles className="w-16 h-16 mx-auto mb-6 text-secondary" />
-            <h2 className="text-4xl font-bold text-white mb-6">Loyalty Program</h2>
+          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-12 text-center border border-gold-400/30">
+            <Sparkles className="w-16 h-16 mx-auto mb-6 text-gold-400" />
+            <h2 className="text-4xl font-bold text-3d-gold-glow mb-6">Loyalty Program</h2>
             <p className="text-xl text-white/90 mb-8">
               Earn points with every stay and enjoy exclusive rewards.
             </p>
@@ -232,12 +232,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About Section - Manus Style */}
+      {/* About Section - 3D Gold Effect */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-6">Discover Orbi City Batumi</h2>
+              <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-6">Discover <span className="text-3d-gold">Orbi City</span> Batumi</h2>
               <p className="text-muted-foreground mb-4 font-light leading-relaxed">
                 Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking Black Sea views and five-star comfort.
               </p>
@@ -276,15 +276,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Google Reviews Section */}
+      {/* Google Reviews Section - 3D Gold Effect */}
       <section className="py-24 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+            <p className="text-3d-gold text-sm tracking-[0.3em] uppercase mb-4 font-medium">
               GUEST EXPERIENCES
             </p>
             <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-4">
-              What Our Guests Say
+              What Our <span className="text-3d-gold">Guests</span> Say
             </h2>
           </div>
 
@@ -292,16 +292,16 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA with Background Image */}
+      {/* CTA with Background Image - 3D Gold Effect */}
       <section 
         className="relative py-32 bg-cover bg-center"
         style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1685031214576-c2c045eff368)' }}
       >
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold text-white mb-6">Ready for Your Seaside Escape?</h2>
+          <h2 className="text-5xl font-bold text-3d-gold-glow mb-6">Ready for Your Seaside Escape?</h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Experience the perfect blend of luxury and comfort at Orbi City Batumi
+            Experience the perfect blend of luxury and comfort at <span className="text-3d-gold-glow font-semibold">Orbi City Batumi</span>
           </p>
           <Link to="/contact">
             <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold">
