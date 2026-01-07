@@ -33,20 +33,6 @@ const tierColors: Record<string, string> = {
   platinum: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
 };
 
-const tierLabels: Record<string, { en: string; ka: string }> = {
-  bronze: { en: 'Bronze', ka: 'ბრინჯაო' },
-  silver: { en: 'Silver', ka: 'ვერცხლი' },
-  gold: { en: 'Gold', ka: 'ოქრო' },
-  platinum: { en: 'Platinum', ka: 'პლატინა' },
-};
-
-const statusLabels: Record<string, { en: string; ka: string; color: string }> = {
-  pending: { en: 'Pending', ka: 'მოლოდინში', color: 'bg-yellow-500/20 text-yellow-400' },
-  confirmed: { en: 'Confirmed', ka: 'დადასტურებული', color: 'bg-green-500/20 text-green-400' },
-  cancelled: { en: 'Cancelled', ka: 'გაუქმებული', color: 'bg-red-500/20 text-red-400' },
-  completed: { en: 'Completed', ka: 'დასრულებული', color: 'bg-blue-500/20 text-blue-400' },
-};
-
 const GuestDashboard = () => {
   const { user, loading: authLoading } = useAuth();
   const { t, language } = useLanguage();
@@ -140,7 +126,6 @@ const GuestDashboard = () => {
     : Math.min(100, (totalEarned / nextTierPoints[tier]) * 100);
 
   const tierLabel = t(`dashboard.tier.${tier}`);
-  const getText = (key: string) => t(`dashboard.${key}`);
 
   return (
     <Layout>
