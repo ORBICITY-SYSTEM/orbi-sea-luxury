@@ -5,71 +5,71 @@ import { MapPin, Phone, Mail, Clock, Waves, Trees, Building2, Plane, ShoppingBag
 import { GoogleMapInteractive } from '@/components/GoogleMapInteractive';
 
 const Location = () => {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
 
   const contactInfo = [
     {
       icon: MapPin,
-      title: language === 'ka' ? 'მისამართი' : 'Address',
+      title: t('location.addressLabel'),
       content: '7B Sherif Khimshiashvili Str',
       subtitle: 'Orbi City, Batumi, Georgia'
     },
     {
       icon: Phone,
-      title: language === 'ka' ? 'ტელეფონი' : 'Phone',
+      title: t('contact.phone'),
       content: '+995 555 19 90 90',
       link: 'tel:+995555199090'
     },
     {
       icon: Mail,
-      title: language === 'ka' ? 'ელ.ფოსტა' : 'Email',
+      title: t('contact.email'),
       content: 'info@orbicitybatumi.com',
       link: 'mailto:info@orbicitybatumi.com'
     },
     {
       icon: Clock,
-      title: language === 'ka' ? 'რეცეფცია' : 'Reception',
+      title: t('location.receptionLabel'),
       content: '24/7',
-      subtitle: language === 'ka' ? 'ყოველთვის ხელმისაწვდომი' : 'Always Available'
+      subtitle: t('location.alwaysAvailable')
     }
   ];
 
   const nearbyAttractions = [
     {
       icon: Waves,
-      title: language === 'ka' ? 'ბათუმის სანაპირო' : 'Batumi Beach',
-      distance: language === 'ka' ? 'პირდაპირი წვდომა - 2 წთ სიარული' : 'Direct beach access - 2 min walk',
-      description: language === 'ka' ? 'ისიამოვნეთ შავი ზღვის სანაპირო თქვენს კართან' : 'Enjoy pristine Black Sea beaches right at your doorstep'
+      title: t('location.batumiBeach'),
+      distance: t('location.beachDistance'),
+      description: t('location.beachDesc')
     },
     {
       icon: Trees,
-      title: language === 'ka' ? 'ბათუმის ბულვარი' : 'Batumi Boulevard',
-      distance: language === 'ka' ? '5 წთ სიარული' : '5 min walk',
-      description: language === 'ka' ? 'ლამაზი სანაპირო პრომენადი კაფეებით და გასართობებით' : 'Scenic seaside promenade with cafes and entertainment'
+      title: t('location.boulevard'),
+      distance: t('location.boulevardDistance'),
+      description: t('location.boulevardDesc')
     },
     {
       icon: Landmark,
-      title: language === 'ka' ? 'ანბანის კოშკი' : 'Alphabet Tower',
-      distance: language === 'ka' ? '10 წთ მგზავრობა' : '10 min drive',
-      description: language === 'ka' ? 'ქართული ანბანის მშვენიერი მონუმენტი' : 'Iconic landmark celebrating Georgian alphabet'
+      title: t('location.alphabetTower'),
+      distance: t('location.alphabetTowerDistance'),
+      description: t('location.alphabetTowerDesc')
     },
     {
       icon: Trees,
-      title: language === 'ka' ? 'ბოტანიკური ბაღი' : 'Batumi Botanical Garden',
-      distance: language === 'ka' ? '15 წთ მგზავრობა' : '15 min drive',
-      description: language === 'ka' ? 'ეგზოტიკური მცენარეები და ზღვის ხედები' : 'Stunning gardens with exotic plants and sea views'
+      title: t('location.botanicalGarden'),
+      distance: t('location.botanicalGardenDistance'),
+      description: t('location.botanicalGardenDesc')
     },
     {
       icon: Plane,
-      title: language === 'ka' ? 'ბათუმის აეროპორტი' : 'Batumi Airport',
-      distance: language === 'ka' ? '10 წთ მგზავრობა' : '10 min drive',
-      description: language === 'ka' ? 'საერთაშორისო აეროპორტი ევროპულ რეისებით' : 'International airport with connections across Europe'
+      title: t('location.airportNearby'),
+      distance: t('location.airportNearbyDistance'),
+      description: t('location.airportNearbyDesc')
     },
     {
       icon: ShoppingBag,
-      title: language === 'ka' ? 'ცენტრი' : 'City Center',
-      distance: language === 'ka' ? '5 წთ მგზავრობა' : '5 min drive',
-      description: language === 'ka' ? 'სავაჭრო, რესტორნები და გასართობი' : 'Shopping, dining, and entertainment district'
+      title: t('location.cityCenter'),
+      distance: t('location.cityCenterDistance'),
+      description: t('location.cityCenterDesc')
     }
   ];
 
@@ -100,7 +100,7 @@ const Location = () => {
               transition={{ duration: 0.5 }}
               className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 tracking-[0.3em] uppercase text-sm font-medium mb-4 block drop-shadow-[0_2px_4px_rgba(212,175,55,0.5)]"
             >
-              {language === 'ka' ? 'მოგვძებნეთ' : 'FIND US'}
+              {t('location.findUs')}
             </motion.span>
             
             <motion.h1 
@@ -109,7 +109,7 @@ const Location = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]"
             >
-              {language === 'ka' ? 'ჩვენი ადგილმდებარეობა' : 'Our Location'}
+              {t('location.ourLocation')}
             </motion.h1>
             
             <motion.p 
@@ -118,9 +118,7 @@ const Location = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto"
             >
-              {language === 'ka' 
-                ? 'პრემიუმ ლოკაცია ბათუმის შავი ზღვის სანაპიროზე, საქართველო' 
-                : "Prime beachfront location in the heart of Batumi, Georgia's stunning Black Sea coast"}
+              {t('location.heroSubtitle')}
             </motion.p>
           </div>
         </div>
@@ -149,7 +147,7 @@ const Location = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]"
           >
-            {language === 'ka' ? 'დაგვიკავშირდით' : 'Get in Touch'}
+            {t('location.getInTouch')}
           </motion.h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -196,7 +194,7 @@ const Location = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]"
           >
-            {language === 'ka' ? 'ახლომდებარე ღირსშესანიშნაობები' : 'Nearby Attractions'}
+            {t('location.nearbyAttractions')}
           </motion.h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -237,7 +235,7 @@ const Location = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]"
           >
-            {language === 'ka' ? 'ეწვიეთ დღესვე' : 'Visit Us Today'}
+            {t('location.visitUsToday')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -246,9 +244,7 @@ const Location = () => {
             transition={{ delay: 0.1 }}
             className="text-gray-500 text-lg mb-8 max-w-xl mx-auto"
           >
-            {language === 'ka' 
-              ? 'გაემგზავრეთ ბათუმში ჩვენთან ერთად' 
-              : 'Experience the perfect location for your Batumi getaway'}
+            {t('location.experiencePerfect')}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -261,13 +257,13 @@ const Location = () => {
               href="/apartments" 
               className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors"
             >
-              {language === 'ka' ? 'აპარტამენტების ნახვა' : 'View Apartments'}
+              {t('location.viewApartments')}
             </a>
             <a 
               href="/contact" 
               className="px-8 py-4 bg-background text-primary border-2 border-primary rounded-full font-medium hover:bg-muted transition-colors"
             >
-              {language === 'ka' ? 'დაგვიკავშირდით' : 'Contact Us'}
+              {t('location.contactUs')}
             </a>
           </motion.div>
         </div>
