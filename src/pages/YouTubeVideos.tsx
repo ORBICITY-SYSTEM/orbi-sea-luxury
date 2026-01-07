@@ -16,23 +16,23 @@ const YouTubeVideos = () => {
   const virtualTours = [
     {
       videoSrc: '/videos/orbi-city-tour.mp4',
-      title: 'Orbi City Batumi - Full Tour',
-      description: 'Explore the entire Orbi City complex, including apartments, amenities, and stunning sea views.'
+      titleKey: 'videos.tour.fullTour.title',
+      descKey: 'videos.tour.fullTour.desc'
     },
     {
       videoSrc: '/videos/bedroom-luxury.mp4',
-      title: 'Luxury Apartment Interior',
-      description: 'Step inside our beautifully designed apartments with modern furnishings and panoramic views.'
+      titleKey: 'videos.tour.interior.title',
+      descKey: 'videos.tour.interior.desc'
     },
     {
       videoSrc: '/videos/hotel-room.mp4',
-      title: 'Modern Hotel Room',
-      description: 'Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.'
+      titleKey: 'videos.tour.room.title',
+      descKey: 'videos.tour.room.desc'
     },
     {
       videoSrc: '/videos/pool-amenities.mp4',
-      title: 'Amenities & Facilities',
-      description: 'Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.'
+      titleKey: 'videos.tour.amenities.title',
+      descKey: 'videos.tour.amenities.desc'
     }
   ];
 
@@ -46,7 +46,7 @@ const YouTubeVideos = () => {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-primary uppercase tracking-[0.25em] text-sm font-medium mb-4"
           >
-            Immersive Experience
+            {t('videos.badge')}
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ const YouTubeVideos = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-serif font-light text-foreground mb-6"
           >
-            Virtual Tours
+            {t('videos.title')}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ const YouTubeVideos = () => {
             transition={{ delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.
+            {t('videos.subtitle')}
           </motion.p>
         </div>
       </section>
@@ -77,8 +77,8 @@ const YouTubeVideos = () => {
               <VideoTourCard
                 key={index}
                 videoSrc={tour.videoSrc}
-                title={tour.title}
-                description={tour.description}
+                title={t(tour.titleKey)}
+                description={t(tour.descKey)}
                 index={index}
               />
             ))}
