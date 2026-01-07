@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { useBooking } from '@/contexts/BookingContext';
 import { MessageCircle, CalendarCheck } from 'lucide-react';
-import ctaBackground from '@/assets/cta-background.png';
+import ctaBackground from '@/assets/cta-background.jpg';
 
 export const CTASection = () => {
   const { t } = useLanguage();
