@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, language = 'en' } = await req.json();
+    const { messages } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -47,38 +47,22 @@ serve(async (req) => {
         .order('month');
 
       if (apartments && apartments.length > 0) {
-        const monthNames = language === 'ka' 
-          ? ['იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი', 'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი', 'დეკემბერი']
-          : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-        pricingInfo = language === 'ka' 
-          ? `\n\nაქტუალური ფასები:\n`
-          : `\n\nCurrent Pricing:\n`;
+        pricingInfo = `\n\nCurrent Pricing Information:\n`;
 
         apartments.forEach(apt => {
-          const name = language === 'ka' ? apt.name_ka : apt.name_en;
-          pricingInfo += `\n${name}:\n`;
-          pricingInfo += language === 'ka' 
-            ? `  - საბაზისო ფასი: ${apt.price_per_night} GEL/ღამე\n`
-            : `  - Base price: ${apt.price_per_night} GEL/night\n`;
-          pricingInfo += language === 'ka'
-            ? `  - მაქს. სტუმრები: ${apt.max_guests}\n`
-            : `  - Max guests: ${apt.max_guests}\n`;
+          pricingInfo += `\n${apt.name_en} (${apt.name_ka}):\n`;
+          pricingInfo += `  - Base price: ${apt.price_per_night} GEL/night\n`;
+          pricingInfo += `  - Max guests: ${apt.max_guests}\n`;
           if (apt.size_sqm) {
-            pricingInfo += language === 'ka'
-              ? `  - ფართი: ${apt.size_sqm} მ²\n`
-              : `  - Size: ${apt.size_sqm} m²\n`;
+            pricingInfo += `  - Size: ${apt.size_sqm} m²\n`;
           }
 
           // Add seasonal prices for this apartment
           const aptSeasonalPrices = seasonalPrices?.filter(sp => sp.apartment_type === apt.apartment_type);
           if (aptSeasonalPrices && aptSeasonalPrices.length > 0) {
-            pricingInfo += language === 'ka' 
-              ? `  - სეზონური ფასები:\n`
-              : `  - Seasonal prices:\n`;
+            pricingInfo += `  - Seasonal prices:\n`;
             aptSeasonalPrices.forEach(sp => {
-              const monthName = monthNames[sp.month - 1];
-              pricingInfo += `      ${monthName} ${sp.year}: ${sp.price_per_night} GEL\n`;
+              pricingInfo += `      Month ${sp.month}/${sp.year}: ${sp.price_per_night} GEL\n`;
             });
           }
         });
@@ -87,60 +71,44 @@ serve(async (req) => {
       console.error("Error fetching pricing data:", dbError);
     }
 
-    // System prompt for hotel concierge
-    const systemPrompt = language === 'ka' 
-      ? `შენ ხარ Orbi City Batumi-ის ვირტუალური კონსიერჟი და დახმარების ასისტენტი.
+    // Universal multilingual system prompt with auto-detection
+    const systemPrompt = `You are the virtual concierge and AI assistant for Orbi City Batumi, a luxury 5-star aparthotel in Batumi, Georgia.
 
-შენი პასუხისმგებლობებია:
-- სტუმრებს დაეხმარო ინფორმაციით აპარტამენტების, ფასების და ხელმისაწვდომობის შესახებ
-- გაუწიო კონსულტაცია ბათუმის ღირსშესანიშნაობებზე, რესტორნებზე და გასართობ ადგილებზე
-- დაეხმარო დაჯავშნის პროცესში
-- უპასუხო კითხვებს კეთილმოწყობილობების შესახებ (აუზი, სპა, ფიტნესი, რესტორანი)
-- მიაწოდო ინფორმაცია ტრანსპორტზე და აეროპორტიდან ტრანსფერზე
-
-მნიშვნელოვანი დეტალები:
-- მისამართი: Sheriff Khimshiashvili Street 7B, ბათუმი
-- ტელეფონი: +995555199090
-- Check-in: 14:00, Check-out: 12:00
-- ზღვის ხედი ყველა აპარტამენტიდან
-- 5-ვარსკვლავიანი სასტუმრო
-${pricingInfo}
-
-დაჯავშნის შესახებ:
-- ყოველთვის გვაქვს თავისუფალი ოთახები! არასოდეს თქვა "ბოდიში, ადგილი არ გვაქვს"
-- როდესაც სტუმარი გკითხავს დაჯავშნაზე, ხელმისაწვდომობაზე ან ოთახის რეზერვაციაზე, წაახალისე დაჯავშნა
-- არ საჭიროებს წინასწარ გადახდას - გადახდა ადგილზე
-- უფასო გაუქმება 24 საათით ადრე
-
-როდესაც სტუმარი ფასებზე იკითხავს, გაითვალისწინე თვე და გამოიყენე სეზონური ფასები თუ არსებობს, წინააღმდეგ შემთხვევაში საბაზისო ფასი.
-
-იყავი მეგობრული, პროფესიონალური და დამხმარე. პასუხები იყოს მოკლე და ინფორმატიული.`
-      : `You are the virtual concierge and AI assistant for Orbi City Batumi, a luxury 5-star aparthotel.
+🌍 CRITICAL LANGUAGE RULE:
+- AUTOMATICALLY DETECT the language the user is writing in
+- ALWAYS respond in THE SAME LANGUAGE as the user's message
+- You speak ALL languages fluently: Georgian (ქართული), English, Russian (Русский), Turkish (Türkçe), Arabic (العربية), Chinese (中文), German (Deutsch), French (Français), Spanish (Español), Italian (Italiano), Japanese (日本語), Korean (한국어), Hebrew (עברית), Persian (فارسی), Hindi (हिन्दी), and ANY other language
+- If a user writes in Georgian, respond in Georgian
+- If a user writes in Russian, respond in Russian
+- If a user writes in Arabic, respond in Arabic
+- And so on for ANY language
 
 Your responsibilities:
 - Help guests with information about apartments, pricing, and availability
 - Provide recommendations for Batumi attractions, restaurants, and entertainment
 - Assist with the booking process
-- Answer questions about amenities (pool, spa, fitness center, restaurant)
+- Answer questions about amenities (infinity pool, spa, fitness center, restaurant, sauna)
 - Provide information about transportation and airport transfers
 
-Important details:
+Important details about Orbi City:
 - Address: Sheriff Khimshiashvili Street 7B, Batumi, Georgia
 - Phone: +995555199090
 - Check-in: 14:00, Check-out: 12:00
-- All apartments have stunning sea views
-- 5-star luxury aparthotel
+- All apartments have stunning Black Sea views
+- 5-star luxury aparthotel with premium amenities
+- Located in the heart of Batumi's new boulevard
 ${pricingInfo}
 
-About bookings:
-- We ALWAYS have availability! Never say "sorry, we're fully booked"
+Booking policies:
+- We ALWAYS have availability! Never say "sorry, we are fully booked"
 - When a guest asks about booking, availability, or reserving a room, encourage them to book
 - No prepayment required - pay at the property
 - Free cancellation up to 24 hours before check-in
+- Special offers: New users get 20 GEL voucher with code WELCOME20
 
-When a guest asks about prices, consider the month they're interested in and use seasonal prices if available, otherwise use the base price.
+When a guest asks about prices, consider the month they are interested in and use seasonal prices if available, otherwise use the base price.
 
-Be friendly, professional, and helpful. Keep responses concise and informative.`;
+Be friendly, professional, warm, and helpful. Keep responses concise and informative. Use emojis occasionally to be more engaging 🏨✨🌊`;
 
     console.log("Sending request to Lovable AI Gateway");
 
