@@ -84,13 +84,13 @@ export const Navigation = () => {
               />
             </div>
             <div className="hidden sm:block">
-              <span className={`text-xl font-serif font-normal tracking-wider block transition-colors duration-300 ${
-                isScrolled ? 'text-navy-800' : 'text-white'
+              <span className={`text-xl font-serif font-normal tracking-wider block transition-all duration-300 ${
+                isScrolled ? 'text-3d-gold' : 'text-3d-gold-glow'
               }`}>
                 ORBI CITY
               </span>
               <span className={`text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${
-                isScrolled ? 'text-gold-600' : 'text-gold-400'
+                isScrolled ? 'text-3d-gold' : 'text-3d-gold-glow'
               }`}>
                 Batumi
               </span>
