@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useBooking } from '@/contexts/BookingContext';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -17,6 +18,7 @@ const VIDEO_DURATION = 3; // 3 seconds per video
 
 export const HeroCarousel = () => {
   const { t } = useLanguage();
+  const { openBookingModal } = useBooking();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -141,7 +143,7 @@ export const HeroCarousel = () => {
         >
           <Button
             size="lg"
-            onClick={() => document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => openBookingModal()}
             className="bg-black hover:bg-black/90 text-white font-semibold text-sm tracking-wider px-10 py-6 rounded-sm shadow-lg uppercase hover:scale-105 transition-transform"
           >
             BOOK NOW/<em className="not-italic font-light">Pay Later</em>
