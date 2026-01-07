@@ -27,12 +27,36 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 const BOOKING_KEYWORDS_KA = ['დაჯავშნა', 'ჯავშანი', 'რეზერვაცია', 'დავჯავშნო', 'ვჯავშნი', 'შევუკვეთო'];
 const BOOKING_KEYWORDS_EN = ['book', 'booking', 'reserve', 'reservation', 'stay', 'available'];
 
-// Apartment types for quick buttons
+// Apartment types for quick buttons with preview images
 const APARTMENT_TYPES = [
-  { type: 'studio', name_en: 'Studio', name_ka: 'სტუდიო' },
-  { type: 'deluxe-studio', name_en: 'Deluxe Studio', name_ka: 'დელუქს სტუდიო' },
-  { type: 'superior-studio', name_en: 'Superior Studio', name_ka: 'სუპერიორ სტუდიო' },
-  { type: 'sauna-room', name_en: 'Sauna Room', name_ka: 'საუნა ოთახი' },
+  { 
+    type: 'studio', 
+    name_en: 'Studio', 
+    name_ka: 'სტუდიო',
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=200&h=150&fit=crop',
+    price: '120₾'
+  },
+  { 
+    type: 'deluxe-studio', 
+    name_en: 'Deluxe Studio', 
+    name_ka: 'დელუქს სტუდიო',
+    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=200&h=150&fit=crop',
+    price: '150₾'
+  },
+  { 
+    type: 'superior-studio', 
+    name_en: 'Superior Studio', 
+    name_ka: 'სუპერიორ სტუდიო',
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=200&h=150&fit=crop',
+    price: '180₾'
+  },
+  { 
+    type: 'family-room', 
+    name_en: 'Family Room', 
+    name_ka: 'საოჯახო ნომერი',
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=200&h=150&fit=crop',
+    price: '220₾'
+  },
 ];
 
 export const AIChatbot = () => {
@@ -533,20 +557,41 @@ export const AIChatbot = () => {
                       </div>
                     )}
 
-                    {/* Show apartment view buttons */}
+                    {/* Show apartment cards with photo preview */}
                     {message.showApartmentButtons && (
-                      <div className="ml-11 flex flex-wrap gap-2">
+                      <div className="ml-11 grid grid-cols-2 gap-2">
                         {APARTMENT_TYPES.map((apt, aptIndex) => (
                           <motion.button
                             key={apt.type}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ delay: aptIndex * 0.1 }}
                             onClick={() => handleViewApartment(apt.type)}
-                            className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/15 transition-all hover:scale-105"
+                            className="group relative overflow-hidden rounded-xl border border-primary/20 bg-card hover:border-primary/50 transition-all hover:scale-[1.02] shadow-sm hover:shadow-md"
                           >
-                            <Eye className="h-3.5 w-3.5" />
-                            {language === 'ka' ? apt.name_ka : apt.name_en}
+                            {/* Image */}
+                            <div className="relative h-20 overflow-hidden">
+                              <img 
+                                src={apt.image} 
+                                alt={language === 'ka' ? apt.name_ka : apt.name_en}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                              {/* Price badge */}
+                              <span className="absolute top-1.5 right-1.5 px-1.5 py-0.5 text-[10px] font-bold bg-gradient-gold text-secondary-foreground rounded-md shadow">
+                                {apt.price}
+                              </span>
+                            </div>
+                            {/* Info */}
+                            <div className="p-2 text-left">
+                              <p className="text-xs font-medium text-foreground truncate">
+                                {language === 'ka' ? apt.name_ka : apt.name_en}
+                              </p>
+                              <div className="flex items-center gap-1 mt-1 text-[10px] text-primary">
+                                <Eye className="h-3 w-3" />
+                                {language === 'ka' ? 'ნახვა' : 'View'}
+                              </div>
+                            </div>
                           </motion.button>
                         ))}
                       </div>
