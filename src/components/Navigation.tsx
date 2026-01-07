@@ -249,71 +249,84 @@ export const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - 3D Gold Effects */}
         <div className={`lg:hidden overflow-hidden transition-all duration-500 ease-out ${
           isMobileMenuOpen ? 'max-h-[700px] opacity-100 mt-6' : 'max-h-0 opacity-0'
         }`}>
-          <div className={`py-6 space-y-2 border-t ${isScrolled ? 'border-gray-200' : 'border-white/20'}`}>
+          <div className={`py-6 space-y-2 border-t relative ${isScrolled ? 'border-gold-400/30 bg-gradient-to-b from-white to-gold-50/30' : 'border-gold-400/30 bg-gradient-to-b from-primary/95 to-primary'}`}>
+            {/* Gold decorative line */}
+            <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-gold-400/50 to-transparent" />
+            
             {navLinks.map((link, index) => (
               <Link
                 key={link.key}
                 to={link.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`block py-3 px-5 rounded-lg font-medium transition-all duration-300 ${
+                className={`block py-3 px-5 rounded-lg font-medium transition-all duration-300 relative group ${
                   isScrolled
                     ? location.pathname === link.path 
-                      ? 'bg-gold-50 text-gold-700' 
-                      : 'text-navy-700 hover:bg-gray-50 hover:text-gold-600'
+                      ? 'bg-gradient-to-r from-gold-100 to-gold-50 text-3d-gold border border-gold-200' 
+                      : 'text-navy-700 hover:bg-gold-50/50 hover:text-gold-600'
                     : location.pathname === link.path 
-                      ? 'bg-white/20 text-white' 
-                      : 'text-white/90 hover:bg-white/10 hover:text-white'
+                      ? 'bg-gradient-to-r from-gold-400/20 to-gold-500/10 text-3d-gold-glow border border-gold-400/30' 
+                      : 'text-white/90 hover:bg-gold-400/10 hover:text-gold-300'
                 }`}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                {t(link.key) || link.key}
+                {/* Gold glow effect on hover */}
+                <span className={`absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                  isScrolled 
+                    ? 'shadow-[inset_0_0_20px_rgba(212,175,55,0.1)]' 
+                    : 'shadow-[inset_0_0_20px_rgba(212,175,55,0.15)]'
+                }`} />
+                <span className="relative z-10">{t(link.key) || link.key}</span>
               </Link>
             ))}
             
-            {/* Mobile Auth */}
-            <div className={`pt-4 mt-4 border-t ${isScrolled ? 'border-gray-200' : 'border-white/20'}`}>
+            {/* Mobile Auth - Gold Theme */}
+            <div className={`pt-4 mt-4 border-t ${isScrolled ? 'border-gold-200' : 'border-gold-400/30'}`}>
               {user ? (
                 <>
                   <Link
                     to="/dashboard"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 ${
+                    className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 group ${
                       isScrolled 
-                        ? 'text-navy-700 hover:bg-gray-50' 
-                        : 'text-white/90 hover:bg-white/10'
+                        ? 'text-navy-700 hover:bg-gold-50/50' 
+                        : 'text-white/90 hover:bg-gold-400/10'
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      isScrolled ? 'bg-gold-100' : 'bg-white/20'
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                      isScrolled 
+                        ? 'bg-gradient-to-br from-gold-200 to-gold-100 shadow-[0_0_15px_rgba(212,175,55,0.3)]' 
+                        : 'bg-gradient-to-br from-gold-400/30 to-gold-500/20 shadow-[0_0_15px_rgba(212,175,55,0.4)]'
                     }`}>
-                      <LayoutDashboard className={`w-5 h-5 ${isScrolled ? 'text-gold-600' : 'text-white'}`} />
+                      <LayoutDashboard className={`w-5 h-5 ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`} />
                     </div>
                     <div>
-                      <span className="font-medium block">Dashboard</span>
-                      <span className={`text-xs ${isScrolled ? 'text-gray-500' : 'text-white/60'}`}>ჯავშნები & ქულები</span>
+                      <span className={`font-medium block ${isScrolled ? '' : 'text-3d-gold-glow'}`}>Dashboard</span>
+                      <span className={`text-xs ${isScrolled ? 'text-gold-600/70' : 'text-gold-300/70'}`}>ჯავშნები & ქულები</span>
                     </div>
                   </Link>
                   <Link
                     to="/loyalty-program"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 ${
+                    className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 group ${
                       isScrolled 
-                        ? 'text-navy-700 hover:bg-gray-50' 
-                        : 'text-white/90 hover:bg-white/10'
+                        ? 'text-navy-700 hover:bg-gold-50/50' 
+                        : 'text-white/90 hover:bg-gold-400/10'
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      isScrolled ? 'bg-gold-100' : 'bg-white/20'
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                      isScrolled 
+                        ? 'bg-gradient-to-br from-gold-200 to-gold-100 shadow-[0_0_15px_rgba(212,175,55,0.3)]' 
+                        : 'bg-gradient-to-br from-gold-400/30 to-gold-500/20 shadow-[0_0_15px_rgba(212,175,55,0.4)]'
                     }`}>
-                      <User className={`w-5 h-5 ${isScrolled ? 'text-gold-600' : 'text-white'}`} />
+                      <User className={`w-5 h-5 ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`} />
                     </div>
                     <div>
-                      <span className="font-medium block">{user.email?.split('@')[0]}</span>
-                      <span className={`text-xs ${isScrolled ? 'text-gray-500' : 'text-white/60'}`}>პროფილი</span>
+                      <span className={`font-medium block ${isScrolled ? '' : 'text-3d-gold-glow'}`}>{user.email?.split('@')[0]}</span>
+                      <span className={`text-xs ${isScrolled ? 'text-gold-600/70' : 'text-gold-300/70'}`}>პროფილი</span>
                     </div>
                   </Link>
                   <button
@@ -321,16 +334,16 @@ export const Navigation = () => {
                       signOut();
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`flex items-center gap-4 w-full py-3 px-5 rounded-lg transition-all duration-300 ${
+                    className={`flex items-center gap-4 w-full py-3 px-5 rounded-lg transition-all duration-300 group ${
                       isScrolled 
-                        ? 'text-navy-700 hover:bg-gray-50' 
-                        : 'text-white/90 hover:bg-white/10'
+                        ? 'text-navy-700 hover:bg-gold-50/50' 
+                        : 'text-white/90 hover:bg-gold-400/10'
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      isScrolled ? 'bg-gray-100' : 'bg-white/10'
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                      isScrolled ? 'bg-gold-100' : 'bg-gold-400/20'
                     }`}>
-                      <LogOut className="w-5 h-5" />
+                      <LogOut className={`w-5 h-5 ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`} />
                     </div>
                     <span className="font-medium">გასვლა</span>
                   </button>
@@ -339,18 +352,20 @@ export const Navigation = () => {
                 <Link
                   to="/auth"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 ${
+                  className={`flex items-center gap-4 py-3 px-5 rounded-lg transition-all duration-300 group ${
                     isScrolled 
-                      ? 'bg-gold-50 text-gold-700' 
-                      : 'bg-white/20 text-white'
+                      ? 'bg-gradient-to-r from-gold-100 to-gold-50 text-gold-700 border border-gold-200 shadow-[0_0_20px_rgba(212,175,55,0.2)]' 
+                      : 'bg-gradient-to-r from-gold-400/20 to-gold-500/10 text-white border border-gold-400/40 shadow-[0_0_20px_rgba(212,175,55,0.3)]'
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    isScrolled ? 'bg-gold-100' : 'bg-white/20'
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                    isScrolled 
+                      ? 'bg-gradient-to-br from-gold-300 to-gold-200 shadow-[0_0_15px_rgba(212,175,55,0.4)]' 
+                      : 'bg-gradient-to-br from-gold-400/40 to-gold-500/30 shadow-[0_0_15px_rgba(212,175,55,0.5)]'
                   }`}>
-                    <LogIn className="w-5 h-5" />
+                    <LogIn className={`w-5 h-5 ${isScrolled ? 'text-gold-700' : 'text-gold-200'}`} />
                   </div>
-                  <span className="font-medium">შესვლა / რეგისტრაცია</span>
+                  <span className={`font-medium ${isScrolled ? '' : 'text-3d-gold-glow'}`}>შესვლა / რეგისტრაცია</span>
                 </Link>
               )}
             </div>
