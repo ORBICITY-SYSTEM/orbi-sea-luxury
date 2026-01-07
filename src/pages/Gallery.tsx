@@ -113,9 +113,9 @@ const Gallery = () => {
 
               {/* Building & Views */}
               <div>
-                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Building & Views</h2>
+                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('gallery.buildingViews')}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Discover the stunning architecture of Orbi City and the breathtaking views of the Black Sea.
+                  {t('gallery.buildingViewsDesc')}
                 </p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {galleryImages.buildingViews.map((image, index) => (
@@ -135,9 +135,9 @@ const Gallery = () => {
 
               {/* Amenities & Common Areas */}
               <div>
-                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Amenities & Common Areas</h2>
+                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('gallery.amenitiesAreas')}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Explore the world-class amenities and elegant common spaces available to all our guests.
+                  {t('gallery.amenitiesAreasDesc')}
                 </p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {galleryImages.amenities.map((image, index) => (
@@ -159,9 +159,9 @@ const Gallery = () => {
             {/* Videos Tab */}
             <TabsContent value="videos" className="space-y-12">
               <div>
-                <h2 className="text-3xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Property Video Tour</h2>
+                <h2 className="text-3xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('gallery.videoTour')}</h2>
                 <p className="text-muted-foreground mb-8 text-center max-w-2xl mx-auto">
-                  Experience the luxury of Orbi City Batumi through our exclusive video tours
+                  {t('gallery.videoTourDesc')}
                 </p>
                 
                 {/* Local Video */}
@@ -183,18 +183,18 @@ const Gallery = () => {
                   <Alert className="max-w-2xl mx-auto">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      YouTube ინტეგრაცია არ არის კონფიგურირებული. თქვენი არხის ვიდეოების საჩვენებლად, დაამატეთ YouTube Channel ID Admin Panel-ში (პარამეტრები → YouTube ინტეგრაცია).
+                      {t('gallery.youtubeNotConfigured')}
                     </AlertDescription>
                   </Alert>
                 ) : (
                   <>
-                    <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Our YouTube Channel</h3>
+                    <h3 className="text-2xl font-bold text-foreground mb-6 text-center">{t('gallery.youtubeChannel')}</h3>
                     
                     {videosError && (
                       <Alert variant="destructive" className="max-w-2xl mx-auto mb-8">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>
-                          Unable to load videos. Please make sure your YouTube Channel ID is configured correctly.
+                          {t('gallery.youtubeError')}
                         </AlertDescription>
                       </Alert>
                     )}
@@ -234,7 +234,7 @@ const Gallery = () => {
                       <Alert className="max-w-2xl mx-auto">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>
-                          No videos found on this channel.
+                          {t('gallery.noVideos')}
                         </AlertDescription>
                       </Alert>
                     )}

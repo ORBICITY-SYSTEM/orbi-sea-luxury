@@ -14,6 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useEmail } from '@/hooks/useEmail';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { z } from 'zod';
 
 const contactFormSchema = z.object({
@@ -39,6 +40,7 @@ const Contact = () => {
   const { settings, isLoading } = useSiteSettings();
   const { sendContactReply } = useEmail();
   const { getWhatsAppUrl } = useWhatsApp();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -82,8 +84,8 @@ const Contact = () => {
       });
 
       toast({
-        title: 'Message Sent Successfully! ✅',
-        description: 'We\'ll get back to you as soon as possible. Check your email for confirmation.',
+        title: t('contact.successTitle'),
+        description: t('contact.successDesc'),
       });
 
       // Reset form
@@ -99,15 +101,15 @@ const Contact = () => {
         });
         setErrors(fieldErrors);
         toast({
-          title: 'Validation Error',
-          description: 'Please check the form fields and try again.',
+          title: t('contact.validationError'),
+          description: t('contact.validationErrorDesc'),
           variant: 'destructive',
         });
       } else {
         console.error('Error submitting form:', error);
         toast({
-          title: 'Error',
-          description: 'Failed to send message. Please try again.',
+          title: t('contact.errorTitle'),
+          description: t('contact.errorDesc'),
           variant: 'destructive',
         });
       }
@@ -126,14 +128,14 @@ const Contact = () => {
       {/* Hero */}
       <div className="relative h-[300px] bg-gradient-to-r from-primary to-accent">
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">Get in Touch</h1>
+          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">{t('contact.title')}</h1>
           <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)] max-w-2xl">
-            We're here to help you plan your perfect stay. Contact us with any questions or for booking assistance.
+            {t('contact.subtitle')}
           </p>
         </div>
       </div>
 
-      <Breadcrumbs items={[{ label: 'Contact' }]} />
+      <Breadcrumbs items={[{ label: t('nav.contact') }]} />
 
       {/* Contact Section */}
       <section className="py-20 bg-background">
@@ -145,11 +147,11 @@ const Contact = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-gold flex items-center justify-center">
                   <Phone className="w-8 h-8 text-secondary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Phone</h3>
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">{t('contact.phone')}</h3>
                 <a href={`tel:${contactPhone}`} className="text-primary hover:underline text-lg">
                   {contactPhone}
                 </a>
-                <p className="text-sm text-muted-foreground mt-2">24/7 Reception</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('contact.reception')}</p>
               </CardContent>
             </Card>
 
@@ -159,11 +161,11 @@ const Contact = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-gold flex items-center justify-center">
                   <Mail className="w-8 h-8 text-secondary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Email</h3>
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">{t('contact.email')}</h3>
                 <a href={`mailto:${contactEmail}`} className="text-primary hover:underline text-lg">
                   {contactEmail}
                 </a>
-                <p className="text-sm text-muted-foreground mt-2">Response within 24 hours</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('contact.responseTime')}</p>
               </CardContent>
             </Card>
 
@@ -173,7 +175,7 @@ const Contact = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-gold flex items-center justify-center">
                   <MapPin className="w-8 h-8 text-secondary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Address</h3>
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">{t('contact.address')}</h3>
                 <a 
                   href={googleMapsUrl} 
                   target="_blank"
@@ -182,7 +184,7 @@ const Contact = () => {
                 >
                   {contactAddress}
                 </a>
-                <p className="text-sm text-muted-foreground mt-2">Seafront Location</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('contact.seafrontLocation')}</p>
               </CardContent>
             </Card>
           </div>
@@ -197,14 +199,14 @@ const Contact = () => {
           {/* Contact Form */}
           <Card className="max-w-2xl mx-auto">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Send us a Message</h2>
+              <h2 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">{t('contact.sendMessage')}</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name *</Label>
+                    <Label htmlFor="name">{t('contact.name')} *</Label>
                     <Input 
                       id="name"
-                      placeholder="Your Name"
+                      placeholder={t('contact.namePlaceholder')}
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className={errors.name ? 'border-destructive' : ''}
@@ -213,11 +215,11 @@ const Contact = () => {
                     {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">{t('contact.email')} *</Label>
                     <Input 
                       id="email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder={t('contact.emailPlaceholder')}
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       className={errors.email ? 'border-destructive' : ''}
@@ -227,21 +229,21 @@ const Contact = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone (Optional)</Label>
+                  <Label htmlFor="phone">{t('contact.phoneOptional')}</Label>
                   <Input 
                     id="phone"
                     type="tel"
-                    placeholder="+995 555 123 456"
+                    placeholder={t('contact.phonePlaceholder')}
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     disabled={isSubmitting}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message *</Label>
+                  <Label htmlFor="message">{t('contact.message')} *</Label>
                   <Textarea 
                     id="message"
-                    placeholder="Your Message (minimum 10 characters)"
+                    placeholder={t('contact.messagePlaceholder')}
                     rows={6}
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -249,7 +251,7 @@ const Contact = () => {
                     disabled={isSubmitting}
                   />
                   {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
-                  <p className="text-xs text-muted-foreground">{formData.message.length}/1000 characters</p>
+                  <p className="text-xs text-muted-foreground">{formData.message.length}/1000 {t('contact.characters')}</p>
                 </div>
                 <div className="flex gap-4">
                   <Button 
@@ -271,7 +273,7 @@ const Contact = () => {
                     disabled={isSubmitting}
                   >
                     <Send className="w-4 h-4 mr-2" />
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    {isSubmitting ? t('contact.sending') : t('contact.send')}
                   </Button>
                 </div>
               </form>
