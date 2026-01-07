@@ -56,7 +56,7 @@ const AboutUs = () => {
             <div className="relative">
               <img 
                 src="https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/755d262231af5921623772da76ea56c7.jpg"
-                alt="Orbi City Batumi"
+                alt={t('about.image.main')}
                 className="rounded-2xl shadow-2xl"
               />
             </div>
@@ -146,7 +146,7 @@ const AboutUs = () => {
               <div key={index} className="relative h-64 overflow-hidden rounded-lg group">
                 <img 
                   src={image}
-                  alt={`Gallery ${index + 1}`}
+                  alt={`${t('about.gallery.item')} ${index + 1}`}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
