@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar } from '@/components/ui/calendar';
+import { BookingCalendar, PriceData } from '@/components/BookingCalendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -237,6 +237,34 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   // Check if prices vary (to show breakdown only when relevant)
   const hasVariedPrices = priceBreakdown.length > 1 && 
     new Set(priceBreakdown.map(p => p.price)).size > 1;
+  
+  // Generate price data for calendar
+  const generateCalendarPrices = useCallback((): PriceData => {
+    if (!selectedApt || !seasonalPrices) return {};
+    
+    const prices: PriceData = {};
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setMonth(endDate.getMonth() + 6); // Show prices for next 6 months
+    
+    const days = eachDayOfInterval({ start: startDate, end: endDate });
+    
+    days.forEach(day => {
+      const month = day.getMonth() + 1;
+      const year = day.getFullYear();
+      const dateKey = format(day, 'yyyy-MM-dd');
+      
+      const seasonalPrice = seasonalPrices?.find(
+        sp => sp.apartment_type === selectedApartment && sp.month === month && sp.year === year
+      );
+      
+      prices[dateKey] = seasonalPrice ? seasonalPrice.price_per_night : selectedApt.price_per_night;
+    });
+    
+    return prices;
+  }, [selectedApt, seasonalPrices, selectedApartment]);
+  
+  const calendarPrices = generateCalendarPrices();
   
   const validateForm = () => {
     const result = bookingSchema.safeParse({
@@ -538,13 +566,13 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
+                    <BookingCalendar
                       selected={checkIn}
                       onSelect={setCheckIn}
                       initialFocus
                       disabled={(date) => date < new Date()}
-                      className="pointer-events-auto"
+                      prices={calendarPrices}
+                      basePrice={selectedApt?.price_per_night || 0}
                     />
                   </PopoverContent>
                 </Popover>
@@ -566,13 +594,13 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
+                    <BookingCalendar
                       selected={checkOut}
                       onSelect={setCheckOut}
                       initialFocus
                       disabled={(date) => date <= (checkIn || new Date())}
-                      className="pointer-events-auto"
+                      prices={calendarPrices}
+                      basePrice={selectedApt?.price_per_night || 0}
                     />
                   </PopoverContent>
                 </Popover>
