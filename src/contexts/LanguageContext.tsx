@@ -54,6 +54,9 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.apartments': 'Apartments',
     'nav.loyalty': 'Bonuses',
     'nav.about': 'About Us',
+    'nav.gallery': 'Gallery',
+    'nav.blog': 'Blog',
+    'nav.admin': 'Admin',
     
     // Index Videos Section
     'index.videos.title': 'Explore Our Property Tours',
@@ -356,6 +359,9 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.apartments': 'აპარტამენტები',
     'nav.loyalty': 'ბონუსები',
     'nav.about': 'ჩვენს შესახებ',
+    'nav.gallery': 'გალერეა',
+    'nav.blog': 'ბლოგი',
+    'nav.admin': 'ადმინი',
     
     // Index Videos Section
     'index.videos.title': 'გაეცანით ჩვენს ობიექტის ტურებს',

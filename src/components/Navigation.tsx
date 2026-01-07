@@ -13,20 +13,28 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
-const languageFlags = {
+const languageFlags: Record<string, string> = {
   en: '🇬🇧',
   ka: '🇬🇪',
   ru: '🇷🇺',
   tr: '🇹🇷',
   uk: '🇺🇦',
+  ar: '🇸🇦',
+  zh: '🇨🇳',
+  de: '🇩🇪',
+  fr: '🇫🇷',
 };
 
-const languageNames = {
+const languageNames: Record<string, string> = {
   en: 'EN',
   ka: 'ქარ',
   ru: 'РУС',
   tr: 'TR',
   uk: 'УКР',
+  ar: 'عربي',
+  zh: '中文',
+  de: 'DE',
+  fr: 'FR',
 };
 
 export const Navigation = () => {
@@ -52,14 +60,14 @@ export const Navigation = () => {
 
   const navLinks = [
     { key: 'nav.home', path: '/' },
-    { key: 'Apartments', path: '/apartments' },
+    { key: 'nav.apartments', path: '/apartments' },
     { key: 'nav.amenities', path: '/amenities' },
-    { key: 'Gallery', path: '/gallery' },
+    { key: 'nav.gallery', path: '/gallery' },
     { key: 'nav.location', path: '/location' },
     { key: 'nav.contact', path: '/contact' },
-    { key: 'Bonuses', path: '/loyalty-program' },
-    { key: 'Blog', path: '/blog' },
-    ...(isAdmin ? [{ key: 'Admin', path: '/admin' }] : []),
+    { key: 'nav.loyalty', path: '/loyalty-program' },
+    { key: 'nav.blog', path: '/blog' },
+    ...(isAdmin ? [{ key: 'nav.admin', path: '/admin' }] : []),
   ];
 
   return (
@@ -139,10 +147,10 @@ export const Navigation = () => {
                 align="end" 
                 className="bg-white border border-gray-200 shadow-lg min-w-[160px] rounded-lg"
               >
-                {(Object.keys(languageNames) as Array<keyof typeof languageNames>).map((lang) => (
+              {Object.keys(languageNames).map((lang) => (
                   <DropdownMenuItem
                     key={lang}
-                    onClick={() => setLanguage(lang)}
+                    onClick={() => setLanguage(lang as any)}
                     className={`cursor-pointer transition-all duration-200 rounded-md mx-1 ${
                       language === lang 
                         ? 'bg-gold-50 text-gold-700' 
