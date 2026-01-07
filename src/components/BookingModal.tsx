@@ -996,33 +996,19 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <AnimatePresence>
-          {isOpen && (
-            <DialogContent 
-              className="max-w-2xl max-h-[90vh] overflow-y-auto"
-              asChild
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-playfair">
-                    {language === 'ka' ? 'დაჯავშნეთ ახლავე • გადაიხადეთ მოგვიანებით' : 'Book Now • Pay Later'}
-                  </DialogTitle>
-                  <p className="text-muted-foreground text-sm">
-                    {language === 'ka' 
-                      ? 'გადახდა მოხდება სასტუმროში მოსვლისას' 
-                      : 'Payment upon arrival at the hotel'}
-                  </p>
-                </DialogHeader>
-                <BookingContent />
-              </motion.div>
-            </DialogContent>
-          )}
-        </AnimatePresence>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-playfair">
+              {language === 'ka' ? 'დაჯავშნეთ ახლავე • გადაიხადეთ მოგვიანებით' : 'Book Now • Pay Later'}
+            </DialogTitle>
+            <p className="text-muted-foreground text-sm">
+              {language === 'ka' 
+                ? 'გადახდა მოხდება სასტუმროში მოსვლისას' 
+                : 'Payment upon arrival at the hotel'}
+            </p>
+          </DialogHeader>
+          <BookingContent />
+        </DialogContent>
       </Dialog>
       <RegistrationSuccessPopup
         isOpen={showRegistrationPopup}
