@@ -98,7 +98,7 @@ const Location = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-amber-400 tracking-[0.3em] uppercase text-sm font-medium mb-4 block"
+              className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 tracking-[0.3em] uppercase text-sm font-medium mb-4 block drop-shadow-[0_2px_4px_rgba(212,175,55,0.5)]"
             >
               {language === 'ka' ? 'მოგვძებნეთ' : 'FIND US'}
             </motion.span>
@@ -107,7 +107,7 @@ const Location = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]"
             >
               {language === 'ka' ? 'ჩვენი ადგილმდებარეობა' : 'Our Location'}
             </motion.h1>
@@ -147,7 +147,7 @@ const Location = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center"
+            className="text-3xl md:text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]"
           >
             {language === 'ka' ? 'დაგვიკავშირდით' : 'Get in Touch'}
           </motion.h2>
@@ -194,7 +194,7 @@ const Location = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center"
+            className="text-3xl md:text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]"
           >
             {language === 'ka' ? 'ახლომდებარე ღირსშესანიშნაობები' : 'Nearby Attractions'}
           </motion.h2>
@@ -235,7 +235,7 @@ const Location = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+            className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]"
           >
             {language === 'ka' ? 'ეწვიეთ დღესვე' : 'Visit Us Today'}
           </motion.h2>

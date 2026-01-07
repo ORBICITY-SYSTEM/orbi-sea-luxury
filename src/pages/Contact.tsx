@@ -126,8 +126,8 @@ const Contact = () => {
       {/* Hero */}
       <div className="relative h-[300px] bg-gradient-to-r from-primary to-accent">
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-5xl font-bold text-white mb-4">Get in Touch</h1>
-          <p className="text-xl text-white/90 max-w-2xl">
+          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">Get in Touch</h1>
+          <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)] max-w-2xl">
             We're here to help you plan your perfect stay. Contact us with any questions or for booking assistance.
           </p>
         </div>
@@ -145,7 +145,7 @@ const Contact = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-gold flex items-center justify-center">
                   <Phone className="w-8 h-8 text-secondary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Phone</h3>
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Phone</h3>
                 <a href={`tel:${contactPhone}`} className="text-primary hover:underline text-lg">
                   {contactPhone}
                 </a>
@@ -159,7 +159,7 @@ const Contact = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-gold flex items-center justify-center">
                   <Mail className="w-8 h-8 text-secondary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Email</h3>
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Email</h3>
                 <a href={`mailto:${contactEmail}`} className="text-primary hover:underline text-lg">
                   {contactEmail}
                 </a>
@@ -173,7 +173,7 @@ const Contact = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-gold flex items-center justify-center">
                   <MapPin className="w-8 h-8 text-secondary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Address</h3>
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Address</h3>
                 <a 
                   href={googleMapsUrl} 
                   target="_blank"
@@ -197,7 +197,7 @@ const Contact = () => {
           {/* Contact Form */}
           <Card className="max-w-2xl mx-auto">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Send us a Message</h2>
+              <h2 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500">Send us a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">

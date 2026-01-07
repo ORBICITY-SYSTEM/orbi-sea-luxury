@@ -57,9 +57,9 @@ const LoyaltyProgram = () => {
       <div className="relative h-96 bg-gradient-sea">
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <Crown className="w-20 h-20 text-secondary mb-6 animate-pulse" />
-          <h1 className="text-5xl font-bold text-white mb-4">{t('loyalty.hero.title')}</h1>
-          <p className="text-xl text-white/90 max-w-2xl mb-8">{t('loyalty.hero.subtitle')}</p>
+          <Crown className="w-20 h-20 text-gold-400 mb-6 animate-pulse drop-shadow-[0_4px_12px_rgba(212,175,55,0.6)]" />
+          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">{t('loyalty.hero.title')}</h1>
+          <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)] max-w-2xl mb-8">{t('loyalty.hero.subtitle')}</p>
           <Link to="/auth">
             <Button size="lg" className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold shadow-gold">
               {t('loyalty.hero.cta')}
@@ -92,7 +92,7 @@ const LoyaltyProgram = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">{t('loyalty.howItWorks.title')}</h2>
+            <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('loyalty.howItWorks.title')}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('loyalty.howItWorks.subtitle')}
             </p>
@@ -122,7 +122,7 @@ const LoyaltyProgram = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">{t('loyalty.benefits.title')}</h2>
+            <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('loyalty.benefits.title')}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('loyalty.benefits.subtitle')}
             </p>
@@ -150,7 +150,7 @@ const LoyaltyProgram = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">{t('loyalty.testimonials.title')}</h2>
+            <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('loyalty.testimonials.title')}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -174,8 +174,8 @@ const LoyaltyProgram = () => {
       {/* CTA */}
       <section className="py-20 bg-gradient-sea">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">{t('loyalty.cta.title')}</h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">{t('loyalty.cta.subtitle')}</p>
+          <h2 className="text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">{t('loyalty.cta.title')}</h2>
+          <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)] mb-8 max-w-2xl mx-auto">{t('loyalty.cta.subtitle')}</p>
           <Link to="/auth">
             <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-bold">
               {t('loyalty.cta.button')}
