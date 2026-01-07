@@ -549,6 +549,41 @@ const translations: Record<Language, Record<string, string>> = {
     'videos.tour.room.desc': 'Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.',
     'videos.tour.amenities.title': 'Amenities & Facilities',
     'videos.tour.amenities.desc': 'Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.',
+    
+    // Gallery Captions
+    'gallery.caption.suiteBedroom': 'Suite with Sea View - Bedroom',
+    'gallery.caption.suiteKitchenette': 'Suite with Sea View - Kitchenette',
+    'gallery.caption.superiorDining': 'Superior Suite - Dining Area',
+    'gallery.caption.deluxeBedroom': 'Deluxe Suite - Bedroom',
+    'gallery.caption.deluxeKitchenette': 'Deluxe Suite - Kitchenette',
+    'gallery.caption.deluxeLiving': 'Deluxe Suite - Living Area',
+    'gallery.caption.superiorLiving': 'Superior Suite - Living Area',
+    'gallery.caption.familyKitchenette': 'Family Suite - Kitchenette',
+    'gallery.caption.standardBathroom': 'Standard Bathroom',
+    'gallery.caption.familySecondBedroom': 'Family Suite - Second Bedroom',
+    'gallery.caption.superiorInterconnecting': 'Superior Suite - Interconnecting Rooms',
+    'gallery.caption.exteriorView': 'Exterior View - Orbi City Towers',
+    'gallery.caption.balconySeaView': 'Balcony Sea View',
+    'gallery.caption.nightView': 'Night View from Balcony',
+    'gallery.caption.panoramicSeaView': 'Panoramic Sea View',
+    'gallery.caption.restaurant': 'On-site Restaurant - Breakfast Buffet',
+    'gallery.caption.elevatorHall40': 'Elevator Hall - 40th Floor',
+    'gallery.caption.elevatorHall': 'Elevator Hall',
+    'gallery.caption.mainLobby': 'Main Lobby',
+    'gallery.caption.elegantLobby': 'Elegant Lobby with Marble Floors',
+    'gallery.caption.luxuryLobby': 'Luxury Lobby Interior',
+    
+    // Location Page - Address
+    'location.addressStreet': '7B Sherif Khimshiashvili Street',
+    'location.addressCity': 'Orbi City, Batumi, Georgia',
+    
+    // Contact Validation
+    'contact.validation.nameRequired': 'Name is required',
+    'contact.validation.nameMax': 'Name must be less than 100 characters',
+    'contact.validation.emailInvalid': 'Please enter a valid email address',
+    'contact.validation.emailMax': 'Email must be less than 255 characters',
+    'contact.validation.messageMin': 'Message must be at least 10 characters',
+    'contact.validation.messageMax': 'Message must be less than 1000 characters',
   },
   ka: {
     // Navigation
@@ -1058,6 +1093,41 @@ const translations: Record<Language, Record<string, string>> = {
     'videos.tour.room.desc': 'განიცადეთ ჩვენი ელეგანტურად გაფორმებული ოთახები თანამედროვე ავეჯითა და თვალწარმტაცი ზღვის ხედებით.',
     'videos.tour.amenities.title': 'სერვისები და ობიექტები',
     'videos.tour.amenities.desc': 'დაათვალიერეთ ჩვენი მსოფლიო დონის სერვისები, მათ შორის აუზები, სპორტული დარბაზი, რესტორანი და გართობის ზონები.',
+    
+    // Gallery Captions
+    'gallery.caption.suiteBedroom': 'სუიტი ზღვის ხედით - საძინებელი',
+    'gallery.caption.suiteKitchenette': 'სუიტი ზღვის ხედით - სამზარეულო',
+    'gallery.caption.superiorDining': 'სუპერიორ სუიტი - სასადილო ზონა',
+    'gallery.caption.deluxeBedroom': 'დელუქს სუიტი - საძინებელი',
+    'gallery.caption.deluxeKitchenette': 'დელუქს სუიტი - სამზარეულო',
+    'gallery.caption.deluxeLiving': 'დელუქს სუიტი - მისაღები ოთახი',
+    'gallery.caption.superiorLiving': 'სუპერიორ სუიტი - მისაღები ოთახი',
+    'gallery.caption.familyKitchenette': 'საოჯახო სუიტი - სამზარეულო',
+    'gallery.caption.standardBathroom': 'სტანდარტული აბაზანა',
+    'gallery.caption.familySecondBedroom': 'საოჯახო სუიტი - მეორე საძინებელი',
+    'gallery.caption.superiorInterconnecting': 'სუპერიორ სუიტი - დამაკავშირებელი ოთახები',
+    'gallery.caption.exteriorView': 'ექსტერიერი - Orbi City კორპუსები',
+    'gallery.caption.balconySeaView': 'ზღვის ხედი აივნიდან',
+    'gallery.caption.nightView': 'ღამის ხედი აივნიდან',
+    'gallery.caption.panoramicSeaView': 'პანორამული ზღვის ხედი',
+    'gallery.caption.restaurant': 'რესტორანი - საუზმის ბუფეტი',
+    'gallery.caption.elevatorHall40': 'ლიფტის ჰოლი - 40-ე სართული',
+    'gallery.caption.elevatorHall': 'ლიფტის ჰოლი',
+    'gallery.caption.mainLobby': 'მთავარი ლობი',
+    'gallery.caption.elegantLobby': 'ელეგანტური ლობი მარმარილოს იატაკით',
+    'gallery.caption.luxuryLobby': 'ლუქს ლობის ინტერიერი',
+    
+    // Location Page - Address
+    'location.addressStreet': 'შერიფ ხიმშიაშვილის ქუჩა 7ბ',
+    'location.addressCity': 'Orbi City, ბათუმი, საქართველო',
+    
+    // Contact Validation
+    'contact.validation.nameRequired': 'სახელი აუცილებელია',
+    'contact.validation.nameMax': 'სახელი უნდა იყოს 100 სიმბოლოზე ნაკლები',
+    'contact.validation.emailInvalid': 'გთხოვთ შეიყვანოთ სწორი ელ.ფოსტა',
+    'contact.validation.emailMax': 'ელ.ფოსტა უნდა იყოს 255 სიმბოლოზე ნაკლები',
+    'contact.validation.messageMin': 'შეტყობინება უნდა შეიცავდეს მინიმუმ 10 სიმბოლოს',
+    'contact.validation.messageMax': 'შეტყობინება უნდა იყოს 1000 სიმბოლოზე ნაკლები',
     
     // Index Page
     'index.exclusive': 'ექსკლუზიური რეზიდენციები',

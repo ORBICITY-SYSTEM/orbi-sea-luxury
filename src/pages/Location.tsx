@@ -11,8 +11,8 @@ const Location = () => {
     {
       icon: MapPin,
       title: t('location.addressLabel'),
-      content: '7B Sherif Khimshiashvili Str',
-      subtitle: 'Orbi City, Batumi, Georgia'
+      content: t('location.addressStreet'),
+      subtitle: t('location.addressCity')
     },
     {
       icon: Phone,
