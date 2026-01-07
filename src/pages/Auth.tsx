@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,14 +6,15 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { signIn, signUp, resetPassword, user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   
   // Redirect if already logged in
@@ -41,7 +42,7 @@ const Auth = () => {
     e.preventDefault();
     
     if (!signInEmail || !signInPassword) {
-      toast.error('გთხოვთ შეავსოთ ყველა ველი');
+      toast.error(t('auth.error.fillAllFields'));
       return;
     }
 
@@ -51,14 +52,14 @@ const Auth = () => {
     
     if (error) {
       if (error.message.includes('Invalid login credentials')) {
-        toast.error('არასწორი ელ.ფოსტა ან პაროლი');
+        toast.error(t('auth.error.invalidCredentials'));
       } else if (error.message.includes('Email not confirmed')) {
-        toast.error('გთხოვთ დაადასტუროთ ელ.ფოსტა');
+        toast.error(t('auth.error.emailNotConfirmed'));
       } else {
-        toast.error('შეცდომა: ' + error.message);
+        toast.error(t('auth.error.generic') + error.message);
       }
     } else {
-      toast.success('წარმატებით შეხვედით!');
+      toast.success(t('auth.success.signIn'));
     }
     
     setIsLoading(false);
@@ -68,17 +69,17 @@ const Auth = () => {
     e.preventDefault();
     
     if (!signUpEmail || !signUpPassword || !signUpFullName || !signUpConfirmPassword) {
-      toast.error('გთხოვთ შეავსოთ ყველა ველი');
+      toast.error(t('auth.error.fillAllFields'));
       return;
     }
 
     if (signUpPassword !== signUpConfirmPassword) {
-      toast.error('პაროლები არ ემთხვევა');
+      toast.error(t('auth.error.passwordMismatch'));
       return;
     }
 
     if (signUpPassword.length < 6) {
-      toast.error('პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს');
+      toast.error(t('auth.error.passwordLength'));
       return;
     }
 
@@ -88,12 +89,12 @@ const Auth = () => {
     
     if (error) {
       if (error.message.includes('already registered')) {
-        toast.error('ეს ელ.ფოსტა უკვე რეგისტრირებულია');
+        toast.error(t('auth.error.alreadyRegistered'));
       } else {
-        toast.error('შეცდომა: ' + error.message);
+        toast.error(t('auth.error.generic') + error.message);
       }
     } else {
-      toast.success('რეგისტრაცია წარმატებული! გთხოვთ შეამოწმოთ ელ.ფოსტა');
+      toast.success(t('auth.success.signUp'));
       // Clear form
       setSignUpEmail('');
       setSignUpPassword('');
@@ -108,7 +109,7 @@ const Auth = () => {
     e.preventDefault();
     
     if (!resetEmail) {
-      toast.error('გთხოვთ შეიყვანოთ ელ.ფოსტა');
+      toast.error(t('auth.error.enterEmail'));
       return;
     }
 
@@ -117,9 +118,9 @@ const Auth = () => {
     const { error } = await resetPassword(resetEmail);
     
     if (error) {
-      toast.error('შეცდომა: ' + error.message);
+      toast.error(t('auth.error.generic') + error.message);
     } else {
-      toast.success('პაროლის აღდგენის ბმული გამოგზავნილია ელ.ფოსტაზე');
+      toast.success(t('auth.success.resetPassword'));
       setShowResetForm(false);
       setResetEmail('');
     }
@@ -133,15 +134,15 @@ const Auth = () => {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted py-12 px-4 sm:px-6 lg:px-8">
           <Card className="w-full max-w-md">
             <CardHeader>
-              <CardTitle>პაროლის აღდგენა</CardTitle>
+              <CardTitle>{t('auth.resetPassword.title')}</CardTitle>
               <CardDescription>
-                შეიყვანეთ თქვენი ელ.ფოსტა და ჩვენ გამოგიგზავნით პაროლის აღდგენის ბმულს
+                {t('auth.resetPassword.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="reset-email">ელ.ფოსტა</Label>
+                  <Label htmlFor="reset-email">{t('auth.email')}</Label>
                   <Input
                     id="reset-email"
                     type="email"
@@ -155,7 +156,7 @@ const Auth = () => {
                 <div className="flex gap-2">
                   <Button type="submit" className="flex-1" disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    გაგზავნა
+                    {t('auth.send')}
                   </Button>
                   <Button 
                     type="button" 
@@ -163,7 +164,7 @@ const Auth = () => {
                     onClick={() => setShowResetForm(false)}
                     disabled={isLoading}
                   >
-                    გაუქმება
+                    {t('auth.cancel')}
                   </Button>
                 </div>
               </form>
@@ -179,22 +180,22 @@ const Auth = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted py-12 px-4 sm:px-6 lg:px-8">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>მოგესალმებით!</CardTitle>
+            <CardTitle>{t('auth.welcome')}</CardTitle>
             <CardDescription>
-              შედით თქვენს ანგარიშში ან შექმენით ახალი
+              {t('auth.welcomeDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">შესვლა</TabsTrigger>
-                <TabsTrigger value="signup">რეგისტრაცია</TabsTrigger>
+                <TabsTrigger value="signin">{t('auth.signIn')}</TabsTrigger>
+                <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
               </TabsList>
               
               <TabsContent value="signin">
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email">ელ.ფოსტა</Label>
+                    <Label htmlFor="signin-email">{t('auth.email')}</Label>
                     <Input
                       id="signin-email"
                       type="email"
@@ -206,7 +207,7 @@ const Auth = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password">პაროლი</Label>
+                    <Label htmlFor="signin-password">{t('auth.password')}</Label>
                     <Input
                       id="signin-password"
                       type="password"
@@ -223,12 +224,12 @@ const Auth = () => {
                     className="px-0 text-sm"
                     onClick={() => setShowResetForm(true)}
                   >
-                    დაგავიწყდათ პაროლი?
+                    {t('auth.forgotPassword')}
                   </Button>
                   
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    შესვლა
+                    {t('auth.signIn')}
                   </Button>
                 </form>
               </TabsContent>
@@ -236,11 +237,11 @@ const Auth = () => {
               <TabsContent value="signup">
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-name">სრული სახელი</Label>
+                    <Label htmlFor="signup-name">{t('auth.fullName')}</Label>
                     <Input
                       id="signup-name"
                       type="text"
-                      placeholder="გიორგი გეორგიევი"
+                      placeholder={t('auth.fullNamePlaceholder')}
                       value={signUpFullName}
                       onChange={(e) => setSignUpFullName(e.target.value)}
                       required
@@ -248,7 +249,7 @@ const Auth = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">ელ.ფოსტა</Label>
+                    <Label htmlFor="signup-email">{t('auth.email')}</Label>
                     <Input
                       id="signup-email"
                       type="email"
@@ -260,7 +261,7 @@ const Auth = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">პაროლი</Label>
+                    <Label htmlFor="signup-password">{t('auth.password')}</Label>
                     <Input
                       id="signup-password"
                       type="password"
@@ -272,7 +273,7 @@ const Auth = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signup-confirm-password">გაიმეორეთ პაროლი</Label>
+                    <Label htmlFor="signup-confirm-password">{t('auth.confirmPassword')}</Label>
                     <Input
                       id="signup-confirm-password"
                       type="password"
@@ -285,7 +286,7 @@ const Auth = () => {
                   
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    რეგისტრაცია
+                    {t('auth.signUp')}
                   </Button>
                 </form>
               </TabsContent>
