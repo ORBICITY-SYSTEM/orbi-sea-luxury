@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift, Lock, Eye, EyeOff } from 'lucide-react';
+import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift, Lock, Eye, EyeOff, X } from 'lucide-react';
 import { format, differenceInDays, eachDayOfInterval, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
@@ -22,6 +23,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import RegistrationSuccessPopup from './RegistrationSuccessPopup';
 import LoyaltyRedemptionSection from './LoyaltyRedemptionSection';
 import { useLoyaltyRedemption } from '@/hooks/useLoyaltyRedemption';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ApartmentPrice {
   id: string;
@@ -484,26 +487,22 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
     );
   }
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-playfair">
-            {language === 'ka' ? 'დაჯავშნეთ ახლავე • გადაიხადეთ მოგვიანებით' : 'Book Now • Pay Later'}
-          </DialogTitle>
-          <p className="text-muted-foreground text-sm">
-            {language === 'ka' 
-              ? 'გადახდა მოხდება სასტუმროში მოსვლისას' 
-              : 'Payment upon arrival at the hotel'}
-          </p>
-        </DialogHeader>
-
-        {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        ) : (
-          <div className="space-y-6 py-4">
+  const isMobile = useIsMobile();
+  
+  // Shared content component
+  const BookingContent = () => (
+    <>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      ) : (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="space-y-6 py-4"
+        >
             {/* Apartment Selection */}
             <div className="space-y-2">
               <Label>{language === 'ka' ? 'აირჩიეთ ოთახის ტიპი' : 'Select Apartment Type'}</Label>
@@ -926,16 +925,82 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                 ? 'დაჯავშნით თქვენ ეთანხმებით ჩვენს პირობებს. გაუქმება შესაძლებელია 24 საათით ადრე.'
                 : 'By booking you agree to our terms. Free cancellation up to 24 hours before check-in.'}
             </p>
-          </div>
+          </motion.div>
         )}
-      </DialogContent>
-      
-      {/* Registration Success Popup with Confetti */}
+      </>
+    );
+  
+  // Mobile: Full-screen Drawer
+  if (isMobile) {
+    return (
+      <>
+        <Drawer open={isOpen} onOpenChange={onClose}>
+          <DrawerContent className="h-[95vh] max-h-[95vh]">
+            <DrawerHeader className="border-b pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <DrawerTitle className="text-xl font-playfair">
+                    {language === 'ka' ? 'დაჯავშნეთ ახლავე' : 'Book Now'}
+                  </DrawerTitle>
+                  <p className="text-muted-foreground text-sm mt-1">
+                    {language === 'ka' 
+                      ? 'გადახდა სასტუმროში მოსვლისას' 
+                      : 'Pay upon arrival'}
+                  </p>
+                </div>
+              </div>
+            </DrawerHeader>
+            <div className="overflow-y-auto flex-1 px-4 pb-8">
+              <BookingContent />
+            </div>
+          </DrawerContent>
+        </Drawer>
+        <RegistrationSuccessPopup
+          isOpen={showRegistrationPopup}
+          onClose={() => setShowRegistrationPopup(false)}
+          bonusAmount={20}
+        />
+      </>
+    );
+  }
+  
+  // Desktop: Animated Dialog
+  return (
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <AnimatePresence>
+          {isOpen && (
+            <DialogContent 
+              className="max-w-2xl max-h-[90vh] overflow-y-auto"
+              asChild
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-playfair">
+                    {language === 'ka' ? 'დაჯავშნეთ ახლავე • გადაიხადეთ მოგვიანებით' : 'Book Now • Pay Later'}
+                  </DialogTitle>
+                  <p className="text-muted-foreground text-sm">
+                    {language === 'ka' 
+                      ? 'გადახდა მოხდება სასტუმროში მოსვლისას' 
+                      : 'Payment upon arrival at the hotel'}
+                  </p>
+                </DialogHeader>
+                <BookingContent />
+              </motion.div>
+            </DialogContent>
+          )}
+        </AnimatePresence>
+      </Dialog>
       <RegistrationSuccessPopup
         isOpen={showRegistrationPopup}
         onClose={() => setShowRegistrationPopup(false)}
         bonusAmount={20}
       />
-    </Dialog>
+    </>
   );
 };
