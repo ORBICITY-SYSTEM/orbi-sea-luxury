@@ -278,22 +278,30 @@ export const HeroCarousel = () => {
             }}
             transition={{ duration: 0.6, delay: 2.5, type: 'spring', bounce: 0.4 }}
           >
-            <Button
-              size="lg"
-              onClick={() => openBookingModal()}
-              className="group relative bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 hover:from-gold-600 hover:via-gold-500 hover:to-gold-600 text-navy-950 font-bold text-sm tracking-wider px-10 py-6 rounded-sm shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(212,175,55,0.5)] uppercase transition-all duration-500 hover:scale-105 overflow-hidden"
-            >
-              {/* Shine sweep effect */}
-              <motion.span 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
-                transition={{ duration: 0.6 }}
-              />
-              <span className="relative z-10">
-                BOOK NOW/<em className="not-italic font-light">Pay Later</em>
-              </span>
-            </Button>
+            <div className="flex flex-col items-center">
+              <Button
+                size="lg"
+                onClick={() => openBookingModal()}
+                className="group relative bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 hover:from-gold-600 hover:via-gold-500 hover:to-gold-600 text-navy-950 font-bold text-sm tracking-wider px-10 py-6 rounded-sm shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(212,175,55,0.5)] uppercase transition-all duration-500 hover:scale-105 overflow-hidden"
+              >
+                {/* Shine sweep effect */}
+                <motion.span 
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '100%' }}
+                  transition={{ duration: 0.6 }}
+                />
+                <span className="relative z-10">
+                  BOOK NOW/<em className="not-italic font-light">Pay Later</em>
+                </span>
+              </Button>
+
+              {/* Trust badges - italic thin text with gold checkmarks */}
+              <p className="mt-3 text-white/75 text-xs md:text-sm font-light italic tracking-wide">
+                <span className="text-gold-400 font-semibold">✓</span> Free Cancellation ·{' '}
+                <span className="text-gold-400 font-semibold">✓</span> Pay Later
+              </p>
+            </div>
           </motion.div>
         </motion.div>
 
