@@ -1297,6 +1297,68 @@ const translations: Record<Language, Record<string, string>> = {
     'youtubeVideos.category.testimonials': 'Отзывы',
     'youtubeVideos.category.areaGuide': 'Путеводитель',
     'youtubeVideos.category.amenities': 'Удобства',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'Эксклюзивные резиденции',
+    'index.apartments.title': 'Откройте для себя',
+    'index.apartments.titleHighlight': 'идеальное убежище',
+    'index.apartments.subtitle': 'Каждая резиденция тщательно создана для создания непревзойденного опыта проживания, где вечная элегантность сочетается с современным комфортом.',
+    'index.apartments.guests': 'Гостей',
+    'index.apartments.bedroom': 'Спальня',
+    'index.apartments.bedrooms': 'Спальни',
+    'index.apartments.viewDetails': 'Подробнее',
+    'index.apartments.viewAll': 'Все апартаменты',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'Люкс с видом на море',
+    'index.apt.suite.desc': 'Элегантный люкс с захватывающими видами на море, идеальный для пар или индивидуальных путешественников.',
+    'index.apt.deluxe.title': 'Делюкс люкс с видом на море',
+    'index.apt.deluxe.desc': 'Более просторный и роскошный люкс с улучшенными удобствами и первоклассным видом на море.',
+    'index.apt.superior.title': 'Супериор люкс с видом на море',
+    'index.apt.superior.desc': 'Наш премиум люкс с отдельной жилой зоной, первоклассными удобствами и лучшими панорамными видами.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'Погружающий опыт',
+    'index.tours.title': 'Виртуальные туры',
+    'index.tours.subtitle': 'Совершите виртуальный тур по Orbi City Батуми и исследуйте наши великолепные апартаменты и удобства, не выходя из дома.',
+    'index.tour.fullTour.title': 'Orbi City Батуми - Полный тур',
+    'index.tour.fullTour.desc': 'Исследуйте весь комплекс Orbi City, включая апартаменты, удобства и захватывающие виды на море.',
+    'index.tour.interior.title': 'Интерьер люксового апартамента',
+    'index.tour.interior.desc': 'Загляните внутрь наших красиво оформленных апартаментов с современной мебелью и панорамными видами.',
+    'index.tour.room.title': 'Современный гостиничный номер',
+    'index.tour.room.desc': 'Познакомьтесь с нашими элегантно оформленными номерами с современной мебелью и потрясающими видами на море.',
+    'index.tour.amenities.title': 'Удобства и услуги',
+    'index.tour.amenities.desc': 'Тур по нашим первоклассным удобствам, включая бассейны, тренажерный зал, ресторан и развлекательные зоны.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'Визуальное путешествие',
+    'index.gallery.title': 'Взгляд на наш',
+    'index.gallery.titleHighlight': 'мир роскоши',
+    'index.gallery.viewAll': 'Смотреть галерею',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'Программа лояльности',
+    'index.loyalty.subtitle': 'Зарабатывайте баллы с каждым проживанием и получайте эксклюзивные награды.',
+    'index.loyalty.cta': 'Узнать больше',
+    
+    // Index Page - About Section
+    'index.about.title': 'Откройте',
+    'index.about.p1': 'Откройте для себя непревзойденную роскошь в Orbi City, где каждый апартамент предлагает захватывающие виды на Черное море и пятизвездочный комфорт.',
+    'index.about.p2': 'Расположенный в сердце Батуми, наши апартаменты с обслуживанием сочетают современную элегантность с исключительным гостеприимством. Для бизнеса или отдыха, насладитесь идеальным сочетанием комфорта, удобства и прибрежной красоты.',
+    'index.about.amenitiesBtn': 'Удобства',
+    'index.about.locationBtn': 'Расположение',
+    'index.about.rating': 'Рейтинг гостей',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'ОПЫТ ГОСТЕЙ',
+    'index.reviews.title': 'Что говорят',
+    'index.reviews.titleHighlight': 'наши гости',
+    'index.reviews.titleEnd': '',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'Готовы к отдыху у моря?',
+    'index.cta.subtitle': 'Насладитесь идеальным сочетанием роскоши и комфорта в',
+    'index.cta.button': 'Свяжитесь с нами',
   },
   tr: {
     // Navigation
@@ -1680,6 +1742,68 @@ const translations: Record<Language, Record<string, string>> = {
     'location.cityCenter': 'Şehir Merkezi',
     'location.cityCenterDistance': '5 dk araç',
     'location.cityCenterDesc': 'Alışveriş, yemek ve eğlence bölgesi',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'Özel Rezidanslar',
+    'index.apartments.title': 'Keşfedin',
+    'index.apartments.titleHighlight': 'Mükemmel Sığınağınızı',
+    'index.apartments.subtitle': 'Her rezidans, zamansız zarafetin modern konforla buluştuğu eşsiz bir yaşam deneyimi sunmak için titizlikle tasarlandı.',
+    'index.apartments.guests': 'Misafir',
+    'index.apartments.bedroom': 'Yatak Odası',
+    'index.apartments.bedrooms': 'Yatak Odası',
+    'index.apartments.viewDetails': 'Detayları Gör',
+    'index.apartments.viewAll': 'Tüm Apartmanlar',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'Deniz Manzaralı Süit',
+    'index.apt.suite.desc': 'Nefes kesen deniz manzarası sunan zarif süit, çiftler veya yalnız gezginler için ideal.',
+    'index.apt.deluxe.title': 'Deniz Manzaralı Deluxe Süit',
+    'index.apt.deluxe.desc': 'Geliştirilmiş olanaklarla daha geniş ve lüks süit, birinci sınıf deniz manzarası.',
+    'index.apt.superior.title': 'Deniz Manzaralı Superior Süit',
+    'index.apt.superior.desc': 'Ayrı oturma alanı, birinci sınıf olanaklar ve en iyi panoramik manzaralara sahip premium süitimiz.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'Sürükleyici Deneyim',
+    'index.tours.title': 'Sanal Turlar',
+    'index.tours.subtitle': 'Orbi City Batum\'un sanal turuna çıkın ve muhteşem apartmanlarımızı ve tesislerimizi evinizin konforundan keşfedin.',
+    'index.tour.fullTour.title': 'Orbi City Batum - Tam Tur',
+    'index.tour.fullTour.desc': 'Apartmanlar, olanaklar ve muhteşem deniz manzaraları dahil tüm Orbi City kompleksini keşfedin.',
+    'index.tour.interior.title': 'Lüks Apartman İç Mekanı',
+    'index.tour.interior.desc': 'Modern mobilyalar ve panoramik manzaralara sahip güzelce tasarlanmış apartmanlarımızın içine adım atın.',
+    'index.tour.room.title': 'Modern Otel Odası',
+    'index.tour.room.desc': 'Çağdaş mobilyalar ve muhteşem deniz manzaralarıyla zarif tasarlanmış odalarımızı deneyimleyin.',
+    'index.tour.amenities.title': 'Olanaklar ve Tesisler',
+    'index.tour.amenities.desc': 'Havuzlar, spor salonu, restoran ve eğlence alanları dahil dünya standartlarındaki olanaklarımızı gezin.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'Görsel Yolculuk',
+    'index.gallery.title': 'Bizim',
+    'index.gallery.titleHighlight': 'Lüks Dünyamıza Bir Bakış',
+    'index.gallery.viewAll': 'Galeriyi Keşfet',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'Sadakat Programı',
+    'index.loyalty.subtitle': 'Her konaklamada puan kazanın ve özel ödüllerin tadını çıkarın.',
+    'index.loyalty.cta': 'Daha Fazla Bilgi',
+    
+    // Index Page - About Section
+    'index.about.title': 'Keşfedin',
+    'index.about.p1': 'Her apartmanın Karadeniz\'in nefes kesici manzaralarını ve beş yıldızlı konforu sunduğu Orbi City\'de eşsiz lüksü keşfedin.',
+    'index.about.p2': 'Batum\'un kalbinde yer alan hizmetli apartmanlarımız, modern zarafeti olağanüstü misafirperverlikle birleştiriyor. İş veya tatil için, konfor, kolaylık ve kıyı güzelliğinin mükemmel birleşimini yaşayın.',
+    'index.about.amenitiesBtn': 'Olanakları Keşfet',
+    'index.about.locationBtn': 'Konumu Görüntüle',
+    'index.about.rating': 'Misafir Puanı',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'MİSAFİR DENEYİMLERİ',
+    'index.reviews.title': 'Misafirlerimiz',
+    'index.reviews.titleHighlight': 'Ne',
+    'index.reviews.titleEnd': 'Diyor',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'Sahil Kaçışınıza Hazır mısınız?',
+    'index.cta.subtitle': 'Lüks ve konforun mükemmel birleşimini deneyimleyin',
+    'index.cta.button': 'Bugün Bize Ulaşın',
   },
   uk: {
     // Navigation
@@ -2063,6 +2187,68 @@ const translations: Record<Language, Record<string, string>> = {
     'location.cityCenter': 'Центр міста',
     'location.cityCenterDistance': '5 хв на авто',
     'location.cityCenterDesc': 'Район магазинів, ресторанів та розваг',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'Ексклюзивні резиденції',
+    'index.apartments.title': 'Відкрийте для себе',
+    'index.apartments.titleHighlight': 'ідеальний притулок',
+    'index.apartments.subtitle': 'Кожна резиденція ретельно створена для неперевершеного досвіду проживання, де вічна елегантність поєднується з сучасним комфортом.',
+    'index.apartments.guests': 'Гостей',
+    'index.apartments.bedroom': 'Спальня',
+    'index.apartments.bedrooms': 'Спальні',
+    'index.apartments.viewDetails': 'Детальніше',
+    'index.apartments.viewAll': 'Усі апартаменти',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'Люкс з видом на море',
+    'index.apt.suite.desc': 'Елегантний люкс із захоплюючими видами на море, ідеальний для пар або індивідуальних мандрівників.',
+    'index.apt.deluxe.title': 'Делюкс люкс з видом на море',
+    'index.apt.deluxe.desc': 'Більш просторий та розкішний люкс з покращеними зручностями та першокласним видом на море.',
+    'index.apt.superior.title': 'Суперіор люкс з видом на море',
+    'index.apt.superior.desc': 'Наш преміум люкс з окремою житловою зоною, першокласними зручностями та найкращими панорамними видами.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'Захоплюючий досвід',
+    'index.tours.title': 'Віртуальні тури',
+    'index.tours.subtitle': 'Здійсніть віртуальний тур по Orbi City Батумі та досліджуйте наші чудові апартаменти та зручності з комфорту вашого дому.',
+    'index.tour.fullTour.title': 'Orbi City Батумі - Повний тур',
+    'index.tour.fullTour.desc': 'Досліджуйте весь комплекс Orbi City, включаючи апартаменти, зручності та захоплюючі види на море.',
+    'index.tour.interior.title': 'Інтер\'єр розкішного апартаменту',
+    'index.tour.interior.desc': 'Загляньте всередину наших красиво оформлених апартаментів із сучасними меблями та панорамними видами.',
+    'index.tour.room.title': 'Сучасний готельний номер',
+    'index.tour.room.desc': 'Познайомтеся з нашими елегантно оформленими номерами з сучасними меблями та приголомшливими видами на море.',
+    'index.tour.amenities.title': 'Зручності та послуги',
+    'index.tour.amenities.desc': 'Тур нашими першокласними зручностями, включаючи басейни, спортзал, ресторан та розважальні зони.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'Візуальна подорож',
+    'index.gallery.title': 'Погляд на наш',
+    'index.gallery.titleHighlight': 'світ розкоші',
+    'index.gallery.viewAll': 'Переглянути галерею',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'Програма лояльності',
+    'index.loyalty.subtitle': 'Заробляйте бали з кожним проживанням та отримуйте ексклюзивні нагороди.',
+    'index.loyalty.cta': 'Дізнатися більше',
+    
+    // Index Page - About Section
+    'index.about.title': 'Відкрийте',
+    'index.about.p1': 'Відкрийте для себе неперевершену розкіш в Orbi City, де кожен апартамент пропонує захоплюючі види на Чорне море та п\'ятизірковий комфорт.',
+    'index.about.p2': 'Розташовані в серці Батумі, наші апартаменти з обслуговуванням поєднують сучасну елегантність з винятковою гостинністю. Для бізнесу чи відпочинку, насолоджуйтесь ідеальним поєднанням комфорту, зручності та прибережної краси.',
+    'index.about.amenitiesBtn': 'Зручності',
+    'index.about.locationBtn': 'Розташування',
+    'index.about.rating': 'Рейтинг гостей',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'ДОСВІД ГОСТЕЙ',
+    'index.reviews.title': 'Що кажуть',
+    'index.reviews.titleHighlight': 'наші гості',
+    'index.reviews.titleEnd': '',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'Готові до відпочинку біля моря?',
+    'index.cta.subtitle': 'Насолоджуйтесь ідеальним поєднанням розкоші та комфорту в',
+    'index.cta.button': 'Зв\'яжіться з нами',
   },
   ar: {
     // Navigation - Arabic
@@ -2446,6 +2632,68 @@ const translations: Record<Language, Record<string, string>> = {
     'location.cityCenter': 'وسط المدينة',
     'location.cityCenterDistance': '5 دقائق بالسيارة',
     'location.cityCenterDesc': 'منطقة التسوق والمطاعم والترفيه',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'إقامات حصرية',
+    'index.apartments.title': 'اكتشف',
+    'index.apartments.titleHighlight': 'ملاذك المثالي',
+    'index.apartments.subtitle': 'تم تصميم كل إقامة بعناية لتقديم تجربة معيشة لا مثيل لها، حيث تلتقي الأناقة الخالدة بالراحة العصرية.',
+    'index.apartments.guests': 'ضيوف',
+    'index.apartments.bedroom': 'غرفة نوم',
+    'index.apartments.bedrooms': 'غرف نوم',
+    'index.apartments.viewDetails': 'عرض التفاصيل',
+    'index.apartments.viewAll': 'جميع الشقق',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'جناح بإطلالة بحرية',
+    'index.apt.suite.desc': 'جناح أنيق يوفر إطلالات خلابة على البحر، مثالي للأزواج أو المسافرين الفرديين.',
+    'index.apt.deluxe.title': 'جناح ديلوكس بإطلالة بحرية',
+    'index.apt.deluxe.desc': 'جناح أكثر اتساعاً وفخامة مع مرافق محسنة وإطلالة بحرية من الدرجة الأولى.',
+    'index.apt.superior.title': 'جناح سوبريور بإطلالة بحرية',
+    'index.apt.superior.desc': 'جناحنا المتميز مع منطقة معيشة منفصلة ومرافق من الدرجة الأولى وأفضل الإطلالات البانورامية.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'تجربة غامرة',
+    'index.tours.title': 'جولات افتراضية',
+    'index.tours.subtitle': 'قم بجولة افتراضية في أوربي سيتي باتومي واستكشف شققنا ومرافقنا المذهلة من راحة منزلك.',
+    'index.tour.fullTour.title': 'أوربي سيتي باتومي - جولة كاملة',
+    'index.tour.fullTour.desc': 'استكشف مجمع أوربي سيتي بأكمله، بما في ذلك الشقق والمرافق وإطلالات البحر الخلابة.',
+    'index.tour.interior.title': 'داخلية الشقة الفاخرة',
+    'index.tour.interior.desc': 'ادخل إلى شققنا المصممة بشكل جميل مع أثاث حديث وإطلالات بانورامية.',
+    'index.tour.room.title': 'غرفة فندق عصرية',
+    'index.tour.room.desc': 'اختبر غرفنا المصممة بأناقة مع أثاث معاصر وإطلالات بحرية مذهلة.',
+    'index.tour.amenities.title': 'المرافق والخدمات',
+    'index.tour.amenities.desc': 'جولة في مرافقنا ذات المستوى العالمي بما في ذلك المسابح والصالة الرياضية والمطعم ومناطق الترفيه.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'رحلة بصرية',
+    'index.gallery.title': 'لمحة عن',
+    'index.gallery.titleHighlight': 'عالمنا الفاخر',
+    'index.gallery.viewAll': 'استكشف المعرض',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'برنامج الولاء',
+    'index.loyalty.subtitle': 'اكسب نقاطاً مع كل إقامة واستمتع بمكافآت حصرية.',
+    'index.loyalty.cta': 'اعرف المزيد',
+    
+    // Index Page - About Section
+    'index.about.title': 'اكتشف',
+    'index.about.p1': 'اكتشف الفخامة التي لا مثيل لها في أوربي سيتي، حيث تقدم كل شقة إطلالات خلابة على البحر الأسود وراحة خمس نجوم.',
+    'index.about.p2': 'تقع في قلب باتومي، شققنا المخدومة تجمع بين الأناقة العصرية والضيافة الاستثنائية. للعمل أو الترفيه، استمتع بالمزيج المثالي من الراحة والملاءمة وجمال الساحل.',
+    'index.about.amenitiesBtn': 'المرافق',
+    'index.about.locationBtn': 'الموقع',
+    'index.about.rating': 'تقييم الضيوف',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'تجارب الضيوف',
+    'index.reviews.title': 'ماذا يقول',
+    'index.reviews.titleHighlight': 'ضيوفنا',
+    'index.reviews.titleEnd': '',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'هل أنت مستعد لإجازتك الساحلية؟',
+    'index.cta.subtitle': 'استمتع بالمزيج المثالي من الفخامة والراحة في',
+    'index.cta.button': 'تواصل معنا اليوم',
   },
   zh: {
     // Navigation - Chinese
@@ -2829,6 +3077,68 @@ const translations: Record<Language, Record<string, string>> = {
     'location.cityCenter': '市中心',
     'location.cityCenterDistance': '开车5分钟',
     'location.cityCenterDesc': '购物、餐饮和娱乐区',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': '尊贵住宅',
+    'index.apartments.title': '发现您的',
+    'index.apartments.titleHighlight': '完美避风港',
+    'index.apartments.subtitle': '每处住宅都经过精心打造，提供无与伦比的居住体验，将永恒的优雅与现代舒适完美融合。',
+    'index.apartments.guests': '客人',
+    'index.apartments.bedroom': '卧室',
+    'index.apartments.bedrooms': '卧室',
+    'index.apartments.viewDetails': '查看详情',
+    'index.apartments.viewAll': '查看所有公寓',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': '海景套房',
+    'index.apt.suite.desc': '优雅的套房，可欣赏壮丽的海景，非常适合情侣或独行旅客。',
+    'index.apt.deluxe.title': '豪华海景套房',
+    'index.apt.deluxe.desc': '更宽敞豪华的套房，设施更完善，享有一流的海景。',
+    'index.apt.superior.title': '高级海景套房',
+    'index.apt.superior.desc': '我们的高级套房设有独立起居区、顶级设施和最佳全景视野。',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': '沉浸式体验',
+    'index.tours.title': '虚拟之旅',
+    'index.tours.subtitle': '参加奥比城巴统的虚拟之旅，在家中舒适地探索我们令人惊叹的公寓和设施。',
+    'index.tour.fullTour.title': '奥比城巴统 - 完整之旅',
+    'index.tour.fullTour.desc': '探索整个奥比城综合体，包括公寓、设施和壮丽的海景。',
+    'index.tour.interior.title': '豪华公寓内部',
+    'index.tour.interior.desc': '走进我们精美设计的公寓，配备现代家具和全景视野。',
+    'index.tour.room.title': '现代酒店客房',
+    'index.tour.room.desc': '体验我们优雅设计的客房，配备当代家具和壮丽的海景。',
+    'index.tour.amenities.title': '设施与服务',
+    'index.tour.amenities.desc': '参观我们世界级的设施，包括游泳池、健身房、餐厅和娱乐区。',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': '视觉之旅',
+    'index.gallery.title': '一窥我们的',
+    'index.gallery.titleHighlight': '奢华世界',
+    'index.gallery.viewAll': '探索完整画廊',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': '忠诚计划',
+    'index.loyalty.subtitle': '每次入住均可赚取积分，享受独家奖励。',
+    'index.loyalty.cta': '了解更多',
+    
+    // Index Page - About Section
+    'index.about.title': '发现',
+    'index.about.p1': '在奥比城发现无与伦比的奢华，每间公寓都可欣赏黑海的壮丽景色和五星级舒适体验。',
+    'index.about.p2': '位于巴统市中心，我们的服务式公寓将现代优雅与卓越的热情好客相结合。无论是商务还是休闲，都能体验舒适、便利和海岸美景的完美融合。',
+    'index.about.amenitiesBtn': '探索设施',
+    'index.about.locationBtn': '查看位置',
+    'index.about.rating': '客人评分',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': '客人体验',
+    'index.reviews.title': '我们的',
+    'index.reviews.titleHighlight': '客人',
+    'index.reviews.titleEnd': '怎么说',
+    
+    // Index Page - CTA Section
+    'index.cta.title': '准备好您的海滨度假了吗？',
+    'index.cta.subtitle': '在奥比城体验奢华与舒适的完美结合',
+    'index.cta.button': '今天联系我们',
   },
   de: {
     // Navigation - German
@@ -3212,6 +3522,68 @@ const translations: Record<Language, Record<string, string>> = {
     'location.cityCenter': 'Stadtzentrum',
     'location.cityCenterDistance': '5 Min. mit dem Auto',
     'location.cityCenterDesc': 'Einkaufs-, Gastronomie- und Unterhaltungsviertel',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'Exklusive Residenzen',
+    'index.apartments.title': 'Entdecken Sie Ihr',
+    'index.apartments.titleHighlight': 'perfektes Refugium',
+    'index.apartments.subtitle': 'Jede Residenz wurde sorgfältig gestaltet, um ein unvergleichliches Wohnerlebnis zu bieten, bei dem zeitlose Eleganz auf modernen Komfort trifft.',
+    'index.apartments.guests': 'Gäste',
+    'index.apartments.bedroom': 'Schlafzimmer',
+    'index.apartments.bedrooms': 'Schlafzimmer',
+    'index.apartments.viewDetails': 'Details ansehen',
+    'index.apartments.viewAll': 'Alle Apartments',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'Suite mit Meerblick',
+    'index.apt.suite.desc': 'Eine elegante Suite mit atemberaubendem Meerblick, perfekt für Paare oder Alleinreisende.',
+    'index.apt.deluxe.title': 'Deluxe Suite mit Meerblick',
+    'index.apt.deluxe.desc': 'Eine geräumigere und luxuriösere Suite mit erweiterten Annehmlichkeiten und erstklassigem Meerblick.',
+    'index.apt.superior.title': 'Superior Suite mit Meerblick',
+    'index.apt.superior.desc': 'Unsere Premium-Suite mit separatem Wohnbereich, erstklassigen Annehmlichkeiten und den besten Panoramablicken.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'Immersives Erlebnis',
+    'index.tours.title': 'Virtuelle Touren',
+    'index.tours.subtitle': 'Machen Sie eine virtuelle Tour durch Orbi City Batumi und erkunden Sie unsere atemberaubenden Apartments und Einrichtungen von zu Hause aus.',
+    'index.tour.fullTour.title': 'Orbi City Batumi - Komplette Tour',
+    'index.tour.fullTour.desc': 'Erkunden Sie den gesamten Orbi City Komplex, einschließlich Apartments, Einrichtungen und atemberaubender Meerblicke.',
+    'index.tour.interior.title': 'Luxus-Apartment-Interieur',
+    'index.tour.interior.desc': 'Betreten Sie unsere wunderschön gestalteten Apartments mit modernen Möbeln und Panoramablick.',
+    'index.tour.room.title': 'Modernes Hotelzimmer',
+    'index.tour.room.desc': 'Erleben Sie unsere elegant gestalteten Zimmer mit zeitgenössischen Möbeln und atemberaubendem Meerblick.',
+    'index.tour.amenities.title': 'Einrichtungen & Ausstattung',
+    'index.tour.amenities.desc': 'Tour durch unsere erstklassigen Einrichtungen, darunter Pools, Fitnessstudio, Restaurant und Unterhaltungsbereiche.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'Visuelle Reise',
+    'index.gallery.title': 'Ein Blick in unsere',
+    'index.gallery.titleHighlight': 'Welt des Luxus',
+    'index.gallery.viewAll': 'Galerie erkunden',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'Treueprogramm',
+    'index.loyalty.subtitle': 'Sammeln Sie Punkte bei jedem Aufenthalt und genießen Sie exklusive Prämien.',
+    'index.loyalty.cta': 'Mehr erfahren',
+    
+    // Index Page - About Section
+    'index.about.title': 'Entdecken',
+    'index.about.p1': 'Entdecken Sie unvergleichlichen Luxus im Orbi City, wo jedes Apartment atemberaubende Aussichten auf das Schwarze Meer und Fünf-Sterne-Komfort bietet.',
+    'index.about.p2': 'Im Herzen von Batumi gelegen, verbinden unsere Serviced Apartments moderne Eleganz mit außergewöhnlicher Gastfreundschaft. Ob für Geschäft oder Freizeit, erleben Sie die perfekte Mischung aus Komfort, Bequemlichkeit und Küstenschönheit.',
+    'index.about.amenitiesBtn': 'Ausstattung erkunden',
+    'index.about.locationBtn': 'Lage ansehen',
+    'index.about.rating': 'Gästebewertung',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'GÄSTEERLEBNISSE',
+    'index.reviews.title': 'Was unsere',
+    'index.reviews.titleHighlight': 'Gäste',
+    'index.reviews.titleEnd': 'sagen',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'Bereit für Ihren Strandurlaub?',
+    'index.cta.subtitle': 'Erleben Sie die perfekte Mischung aus Luxus und Komfort in',
+    'index.cta.button': 'Kontaktieren Sie uns heute',
   },
   fr: {
     // Navigation - French
@@ -3595,6 +3967,68 @@ const translations: Record<Language, Record<string, string>> = {
     'location.cityCenter': 'Centre-ville',
     'location.cityCenterDistance': '5 min en voiture',
     'location.cityCenterDesc': 'Quartier des commerces, restaurants et divertissements',
+    
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'Résidences Exclusives',
+    'index.apartments.title': 'Découvrez votre',
+    'index.apartments.titleHighlight': 'refuge parfait',
+    'index.apartments.subtitle': 'Chaque résidence est méticuleusement conçue pour offrir une expérience de vie inégalée, où l\'élégance intemporelle rencontre le confort moderne.',
+    'index.apartments.guests': 'Invités',
+    'index.apartments.bedroom': 'Chambre',
+    'index.apartments.bedrooms': 'Chambres',
+    'index.apartments.viewDetails': 'Voir les détails',
+    'index.apartments.viewAll': 'Tous les appartements',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'Suite avec vue mer',
+    'index.apt.suite.desc': 'Une suite élégante offrant des vues imprenables sur la mer, parfaite pour les couples ou les voyageurs solo.',
+    'index.apt.deluxe.title': 'Suite Deluxe avec vue mer',
+    'index.apt.deluxe.desc': 'Une suite plus spacieuse et luxueuse avec des équipements améliorés et une vue mer de premier ordre.',
+    'index.apt.superior.title': 'Suite Supérieure avec vue mer',
+    'index.apt.superior.desc': 'Notre suite premium avec un salon séparé, des équipements de premier ordre et les meilleures vues panoramiques.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'Expérience Immersive',
+    'index.tours.title': 'Visites Virtuelles',
+    'index.tours.subtitle': 'Faites une visite virtuelle d\'Orbi City Batoumi et explorez nos magnifiques appartements et installations depuis le confort de votre maison.',
+    'index.tour.fullTour.title': 'Orbi City Batoumi - Visite Complète',
+    'index.tour.fullTour.desc': 'Explorez l\'ensemble du complexe Orbi City, y compris les appartements, les installations et les superbes vues sur la mer.',
+    'index.tour.interior.title': 'Intérieur d\'Appartement de Luxe',
+    'index.tour.interior.desc': 'Entrez dans nos appartements magnifiquement conçus avec un mobilier moderne et des vues panoramiques.',
+    'index.tour.room.title': 'Chambre d\'Hôtel Moderne',
+    'index.tour.room.desc': 'Découvrez nos chambres élégamment conçues avec un mobilier contemporain et de superbes vues sur la mer.',
+    'index.tour.amenities.title': 'Équipements et Services',
+    'index.tour.amenities.desc': 'Visite de nos équipements de classe mondiale, y compris les piscines, la salle de sport, le restaurant et les espaces de divertissement.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'Voyage Visuel',
+    'index.gallery.title': 'Un aperçu de notre',
+    'index.gallery.titleHighlight': 'monde de luxe',
+    'index.gallery.viewAll': 'Explorer la galerie',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'Programme de Fidélité',
+    'index.loyalty.subtitle': 'Gagnez des points à chaque séjour et profitez de récompenses exclusives.',
+    'index.loyalty.cta': 'En savoir plus',
+    
+    // Index Page - About Section
+    'index.about.title': 'Découvrez',
+    'index.about.p1': 'Découvrez un luxe inégalé à Orbi City, où chaque appartement offre des vues imprenables sur la mer Noire et un confort cinq étoiles.',
+    'index.about.p2': 'Situé au cœur de Batoumi, nos appartements avec services combinent l\'élégance moderne avec une hospitalité exceptionnelle. Pour les affaires ou les loisirs, vivez le mélange parfait de confort, de commodité et de beauté côtière.',
+    'index.about.amenitiesBtn': 'Explorer les équipements',
+    'index.about.locationBtn': 'Voir l\'emplacement',
+    'index.about.rating': 'Note des clients',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'EXPÉRIENCES CLIENTS',
+    'index.reviews.title': 'Ce que disent',
+    'index.reviews.titleHighlight': 'nos clients',
+    'index.reviews.titleEnd': '',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'Prêt pour votre escapade balnéaire ?',
+    'index.cta.subtitle': 'Vivez le mélange parfait de luxe et de confort à',
+    'index.cta.button': 'Contactez-nous aujourd\'hui',
   },
 };
 
