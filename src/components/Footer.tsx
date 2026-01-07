@@ -1,7 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp, Download } from 'lucide-react';
-import logo from '@/assets/logo.jpg';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackLead } from '@/lib/tracking';
@@ -15,16 +14,27 @@ export const Footer = () => {
   };
 
   return (
-    <footer id="footer" className="bg-white relative overflow-hidden border-t border-gray-200">
-      {/* Subtle Top Border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+    <footer id="footer" className="bg-gradient-to-b from-primary to-primary/95 relative overflow-hidden">
+      {/* Gold Gradient Top Border */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
+      
+      {/* Decorative Gold Lines */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-gold-600/0 via-gold-400/50 to-gold-600/0" />
       
       {/* Main Footer Content - Manus Style */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Column 1: Brand Description */}
           <div className="lg:col-span-1">
-            <p className="text-gray-500 leading-relaxed text-sm">
+            <div className="mb-6">
+              <span className="text-3d-gold-glow text-2xl font-serif font-normal tracking-wider block">
+                ORBI CITY
+              </span>
+              <span className="text-3d-gold text-[10px] tracking-[0.3em] uppercase">
+                Batumi
+              </span>
+            </div>
+            <p className="text-white/70 leading-relaxed text-sm">
               Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking Black Sea views and five-star comfort.
             </p>
           </div>
@@ -45,7 +55,7 @@ export const Footer = () => {
                 <li key={link.to}>
                   <Link 
                     to={link.to} 
-                    className="text-gray-500 hover:text-[#1e3a5f] transition-colors duration-300 text-sm"
+                    className="text-white/70 hover:text-gold-400 transition-colors duration-300 text-sm"
                   >
                     {link.label}
                   </Link>
@@ -67,7 +77,7 @@ export const Footer = () => {
                 <li key={link.to}>
                   <Link 
                     to={link.to} 
-                    className="text-gray-500 hover:text-[#1e3a5f] transition-colors duration-300 text-sm"
+                    className="text-white/70 hover:text-gold-400 transition-colors duration-300 text-sm"
                   >
                     {link.label}
                   </Link>
@@ -78,7 +88,7 @@ export const Footer = () => {
 
           {/* Column 4: Contact */}
           <div>
-            <ul className="space-y-3 text-sm text-gray-500">
+            <ul className="space-y-3 text-sm text-white/70">
               <li>
                 <span className="block">7B Sherif Khimshiashvili Str, Orbi City, Batumi</span>
               </li>
@@ -93,11 +103,11 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar with Social Links */}
-        <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <img src={logo} alt="Orbi City Batumi" className="h-10 w-10 rounded-lg" />
-            <span className="text-[#1e3a5f] font-semibold tracking-wide">ORBI CITY</span>
+        <div className="mt-12 pt-8 border-t border-gold-400/30 flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Logo Text Only */}
+          <div className="flex items-center gap-2">
+            <span className="text-3d-gold-glow font-serif font-semibold tracking-wider text-lg">ORBI CITY</span>
+            <span className="text-3d-gold text-xs tracking-wider">BATUMI</span>
           </div>
 
           {/* Social Links */}
@@ -150,7 +160,7 @@ export const Footer = () => {
           </div>
 
           {/* Copyright */}
-          <p className="text-gray-400 text-xs">
+          <p className="text-white/50 text-xs">
             © {new Date().getFullYear()} Orbi City Batumi
           </p>
         </div>
