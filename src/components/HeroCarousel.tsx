@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, ChevronDown } from 'lucide-react';
-import { useWhatsApp } from '@/hooks/useWhatsApp';
-import { trackLead } from '@/lib/tracking';
+import { ChevronDown } from 'lucide-react';
 
 const heroVideos = [
   '/videos/hero-1.mp4',
@@ -18,7 +16,6 @@ const VIDEO_DURATION = 3; // 3 seconds per video
 
 export const HeroCarousel = () => {
   const { t } = useLanguage();
-  const { whatsappUrl } = useWhatsApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -51,17 +48,6 @@ export const HeroCarousel = () => {
       }
     });
   }, [currentIndex, isPlaying]);
-
-  const handleWhatsAppClick = () => {
-    trackLead({
-      content_name: 'WhatsApp Click - Hero',
-      form_name: 'WhatsApp Button',
-    });
-  };
-
-  const getWhatsAppMessage = () => {
-    return 'გამარჯობა! მაინტერესებს ინფორმაცია ოთახების შესახებ Orbi City Batumi-ში. გთხოვთ დამეხმაროთ.';
-  };
 
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
@@ -109,29 +95,14 @@ export const HeroCarousel = () => {
           <ChevronDown className="w-6 h-6 text-white/60" strokeWidth={1.5} />
         </div>
 
-        {/* CTAs - Manus Style: Black & Green buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+        {/* CTA - Manus Style: Black button only */}
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <Button
             size="lg"
             onClick={() => document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth' })}
             className="bg-black hover:bg-black/90 text-white font-semibold text-sm tracking-wider px-10 py-6 rounded-sm shadow-lg uppercase"
           >
             BOOK NOW/<em className="not-italic font-light">Pay Later</em>
-          </Button>
-          <Button
-            asChild
-            size="lg"
-            className="bg-success hover:bg-success/90 text-white font-semibold text-sm tracking-wide px-10 py-6 rounded-sm shadow-lg"
-          >
-            <a 
-              href={`${whatsappUrl}?text=${encodeURIComponent(getWhatsAppMessage())}`}
-              target="_blank" 
-              rel="noopener noreferrer"
-              onClick={handleWhatsAppClick}
-            >
-              <MessageCircle className="w-5 h-5 mr-2" />
-              WhatsApp
-            </a>
           </Button>
         </div>
       </div>
