@@ -58,6 +58,68 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.blog': 'Blog',
     'nav.admin': 'Admin',
     
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'Exclusive Residences',
+    'index.apartments.title': 'Discover Your',
+    'index.apartments.titleHighlight': 'Perfect Sanctuary',
+    'index.apartments.subtitle': 'Each residence is meticulously crafted to offer an unparalleled living experience, where timeless elegance meets contemporary comfort.',
+    'index.apartments.guests': 'Guests',
+    'index.apartments.bedroom': 'Bedroom',
+    'index.apartments.bedrooms': 'Bedrooms',
+    'index.apartments.viewDetails': 'View Details',
+    'index.apartments.viewAll': 'View All Apartments',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'Suite with Sea View',
+    'index.apt.suite.desc': 'An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.',
+    'index.apt.deluxe.title': 'Deluxe Suite with Sea View',
+    'index.apt.deluxe.desc': 'A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.',
+    'index.apt.superior.title': 'Superior Suite with Sea View',
+    'index.apt.superior.desc': 'Our premium suite featuring a separate living area, top-tier amenities, and the best panoramic views of the sea.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'Immersive Experience',
+    'index.tours.title': 'Virtual Tours',
+    'index.tours.subtitle': 'Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.',
+    'index.tour.fullTour.title': 'Orbi City Batumi - Full Tour',
+    'index.tour.fullTour.desc': 'Explore the entire Orbi City complex, including apartments, amenities, and stunning sea views.',
+    'index.tour.interior.title': 'Luxury Apartment Interior',
+    'index.tour.interior.desc': 'Step inside our beautifully designed apartments with modern furnishings and panoramic views.',
+    'index.tour.room.title': 'Modern Hotel Room',
+    'index.tour.room.desc': 'Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.',
+    'index.tour.amenities.title': 'Amenities & Facilities',
+    'index.tour.amenities.desc': 'Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'Visual Journey',
+    'index.gallery.title': 'A Glimpse into Our',
+    'index.gallery.titleHighlight': 'World of Luxury',
+    'index.gallery.viewAll': 'Explore Full Gallery',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'Loyalty Program',
+    'index.loyalty.subtitle': 'Earn points with every stay and enjoy exclusive rewards.',
+    'index.loyalty.cta': 'Learn More',
+    
+    // Index Page - About Section
+    'index.about.title': 'Discover',
+    'index.about.p1': 'Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking Black Sea views and five-star comfort.',
+    'index.about.p2': 'Located in the heart of Batumi, our serviced apartments combine modern elegance with exceptional hospitality. Whether you\'re here for business or leisure, experience the perfect blend of comfort, convenience, and coastal beauty.',
+    'index.about.amenitiesBtn': 'Explore Amenities',
+    'index.about.locationBtn': 'View Location',
+    'index.about.rating': 'Guest Rating',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'GUEST EXPERIENCES',
+    'index.reviews.title': 'What Our',
+    'index.reviews.titleHighlight': 'Guests',
+    'index.reviews.titleEnd': 'Say',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'Ready for Your Seaside Escape?',
+    'index.cta.subtitle': 'Experience the perfect blend of luxury and comfort at',
+    'index.cta.button': 'Contact Us Today',
+
     // Index Videos Section
     'index.videos.title': 'Explore Our Property Tours',
     'index.videos.subtitle': 'Watch our latest videos showcasing the beauty and luxury of Orbi City Batumi',
@@ -363,6 +425,68 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.blog': 'ბლოგი',
     'nav.admin': 'ადმინი',
     
+    // Index Page - Apartments Section
+    'index.apartments.badge': 'ექსკლუზიური რეზიდენციები',
+    'index.apartments.title': 'აღმოაჩინე შენი',
+    'index.apartments.titleHighlight': 'იდეალური თავშესაფარი',
+    'index.apartments.subtitle': 'თითოეული რეზიდენცია ზედმიწევნით შექმნილია შეუდარებელი საცხოვრებელი გამოცდილების შესატანებლად, სადაც მარადიული ელეგანტურობა თანამედროვე კომფორტს ხვდება.',
+    'index.apartments.guests': 'სტუმარი',
+    'index.apartments.bedroom': 'საძინებელი',
+    'index.apartments.bedrooms': 'საძინებელი',
+    'index.apartments.viewDetails': 'იხილე დეტალები',
+    'index.apartments.viewAll': 'ყველა აპარტამენტის ნახვა',
+    
+    // Index Page - Apartment Cards
+    'index.apt.suite.title': 'სუიტი ზღვის ხედით',
+    'index.apt.suite.desc': 'ელეგანტური სუიტი ზღვის თვალწარმტაცი ხედებით, იდეალური წყვილებისთვის ან მოგზაურებისთვის, რომლებიც მშვიდ თავშესაფარს ეძებენ.',
+    'index.apt.deluxe.title': 'დელუქს სუიტი ზღვის ხედით',
+    'index.apt.deluxe.desc': 'უფრო ვრცელი და ლუქსუზური სუიტი გაუმჯობესებული სერვისებით და პრიმიუმ ზღვის ხედით, განკუთვნილი განსაკუთრებული დასვენებისთვის.',
+    'index.apt.superior.title': 'სუპერიორ სუიტი ზღვის ხედით',
+    'index.apt.superior.desc': 'ჩვენი პრემიუმ სუიტი ცალკე საცხოვრებელი ზონით, უმაღლესი დონის სერვისებით და ზღვის საუკეთესო პანორამული ხედებით.',
+    
+    // Index Page - Virtual Tours Section
+    'index.tours.badge': 'განსაკუთრებული გამოცდილება',
+    'index.tours.title': 'ვირტუალური ტურები',
+    'index.tours.subtitle': 'გაიარეთ ვირტუალური ტური Orbi City Batumi-ში და დაათვალიერეთ ჩვენი შესანიშნავი აპარტამენტები და სერვისები სახლის კომფორტიდან.',
+    'index.tour.fullTour.title': 'Orbi City Batumi - სრული ტური',
+    'index.tour.fullTour.desc': 'დაათვალიერეთ მთლიანი Orbi City კომპლექსი, მათ შორის აპარტამენტები, სერვისები და თვალწარმტაცი ზღვის ხედები.',
+    'index.tour.interior.title': 'ლუქს აპარტამენტის ინტერიერი',
+    'index.tour.interior.desc': 'შეხედეთ ჩვენს ლამაზად გაფორმებულ აპარტამენტებს თანამედროვე ავეჯითა და პანორამული ხედებით.',
+    'index.tour.room.title': 'თანამედროვე სასტუმრო ოთახი',
+    'index.tour.room.desc': 'განიცადეთ ჩვენი ელეგანტურად გაფორმებული ოთახები თანამედროვე ავეჯითა და თვალწარმტაცი ზღვის ხედებით.',
+    'index.tour.amenities.title': 'სერვისები და ობიექტები',
+    'index.tour.amenities.desc': 'დაათვალიერეთ ჩვენი მსოფლიო დონის სერვისები, მათ შორის აუზები, სპორტული დარბაზი, რესტორანი და გართობის ზონები.',
+    
+    // Index Page - Gallery Section
+    'index.gallery.badge': 'ვიზუალური მოგზაურობა',
+    'index.gallery.title': 'ჩვენი',
+    'index.gallery.titleHighlight': 'ლუქსის სამყაროს ერთი შეხედვა',
+    'index.gallery.viewAll': 'სრული გალერეის დათვალიერება',
+    
+    // Index Page - Loyalty Section
+    'index.loyalty.title': 'ლოიალობის პროგრამა',
+    'index.loyalty.subtitle': 'დააგროვეთ ქულები ყოველი დაჯავშნისას და ისიამოვნეთ ექსკლუზიური ჯილდოებით.',
+    'index.loyalty.cta': 'მეტის გაგება',
+    
+    // Index Page - About Section
+    'index.about.title': 'აღმოაჩინე',
+    'index.about.p1': 'აღმოაჩინეთ შეუდარებელი ფუფუნება Orbi City-ში, სადაც ყველა აპარტამენტი გთავაზობთ თვალწარმტაც შავი ზღვის ხედებს და ხუთვარსკვლავიან კომფორტს.',
+    'index.about.p2': 'ბათუმის გულში მდებარეობს, ჩვენი სერვისული აპარტამენტები აერთიანებს თანამედროვე ელეგანტურობას განსაკუთრებულ სტუმართმოყვარეობასთან. იქნებით ბიზნესით თუ დასასვენებლად, განიცადეთ კომფორტის, მოხერხებულობისა და სანაპირო სილამაზის სრულყოფილი შერწყმა.',
+    'index.about.amenitiesBtn': 'სერვისების დათვალიერება',
+    'index.about.locationBtn': 'ლოკაციის ნახვა',
+    'index.about.rating': 'სტუმრების შეფასება',
+    
+    // Index Page - Reviews Section
+    'index.reviews.badge': 'სტუმრების გამოცდილება',
+    'index.reviews.title': 'რას ამბობენ ჩვენი',
+    'index.reviews.titleHighlight': 'სტუმრები',
+    'index.reviews.titleEnd': '',
+    
+    // Index Page - CTA Section
+    'index.cta.title': 'მზად ხარ სანაპირო თავგადასავლისთვის?',
+    'index.cta.subtitle': 'განიცადე ფუფუნებისა და კომფორტის სრულყოფილი შერწყმა',
+    'index.cta.button': 'დაგვიკავშირდით დღეს',
+
     // Index Videos Section
     'index.videos.title': 'გაეცანით ჩვენს ობიექტის ტურებს',
     'index.videos.subtitle': 'ნახეთ ჩვენი უახლესი ვიდეოები, რომლებიც წარმოაჩენს Orbi City Batumi-ს სილამაზეს და ფუფუნებას',
