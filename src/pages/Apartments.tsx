@@ -198,7 +198,7 @@ const Apartments = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   onClick={() => handleApartmentView(apt)}
-                  className="group bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+                  className="group bg-card rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-500 hover:scale-[1.02] border-2 border-transparent hover:border-gold-400/60 hover:shadow-[0_0_30px_rgba(212,175,55,0.4),_0_0_60px_rgba(212,175,55,0.2),_inset_0_0_20px_rgba(212,175,55,0.1)] relative before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-gold-400/0 before:via-gold-400/10 before:to-gold-400/0 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 before:pointer-events-none before:z-10"
                 >
                   {/* Image Container */}
                   <div className="relative h-64 overflow-hidden">
