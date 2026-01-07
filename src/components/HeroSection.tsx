@@ -141,16 +141,18 @@ export const HeroSection = () => {
         {/* Luxury Badge */}
         <div className="mb-4 md:mb-8 animate-fade-in-down">
           <span className="inline-flex items-center gap-1.5 md:gap-2 px-4 md:px-6 py-1.5 md:py-2 bg-white/10 backdrop-blur-sm rounded-full border border-gold-400/30">
-            <span className="text-gold-400 text-xs md:text-sm">★★★★★</span>
+            <span className="text-3d-gold text-xs md:text-sm">★★★★★</span>
             <span className="text-white/90 text-xs md:text-sm font-light tracking-wider">LUXURY APARTHOTEL</span>
           </span>
         </div>
 
-        {/* Main Title - Responsive sizes */}
+        {/* Main Title - 3D Gold Effect */}
         <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-light text-white mb-4 md:mb-6 hero-text-shadow animate-fade-in-up">
           <span className="block">{t('hero.title').split(' ').slice(0, 2).join(' ')}</span>
-          <span className="block text-gold-400 font-normal mt-1 md:mt-2">
-            {t('hero.title').split(' ').slice(2).join(' ') || 'Seaside Escape'}
+          <span className="block mt-1 md:mt-2 hero-title-3d text-3d-gold-float">
+            <span className="text-3d-gold-glow font-normal">
+              {t('hero.title').split(' ').slice(2).join(' ') || 'Seaside Escape'}
+            </span>
           </span>
         </h1>
 
