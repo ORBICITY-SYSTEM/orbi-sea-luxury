@@ -86,13 +86,22 @@ function BookingCalendar({
           const price = prices[dateKey] || basePrice;
           const isPast = isBefore(date, today);
           const isOutside = date.getMonth() !== displayMonth.getMonth();
+          const hasPrice = price > 0 && !isPast && !isOutside;
           
           return (
-            <div className="flex flex-col items-center justify-center gap-0.5">
-              <span>{date.getDate()}</span>
-              {price > 0 && !isPast && !isOutside && (
-                <span className="text-[8px] font-semibold text-primary/80 leading-none">
-                  {price}
+            <div 
+              className={cn(
+                "flex flex-col items-center justify-center gap-0.5 w-full h-full rounded-md transition-all duration-300",
+                hasPrice && "bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10 hover:from-primary/20 hover:via-primary/10 hover:to-accent/20 shadow-sm"
+              )}
+            >
+              <span className={cn(
+                "font-medium",
+                hasPrice && "text-primary"
+              )}>{date.getDate()}</span>
+              {hasPrice && (
+                <span className="text-[9px] font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-none">
+                  {currency}{price}
                 </span>
               )}
             </div>
