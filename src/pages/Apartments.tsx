@@ -241,17 +241,22 @@ const Apartments = () => {
                       </div>
                     </div>
 
-                    {/* Book Now Button */}
-                    <Button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openBookingModal(apt.id);
-                      }}
-                      className="w-full group/btn bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300"
-                    >
-                      <CreditCard className="w-4 h-4 mr-2" />
-                      <span>{t('apartments.bookNow')}</span>
-                    </Button>
+                    {/* Book Now Button with Trust Badges */}
+                    <div className="flex flex-col items-center">
+                      <Button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openBookingModal(apt.id);
+                        }}
+                        className="w-full group/btn bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300"
+                      >
+                        <CreditCard className="w-4 h-4 mr-2" />
+                        <span>{t('apartments.bookNow')}</span>
+                      </Button>
+                      <p className="mt-2 text-muted-foreground text-xs font-light italic tracking-wide">
+                        <span className="text-gold-500">✓</span> Free Cancellation · <span className="text-gold-500">✓</span> Pay Later
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -278,14 +283,19 @@ const Apartments = () => {
           <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
             {t('apartments.cta.subtitle')}
           </p>
-          <Button 
-            size="lg"
-            onClick={() => openBookingModal()}
-            className="bg-white hover:bg-white/90 text-[#1e3a5f] font-bold px-8 py-6 text-lg transition-all duration-300"
-          >
-            <CreditCard className="w-5 h-5 mr-2" />
-            {t('apartments.cta.button')}
-          </Button>
+          <div className="flex flex-col items-center">
+            <Button 
+              size="lg"
+              onClick={() => openBookingModal()}
+              className="bg-white hover:bg-white/90 text-[#1e3a5f] font-bold px-8 py-6 text-lg transition-all duration-300"
+            >
+              <CreditCard className="w-5 h-5 mr-2" />
+              {t('apartments.cta.button')}
+            </Button>
+            <p className="mt-3 text-white/70 text-sm font-light italic tracking-wide">
+              <span className="text-gold-400">✓</span> Free Cancellation · <span className="text-gold-400">✓</span> Pay Later
+            </p>
+          </div>
         </div>
       </section>
     </Layout>
