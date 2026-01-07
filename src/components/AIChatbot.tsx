@@ -1,18 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles, CalendarCheck } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles, CalendarCheck, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChatBookingForm } from './ChatBookingForm';
+import { ChatRegistrationForm } from './ChatRegistrationForm';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   showBookingForm?: boolean;
+  showRegistrationForm?: boolean;
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
@@ -27,9 +30,12 @@ export const AIChatbot = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [hasShownRegistrationOffer, setHasShownRegistrationOffer] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, t } = useLanguage();
+  const { user } = useAuth();
 
   // Check if message contains booking intent
   const hasBookingIntent = (text: string) => {
@@ -37,18 +43,40 @@ export const AIChatbot = () => {
     return keywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
   };
 
-  // Quick reply suggestions
+  // Quick reply suggestions - include registration offer for non-logged users
   const quickReplies = language === 'ka' ? [
     { text: '🏠 აპარტამენტები', message: 'რა ტიპის აპარტამენტები გაქვთ?' },
     { text: '💰 ფასები', message: 'რა ფასები გაქვთ?' },
     { text: '📅 დაჯავშნა', message: 'მინდა დავჯავშნო აპარტამენტი' },
-    { text: '🏊 კეთილმოწყობილობები', message: 'რა კეთილმოწყობილობები გაქვთ?' },
+    ...(!user ? [{ text: '🎁 20₾ ვაუჩერი', message: 'მინდა 20 ლარის ვაუჩერი' }] : []),
   ] : [
     { text: '🏠 Apartments', message: 'What types of apartments do you have?' },
     { text: '💰 Prices', message: 'What are your prices?' },
     { text: '📅 Book Now', message: 'I want to book an apartment' },
-    { text: '🏊 Amenities', message: 'What amenities do you have?' },
+    ...(!user ? [{ text: '🎁 20₾ Voucher', message: 'I want the 20 GEL voucher' }] : []),
   ];
+
+  // Show registration offer when chat opens for non-logged users
+  useEffect(() => {
+    if (isOpen && !user && !hasShownRegistrationOffer && messages.length === 0) {
+      // Show registration offer after a short delay
+      const timer = setTimeout(() => {
+        const registrationOffer = language === 'ka'
+          ? '🎁 სპეციალური შეთავაზება! დარეგისტრირდით ახლა და მიიღეთ 20₾ ვაუჩერი პირველ დაჯავშნაზე!'
+          : '🎁 Special offer! Register now and get a 20₾ voucher for your first booking!';
+        
+        setMessages([{ 
+          role: 'assistant', 
+          content: registrationOffer,
+          showRegistrationForm: true 
+        }]);
+        setShowRegistrationForm(true);
+        setHasShownRegistrationOffer(true);
+      }, 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, user, hasShownRegistrationOffer, messages.length, language]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -178,6 +206,30 @@ export const AIChatbot = () => {
     setInput('');
     setIsLoading(true);
 
+    // Check for registration/voucher intent (for non-logged users)
+    const registrationKeywords = language === 'ka' 
+      ? ['ვაუჩერი', 'რეგისტრაცია', 'დარეგისტრირება', '20 ლარი', '20₾']
+      : ['voucher', 'register', 'registration', '20 gel', '20₾'];
+    
+    const hasRegistrationIntent = !user && registrationKeywords.some(keyword => 
+      messageToSend.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    if (hasRegistrationIntent) {
+      const registrationResponse = language === 'ka'
+        ? '🎁 რა თქმა უნდა! დარეგისტრირდით ახლა და მიიღეთ 20₾ ვაუჩერი პირველ დაჯავშნაზე:'
+        : '🎁 Absolutely! Register now and get a 20₾ voucher for your first booking:';
+      
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: registrationResponse,
+        showRegistrationForm: true 
+      }]);
+      setShowRegistrationForm(true);
+      setIsLoading(false);
+      return;
+    }
+
     // Check for booking intent and show booking form
     if (hasBookingIntent(messageToSend)) {
       // Add assistant response with booking form
@@ -204,6 +256,15 @@ export const AIChatbot = () => {
     const successMessage = language === 'ka'
       ? `🎉 შესანიშნავია! თქვენი დაჯავშნა წარმატებით შეიქმნა!\n\n📍 აპარტამენტი: ${bookingDetails.apartmentName}\n📅 თარიღები: ${bookingDetails.check_in} - ${bookingDetails.check_out}\n👥 სტუმრები: ${bookingDetails.guests}\n💰 ჯამური თანხა: ${bookingDetails.total_price} ₾\n\nდადასტურება გამოგზავნილია თქვენს ელ-ფოსტაზე. გმადლობთ, რომ აირჩიეთ Orbi City!`
       : `🎉 Wonderful! Your booking has been successfully created!\n\n📍 Apartment: ${bookingDetails.apartmentName}\n📅 Dates: ${bookingDetails.check_in} - ${bookingDetails.check_out}\n👥 Guests: ${bookingDetails.guests}\n💰 Total: ${bookingDetails.total_price} ₾\n\nA confirmation has been sent to your email. Thank you for choosing Orbi City!`;
+    
+    setMessages(prev => [...prev, { role: 'assistant', content: successMessage }]);
+  };
+
+  const handleRegistrationComplete = () => {
+    setShowRegistrationForm(false);
+    const successMessage = language === 'ka'
+      ? '🎉 გილოცავთ რეგისტრაციას! თქვენ მიიღეთ 20₾ ვაუჩერი. გამოიყენეთ კოდი WELCOME20 დაჯავშნისას. გსურთ ახლა დაჯავშნოთ აპარტამენტი?'
+      : '🎉 Congratulations on registering! You received a 20₾ voucher. Use code WELCOME20 when booking. Would you like to book an apartment now?';
     
     setMessages(prev => [...prev, { role: 'assistant', content: successMessage }]);
   };
@@ -372,6 +433,16 @@ export const AIChatbot = () => {
                         <ChatBookingForm 
                           onBookingComplete={handleBookingComplete}
                           onClose={() => setShowBookingForm(false)}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Show registration form inline after the message */}
+                    {message.showRegistrationForm && showRegistrationForm && (
+                      <div className="ml-11">
+                        <ChatRegistrationForm 
+                          onComplete={handleRegistrationComplete}
+                          onClose={() => setShowRegistrationForm(false)}
                         />
                       </div>
                     )}
