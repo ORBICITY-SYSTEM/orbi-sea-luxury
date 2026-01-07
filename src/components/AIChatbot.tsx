@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles, CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -7,33 +7,46 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChatBookingForm } from './ChatBookingForm';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  showBookingForm?: boolean;
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+
+// Keywords that indicate booking intent
+const BOOKING_KEYWORDS_KA = ['დაჯავშნა', 'ჯავშანი', 'რეზერვაცია', 'დავჯავშნო', 'ვჯავშნი', 'შევუკვეთო'];
+const BOOKING_KEYWORDS_EN = ['book', 'booking', 'reserve', 'reservation', 'stay', 'available'];
 
 export const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showBookingForm, setShowBookingForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, t } = useLanguage();
+
+  // Check if message contains booking intent
+  const hasBookingIntent = (text: string) => {
+    const keywords = language === 'ka' ? BOOKING_KEYWORDS_KA : BOOKING_KEYWORDS_EN;
+    return keywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
+  };
 
   // Quick reply suggestions
   const quickReplies = language === 'ka' ? [
     { text: '🏠 აპარტამენტები', message: 'რა ტიპის აპარტამენტები გაქვთ?' },
     { text: '💰 ფასები', message: 'რა ფასები გაქვთ?' },
-    { text: '📍 მდებარეობა', message: 'სად მდებარეობთ?' },
+    { text: '📅 დაჯავშნა', message: 'მინდა დავჯავშნო აპარტამენტი' },
     { text: '🏊 კეთილმოწყობილობები', message: 'რა კეთილმოწყობილობები გაქვთ?' },
   ] : [
     { text: '🏠 Apartments', message: 'What types of apartments do you have?' },
     { text: '💰 Prices', message: 'What are your prices?' },
-    { text: '📍 Location', message: 'Where are you located?' },
+    { text: '📅 Book Now', message: 'I want to book an apartment' },
     { text: '🏊 Amenities', message: 'What amenities do you have?' },
   ];
 
@@ -165,8 +178,34 @@ export const AIChatbot = () => {
     setInput('');
     setIsLoading(true);
 
+    // Check for booking intent and show booking form
+    if (hasBookingIntent(messageToSend)) {
+      // Add assistant response with booking form
+      const bookingResponse = language === 'ka'
+        ? 'რა თქმა უნდა! 🎉 მოხარული ვარ დაგეხმაროთ დაჯავშნაში. ქვემოთ შეგიძლიათ შეავსოთ დაჯავშნის ფორმა:'
+        : 'Absolutely! 🎉 I\'d be happy to help you book. Please fill out the booking form below:';
+      
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: bookingResponse,
+        showBookingForm: true 
+      }]);
+      setShowBookingForm(true);
+      setIsLoading(false);
+      return;
+    }
+
     await streamChat(updatedMessages);
     setIsLoading(false);
+  };
+
+  const handleBookingComplete = (bookingDetails: any) => {
+    setShowBookingForm(false);
+    const successMessage = language === 'ka'
+      ? `🎉 შესანიშნავია! თქვენი დაჯავშნა წარმატებით შეიქმნა!\n\n📍 აპარტამენტი: ${bookingDetails.apartmentName}\n📅 თარიღები: ${bookingDetails.check_in} - ${bookingDetails.check_out}\n👥 სტუმრები: ${bookingDetails.guests}\n💰 ჯამური თანხა: ${bookingDetails.total_price} ₾\n\nდადასტურება გამოგზავნილია თქვენს ელ-ფოსტაზე. გმადლობთ, რომ აირჩიეთ Orbi City!`
+      : `🎉 Wonderful! Your booking has been successfully created!\n\n📍 Apartment: ${bookingDetails.apartmentName}\n📅 Dates: ${bookingDetails.check_in} - ${bookingDetails.check_out}\n👥 Guests: ${bookingDetails.guests}\n💰 Total: ${bookingDetails.total_price} ₾\n\nA confirmation has been sent to your email. Thank you for choosing Orbi City!`;
+    
+    setMessages(prev => [...prev, { role: 'assistant', content: successMessage }]);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -292,38 +331,50 @@ export const AIChatbot = () => {
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={cn(
-                      "flex gap-3",
-                      message.role === 'user' && "flex-row-reverse"
-                    )}
+                    className="space-y-3"
                   >
                     <div className={cn(
-                      "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
-                      message.role === 'assistant' ? "bg-gradient-gold" : "bg-primary"
+                      "flex gap-3",
+                      message.role === 'user' && "flex-row-reverse"
                     )}>
-                      {message.role === 'assistant' ? (
-                        <Bot className="h-4 w-4 text-secondary-foreground" />
-                      ) : (
-                        <User className="h-4 w-4 text-primary-foreground" />
-                      )}
-                    </div>
-                    <div
-                      className={cn(
-                        "rounded-2xl px-4 py-3 max-w-[85%]",
-                        message.role === 'assistant' 
-                          ? "bg-muted rounded-tl-sm" 
-                          : "bg-primary text-primary-foreground rounded-tr-sm"
-                      )}
-                    >
-                      <p className="text-sm whitespace-pre-wrap">
-                        {message.content || (
-                          <span className="flex items-center gap-2">
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            {language === 'ka' ? 'ვფიქრობ...' : 'Thinking...'}
-                          </span>
+                      <div className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
+                        message.role === 'assistant' ? "bg-gradient-gold" : "bg-primary"
+                      )}>
+                        {message.role === 'assistant' ? (
+                          <Bot className="h-4 w-4 text-secondary-foreground" />
+                        ) : (
+                          <User className="h-4 w-4 text-primary-foreground" />
                         )}
-                      </p>
+                      </div>
+                      <div
+                        className={cn(
+                          "rounded-2xl px-4 py-3 max-w-[85%]",
+                          message.role === 'assistant' 
+                            ? "bg-muted rounded-tl-sm" 
+                            : "bg-primary text-primary-foreground rounded-tr-sm"
+                        )}
+                      >
+                        <p className="text-sm whitespace-pre-wrap">
+                          {message.content || (
+                            <span className="flex items-center gap-2">
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                              {language === 'ka' ? 'ვფიქრობ...' : 'Thinking...'}
+                            </span>
+                          )}
+                        </p>
+                      </div>
                     </div>
+                    
+                    {/* Show booking form inline after the message */}
+                    {message.showBookingForm && showBookingForm && (
+                      <div className="ml-11">
+                        <ChatBookingForm 
+                          onBookingComplete={handleBookingComplete}
+                          onClose={() => setShowBookingForm(false)}
+                        />
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
