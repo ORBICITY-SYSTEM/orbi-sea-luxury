@@ -17,22 +17,23 @@ import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { z } from 'zod';
 
-const contactFormSchema = z.object({
+// Validation schema - messages will be translated in component
+const createContactFormSchema = (t: (key: string) => string) => z.object({
   name: z.string()
     .trim()
-    .min(1, { message: "Name is required" })
-    .max(100, { message: "Name must be less than 100 characters" }),
+    .min(1, { message: t('contact.validation.nameRequired') })
+    .max(100, { message: t('contact.validation.nameMax') }),
   email: z.string()
     .trim()
-    .email({ message: "Please enter a valid email address" })
-    .max(255, { message: "Email must be less than 255 characters" }),
+    .email({ message: t('contact.validation.emailInvalid') })
+    .max(255, { message: t('contact.validation.emailMax') }),
   phone: z.string()
     .trim()
     .optional(),
   message: z.string()
     .trim()
-    .min(10, { message: "Message must be at least 10 characters" })
-    .max(1000, { message: "Message must be less than 1000 characters" })
+    .min(10, { message: t('contact.validation.messageMin') })
+    .max(1000, { message: t('contact.validation.messageMax') })
 });
 
 const Contact = () => {
@@ -58,8 +59,9 @@ const Contact = () => {
     e.preventDefault();
     setErrors({});
     
-    // Validate form data
+    // Validate form data with translated messages
     try {
+      const contactFormSchema = createContactFormSchema(t);
       const validatedData = contactFormSchema.parse(formData);
       setIsSubmitting(true);
 
