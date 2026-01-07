@@ -181,9 +181,9 @@ export const HeroSection = () => {
               BOOK NOW
             </span>
           </Button>
-          {/* Trust badges - italic thin text */}
+          {/* Trust badges - italic thin text with gold checkmarks */}
           <p className="mt-2 text-white/80 text-xs md:text-sm font-light italic tracking-wide">
-            ✓ Free Cancellation · ✓ Pay Later
+            <span className="text-gold-400">✓</span> Free Cancellation · <span className="text-gold-400">✓</span> Pay Later
           </p>
         </div>
 
