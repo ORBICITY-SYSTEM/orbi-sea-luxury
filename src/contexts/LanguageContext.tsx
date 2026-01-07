@@ -416,6 +416,8 @@ const translations: Record<Language, Record<string, string>> = {
     'about.stat3': 'Guest Rating',
     'about.stat4': 'Service',
     'about.gallery.title': 'Experience Orbi City',
+    'about.gallery.item': 'Gallery Photo',
+    'about.image.main': 'Orbi City Batumi Hotel',
     
     // Apartment Detail
     'apartmentDetail.notFound': 'Apartment not found',
@@ -960,6 +962,8 @@ const translations: Record<Language, Record<string, string>> = {
     'about.stat3': 'სტუმრის რეიტინგი',
     'about.stat4': 'მომსახურება',
     'about.gallery.title': 'გამოცადეთ Orbi City',
+    'about.gallery.item': 'გალერეის ფოტო',
+    'about.image.main': 'Orbi City ბათუმი სასტუმრო',
     
     // Apartment Detail
     'apartmentDetail.notFound': 'აპარტამენტი ვერ მოიძებნა',
