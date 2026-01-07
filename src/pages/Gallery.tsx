@@ -69,8 +69,8 @@ const Gallery = () => {
       >
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-5xl font-bold text-white mb-4">Our Gallery</h1>
-          <p className="text-xl text-white/90">A glimpse into the luxury and beauty of Orbi City Batumi</p>
+          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">Our Gallery</h1>
+          <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">A glimpse into the luxury and beauty of Orbi City Batumi</p>
         </div>
       </div>
 
@@ -89,7 +89,7 @@ const Gallery = () => {
             <TabsContent value="photos" className="space-y-20">
               {/* Apartment Interiors */}
               <div>
-                <h2 className="text-3xl font-bold text-foreground mb-4">Apartment Interiors</h2>
+                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Apartment Interiors</h2>
                 <p className="text-muted-foreground mb-8">
                   Step inside our luxurious and comfortable apartments, designed for your ultimate relaxation.
                 </p>
@@ -111,7 +111,7 @@ const Gallery = () => {
 
               {/* Building & Views */}
               <div>
-                <h2 className="text-3xl font-bold text-foreground mb-4">Building & Views</h2>
+                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Building & Views</h2>
                 <p className="text-muted-foreground mb-8">
                   Discover the stunning architecture of Orbi City and the breathtaking views of the Black Sea.
                 </p>
@@ -133,7 +133,7 @@ const Gallery = () => {
 
               {/* Amenities & Common Areas */}
               <div>
-                <h2 className="text-3xl font-bold text-foreground mb-4">Amenities & Common Areas</h2>
+                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Amenities & Common Areas</h2>
                 <p className="text-muted-foreground mb-8">
                   Explore the world-class amenities and elegant common spaces available to all our guests.
                 </p>
@@ -157,7 +157,7 @@ const Gallery = () => {
             {/* Videos Tab */}
             <TabsContent value="videos" className="space-y-12">
               <div>
-                <h2 className="text-3xl font-bold text-foreground mb-4 text-center">Property Video Tour</h2>
+                <h2 className="text-3xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Property Video Tour</h2>
                 <p className="text-muted-foreground mb-8 text-center max-w-2xl mx-auto">
                   Experience the luxury of Orbi City Batumi through our exclusive video tours
                 </p>

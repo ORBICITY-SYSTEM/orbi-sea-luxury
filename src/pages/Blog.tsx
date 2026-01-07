@@ -38,7 +38,7 @@ const Blog = () => {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-bold text-white mb-4"
+            className="text-5xl md:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]"
           >
             {language === 'ka' ? 'ჩვენი ბლოგი' : 'Our Blog'}
           </motion.h1>
@@ -46,7 +46,7 @@ const Blog = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-white/90 max-w-2xl"
+            className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)] max-w-2xl"
           >
             {language === 'ka' 
               ? 'ისტორიები, რჩევები და სიახლეები Orbi City-დან და ბათუმიდან'
@@ -86,7 +86,7 @@ const Blog = () => {
       {!selectedCategory && (
         <section className="py-16 bg-background">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8">
+            <h2 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">
               {language === 'ka' ? 'გამორჩეული სტატიები' : 'Featured Articles'}
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
@@ -139,7 +139,7 @@ const Blog = () => {
       {/* All Posts */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8">
+          <h2 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">
             {selectedCategory || (language === 'ka' ? 'ყველა სტატია' : 'All Articles')}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

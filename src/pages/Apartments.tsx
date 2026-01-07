@@ -125,7 +125,7 @@ const Apartments = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-amber-400 tracking-[0.3em] uppercase text-sm font-medium mb-4"
+            className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 tracking-[0.3em] uppercase text-sm font-medium mb-4 drop-shadow-[0_2px_4px_rgba(212,175,55,0.5)]"
           >
             {language === 'ka' ? 'ფუფუნებით ცხოვრება' : 'Luxury Living'}
           </motion.span>
@@ -134,7 +134,7 @@ const Apartments = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]"
           >
             {language === 'ka' ? 'ჩვენი აპარტამენტები' : 'Our Apartments'}
           </motion.h1>
@@ -272,7 +272,7 @@ const Apartments = () => {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-[#1e3a5f] to-[#2d5a87]">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">
             {language === 'ka' ? 'მზად ხართ დასაჯავშნად?' : 'Ready to Book?'}
           </h2>
           <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
