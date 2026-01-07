@@ -28,20 +28,32 @@ export const CTASection = () => {
           <Button
             size="lg"
             onClick={() => openBookingModal()}
-            className="bg-gradient-gold hover:bg-secondary-dark text-secondary-foreground font-bold text-lg px-12 py-6 shadow-gold hover:scale-105 transition-transform"
+            className="group relative bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 hover:from-gold-500 hover:via-gold-400 hover:to-gold-500 text-navy-900 font-bold text-lg px-12 py-6 rounded-full transition-all duration-500 hover:scale-105 overflow-hidden shadow-[0_4px_25px_rgba(212,175,55,0.5)] hover:shadow-[0_8px_35px_rgba(212,175,55,0.7)]"
           >
-            <CalendarCheck className="w-5 h-5 mr-2" />
-            {t('hero.bookNow')}
+            {/* Shine effect */}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+            {/* 3D border effect */}
+            <span className="absolute inset-0 rounded-full border-2 border-gold-200/50" />
+            <span className="absolute inset-[3px] rounded-full border border-gold-600/30" />
+            {/* Content */}
+            <span className="relative z-10 flex items-center drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">
+              <CalendarCheck className="w-5 h-5 mr-2" />
+              {t('hero.bookNow')}
+            </span>
           </Button>
           <Button
             asChild
             size="lg"
             variant="outline"
-            className="border-2 border-white text-white hover:bg-white hover:text-primary font-bold text-lg px-12 py-6 hover:scale-105 transition-transform"
+            className="group relative border-2 border-gold-400/70 text-white hover:text-navy-900 font-bold text-lg px-12 py-6 rounded-full transition-all duration-500 hover:scale-105 overflow-hidden hover:border-gold-400 hover:bg-gradient-to-r hover:from-gold-400 hover:via-gold-300 hover:to-gold-400 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_4px_25px_rgba(212,175,55,0.5)]"
           >
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="w-5 h-5 mr-2" />
-              WhatsApp
+              {/* Shine effect */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-400/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative z-10 flex items-center">
+                <MessageCircle className="w-5 h-5 mr-2" />
+                WhatsApp
+              </span>
             </a>
           </Button>
         </div>
