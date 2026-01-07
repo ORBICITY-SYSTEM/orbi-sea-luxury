@@ -165,11 +165,11 @@ export const HeroSection = () => {
         <div className="w-16 md:w-24 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mb-6 md:mb-10 animate-fade-in-up delay-300" />
 
         {/* CTA - Book Now Button - 3D Gold Effect */}
-        <div className="flex justify-center mb-8 md:mb-14 animate-fade-in-up delay-400">
+        <div className="flex flex-col items-center mb-8 md:mb-14 animate-fade-in-up delay-400">
           <Button
             size="lg"
             onClick={scrollToRooms}
-            className="group relative bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 hover:from-gold-500 hover:via-gold-400 hover:to-gold-500 text-navy-900 font-bold text-sm md:text-lg px-8 md:px-14 py-5 md:py-7 rounded-full transition-all duration-500 hover:scale-105 tracking-wider uppercase overflow-hidden shadow-[0_4px_20px_rgba(212,175,55,0.4)] hover:shadow-[0_8px_30px_rgba(212,175,55,0.6)]"
+            className="group relative bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 hover:from-gold-500 hover:via-gold-400 hover:to-gold-500 text-navy-900 font-bold text-sm md:text-lg px-8 md:px-14 py-4 md:py-6 rounded-full transition-all duration-500 hover:scale-105 tracking-wider uppercase overflow-hidden shadow-[0_4px_20px_rgba(212,175,55,0.4)] hover:shadow-[0_8px_30px_rgba(212,175,55,0.6)]"
           >
             {/* Shine effect */}
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
@@ -178,9 +178,13 @@ export const HeroSection = () => {
             <span className="absolute inset-[3px] rounded-full border border-gold-600/30" />
             {/* Text with shadow */}
             <span className="relative z-10 drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">
-              {t('hero.bookNowPayLater')}
+              BOOK NOW
             </span>
           </Button>
+          {/* Trust badges - italic thin text */}
+          <p className="mt-2 text-white/80 text-xs md:text-sm font-light italic tracking-wide">
+            ✓ Free Cancellation · ✓ Pay Later
+          </p>
         </div>
 
         {/* Booking Widget - Hidden on mobile for cleaner look */}
