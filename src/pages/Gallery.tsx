@@ -8,6 +8,7 @@ import { AlertCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { LazyImage } from '@/components/ui/lazy-image';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const galleryImages = {
   interiors: [
@@ -40,6 +41,7 @@ const galleryImages = {
 };
 
 const Gallery = () => {
+  const { t } = useLanguage();
   const { data: settings } = useQuery({
     queryKey: ['site-settings'],
     queryFn: async () => {
@@ -69,29 +71,29 @@ const Gallery = () => {
       >
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">Our Gallery</h1>
-          <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">A glimpse into the luxury and beauty of Orbi City Batumi</p>
+          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)] [text-shadow:_0_1px_0_rgb(255_255_255_/_40%),_0_4px_12px_rgba(212,175,55,0.5)]">{t('gallery.title')}</h1>
+          <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-200 to-gold-300 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('gallery.subtitle')}</p>
         </div>
       </div>
 
-      <Breadcrumbs items={[{ label: 'Gallery' }]} />
+      <Breadcrumbs items={[{ label: t('nav.gallery') }]} />
 
       {/* Gallery Tabs */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <Tabs defaultValue="photos" className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
-              <TabsTrigger value="photos" className="text-lg">Photos</TabsTrigger>
-              <TabsTrigger value="videos" className="text-lg">Videos</TabsTrigger>
+              <TabsTrigger value="photos" className="text-lg">{t('gallery.photos')}</TabsTrigger>
+              <TabsTrigger value="videos" className="text-lg">{t('gallery.videos')}</TabsTrigger>
             </TabsList>
 
             {/* Photos Tab */}
             <TabsContent value="photos" className="space-y-20">
               {/* Apartment Interiors */}
               <div>
-                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">Apartment Interiors</h2>
+                <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">{t('gallery.interiors')}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Step inside our luxurious and comfortable apartments, designed for your ultimate relaxation.
+                  {t('gallery.interiorsDesc')}
                 </p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {galleryImages.interiors.map((image, index) => (
