@@ -18,32 +18,57 @@ const heroVideos = [
 
 const VIDEO_DURATION = 3;
 
+// Check if device is mobile
+const getIsMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+};
+
 export const HeroCarousel = () => {
   const { t } = useLanguage();
   const { openBookingModal } = useBooking();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [introComplete, setIntroComplete] = useState(false);
-  const [showTypewriter, setShowTypewriter] = useState(false);
+  // Skip intro on mobile for better performance
+  const [isMobile, setIsMobile] = useState(getIsMobile);
+  const [introComplete, setIntroComplete] = useState(getIsMobile());
+  const [showTypewriter, setShowTypewriter] = useState(getIsMobile());
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Enhanced Parallax with mouse tracking
+  // Check mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = getIsMobile();
+      setIsMobile(mobile);
+      if (mobile) {
+        setIntroComplete(true);
+        setShowTypewriter(true);
+      }
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Enhanced Parallax with mouse tracking - DISABLED on mobile
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springConfig = { damping: 25, stiffness: 150 };
   const parallaxX = useSpring(mouseX, springConfig);
   const parallaxY = useSpring(mouseY, springConfig);
 
-  // Scroll-based parallax
+  // Scroll-based parallax - SIMPLIFIED on mobile
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 200]);
+  const y = useTransform(scrollY, [0, 500], [0, isMobile ? 50 : 200]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const scale = useTransform(scrollY, [0, 500], [1, 1.15]);
-  const blur = useTransform(scrollY, [0, 400], [0, 10]);
+  const scale = useTransform(scrollY, [0, 500], [1, isMobile ? 1.05 : 1.15]);
+  const blur = useTransform(scrollY, [0, 400], [0, isMobile ? 0 : 10]);
 
-  // Mouse move handler for 3D parallax
+  // Mouse move handler for 3D parallax - DISABLED on mobile
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isMobile) return; // Skip on mobile
+    
     const rect = sectionRef.current?.getBoundingClientRect();
     if (!rect) return;
     
@@ -54,7 +79,7 @@ export const HeroCarousel = () => {
     
     mouseX.set(x * 20);
     mouseY.set(y * 20);
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, isMobile]);
 
   // Set video ref
   const setVideoRef = useCallback((el: HTMLVideoElement | null, index: number) => {
@@ -87,13 +112,13 @@ export const HeroCarousel = () => {
     });
   }, [currentIndex, isPlaying, introComplete]);
 
-  // Start typewriter after intro
+  // Start typewriter after intro (skip delay on mobile)
   useEffect(() => {
-    if (introComplete) {
-      const timer = setTimeout(() => setShowTypewriter(true), 300);
+    if (introComplete && !showTypewriter) {
+      const timer = setTimeout(() => setShowTypewriter(true), isMobile ? 0 : 300);
       return () => clearTimeout(timer);
     }
-  }, [introComplete]);
+  }, [introComplete, isMobile, showTypewriter]);
 
   const scrollToNext = () => {
     window.scrollTo({
@@ -102,10 +127,13 @@ export const HeroCarousel = () => {
     });
   };
 
+  // Only show 2 videos on mobile for better performance
+  const videosToShow = isMobile ? heroVideos.slice(0, 2) : heroVideos;
+
   return (
     <>
-      {/* Cinematic Intro */}
-      {!introComplete && (
+      {/* Cinematic Intro - ONLY on desktop */}
+      {!introComplete && !isMobile && (
         <CinematicIntro onComplete={() => setIntroComplete(true)} />
       )}
 
@@ -115,33 +143,29 @@ export const HeroCarousel = () => {
         className="relative min-h-[100vh] lg:min-h-[110vh] w-full overflow-hidden"
         onMouseMove={handleMouseMove}
       >
-        {/* Video Background with Enhanced Parallax */}
+        {/* Video Background with Enhanced Parallax - SIMPLIFIED on mobile */}
         <motion.div 
           className="absolute inset-0"
           style={{ 
-            y, 
-            scale,
-            x: parallaxX,
-            filter: `blur(${blur}px)`
+            y: isMobile ? 0 : y, 
+            scale: isMobile ? 1 : scale,
+            x: isMobile ? 0 : parallaxX,
           }}
         >
-          {heroVideos.map((src, index) => (
-            <motion.video
+          {videosToShow.map((src, index) => (
+            <video
               key={src}
               ref={(el) => setVideoRef(el, index)}
               muted
               playsInline
+              preload={isMobile ? "metadata" : "auto"}
               onTimeUpdate={() => handleTimeUpdate(index)}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
                 index === currentIndex ? 'opacity-100' : 'opacity-0'
               }`}
-              style={{
-                x: parallaxX,
-                y: parallaxY,
-              }}
             >
               <source src={src} type="video/mp4" />
-            </motion.video>
+            </video>
           ))}
         </motion.div>
 
