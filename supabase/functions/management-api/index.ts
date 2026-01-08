@@ -2,8 +2,68 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-api-key',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-api-key, x-timestamp, x-signature',
 };
+
+// In-memory rate limiting (resets on function cold start, but provides basic protection)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 30; // Max requests per window
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
+
+function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const record = rateLimitStore.get(identifier);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitStore.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: RATE_LIMIT_MAX - 1 };
+  }
+  
+  if (record.count >= RATE_LIMIT_MAX) {
+    return { allowed: false, remaining: 0 };
+  }
+  
+  record.count++;
+  return { allowed: true, remaining: RATE_LIMIT_MAX - record.count };
+}
+
+// HMAC signature verification for additional security layer
+async function verifySignature(
+  apiKey: string,
+  timestamp: string,
+  providedSignature: string
+): Promise<boolean> {
+  try {
+    // Signature should be HMAC-SHA256 of "timestamp:apiKey"
+    const encoder = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(apiKey),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+    
+    const data = encoder.encode(`${timestamp}:management-api`);
+    const signature = await crypto.subtle.sign('HMAC', key, data);
+    const expectedSignature = Array.from(new Uint8Array(signature))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    
+    return expectedSignature === providedSignature;
+  } catch {
+    return false;
+  }
+}
+
+// Check if timestamp is within acceptable window (5 minutes)
+function isTimestampValid(timestamp: string): boolean {
+  const requestTime = parseInt(timestamp, 10);
+  const now = Date.now();
+  const fiveMinutes = 5 * 60 * 1000;
+  
+  return !isNaN(requestTime) && Math.abs(now - requestTime) < fiveMinutes;
+}
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -11,17 +71,64 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Get client identifier for rate limiting (use IP or API key)
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('cf-connecting-ip') || 
+                   'unknown';
+  
+  // Check rate limit
+  const rateLimit = checkRateLimit(clientIp);
+  if (!rateLimit.allowed) {
+    console.warn(`Rate limit exceeded for IP: ${clientIp}`);
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+      { 
+        status: 429, 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+          'X-RateLimit-Remaining': '0'
+        } 
+      }
+    );
+  }
+
   try {
     // Get API key from request header
     const apiKey = req.headers.get('x-api-key');
     const expectedApiKey = Deno.env.get('BOOKINGS_API_KEY');
+    const timestamp = req.headers.get('x-timestamp');
+    const signature = req.headers.get('x-signature');
     
+    // Validate API key exists
     if (!apiKey || apiKey !== expectedApiKey) {
-      console.log('Unauthorized request - invalid API key');
+      console.warn(`Unauthorized request from IP: ${clientIp} - invalid API key`);
       return new Response(
         JSON.stringify({ error: 'Unauthorized - Invalid API key' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+    }
+
+    // Optional: If signature is provided, verify it for enhanced security
+    // This allows backwards compatibility while encouraging signed requests
+    if (signature && timestamp) {
+      if (!isTimestampValid(timestamp)) {
+        console.warn(`Request timestamp expired or invalid from IP: ${clientIp}`);
+        return new Response(
+          JSON.stringify({ error: 'Request timestamp expired or invalid' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      const isValidSignature = await verifySignature(apiKey, timestamp, signature);
+      if (!isValidSignature) {
+        console.warn(`Invalid signature from IP: ${clientIp}`);
+        return new Response(
+          JSON.stringify({ error: 'Invalid request signature' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -29,7 +136,8 @@ Deno.serve(async (req) => {
     
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    console.log('Fetching management data...');
+    // Audit log: Log successful authenticated access
+    console.log(`[AUDIT] Management API accessed by IP: ${clientIp} at ${new Date().toISOString()}`);
 
     // Fetch all data in parallel
     const [
@@ -146,7 +254,7 @@ Deno.serve(async (req) => {
       generatedAt: new Date().toISOString()
     };
 
-    console.log('Management data fetched successfully');
+    console.log(`[AUDIT] Management data fetched successfully for IP: ${clientIp}`);
 
     const responseData = {
       success: true,
@@ -165,12 +273,18 @@ Deno.serve(async (req) => {
 
     return new Response(
       JSON.stringify(responseData),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'X-RateLimit-Remaining': rateLimit.remaining.toString()
+        } 
+      }
     );
 
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Internal server error';
-    console.error('Error in management-api:', error);
+    console.error(`[AUDIT] Error in management-api for IP ${clientIp}:`, error);
     return new Response(
       JSON.stringify({ 
         success: false, 
