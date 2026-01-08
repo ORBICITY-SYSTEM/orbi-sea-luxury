@@ -516,6 +516,15 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   }
 
   const isMobile = useIsMobile();
+
+  // In controlled mode, Radix/Vaul call onOpenChange(open:boolean).
+  // On mobile we only want to close when open becomes false.
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) onClose();
+    },
+    [onClose]
+  );
   
   // Shared content component
   const BookingContent = () => (
@@ -962,7 +971,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   if (isMobile) {
     return (
       <>
-        <Drawer open={isOpen} onOpenChange={onClose}>
+        <Drawer open={isOpen} onOpenChange={handleOpenChange}>
           <DrawerContent className="h-[95vh] max-h-[95vh]">
             <DrawerHeader className="border-b pb-4">
               <div className="flex items-center justify-between">
@@ -995,7 +1004,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   // Desktop: Animated Dialog
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300">
           <DialogHeader>
             <DialogTitle className="text-2xl font-playfair">
