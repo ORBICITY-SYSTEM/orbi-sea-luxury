@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Loader2, Save, TestTube, CheckCircle, XCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AdminCacheManager } from './AdminCacheManager';
 
 export const AdminSettings = () => {
   const { settings, isLoading, updateSetting } = useSiteSettings();
@@ -478,6 +479,9 @@ export const AdminSettings = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* PWA & Cache Management */}
+        <AdminCacheManager />
 
         <Button type="submit" size="lg" className="w-full sm:w-auto">
           <Save className="h-4 w-4 mr-2" />
