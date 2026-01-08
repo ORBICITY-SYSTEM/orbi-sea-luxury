@@ -14,6 +14,8 @@ import { AIChatbot } from "@/components/AIChatbot";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { GoogleTagManager } from "@/components/GoogleTagManager";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
 import { Loader2 } from 'lucide-react';
 
 // Lazy loaded pages for better performance
@@ -58,51 +60,54 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <StructuredData />
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <GoogleAnalytics />
-          <MetaPixel />
-          <GoogleTagManager />
-          <AuthProvider>
-            <BookingProvider>
-              <GoogleReviewPopup />
-              <WhatsAppFloatingButton />
-              <AIChatbot />
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/apartments" element={<Apartments />} />
-                  <Route path="/apartments/:id" element={<ApartmentDetail />} />
-                  <Route path="/youtube-videos" element={<YouTubeVideos />} />
-                  <Route path="/amenities" element={<Amenities />} />
-                  <Route path="/gallery" element={<Gallery />} />
-                  <Route path="/location" element={<Location />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/loyalty-program" element={<LoyaltyProgram />} />
-                  <Route path="/blog" element={<Blog />} />
-                  <Route path="/blog/:slug" element={<BlogPostDetail />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-                  <Route path="/purchase-conditions" element={<PurchaseConditions />} />
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/dashboard" element={<GuestDashboard />} />
-                  <Route path="/install" element={<InstallApp />} />
-                  <Route path="/admin/*" element={<Admin />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BookingProvider>
-          </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LanguageProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <StructuredData />
+          <PWAUpdatePrompt />
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <GoogleAnalytics />
+            <MetaPixel />
+            <GoogleTagManager />
+            <AuthProvider>
+              <BookingProvider>
+                <GoogleReviewPopup />
+                <WhatsAppFloatingButton />
+                <AIChatbot />
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/apartments" element={<Apartments />} />
+                    <Route path="/apartments/:id" element={<ApartmentDetail />} />
+                    <Route path="/youtube-videos" element={<YouTubeVideos />} />
+                    <Route path="/amenities" element={<Amenities />} />
+                    <Route path="/gallery" element={<Gallery />} />
+                    <Route path="/location" element={<Location />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/loyalty-program" element={<LoyaltyProgram />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogPostDetail />} />
+                    <Route path="/about-us" element={<AboutUs />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                    <Route path="/purchase-conditions" element={<PurchaseConditions />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/dashboard" element={<GuestDashboard />} />
+                    <Route path="/install" element={<InstallApp />} />
+                    <Route path="/admin/*" element={<Admin />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+              </BookingProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </LanguageProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
