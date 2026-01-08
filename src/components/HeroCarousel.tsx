@@ -158,7 +158,8 @@ export const HeroCarousel = () => {
               ref={(el) => setVideoRef(el, index)}
               muted
               playsInline
-              preload={isMobile ? "metadata" : "auto"}
+              autoPlay={index === 0}
+              preload={index === 0 ? "auto" : "none"}
               onTimeUpdate={() => handleTimeUpdate(index)}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
                 index === currentIndex ? 'opacity-100' : 'opacity-0'
@@ -291,9 +292,7 @@ export const HeroCarousel = () => {
                   whileHover={{ x: '100%' }}
                   transition={{ duration: 0.6 }}
                 />
-                <span className="relative z-10">
-                  BOOK NOW/<em className="not-italic font-light">Pay Later</em>
-                </span>
+                <span className="relative z-10">BOOK NOW</span>
               </Button>
 
               {/* Trust badges - italic thin text with gold checkmarks */}
