@@ -4,10 +4,22 @@ import App from "./App.tsx";
 import "./index.css";
 import { initializeMetaPixel } from "./lib/tracking";
 
-// Initialize Meta Pixel - deferred for FID optimization
-requestIdleCallback(() => {
+// Initialize Meta Pixel - deferred for FID optimization (guard for Safari/older browsers)
+const runWhenIdle = (fn: () => void, timeout = 2000) => {
+  if (typeof window === "undefined") return;
+  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number })
+    .requestIdleCallback;
+
+  if (typeof ric === "function") {
+    ric(fn, { timeout });
+  } else {
+    window.setTimeout(fn, 50);
+  }
+};
+
+runWhenIdle(() => {
   initializeMetaPixel();
-}, { timeout: 2000 });
+}, 2000);
 
 // Preload critical fonts for LCP optimization
 const preloadFonts = () => {
