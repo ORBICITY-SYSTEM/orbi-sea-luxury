@@ -14,6 +14,7 @@ import { AIChatbot } from "@/components/AIChatbot";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { GoogleTagManager } from "@/components/GoogleTagManager";
+import { TawkTo } from "@/components/TawkTo";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
 import { Loader2 } from 'lucide-react';
@@ -72,6 +73,7 @@ const App = () => (
             <GoogleAnalytics />
             <MetaPixel />
             <GoogleTagManager />
+            <TawkTo />
             <AuthProvider>
               <BookingProvider>
                 <GoogleReviewPopup />

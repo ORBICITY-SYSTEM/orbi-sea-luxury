@@ -574,11 +574,33 @@ const translations: Record<Language, Record<string, string>> = {
     'gallery.caption.mainLobby': 'Main Lobby',
     'gallery.caption.elegantLobby': 'Elegant Lobby with Marble Floors',
     'gallery.caption.luxuryLobby': 'Luxury Lobby Interior',
-    
+
+    // Gallery Page
+    'gallery.title': 'Our Gallery',
+    'gallery.subtitle': 'A glimpse into the luxury and beauty of Orbi City Batumi',
+    'gallery.photos': 'Photos',
+    'gallery.videos': 'Videos',
+    'gallery.interiors': 'Apartment Interiors',
+    'gallery.interiorsDesc': 'Explore our luxurious and comfortable apartments, designed for your ultimate relaxation.',
+    'gallery.buildingViews': 'Building & Views',
+    'gallery.buildingViewsDesc': 'Discover the stunning architecture of Orbi City and breathtaking views of the Black Sea.',
+    'gallery.amenitiesAreas': 'Amenities & Common Areas',
+    'gallery.amenitiesAreasDesc': 'Explore world-class amenities and elegant common areas available to all our guests.',
+    'gallery.videoTour': 'Property Video Tour',
+    'gallery.videoTourDesc': 'Experience the luxury of Orbi City Batumi through our exclusive video tours',
+    'gallery.youtubeChannel': 'Our YouTube Channel',
+    'gallery.noVideos': 'No videos found on this channel.',
+    'gallery.youtubeNotConfigured': 'YouTube integration is not configured. To display your channel videos, add the YouTube Channel ID in the admin panel.',
+    'gallery.youtubeError': 'Failed to load videos. Please ensure the YouTube Channel ID is configured correctly.',
+
     // Location Page - Address
     'location.addressStreet': '7B Sherif Khimshiashvili Street',
     'location.addressCity': 'Orbi City, Batumi, Georgia',
     
+    // Contact Info
+    'contact.phone': 'Phone',
+    'contact.email': 'Email',
+
     // Contact Validation
     'contact.validation.nameRequired': 'Name is required',
     'contact.validation.nameMax': 'Name must be less than 100 characters',
