@@ -988,6 +988,649 @@ Ask our Orbi City concierge to arrange your perfect wine adventure!
     date: '2025-11-15',
     readTime: 10,
     featured: false
+  },
+  {
+    id: '7',
+    slug: 'best-apartments-batumi-sea-view-2026',
+    title: 'Best Apartments in Batumi with Sea View 2026 - Complete Guide',
+    title_ka: 'საუკეთესო აპარტამენტები ბათუმში ზღვის ხედით 2026 - სრული გზამკვლევი',
+    excerpt: 'Looking for the best sea view apartments in Batumi for 2026? Compare prices, locations, and amenities of top-rated accommodations including Orbi City, Orbi Towers, and more.',
+    excerpt_ka: 'ეძებთ საუკეთესო ზღვის ხედის აპარტამენტებს ბათუმში 2026 წლისთვის? შეადარეთ ფასები, მდებარეობები და კეთილმოწყობა საუკეთესო რეიტინგის საცხოვრებლების, მათ შორის Orbi City, Orbi Towers და სხვა.',
+    content: `
+## Best Sea View Apartments in Batumi 2026
+
+Planning a trip to Batumi in 2026? Finding the perfect **sea view apartment** can make or break your vacation. This comprehensive guide covers everything you need to know about **booking apartments in Batumi with stunning Black Sea views**.
+
+## Why Choose Sea View Apartments in Batumi?
+
+Batumi's coastline offers some of the most breathtaking views in the Caucasus region. Here's why sea view apartments are worth the investment:
+
+- **Stunning sunrises** over the Black Sea
+- **Balcony relaxation** with panoramic views
+- **Premium experience** at competitive prices
+- **Instagram-worthy photos** from your room
+
+## Top Sea View Apartment Complexes in Batumi
+
+### 1. Orbi City Batumi ⭐ TOP PICK
+
+**Location:** Sherif Khimshiashvili Street, New Boulevard
+**Price Range:** $50-150/night
+**Best For:** Luxury seekers, couples, families
+
+**Why Orbi City is #1:**
+- **Every apartment has sea views** - no compromises
+- **50 meters from the beach** - closest to the water
+- **5-star amenities** - infinity pool, spa, gym, restaurants
+- **Best price-quality ratio** in Batumi
+- **24/7 concierge service**
+- **Modern apartments** with full kitchens
+
+**Guest Rating:** 4.8/5 on Google (500+ reviews)
+
+> "The view from floor 25 was absolutely incredible. Waking up to the Black Sea every morning made our vacation unforgettable!" - Sarah, UK
+
+### 2. Orbi Towers
+**Location:** New Boulevard
+**Price Range:** $40-120/night
+**Best For:** Budget-conscious travelers
+
+- Good sea views from higher floors
+- Multiple towers to choose from
+- Walking distance to attractions
+
+### 3. Orbi Beach Tower
+**Location:** Batumi Boulevard
+**Price Range:** $45-130/night
+**Best For:** Beach lovers
+
+- Direct beach access
+- Newer construction
+- Good amenities
+
+### 4. Silk Road Sea Towers
+**Location:** Central Batumi
+**Price Range:** $35-100/night
+**Best For:** Budget travelers
+
+- Affordable options
+- City and sea views
+- Good for longer stays
+
+## How to Choose the Best Sea View Apartment
+
+### Floor Matters!
+- **Floors 1-10:** Limited sea views, more noise
+- **Floors 11-20:** Good views, reasonable prices
+- **Floors 21-30:** Excellent views, premium prices
+- **Floors 30+:** Spectacular views, highest prices
+
+### Questions to Ask Before Booking:
+1. Which direction does the apartment face?
+2. Is the sea view direct or partial?
+3. What floor is the apartment on?
+4. Are there any obstructions?
+
+## Price Comparison: Sea View Apartments Batumi 2026
+
+| Property | Low Season | High Season | Peak Season |
+|----------|------------|-------------|-------------|
+| Orbi City | $50-70 | $80-120 | $120-150 |
+| Orbi Towers | $40-55 | $65-90 | $90-120 |
+| Silk Road | $35-45 | $55-75 | $75-100 |
+
+**Best Value:** Book Orbi City during low season (Oct-May) for luxury at budget prices!
+
+## Booking Tips for Best Rates
+
+### Book Direct for Best Prices
+Booking directly through **orbicitybatumi.com** offers:
+- **10-20% discount** vs. OTA platforms
+- **Free room upgrades** when available
+- **Flexible cancellation**
+- **Direct communication** with property
+
+### Best Time to Book
+- **3-6 months ahead** for summer dates
+- **1-2 months ahead** for shoulder season
+- **Last minute deals** available in winter
+
+## What's Included at Orbi City Apartments
+
+✅ **Standard in Every Apartment:**
+- Fully equipped kitchen
+- Smart TV with international channels
+- High-speed WiFi
+- Air conditioning/heating
+- Private balcony with sea view
+- Daily housekeeping
+- Fresh towels and linens
+
+✅ **Building Amenities:**
+- Infinity pool (floors 10-15)
+- Fitness center (24/7)
+- Spa and wellness
+- Multiple restaurants
+- 24/7 reception
+- Secure parking
+
+## How to Book Your Perfect Sea View Apartment
+
+1. **Visit** [orbicitybatumi.com](https://orbicitybatumi.com)
+2. **Select** your dates
+3. **Choose** your apartment type
+4. **Book directly** for best rates
+5. **Confirm** via email
+
+---
+
+**Ready to book the best sea view apartment in Batumi?**
+
+[Book Now at Orbi City →](https://orbicitybatumi.com/apartments)
+
+*Best Price Guarantee | Free Cancellation | Book Direct & Save*
+    `,
+    content_ka: `
+## საუკეთესო ზღვის ხედის აპარტამენტები ბათუმში 2026
+
+გეგმავთ მოგზაურობას ბათუმში 2026 წელს? იდეალური **ზღვის ხედის აპარტამენტის** პოვნამ შეიძლება განსაზღვროს თქვენი შვებულება. ეს ყოვლისმომცველი გზამკვლევი მოიცავს ყველაფერს, რაც უნდა იცოდეთ **ბათუმში აპარტამენტების დაჯავშნის შესახებ შავი ზღვის თვალწარმტაცი ხედებით**.
+
+## რატომ ავირჩიოთ ზღვის ხედის აპარტამენტები ბათუმში?
+
+ბათუმის სანაპირო გთავაზობთ კავკასიის რეგიონის ყველაზე თვალწარმტაც ხედებს. აი, რატომ ღირს ზღვის ხედის აპარტამენტები:
+
+- **თვალწარმტაცი მზის ამოსვლა** შავ ზღვაზე
+- **აივნის დასვენება** პანორამული ხედებით
+- **პრემიუმ გამოცდილება** კონკურენტულ ფასებში
+- **Instagram-ის ღირსი ფოტოები** თქვენი ოთახიდან
+
+## ტოპ ზღვის ხედის აპარტამენტების კომპლექსები ბათუმში
+
+### 1. Orbi City ბათუმი ⭐ ტოპ არჩევანი
+
+**მდებარეობა:** შერიფ ხიმშიაშვილის ქუჩა, ახალი ბულვარი
+**ფასის დიაპაზონი:** $50-150/ღამეში
+**საუკეთესოა:** ფუფუნების მაძიებლებისთვის, წყვილებისთვის, ოჯახებისთვის
+
+**რატომ არის Orbi City #1:**
+- **ყოველ აპარტამენტს აქვს ზღვის ხედი** - კომპრომისების გარეშე
+- **50 მეტრი პლაჟიდან** - ყველაზე ახლოს წყალთან
+- **5-ვარსკვლავიანი კეთილმოწყობა** - infinity აუზი, სპა, სპორტდარბაზი, რესტორნები
+- **საუკეთესო ფასი-ხარისხის თანაფარდობა** ბათუმში
+- **24/7 კონსიერჟ სერვისი**
+- **თანამედროვე აპარტამენტები** სრული სამზარეულოებით
+
+**სტუმართა რეიტინგი:** 4.8/5 Google-ზე (500+ მიმოხილვა)
+
+> "25-ე სართულიდან ხედი აბსოლუტურად წარმოუდგენელი იყო. ყოველ დილით შავ ზღვაზე გაღვიძება დაუვიწყარს გახდა ჩვენ შვებულებას!" - Sarah, UK
+
+### 2. Orbi Towers
+**მდებარეობა:** ახალი ბულვარი
+**ფასის დიაპაზონი:** $40-120/ღამეში
+**საუკეთესოა:** ბიუჯეტზე მზრუნველი მოგზაურებისთვის
+
+### 3. Orbi Beach Tower
+**მდებარეობა:** ბათუმის ბულვარი
+**ფასის დიაპაზონი:** $45-130/ღამეში
+**საუკეთესოა:** პლაჟის მოყვარულებისთვის
+
+---
+
+**მზად ხართ დაჯავშნოთ საუკეთესო ზღვის ხედის აპარტამენტი ბათუმში?**
+
+[დაჯავშნეთ ახლა Orbi City-ში →](https://orbicitybatumi.com/apartments)
+
+*საუკეთესო ფასის გარანტია | უფასო გაუქმება | დაჯავშნეთ პირდაპირ და დაზოგეთ*
+    `,
+    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+    category: 'Accommodation',
+    category_ka: 'საცხოვრებელი',
+    author: 'Orbi City Team',
+    date: '2026-01-25',
+    readTime: 12,
+    featured: true
+  },
+  {
+    id: '8',
+    slug: 'orbi-city-batumi-vs-hotels-comparison',
+    title: 'Orbi City Batumi vs Hotels: Which is Better for Your Stay?',
+    title_ka: 'Orbi City ბათუმი vs სასტუმროები: რომელია უკეთესი თქვენი ყოფნისთვის?',
+    excerpt: 'Comparing Orbi City aparthotel with traditional Batumi hotels like Sheraton, Hilton, and Radisson. Find out which accommodation type offers better value, space, and experience.',
+    excerpt_ka: 'Orbi City აპარტოტელის შედარება ბათუმის ტრადიციულ სასტუმროებთან, როგორიცაა Sheraton, Hilton და Radisson. გაიგეთ, რომელი საცხოვრებელი გთავაზობთ უკეთეს ღირებულებას, სივრცეს და გამოცდილებას.',
+    content: `
+## Orbi City vs Traditional Hotels: The Ultimate Comparison
+
+Choosing between an **aparthotel like Orbi City** and a **traditional hotel** in Batumi? This detailed comparison will help you make the right decision for your 2026 trip.
+
+## Quick Comparison Table
+
+| Feature | Orbi City Aparthotel | Traditional Hotels |
+|---------|---------------------|-------------------|
+| **Price/Night** | $50-150 | $100-300+ |
+| **Space** | 30-65 m² | 20-35 m² |
+| **Kitchen** | Full kitchen | Mini-fridge only |
+| **Sea View** | All rooms | Premium rooms only |
+| **Laundry** | In-room washer | Expensive service |
+| **Flexibility** | Cook, relax, live | Dining schedules |
+
+## Detailed Comparison
+
+### 1. Price & Value 💰
+
+**Orbi City:**
+- Studio: $50-80/night
+- 1-Bedroom: $70-120/night
+- 2-Bedroom: $100-150/night
+- **No hidden fees**
+- **Free parking included**
+
+**Traditional Hotels (Sheraton, Hilton):**
+- Standard Room: $120-200/night
+- Suite: $250-400/night
+- **Additional charges:** Parking ($20/day), breakfast ($30/person)
+- Resort fees may apply
+
+**Winner: Orbi City** - Save 40-60% while getting more space!
+
+### 2. Space & Comfort 🛋️
+
+**Orbi City Apartments:**
+- **Studio:** 30 m² (320 sq ft)
+- **1-Bedroom:** 45 m² (485 sq ft)
+- **2-Bedroom:** 65 m² (700 sq ft)
+- Separate living and sleeping areas
+- Private balcony in every unit
+
+**Hotel Rooms:**
+- Standard: 20-25 m² (215-270 sq ft)
+- Suite: 35-45 m² (375-485 sq ft)
+- Often cramped for families
+
+**Winner: Orbi City** - 2-3x more space at lower prices!
+
+### 3. Kitchen & Dining 🍳
+
+**Orbi City:**
+- Full-size refrigerator
+- Stovetop/oven
+- Microwave
+- Dishes and cookware
+- Coffee maker
+- **Save $50-100/day** on dining out
+
+**Hotels:**
+- Mini-fridge only
+- No cooking facilities
+- Restaurant meals required
+- Room service expensive
+
+**Winner: Orbi City** - Perfect for families and long stays!
+
+### 4. Views & Location 🌊
+
+**Orbi City:**
+- **100% of apartments** have sea views
+- Direct beach access (50m)
+- New Boulevard location
+- Walking distance to attractions
+
+**Hotels:**
+- Sea view costs extra ($50-100/night more)
+- Often further from beach
+- May require taxi to attractions
+
+**Winner: Orbi City** - Sea views standard, not premium!
+
+### 5. Amenities Comparison 🏊
+
+**Both Offer:**
+- ✅ Swimming pool
+- ✅ Fitness center
+- ✅ WiFi
+- ✅ Air conditioning
+- ✅ 24/7 reception
+
+**Orbi City Extras:**
+- ✅ Full kitchen
+- ✅ Washing machine
+- ✅ Multiple balconies
+- ✅ More privacy
+
+**Hotel Extras:**
+- ✅ Daily room cleaning (Orbi has this too)
+- ✅ Concierge (Orbi has this too)
+- ✅ Room service
+
+**Winner: Tie** - Both excellent, different styles!
+
+### 6. Best For Different Travelers
+
+| Traveler Type | Best Choice | Why |
+|--------------|-------------|-----|
+| **Couples** | Orbi City | Romantic balcony dinners, privacy |
+| **Families** | Orbi City | Space, kitchen, laundry |
+| **Business** | Hotel | Meeting rooms, business center |
+| **Long Stay** | Orbi City | Kitchen saves money |
+| **Luxury** | Depends | Hotels for service, Orbi for space |
+| **Budget** | Orbi City | Better value always |
+
+## Real Guest Comparisons
+
+### Maria from Germany (stayed both):
+> "We stayed at Sheraton for 2 nights, then moved to Orbi City. The Orbi apartment was HALF the price, TWICE the size, and the views were just as stunning. We wished we'd booked Orbi City from the start!"
+
+### James from USA:
+> "As a family of 4, Orbi City was a no-brainer. Two bedrooms, full kitchen, washer - we saved over $200/day compared to getting two hotel rooms."
+
+## The Verdict: When to Choose Each
+
+### Choose Orbi City When:
+- ✅ Traveling with family
+- ✅ Staying 3+ nights
+- ✅ You want to cook some meals
+- ✅ Value and space matter
+- ✅ You love sea views
+- ✅ You want apartment-style living
+
+### Choose Traditional Hotels When:
+- ✅ Business travel with meetings
+- ✅ You prefer room service
+- ✅ 1-2 night stays
+- ✅ Brand loyalty points matter
+- ✅ Full-service resort experience
+
+## Book Your Stay at Orbi City
+
+**Ready for the best of both worlds?** Orbi City combines apartment comfort with hotel services:
+
+- ✨ 5-star amenities
+- 🏠 Apartment space and privacy
+- 🌊 Guaranteed sea views
+- 💰 40-60% savings vs hotels
+
+[Book Direct at Orbi City →](https://orbicitybatumi.com/apartments)
+
+**Use code COMPARE20 for 20% off your first direct booking!**
+    `,
+    content_ka: `
+## Orbi City vs ტრადიციული სასტუმროები: საბოლოო შედარება
+
+ირჩევთ **აპარტოტელს, როგორიცაა Orbi City** და **ტრადიციულ სასტუმროს** შორის ბათუმში? ეს დეტალური შედარება დაგეხმარებათ სწორი გადაწყვეტილების მიღებაში თქვენი 2026 წლის მოგზაურობისთვის.
+
+## სწრაფი შედარების ცხრილი
+
+| მახასიათებელი | Orbi City აპარტოტელი | ტრადიციული სასტუმროები |
+|---------|---------------------|-------------------|
+| **ფასი/ღამეში** | $50-150 | $100-300+ |
+| **სივრცე** | 30-65 მ² | 20-35 მ² |
+| **სამზარეულო** | სრული სამზარეულო | მხოლოდ მინი-მაცივარი |
+| **ზღვის ხედი** | ყველა ოთახში | მხოლოდ პრემიუმ ოთახებში |
+| **სარეცხი** | ოთახში სარეცხი მანქანა | ძვირი სერვისი |
+
+## გამარჯვებული: Orbi City - დაზოგეთ 40-60% მეტი სივრცის მიღებისას!
+
+---
+
+**მზად ხართ საუკეთესოსთვის?**
+
+[დაჯავშნეთ პირდაპირ Orbi City-ში →](https://orbicitybatumi.com/apartments)
+
+**გამოიყენეთ კოდი COMPARE20 20% ფასდაკლებისთვის პირველ პირდაპირ ჯავშანზე!**
+    `,
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+    category: 'Accommodation',
+    category_ka: 'საცხოვრებელი',
+    author: 'Orbi City Team',
+    date: '2026-01-20',
+    readTime: 10,
+    featured: true
+  },
+  {
+    id: '9',
+    slug: 'things-to-do-near-orbi-city-batumi',
+    title: 'Things to Do Near Orbi City Batumi: Local Guide 2026',
+    title_ka: 'რა გავაკეთოთ Orbi City ბათუმის მახლობლად: ადგილობრივი გზამკვლევი 2026',
+    excerpt: 'Discover the best attractions, restaurants, and activities within walking distance of Orbi City Batumi. Your complete neighborhood guide with insider tips.',
+    excerpt_ka: 'აღმოაჩინეთ საუკეთესო ატრაქციონები, რესტორნები და აქტივობები Orbi City ბათუმიდან ფეხით მისაღწევ მანძილზე. თქვენი სრული სამეზობლო გზამკვლევი ინსაიდერული რჩევებით.',
+    content: `
+## Your Complete Guide to Activities Near Orbi City Batumi
+
+Staying at **Orbi City Batumi**? You're in one of the best locations in the city! Here's everything you can do within walking distance of your apartment.
+
+## Within 5 Minutes Walk 🚶
+
+### 1. Batumi Beach (50 meters)
+**What:** Clean pebble beach on the Black Sea
+**Best Time:** Morning for swimming, evening for sunset
+**Tips:**
+- Rent beach chairs and umbrellas
+- Try local snacks from beach vendors
+- Water is warmest July-September
+
+### 2. New Boulevard
+**What:** Modern seaside promenade
+**Activities:**
+- Rent bicycles or e-scooters
+- Evening walks with sea breeze
+- Photo spots with modern sculptures
+- Street food vendors
+
+### 3. Dancing Fountains
+**What:** Spectacular light and music show
+**When:** Every evening at 9 PM (summer)
+**Tips:** Get there 30 minutes early for best viewing spots
+
+## Within 10 Minutes Walk 🚶
+
+### 4. Batumi Tower & Ferris Wheel
+**What:** Iconic alphabet tower with rotating restaurant
+**Experience:**
+- Ride the Ferris wheel for panoramic views
+- Dinner at the rotating restaurant
+- Best photos at sunset
+
+### 5. Miracle Park (6 May Park)
+**What:** Green oasis with attractions
+**Features:**
+- Mini amusement park
+- Cafes and restaurants
+- Shaded walking paths
+- Perfect for families
+
+### 6. Piazza Square
+**What:** Italian-style entertainment plaza
+**Activities:**
+- Live music and performances
+- Outdoor dining
+- Beautiful mosaics
+- Great for evening drinks
+
+## Within 15 Minutes Walk 🚶
+
+### 7. Europe Square
+**What:** Historic plaza with Medea statue
+**Highlights:**
+- Astronomical clock
+- Historic architecture
+- Cafes with outdoor seating
+- Cultural events
+
+### 8. Old Town (Batumi Historical District)
+**What:** Charming historic streets
+**Explore:**
+- Traditional Georgian architecture
+- Local shops and boutiques
+- Authentic restaurants
+- Street art and murals
+
+### 9. Ali and Nino Statue
+**What:** Moving love sculpture
+**Experience:**
+- Watch figures embrace every 10 minutes
+- Romantic evening visits
+- Symbol of Batumi
+
+## Best Restaurants Near Orbi City
+
+### Georgian Cuisine (Recommended!)
+
+| Restaurant | Distance | Specialty | Price |
+|------------|----------|-----------|-------|
+| Khachapuri House | 3 min | Adjarian Khachapuri | $ |
+| Sakhli #11 | 8 min | Traditional Georgian | $$ |
+| Saamo | 10 min | Modern Georgian | $$$ |
+| Old Boulevard | 5 min | Seafood | $$ |
+
+### International Options
+
+| Restaurant | Distance | Cuisine | Price |
+|------------|----------|---------|-------|
+| La Brioche | 5 min | French Cafe | $$ |
+| Piazza Restaurants | 10 min | Italian | $$ |
+| Goodwill | 7 min | American/Burgers | $ |
+| Sanapiro | 8 min | Mediterranean | $$ |
+
+## Nightlife Near Orbi City 🌙
+
+### Bars & Lounges
+1. **Skybar Rooftop** (5 min) - Best sunset views
+2. **Wine Bar 8000** (8 min) - Georgian wine selection
+3. **Boulevard Bar** (3 min) - Beachfront drinks
+
+### Clubs
+1. **Sector 26** (10 min) - Modern club
+2. **Babilon** (15 min) - Largest in Batumi
+3. **Beach clubs** - Summer only
+
+### Casinos
+- **Eclipse Casino** (5 min) - Luxury gaming
+- **Batumi Casino** (10 min) - Multiple floors
+
+## Family Activities 👨‍👩‍👧‍👦
+
+### Perfect for Kids
+1. **Batumi Dolphinarium** (15 min by taxi)
+2. **Boulevard Playgrounds** (5 min)
+3. **Bicycle rentals** (2 min)
+4. **Ice cream shops** (everywhere!)
+5. **Beach activities** (1 min)
+
+## Practical Tips
+
+### Getting Around
+- **Walking:** Best for 0-15 min distances
+- **E-scooters:** Rent via Bolt app
+- **Taxis:** Cheap, use Bolt or Yandex apps
+- **Cable car:** For mountain views (10 min walk to station)
+
+### Money
+- **ATMs:** Multiple within 5 minutes
+- **Currency exchange:** Boulevard kiosks
+- **Cards accepted:** Most restaurants and shops
+
+### Safety
+- Batumi is very safe, even at night
+- Well-lit boulevards
+- Tourist police presence
+- Emergency: 112
+
+## Seasonal Activities
+
+### Summer (June-August)
+- Beach swimming
+- Water sports
+- Outdoor concerts
+- Night markets
+
+### Autumn (Sept-Nov)
+- Wine festivals
+- Pleasant walking weather
+- Fewer crowds
+- Local harvest foods
+
+### Winter (Dec-Feb)
+- New Year celebrations
+- Indoor attractions
+- Spa & wellness
+- Day trips to ski resorts
+
+### Spring (March-May)
+- Botanical Garden blooms
+- Perfect temperatures
+- Easter celebrations
+- Outdoor cafes open
+
+## Map: Walking from Orbi City
+
+\`\`\`
+ORBI CITY ⭐
+    |
+    | 1 min
+    ↓
+🏖️ BEACH
+    |
+    | 3 min
+    ↓
+🌊 NEW BOULEVARD → Dancing Fountains (5 min)
+    |
+    | 5 min
+    ↓
+🎡 Ferris Wheel → Alphabet Tower
+    |
+    | 5 min
+    ↓
+🏛️ Europe Square → Old Town (3 min)
+\`\`\`
+
+## Book Your Stay & Explore!
+
+**Orbi City's location** puts all of Batumi at your doorstep:
+- 🏖️ Beach: 50 meters
+- 🎭 Attractions: Walking distance
+- 🍽️ Restaurants: Everywhere
+- 🌙 Nightlife: Minutes away
+
+[Book Your Apartment at Orbi City →](https://orbicitybatumi.com/apartments)
+
+*Our concierge team can help plan your Batumi adventures!*
+    `,
+    content_ka: `
+## თქვენი სრული გზამკვლევი აქტივობებისთვის Orbi City ბათუმის მახლობლად
+
+ჩერდებით **Orbi City ბათუმში**? თქვენ ერთ-ერთ საუკეთესო ლოკაციაზე ხართ ქალაქში! აი, ყველაფერი, რაც შეგიძლიათ გააკეთოთ თქვენი აპარტამენტიდან ფეხით მისაღწევ მანძილზე.
+
+## 5 წუთის სავალში 🚶
+
+### 1. ბათუმის პლაჟი (50 მეტრი)
+**რა:** სუფთა კენჭიანი პლაჟი შავ ზღვაზე
+**საუკეთესო დრო:** დილა ცურვისთვის, საღამო მზის ჩასვლისთვის
+
+### 2. ახალი ბულვარი
+**რა:** თანამედროვე სანაპირო პრომენადი
+**აქტივობები:**
+- ველოსიპედების ან ელ-სკუტერების გაქირავება
+- საღამოს გასეირნება ზღვის ნიავით
+- ფოტო წერტილები თანამედროვე სკულპტურებით
+
+### 3. მოცეკვავე შადრევნები
+**რა:** თვალწარმტაცი სინათლისა და მუსიკის შოუ
+**როდის:** ყოველ საღამოს 21:00-ზე (ზაფხული)
+
+---
+
+**დაჯავშნეთ თქვენი ყოფნა და გამოიკვლიეთ!**
+
+[დაჯავშნეთ თქვენი აპარტამენტი Orbi City-ში →](https://orbicitybatumi.com/apartments)
+
+*ჩვენი კონსიერჟ გუნდი დაგეხმარებათ ბათუმის თავგადასავლების დაგეგმვაში!*
+    `,
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+    category: 'Local Guide',
+    category_ka: 'ადგილობრივი გზამკვლევი',
+    author: 'Orbi City Team',
+    date: '2026-01-15',
+    readTime: 15,
+    featured: true
   }
 ];
 
