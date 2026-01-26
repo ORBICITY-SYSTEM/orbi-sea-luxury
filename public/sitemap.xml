@@ -151,6 +151,52 @@
     <priority>0.6</priority>
   </url>
 
+  <!-- Local SEO Landing Pages - High Priority for Keyword Targeting -->
+  <url>
+    <loc>https://orbicitybatumi.com/location/apartments-near-batumi-boulevard</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/location/apartments-near-batumi-boulevard"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://orbicitybatumi.com/location/apartments-near-batumi-boulevard"/>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/location/beach-apartments-batumi</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/location/beach-apartments-batumi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://orbicitybatumi.com/location/beach-apartments-batumi"/>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/location/sea-view-hotel-batumi</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/location/sea-view-hotel-batumi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://orbicitybatumi.com/location/sea-view-hotel-batumi"/>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/location/luxury-apartments-batumi-georgia</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/location/luxury-apartments-batumi-georgia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://orbicitybatumi.com/location/luxury-apartments-batumi-georgia"/>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/location/family-apartments-batumi</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/location/family-apartments-batumi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://orbicitybatumi.com/location/family-apartments-batumi"/>
+  </url>
+
   <!-- Legal Pages -->
   <url>
     <loc>https://orbicitybatumi.com/privacy-policy</loc>

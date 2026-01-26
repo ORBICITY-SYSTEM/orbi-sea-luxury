@@ -41,6 +41,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 const GuestDashboard = lazy(() => import("./pages/GuestDashboard"));
 const InstallApp = lazy(() => import("./pages/InstallApp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const LocalSEO = lazy(() => import("./pages/LocalSEO"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -102,6 +103,7 @@ const App = () => (
                     <Route path="/dashboard" element={<GuestDashboard />} />
                     <Route path="/install" element={<InstallApp />} />
                     <Route path="/admin/*" element={<Admin />} />
+                    <Route path="/location/:slug" element={<LocalSEO />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>
