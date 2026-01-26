@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <!-- Homepage - Highest Priority -->
+  <url>
+    <loc>https://orbicitybatumi.com/</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/"/>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://orbicitybatumi.com/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://orbicitybatumi.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://orbicitybatumi.com/"/>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/636d61089bf9b6dbdef774c6f108123e.jpg</image:loc>
+      <image:title>Orbi City Batumi - Luxury Sea View Apartments</image:title>
+      <image:caption>Premium serviced apartments with panoramic Black Sea views in Batumi, Georgia</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Apartments Page - High Priority -->
+  <url>
+    <loc>https://orbicitybatumi.com/apartments</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://orbicitybatumi.com/apartments"/>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://orbicitybatumi.com/apartments"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://orbicitybatumi.com/apartments"/>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg</image:loc>
+      <image:title>Luxury Apartments in Batumi</image:title>
+    </image:image>
+  </url>
+
+  <!-- Individual Apartment Types -->
+  <url>
+    <loc>https://orbicitybatumi.com/apartments/suite-sea-view</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/e4578176040cf98304ee3ae0477a108f.jpg</image:loc>
+      <image:title>Suite with Sea View - Orbi City Batumi</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/apartments/deluxe-suite</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg</image:loc>
+      <image:title>Deluxe Suite with Sea View - Orbi City Batumi</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/apartments/superior-suite</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/78f6531862f26bbcdf6bca5ec8d7305c.jpg</image:loc>
+      <image:title>Superior Suite with Sea View - Orbi City Batumi</image:title>
+    </image:image>
+  </url>
+
+  <!-- Gallery Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/gallery</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/afc86f5cb7e7850ab4c3434709ae453c.jpg</image:loc>
+      <image:title>Orbi City Batumi Photo Gallery</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/29683ca4a5e5c522d3bca348fa0eabb1.jpg</image:loc>
+      <image:title>Sea View from Orbi City Balcony</image:title>
+    </image:image>
+    <video:video>
+      <video:thumbnail_loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/636d61089bf9b6dbdef774c6f108123e.jpg</video:thumbnail_loc>
+      <video:title>Orbi City Batumi Virtual Tour</video:title>
+      <video:description>Take a virtual tour of our luxury apartments and amenities at Orbi City Batumi</video:description>
+    </video:video>
+  </url>
+
+  <!-- Location Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/location</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Amenities Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/amenities</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/2d636f5f3dbcb88e5597d96aa752684e.jpg</image:loc>
+      <image:title>Orbi City Restaurant and Dining</image:title>
+    </image:image>
+  </url>
+
+  <!-- Contact Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/contact</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- About Us Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/about-us</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/blog</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- YouTube Videos Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/youtube-videos</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Loyalty Program Page -->
+  <url>
+    <loc>https://orbicitybatumi.com/loyalty-program</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Legal Pages -->
+  <url>
+    <loc>https://orbicitybatumi.com/privacy-policy</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/terms-and-conditions</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://orbicitybatumi.com/purchase-conditions</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

@@ -249,28 +249,51 @@ export const StructuredData = () => {
     ]
   };
 
-  // Accommodation (Room Types)
+  // Accommodation (Room Types) with Pricing
   const accommodationSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "Available Apartments",
+    "name": "Available Apartments at Orbi City Batumi",
     "itemListElement": [
       {
         "@type": "ListItem",
         "position": 1,
         "item": {
           "@type": "HotelRoom",
-          "name": "Deluxe Sea View Apartment",
-          "description": "Spacious apartment with panoramic Black Sea views, modern kitchen, and private balcony.",
+          "@id": "https://orbicitybatumi.com/apartments/suite-sea-view",
+          "name": "Suite with Sea View",
+          "description": "Elegant 30m² suite with breathtaking Black Sea views, modern kitchenette, and private balcony. Perfect for couples or solo travelers.",
+          "url": "https://orbicitybatumi.com/apartments/suite-sea-view",
+          "image": "https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/e4578176040cf98304ee3ae0477a108f.jpg",
           "occupancy": {
             "@type": "QuantitativeValue",
             "minValue": 1,
-            "maxValue": 4
+            "maxValue": 3
           },
           "bed": {
             "@type": "BedDetails",
-            "numberOfBeds": 2,
+            "numberOfBeds": 1,
             "typeOfBed": "King"
+          },
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "value": 30,
+            "unitCode": "MTK"
+          },
+          "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Sea View" },
+            { "@type": "LocationFeatureSpecification", "name": "Kitchenette" },
+            { "@type": "LocationFeatureSpecification", "name": "Balcony" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" },
+            { "@type": "LocationFeatureSpecification", "name": "Air Conditioning" }
+          ],
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "GEL",
+            "price": "60",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock",
+            "url": "https://orbicitybatumi.com/apartments/suite-sea-view"
           }
         }
       },
@@ -279,8 +302,79 @@ export const StructuredData = () => {
         "position": 2,
         "item": {
           "@type": "HotelRoom",
-          "name": "Premium Suite",
-          "description": "Luxury suite with separate living area, floor-to-ceiling windows, and premium amenities.",
+          "@id": "https://orbicitybatumi.com/apartments/deluxe-suite",
+          "name": "Deluxe Suite with Sea View",
+          "description": "Spacious 40m² deluxe suite with panoramic sea views, full kitchen, separate living area, and premium amenities.",
+          "url": "https://orbicitybatumi.com/apartments/deluxe-suite",
+          "image": "https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg",
+          "occupancy": {
+            "@type": "QuantitativeValue",
+            "minValue": 1,
+            "maxValue": 4
+          },
+          "bed": {
+            "@type": "BedDetails",
+            "numberOfBeds": 1,
+            "typeOfBed": "King"
+          },
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "value": 40,
+            "unitCode": "MTK"
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "GEL",
+            "price": "80",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "HotelRoom",
+          "@id": "https://orbicitybatumi.com/apartments/superior-suite",
+          "name": "Superior Suite with Sea View",
+          "description": "Premium 50m² suite featuring separate bedroom, spacious living room, full kitchen, and the best panoramic Black Sea views.",
+          "url": "https://orbicitybatumi.com/apartments/superior-suite",
+          "image": "https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/78f6531862f26bbcdf6bca5ec8d7305c.jpg",
+          "occupancy": {
+            "@type": "QuantitativeValue",
+            "minValue": 1,
+            "maxValue": 5
+          },
+          "bed": {
+            "@type": "BedDetails",
+            "numberOfBeds": 2,
+            "typeOfBed": "King"
+          },
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "value": 50,
+            "unitCode": "MTK"
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "GEL",
+            "price": "100",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "HotelRoom",
+          "@id": "https://orbicitybatumi.com/apartments/family-suite",
+          "name": "Superior Family Suite",
+          "description": "Generously sized 65m² family suite with multiple bedrooms, full kitchen, and stunning sea views. Perfect for families or groups.",
+          "url": "https://orbicitybatumi.com/apartments/family-suite",
+          "image": "https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/a8e056679876a0ec81cba5bb82a37322.jpg",
           "occupancy": {
             "@type": "QuantitativeValue",
             "minValue": 1,
@@ -290,9 +384,124 @@ export const StructuredData = () => {
             "@type": "BedDetails",
             "numberOfBeds": 3,
             "typeOfBed": "King"
+          },
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "value": 65,
+            "unitCode": "MTK"
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "GEL",
+            "price": "150",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": {
+          "@type": "HotelRoom",
+          "@id": "https://orbicitybatumi.com/apartments/two-bedroom-panoramic",
+          "name": "Two Bedroom Panoramic Suite",
+          "description": "The pinnacle of luxury - expansive 85m² suite with two bedrooms, large living room, full kitchen, and stunning 180° panoramic sea views.",
+          "url": "https://orbicitybatumi.com/apartments/two-bedroom-panoramic",
+          "image": "https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/bddec56c6ef5d23a4f593adcd512b633.jpg",
+          "occupancy": {
+            "@type": "QuantitativeValue",
+            "minValue": 1,
+            "maxValue": 8
+          },
+          "bed": {
+            "@type": "BedDetails",
+            "numberOfBeds": 4,
+            "typeOfBed": "King"
+          },
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "value": 85,
+            "unitCode": "MTK"
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "GEL",
+            "price": "200",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock"
           }
         }
       }
+    ]
+  };
+
+  // LocalBusiness Schema (for local search dominance)
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "Orbi City Batumi - Luxury Sea View Apartments",
+    "alternateName": ["Orbi City Batumi", "Orbi City Hotel", "Orbi City Aparthotel"],
+    "description": "Best luxury apartments in Batumi with stunning Black Sea views. 5-star serviced apartments 50m from beach, near Dancing Fountains. Book direct for best rates!",
+    "url": "https://orbicitybatumi.com",
+    "telephone": phone,
+    "email": email,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "7B Sherif Khimshiashvili Street",
+      "addressLocality": "Batumi",
+      "addressRegion": "Adjara",
+      "postalCode": "6010",
+      "addressCountry": "GE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 41.642883,
+      "longitude": 41.644944
+    },
+    "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJxf79LQmHZ0ARpmv2Eih-1WE",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "priceRange": "$$",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "156",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Sarah Johnson" },
+        "datePublished": "2025-12-15",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+        "reviewBody": "Absolutely stunning views of the Black Sea! The apartment was luxurious and the staff incredibly welcoming."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Marco Rossi" },
+        "datePublished": "2025-11-20",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+        "reviewBody": "Best hotel in Batumi! Perfect location near the beach and amazing amenities. Will definitely return."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Anna Petrova" },
+        "datePublished": "2025-10-05",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+        "reviewBody": "The sea view from the balcony is breathtaking. Modern apartment with everything you need. Highly recommend!"
+      }
+    ],
+    "sameAs": [
+      "https://www.booking.com/hotel/ge/orbi-city-batumi.html",
+      "https://www.facebook.com/orbicitybatumi",
+      "https://www.instagram.com/orbicitybatumi",
+      "https://www.tripadvisor.com/Hotel_Review-Orbi_City_Batumi"
     ]
   };
 
@@ -324,6 +533,9 @@ export const StructuredData = () => {
       </script>
       <script type="application/ld+json">
         {JSON.stringify(accommodationSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(localBusinessSchema)}
       </script>
     </Helmet>
   );

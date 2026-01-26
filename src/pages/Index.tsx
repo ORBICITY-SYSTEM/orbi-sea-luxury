@@ -1,6 +1,7 @@
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { HeroCarousel } from '@/components/HeroCarousel';
+import { SEO } from '@/components/SEO';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,6 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoTourCard } from '@/components/VideoTourCard';
 import { GoogleReviews } from '@/components/GoogleReviews';
 import { LazyImage } from '@/components/ui/lazy-image';
+
 const Index = () => {
   const { t } = useLanguage();
   
@@ -73,9 +75,16 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen">
-      <Navigation />
-      <HeroCarousel />
+    <>
+      <SEO
+        title="Orbi City Batumi - Luxury Sea View Apartments | Best Hotel in Batumi"
+        description="Book luxury apartments at Orbi City Batumi with stunning Black Sea views. Premium serviced apartments 50m from beach, near Dancing Fountains. Best rates when you book direct!"
+        keywords="hotel batumi, apartments batumi, sea view batumi, orbi city batumi, luxury apartments georgia, batumi beach hotel, serviced apartments batumi, best hotel batumi"
+        ogImage="https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/636d61089bf9b6dbdef774c6f108123e.jpg"
+      />
+      <div className="min-h-screen">
+        <Navigation />
+        <HeroCarousel />
       
 
       {/* Apartments Preview - Manus Style */}
@@ -312,7 +321,8 @@ const Index = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 
