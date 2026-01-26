@@ -15,6 +15,7 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { GoogleTagManager } from "@/components/GoogleTagManager";
 import { TawkTo } from "@/components/TawkTo";
+import { LanguageSelectionPopup } from "@/components/LanguageSelectionPopup";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
 import { Loader2 } from 'lucide-react';
@@ -64,6 +65,7 @@ const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
+        <LanguageSelectionPopup />
         <TooltipProvider>
           <Toaster />
           <Sonner />
