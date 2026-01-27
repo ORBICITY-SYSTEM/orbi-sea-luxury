@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BookingProvider } from "@/contexts/BookingContext";
 import { GoogleReviewPopup } from "@/components/GoogleReviewPopup";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { StructuredData } from "@/components/StructuredData";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { AIChatbot } from "@/components/AIChatbot";
@@ -80,6 +81,7 @@ const App = () => (
             <AuthProvider>
               <BookingProvider>
                 <GoogleReviewPopup />
+                <ExitIntentPopup />
                 <WhatsAppFloatingButton />
                 <AIChatbot />
                 <Suspense fallback={<PageLoader />}>

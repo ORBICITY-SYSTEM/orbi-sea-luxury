@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift, Lock, Eye, EyeOff, X } from 'lucide-react';
+import { CalendarIcon, Users, CreditCard, Loader2, Crown, Gift, Lock, Eye, EyeOff, X, Tag, Check } from 'lucide-react';
 import { format, differenceInDays, eachDayOfInterval, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
@@ -86,6 +86,13 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [showPassword, setShowPassword] = useState(false);
   const [registrationError, setRegistrationError] = useState('');
   
+  // Voucher/Promo code state
+  const [voucherCode, setVoucherCode] = useState('');
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
+  const [voucherMessage, setVoucherMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [applyingVoucher, setApplyingVoucher] = useState(false);
+  const [appliedVoucher, setAppliedVoucher] = useState<{ code: string; discount: number } | null>(null);
+
   // UI state
   const [apartments, setApartments] = useState<ApartmentPrice[]>([]);
   const [loading, setLoading] = useState(false);
@@ -96,6 +103,10 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   const [checkingEmail, setCheckingEmail] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(0);
   const [showRegistrationPopup, setShowRegistrationPopup] = useState(false);
+
+  // IMPORTANT: All hooks must be called before any early returns
+  const isMobile = useIsMobile();
+
   // Fetch apartments
   useEffect(() => {
     const fetchApartments = async () => {
@@ -222,11 +233,104 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
   };
 
   const { total: basePrice, breakdown: priceBreakdown } = calculateSeasonalPriceWithBreakdown();
-  const loyaltyDiscountAmount = user && useLoyalty && loyaltyDiscount > 0 
-    ? Math.round(basePrice * (loyaltyDiscount / 100)) 
+  const loyaltyDiscountAmount = user && useLoyalty && loyaltyDiscount > 0
+    ? Math.round(basePrice * (loyaltyDiscount / 100))
     : 0;
-  const totalPrice = basePrice - loyaltyDiscountAmount - pointsRedemptionDiscount;
+  const totalPrice = basePrice - loyaltyDiscountAmount - pointsRedemptionDiscount - voucherDiscount;
   const pointsToEarn = Math.floor(totalPrice / 10);
+
+  // Apply voucher/promo code
+  const applyVoucherCode = async () => {
+    if (!voucherCode.trim()) {
+      setVoucherMessage({ type: 'error', text: language === 'ka' ? 'შეიყვანეთ კოდი' : 'Please enter a code' });
+      return;
+    }
+
+    setApplyingVoucher(true);
+    setVoucherMessage(null);
+
+    try {
+      const { data: promo, error } = await supabase
+        .from('promo_codes')
+        .select('*')
+        .eq('code', voucherCode.trim().toUpperCase())
+        .eq('is_active', true)
+        .single();
+
+      if (error || !promo) {
+        setVoucherMessage({ type: 'error', text: language === 'ka' ? 'კოდი არ არსებობს ან ვადაგასულია' : 'Invalid or expired code' });
+        setVoucherDiscount(0);
+        setAppliedVoucher(null);
+        return;
+      }
+
+      // Check validity dates
+      const now = new Date();
+      const validFrom = new Date(promo.valid_from);
+      const validUntil = promo.valid_until ? new Date(promo.valid_until) : null;
+
+      if (now < validFrom || (validUntil && now > validUntil)) {
+        setVoucherMessage({ type: 'error', text: language === 'ka' ? 'კოდის მოქმედება ამოიწურა' : 'Code has expired' });
+        setVoucherDiscount(0);
+        setAppliedVoucher(null);
+        return;
+      }
+
+      // Check max uses
+      if (promo.max_uses !== null && promo.current_uses >= promo.max_uses) {
+        setVoucherMessage({ type: 'error', text: language === 'ka' ? 'კოდი უკვე გამოყენებულია მაქსიმუმჯერ' : 'Code usage limit reached' });
+        setVoucherDiscount(0);
+        setAppliedVoucher(null);
+        return;
+      }
+
+      // Check minimum nights
+      if (promo.min_nights !== null && nights < promo.min_nights) {
+        setVoucherMessage({
+          type: 'error',
+          text: language === 'ka'
+            ? `მინიმუმ ${promo.min_nights} ღამე საჭიროა`
+            : `Minimum ${promo.min_nights} nights required`
+        });
+        setVoucherDiscount(0);
+        setAppliedVoucher(null);
+        return;
+      }
+
+      // Calculate discount
+      let discount = 0;
+      const priceAfterOtherDiscounts = basePrice - loyaltyDiscountAmount - pointsRedemptionDiscount;
+
+      if (promo.discount_type === 'percentage' && promo.discount_percentage) {
+        discount = Math.round(priceAfterOtherDiscounts * (promo.discount_percentage / 100));
+      } else if (promo.discount_type === 'fixed' && promo.discount_amount) {
+        discount = Math.min(promo.discount_amount, priceAfterOtherDiscounts);
+      }
+
+      setVoucherDiscount(discount);
+      setAppliedVoucher({ code: promo.code, discount });
+      setVoucherMessage({
+        type: 'success',
+        text: language === 'ka'
+          ? `✓ ${discount} ლარი ფასდაკლება გამოყენებულია!`
+          : `✓ ${discount} GEL discount applied!`
+      });
+
+    } catch (error) {
+      console.error('Error applying voucher:', error);
+      setVoucherMessage({ type: 'error', text: language === 'ka' ? 'შეცდომა. სცადეთ თავიდან.' : 'Error. Please try again.' });
+    } finally {
+      setApplyingVoucher(false);
+    }
+  };
+
+  // Remove applied voucher
+  const removeVoucher = () => {
+    setVoucherCode('');
+    setVoucherDiscount(0);
+    setVoucherMessage(null);
+    setAppliedVoucher(null);
+  };
   
   // Handler for points redemption
   const handlePointsRedemptionChange = useCallback((discount: number, points: number) => {
@@ -383,6 +487,15 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
         }
       }
       
+      // Build notes with all discounts
+      const notesArray: string[] = [];
+      if (pointsToRedeem > 0) {
+        notesArray.push(`Redeemed ${pointsToRedeem} loyalty points for ${pointsRedemptionDiscount} GEL discount`);
+      }
+      if (appliedVoucher) {
+        notesArray.push(`Voucher ${appliedVoucher.code} applied for ${appliedVoucher.discount} GEL discount`);
+      }
+
       // Create booking
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
@@ -392,9 +505,9 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           check_out: format(checkOut, 'yyyy-MM-dd'),
           guests: parseInt(guests),
           total_price: totalPrice,
-          discount_amount: loyaltyDiscountAmount + pointsRedemptionDiscount,
+          discount_amount: loyaltyDiscountAmount + pointsRedemptionDiscount + voucherDiscount,
           status: 'pending',
-          payment_status: 'pay_later',
+          payment_status: 'unpaid',
           payment_method: 'pay_at_hotel',
           guest_name: guestName,
           guest_email: guestEmail,
@@ -402,13 +515,38 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
           guest_id_number: guestIdNumber,
           guest_address: guestAddress,
           special_requests: specialRequests || null,
-          notes: pointsToRedeem > 0 ? `Redeemed ${pointsToRedeem} loyalty points for ${pointsRedemptionDiscount} GEL discount` : null,
+          notes: notesArray.length > 0 ? notesArray.join(' | ') : null,
           user_id: registeredUserId || user?.id || '00000000-0000-0000-0000-000000000000',
         })
         .select()
         .single();
-      
+
       if (bookingError) throw bookingError;
+
+      // Update voucher usage count if applied
+      if (appliedVoucher) {
+        await supabase
+          .from('promo_codes')
+          .update({ current_uses: supabase.rpc('increment_promo_uses', { code_to_update: appliedVoucher.code }) })
+          .eq('code', appliedVoucher.code)
+          .then(({ error }) => {
+            if (error) console.error('Error updating promo code usage:', error);
+          });
+
+        // Alternative: Direct increment if RPC doesn't exist
+        const { data: currentPromo } = await supabase
+          .from('promo_codes')
+          .select('current_uses')
+          .eq('code', appliedVoucher.code)
+          .single();
+
+        if (currentPromo) {
+          await supabase
+            .from('promo_codes')
+            .update({ current_uses: (currentPromo.current_uses || 0) + 1 })
+            .eq('code', appliedVoucher.code);
+        }
+      }
       
       // Add loyalty points for registered or logged-in users
       const effectiveUserId = registeredUserId || user?.id;
@@ -500,7 +638,22 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
     setRegistrationError('');
     setPointsRedemptionDiscount(0);
     setPointsToRedeem(0);
+    // Reset voucher state
+    setVoucherCode('');
+    setVoucherDiscount(0);
+    setVoucherMessage(null);
+    setAppliedVoucher(null);
   };
+
+  // IMPORTANT: All hooks must be called before any early returns (React Rules of Hooks)
+  // In controlled mode, Radix/Vaul call onOpenChange(open:boolean).
+  // On mobile we only want to close when open becomes false.
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) onClose();
+    },
+    [onClose]
+  );
 
   if (success) {
     return (
@@ -514,17 +667,6 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
       />
     );
   }
-
-  const isMobile = useIsMobile();
-
-  // In controlled mode, Radix/Vaul call onOpenChange(open:boolean).
-  // On mobile we only want to close when open becomes false.
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) onClose();
-    },
-    [onClose]
-  );
   
   // Shared content component
   const BookingContent = () => (
@@ -574,7 +716,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                       {checkIn ? format(checkIn, 'PPP') : (language === 'ka' ? 'აირჩიეთ' : 'Select date')}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 z-[200]" align="start">
                     <BookingCalendar
                       selected={checkIn}
                       onSelect={setCheckIn}
@@ -602,7 +744,7 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                       {checkOut ? format(checkOut, 'PPP') : (language === 'ka' ? 'აირჩიეთ' : 'Select date')}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 z-[200]" align="start">
                     <BookingCalendar
                       selected={checkOut}
                       onSelect={setCheckOut}
@@ -695,6 +837,17 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                     <span>-{pointsRedemptionDiscount.toFixed(2)} GEL</span>
                   </div>
                 )}
+
+                {/* Voucher Discount */}
+                {voucherDiscount > 0 && appliedVoucher && (
+                  <div className="flex justify-between text-sm text-purple-600">
+                    <span className="flex items-center gap-1">
+                      <Tag className="w-3 h-3" />
+                      {language === 'ka' ? `ვაუჩერი: ${appliedVoucher.code}` : `Voucher: ${appliedVoucher.code}`}
+                    </span>
+                    <span>-{voucherDiscount} GEL</span>
+                  </div>
+                )}
                 
                 <div className="flex justify-between font-bold text-lg border-t pt-2">
                   <span>{language === 'ka' ? 'სულ' : 'Total'}</span>
@@ -728,11 +881,91 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
               </div>
             )}
             
+            {/* Voucher/Promo Code Section */}
+            {nights > 0 && basePrice > 0 && (
+              <div className="bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Tag className="w-5 h-5 text-purple-600" />
+                  <h4 className="font-semibold text-foreground">
+                    {language === 'ka' ? 'ვაუჩერი / პრომო კოდი' : 'Voucher / Promo Code'}
+                  </h4>
+                </div>
+
+                {!appliedVoucher ? (
+                  <div className="flex gap-2">
+                    <Input
+                      value={voucherCode}
+                      onChange={(e) => {
+                        setVoucherCode(e.target.value.toUpperCase());
+                        setVoucherMessage(null);
+                      }}
+                      placeholder={language === 'ka' ? 'შეიყვანეთ კოდი' : 'Enter code'}
+                      className="flex-1 uppercase"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          applyVoucherCode();
+                        }
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      onClick={applyVoucherCode}
+                      disabled={applyingVoucher || !voucherCode.trim()}
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                    >
+                      {applyingVoucher ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        language === 'ka' ? 'გააქტიურება' : 'Apply'
+                      )}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between bg-purple-100 dark:bg-purple-900/30 rounded-lg p-3">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-5 h-5 text-green-600" />
+                      <span className="font-medium text-purple-800 dark:text-purple-200">
+                        {appliedVoucher.code}
+                      </span>
+                      <span className="text-green-600 font-bold">
+                        -{appliedVoucher.discount} GEL
+                      </span>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={removeVoucher}
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+
+                {voucherMessage && (
+                  <p className={cn(
+                    "text-sm",
+                    voucherMessage.type === 'success' ? "text-green-600" : "text-red-500"
+                  )}>
+                    {voucherMessage.text}
+                  </p>
+                )}
+
+                <p className="text-xs text-muted-foreground">
+                  {language === 'ka'
+                    ? 'გაქვთ ვაუჩერი ან პრომო კოდი? შეიყვანეთ ფასდაკლებისთვის.'
+                    : 'Have a voucher or promo code? Enter it for a discount.'}
+                </p>
+              </div>
+            )}
+
             {/* Loyalty Points Redemption Section */}
             {user && nights > 0 && basePrice > 0 && (
-              <LoyaltyRedemptionSection 
-                totalPrice={basePrice - loyaltyDiscountAmount} 
-                onDiscountChange={handlePointsRedemptionChange} 
+              <LoyaltyRedemptionSection
+                totalPrice={basePrice - loyaltyDiscountAmount}
+                onDiscountChange={handlePointsRedemptionChange}
               />
             )}
             
@@ -841,11 +1074,16 @@ export const BookingModal = ({ isOpen, onClose, preselectedApartment }: BookingM
                 )}
                 
                 {!wantsToRegister && (
-                  <p className="text-[10px] text-center text-muted-foreground">
-                    {language === 'ka' 
-                      ? 'ან გააგრძელეთ როგორც სტუმარი' 
-                      : 'Or continue as guest'}
-                  </p>
+                  <div className="flex items-center justify-center gap-2 py-2 px-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <p className="text-sm text-green-700 dark:text-green-400 font-medium">
+                      {language === 'ka'
+                        ? '✓ შეგიძლიათ გააგრძელოთ როგორც სტუმარი - რეგისტრაცია არასავალდებულოა!'
+                        : '✓ You can continue as guest - registration is optional!'}
+                    </p>
+                  </div>
                 )}
               </div>
             )}

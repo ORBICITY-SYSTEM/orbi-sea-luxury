@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp, Download } 
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { trackLead } from '@/lib/tracking';
+import { NewsletterSignup } from './NewsletterSignup';
 export const Footer = () => {
   const { t } = useLanguage();
   const { settings } = useSiteSettings();
@@ -86,8 +87,8 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 4: Contact */}
-          <div>
+          {/* Column 4: Contact + Newsletter */}
+          <div className="space-y-6">
             <ul className="space-y-3 text-sm text-white/70">
               <li>
                 <span className="block">7B Sherif Khimshiashvili Str, Orbi City, Batumi</span>
@@ -99,6 +100,11 @@ export const Footer = () => {
                 <span className="block">Phone: +995 555 19 90 90</span>
               </li>
             </ul>
+
+            {/* Newsletter Signup */}
+            <div className="pt-4 border-t border-gold-400/20">
+              <NewsletterSignup variant="footer" className="[&_h4]:text-white [&_p]:text-white/60 [&_input]:bg-white/10 [&_input]:border-white/20 [&_input]:text-white [&_input]:placeholder:text-white/40" />
+            </div>
           </div>
         </div>
 

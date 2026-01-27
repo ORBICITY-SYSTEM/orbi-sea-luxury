@@ -27,7 +27,7 @@ const apartments = [
   {
     id: 'deluxe',
     titleKey: 'apartments.deluxe.title',
-    title: 'Delux Suite with Sea View',
+    title: 'Deluxe Suite with Sea View',
     image: 'https://storage.googleapis.com/hostinger-horizons-assets-prod/b7134a16-4d20-4990-bbc6-0f01fe63442b/47fe838e886d9afa24f54f2c292a93c3.jpg',
     guests: 3,
     beds: 1,

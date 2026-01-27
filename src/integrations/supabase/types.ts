@@ -878,6 +878,45 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_subscribers: {
+        Row: {
+          id: string
+          email: string
+          name: string | null
+          language: string
+          is_active: boolean
+          subscribed_at: string
+          unsubscribed_at: string | null
+          source: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          name?: string | null
+          language?: string
+          is_active?: boolean
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string | null
+          language?: string
+          is_active?: boolean
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       seasonal_prices: {
         Row: {
           apartment_type: string
