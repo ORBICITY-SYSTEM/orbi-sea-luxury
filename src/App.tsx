@@ -19,6 +19,7 @@ import { TawkTo } from "@/components/TawkTo";
 import { LanguageSelectionPopup } from "@/components/LanguageSelectionPopup";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
+import { PushNotificationPrompt } from "@/components/PushNotificationPrompt";
 import { Loader2 } from 'lucide-react';
 
 // Lazy loaded pages for better performance
@@ -84,6 +85,7 @@ const App = () => (
                 <ExitIntentPopup />
                 <WhatsAppFloatingButton />
                 <AIChatbot />
+                <PushNotificationPrompt variant="banner" showAfterDelay={15000} />
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
                     <Route path="/" element={<Index />} />
@@ -103,7 +105,7 @@ const App = () => (
                     <Route path="/purchase-conditions" element={<PurchaseConditions />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/dashboard" element={<GuestDashboard />} />
-                    <Route path="/install" element={<InstallApp />} />
+                    <Route path="/install-app" element={<InstallApp />} />
                     <Route path="/admin/*" element={<Admin />} />
                     <Route path="/location/:slug" element={<LocalSEO />} />
                     <Route path="*" element={<NotFound />} />

@@ -9,7 +9,7 @@ import { Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoTourCard } from '@/components/VideoTourCard';
-import { GoogleReviews } from '@/components/GoogleReviews';
+import { BestReviewsWidget } from '@/components/BestReviewsWidget';
 import { LazyImage } from '@/components/ui/lazy-image';
 
 const Index = () => {
@@ -297,7 +297,7 @@ const Index = () => {
             </h2>
           </div>
 
-          <GoogleReviews maxReviews={3} minRating={4} />
+          <BestReviewsWidget maxReviews={6} variant="carousel" />
         </div>
       </section>
 

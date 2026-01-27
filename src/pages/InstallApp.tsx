@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Smartphone, Wifi, Bell, Zap, Check, Share, Plus } from 'lucide-react';
+import { Download, Smartphone, Wifi, Bell, Zap, Check, Share, Plus, BellRing } from 'lucide-react';
+import { NotificationToggle } from '@/components/PushNotificationPrompt';
 import { motion } from 'framer-motion';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -153,6 +154,22 @@ export default function InstallApp() {
                   </p>
                 </div>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Notification Settings */}
+          <Card className="mb-8 border-gold-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl text-navy-800">
+                <BellRing className="w-5 h-5 text-gold-500" />
+                შეტყობინებების პარამეტრები
+              </CardTitle>
+              <CardDescription>
+                მიიღე შეტყობინებები სპეციალურ შეთავაზებებზე და ფასდაკლებებზე
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <NotificationToggle />
             </CardContent>
           </Card>
 

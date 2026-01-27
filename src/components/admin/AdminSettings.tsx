@@ -205,6 +205,27 @@ export const AdminSettings = () => {
                 placeholder="https://youtube.com/@yourprofile"
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="tiktok_url">TikTok</Label>
+              <Input
+                id="tiktok_url"
+                value={formData.tiktok_url || ''}
+                onChange={(e) => handleChange('tiktok_url', e.target.value)}
+                placeholder="https://tiktok.com/@yourprofile"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="telegram_url">Telegram</Label>
+              <Input
+                id="telegram_url"
+                value={formData.telegram_url || ''}
+                onChange={(e) => handleChange('telegram_url', e.target.value)}
+                placeholder="https://t.me/yourprofile ან https://t.me/+995555199090"
+              />
+              <p className="text-sm text-muted-foreground">
+                შეგიძლიათ მიუთითოთ ჩატის ლინკი (t.me/username) ან ტელეფონის ნომერი (t.me/+995...)
+              </p>
+            </div>
           </CardContent>
         </Card>
 
