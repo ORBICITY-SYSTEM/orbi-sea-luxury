@@ -414,12 +414,12 @@ export const AdminSettings = () => {
         {/* WhatsApp Settings */}
         <Card>
           <CardHeader>
-            <CardTitle>WhatsApp შეტყობინება</CardTitle>
-            <CardDescription>წინასწარ შევსებული ტექსტი WhatsApp ღილაკებზე</CardDescription>
+            <CardTitle>WhatsApp შეტყობინებები</CardTitle>
+            <CardDescription>WhatsApp ღილაკის და ავტომატური შეტყობინებების კონფიგურაცია</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="whatsapp_message">WhatsApp შეტყობინება</Label>
+              <Label htmlFor="whatsapp_message">WhatsApp შეტყობინება (ღილაკისთვის)</Label>
               <Input
                 id="whatsapp_message"
                 value={formData.whatsapp_message || ''}
@@ -429,6 +429,26 @@ export const AdminSettings = () => {
               <p className="text-sm text-muted-foreground">
                 ეს ტექსტი ავტომატურად შეივსება WhatsApp ჩატში
               </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="whatsapp_webhook_url">WhatsApp Webhook URL (ავტომატური შეტყობინებები)</Label>
+              <Input
+                id="whatsapp_webhook_url"
+                value={formData.whatsapp_webhook_url || ''}
+                onChange={(e) => handleChange('whatsapp_webhook_url', e.target.value)}
+                placeholder="https://orbicity.app.n8n.cloud/webhook/whatsapp"
+              />
+              <p className="text-sm text-muted-foreground">
+                n8n webhook URL ავტომატური WhatsApp შეტყობინებების გასაგზავნად (ჯავშნის დადასტურება, შეხსენება, მადლობა)
+              </p>
+            </div>
+            <div className="p-4 bg-muted rounded-lg">
+              <h4 className="font-medium mb-2">ავტომატური შეტყობინებები:</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>✅ ჯავშნის დადასტურება - მაშინვე</li>
+                <li>✅ შესვლის შეხსენება - 1 დღით ადრე (10:00)</li>
+                <li>✅ მადლობის შეტყობინება - 1 დღის შემდეგ (12:00)</li>
+              </ul>
             </div>
           </CardContent>
         </Card>

@@ -6,12 +6,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, Trash2, Download, Filter, X, Copy, MessageCircle, ChevronDown, ChevronUp, StickyNote } from 'lucide-react';
+import { Loader2, Trash2, Download, Filter, X, Copy, MessageCircle, ChevronDown, ChevronUp, StickyNote, FileText } from 'lucide-react';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
+import { format, differenceInDays } from 'date-fns';
 import * as XLSX from 'xlsx';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { AdminBookingNotes } from './AdminBookingNotes';
+import { downloadInvoice, InvoiceData } from '@/lib/invoiceGenerator';
 import {
   Select,
   SelectContent,
@@ -42,10 +43,14 @@ interface Booking {
   total_price: number | null;
   status: string;
   payment_status: string;
+  payment_method: string | null;
   guest_name: string | null;
   guest_email: string | null;
   guest_phone: string | null;
+  guest_address: string | null;
+  guest_id_number: string | null;
   promo_code: string | null;
+  discount_amount: number | null;
   created_at: string;
   booking_notes?: BookingNote[];
 }
@@ -170,6 +175,37 @@ export const AdminBookings = () => {
     const phone = booking.guest_phone.replace(/[^0-9]/g, '');
     const message = `გამარჯობა ${booking.guest_name || ''}! თქვენი ჯავშანი Orbi City-ში: ${format(new Date(booking.check_in), 'dd/MM/yyyy')} - ${format(new Date(booking.check_out), 'dd/MM/yyyy')}`;
     window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+  };
+
+  const handleDownloadInvoice = (booking: Booking) => {
+    const nights = differenceInDays(new Date(booking.check_out), new Date(booking.check_in));
+    const pricePerNight = booking.total_price && nights > 0
+      ? Math.round((booking.total_price + (booking.discount_amount || 0)) / nights)
+      : 0;
+
+    const invoiceData: InvoiceData = {
+      bookingId: booking.id,
+      apartmentType: booking.apartment_type,
+      apartmentName: booking.apartment_type,
+      checkIn: booking.check_in,
+      checkOut: booking.check_out,
+      guests: booking.guests,
+      totalPrice: booking.total_price || 0,
+      discountAmount: booking.discount_amount || undefined,
+      promoCode: booking.promo_code || undefined,
+      pricePerNight: pricePerNight,
+      guestName: booking.guest_name || 'Guest',
+      guestEmail: booking.guest_email || undefined,
+      guestPhone: booking.guest_phone || undefined,
+      guestAddress: booking.guest_address || undefined,
+      guestIdNumber: booking.guest_id_number || undefined,
+      paymentStatus: booking.payment_status,
+      paymentMethod: booking.payment_method || undefined,
+      createdAt: booking.created_at,
+    };
+
+    downloadInvoice(invoiceData);
+    toast.success('ინვოისი გადმოწერილია');
   };
 
   const exportToExcel = () => {
@@ -406,6 +442,15 @@ export const AdminBookings = () => {
                                 </Button>
                               </>
                             )}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDownloadInvoice(booking)}
+                              title="ინვოისის გადმოწერა"
+                              className="text-blue-600 hover:text-blue-700"
+                            >
+                              <FileText className="h-4 w-4" />
+                            </Button>
                             <Button
                               variant="destructive"
                               size="sm"

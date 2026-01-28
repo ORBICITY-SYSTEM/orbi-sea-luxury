@@ -12,19 +12,24 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format } from 'date-fns';
 import { ka } from 'date-fns/locale';
-import { 
-  Calendar, 
-  Star, 
-  Gift, 
-  Clock, 
-  CheckCircle, 
+import {
+  Calendar,
+  Star,
+  Gift,
+  Clock,
+  CheckCircle,
   XCircle,
   Loader2,
   User,
   CreditCard,
   History,
-  Trophy
+  Trophy,
+  FileText
 } from 'lucide-react';
+import { downloadInvoice, InvoiceData } from '@/lib/invoiceGenerator';
+import { toast } from 'sonner';
+import { differenceInDays } from 'date-fns';
+import { PrivacySettings } from '@/components/PrivacySettings';
 
 const tierColors: Record<string, string> = {
   bronze: 'bg-amber-700/20 text-amber-600 border-amber-700/30',
@@ -249,6 +254,11 @@ const GuestDashboard = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Privacy Settings Section */}
+          <div className="mt-8">
+            <PrivacySettings />
+          </div>
         </div>
       </div>
     </Layout>
@@ -263,6 +273,37 @@ interface BookingsListProps {
 }
 
 const BookingsList = ({ bookings, emptyMessage, language, t }: BookingsListProps) => {
+  const handleDownloadInvoice = (booking: any) => {
+    const nights = differenceInDays(new Date(booking.check_out), new Date(booking.check_in));
+    const pricePerNight = booking.total_price && nights > 0
+      ? Math.round((booking.total_price + (booking.discount_amount || 0)) / nights)
+      : 0;
+
+    const invoiceData: InvoiceData = {
+      bookingId: booking.id,
+      apartmentType: booking.apartment_type,
+      apartmentName: booking.apartment_type,
+      checkIn: booking.check_in,
+      checkOut: booking.check_out,
+      guests: booking.guests,
+      totalPrice: booking.total_price || 0,
+      discountAmount: booking.discount_amount || undefined,
+      promoCode: booking.promo_code || undefined,
+      pricePerNight: pricePerNight,
+      guestName: booking.guest_name || 'Guest',
+      guestEmail: booking.guest_email || undefined,
+      guestPhone: booking.guest_phone || undefined,
+      guestAddress: booking.guest_address || undefined,
+      guestIdNumber: booking.guest_id_number || undefined,
+      paymentStatus: booking.payment_status,
+      paymentMethod: booking.payment_method || undefined,
+      createdAt: booking.created_at,
+    };
+
+    downloadInvoice(invoiceData);
+    toast.success(language === 'ka' ? 'ინვოისი გადმოწერილია' : 'Invoice downloaded');
+  };
+
   if (bookings.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
@@ -294,7 +335,7 @@ const BookingsList = ({ bookings, emptyMessage, language, t }: BookingsListProps
                     </Badge>
                     <span className="font-medium text-foreground">{booking.apartment_type}</span>
                   </div>
-                  
+
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
@@ -308,7 +349,7 @@ const BookingsList = ({ bookings, emptyMessage, language, t }: BookingsListProps
                   </div>
                 </div>
 
-                <div className="text-right">
+                <div className="flex flex-col items-end gap-2">
                   <div className="text-xl font-bold text-primary">
                     ₾{booking.total_price?.toFixed(2) || '0.00'}
                   </div>
@@ -317,6 +358,15 @@ const BookingsList = ({ bookings, emptyMessage, language, t }: BookingsListProps
                       -{booking.discount_amount} ₾ {t('dashboard.discount')}
                     </p>
                   )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDownloadInvoice(booking)}
+                    className="gap-1 text-xs"
+                  >
+                    <FileText className="w-3 h-3" />
+                    {language === 'ka' ? 'ინვოისი' : 'Invoice'}
+                  </Button>
                 </div>
               </div>
             </CardContent>
